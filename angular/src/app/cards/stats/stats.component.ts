@@ -4,20 +4,20 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { CardComponent } from '../_base/card.component';
 import { SharedBungie } from '../../bungie/shared-bungie.service';
 import { SharedApp } from '../../shared/services/shared-app.service';
-import { AccountStatsService } from '../../bungie/destiny/account-stats.service';
-import { AccountSummaryService } from '../../bungie/destiny/account-summary.service';
+import { AccountStatsService } from '../../bungie/services/destiny/account-stats.service';
+import { AccountSummaryService } from '../../bungie/services/destiny/account-summary.service';
 import { ManifestService } from '../../bungie/manifest/manifest.service';
 
-import { CharacterProgressionService } from '../../bungie/destiny/character-progression.service';
-import { CharacterStatsService } from '../../bungie/destiny/character-stats.service';
+import { CharacterProgressionService } from '../../bungie/services/destiny/character-progression.service';
+import { CharacterStatsService } from '../../bungie/services/destiny/character-stats.service';
 
 import { fadeIn } from '../../shared/animations';
-import { IAccountStats } from '../../bungie/destiny/account-stats.interface';
-import { IAccountSummary } from '../../bungie/destiny/account-summary.interface';
-import { ICharacterProgression, Progression } from '../../bungie/destiny/character-progression.interface';
-import { ICharacterStats } from '../../bungie/destiny/character-stats.interface';
-import { GroupTypes, ModeTypes, PeriodTypes } from '../../bungie/destiny/enums.interface';
-import { DestinyMembership } from '../../bungie/user/user.interface'
+import { IAccountStats } from '../../bungie/services/destiny/account-stats.interface';
+import { IAccountSummary } from '../../bungie/services/destiny/account-summary.interface';
+import { ICharacterProgression, Progression } from '../../bungie/services/destiny/character-progression.interface';
+import { ICharacterStats } from '../../bungie/services/destiny/character-stats.interface';
+import { GroupTypes, ModeTypes, PeriodTypes } from '../../bungie/services/destiny/enums.interface';
+import { DestinyMembership } from '../../bungie/services/user/user.interface'
 
 @Component({
   selector: 'dd-stats',

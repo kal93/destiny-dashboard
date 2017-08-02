@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpRequestType, HttpService } from '../../shared/services/http.service';
-import { SharedApp } from '../../shared/services/shared-app.service';
-import { SharedBungie } from '../shared-bungie.service';
+import { HttpRequestType, HttpService } from '../../../shared/services/http.service';
+import { SharedApp } from '../../../shared/services/shared-app.service';
+import { SharedBungie } from '../../shared-bungie.service';
 
-import { DestinyMembership } from '../../bungie/user/user.interface'
+import { DestinyMembership } from '../../../bungie/services/user/user.interface'
 import { ICharacterStats } from './character-stats.interface';
 import { GroupTypes, ModeTypes, PeriodTypes } from './enums.interface';
 

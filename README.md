@@ -2,12 +2,12 @@
 
 
 # DestinyDashboard
-There are 4 main setup steps for this project. Total time should be about 15 minutes.
+There are 4 main setup steps for this project. Total setup time about 15 minutes.
 
-1. [Angular 4 Material](#Angular-4-Material-Setup)
-3. [Google App Engine Java](#Google-App-Engine-Java-Setup )
-4. [MySQL Database](#MySQL-Database-Setup)
-2. [Bungie API](#Bungie-API-Setup)
+1. [Angular 4 Material](#angular-4-material-setup)
+3. [Google App Engine Java](#google-app-engine-java-setup )
+4. [MySQL Database](#mysql-database-setup)
+2. [Bungie API](#bungie-api-setup)
 
 
 ## Angular 4 Material Setup
@@ -20,15 +20,13 @@ There are 4 main setup steps for this project. Total time should be about 15 min
 3. Install [node.js](https://nodejs.org/en/download/)
 
 4. Install the localhost certs to Trusted Root. We need SSL to communicate with Bungie's servers.
-    - Double click `\angular\ssl\ca.crt to install`
+    - Double click `\angular\ssl\ca.crt to install` install to Trusted Root.
 
 5. In VS Code, File-> Open Folder to the `angular` subdirectory in the root of the repo.
 
-
-6. Open the terminal and run the following commands. They may take a while since it's a fresh install.
+6. Open the terminal and run the following commands.
     - `npm install @angular/cli -g`
     - `npm install`
-
 
     You should now be able to run with `npm start`. Navigate to [https://localhost:4201/](https://localhost:4201/)
 
@@ -38,11 +36,14 @@ There are 4 main setup steps for this project. Total time should be about 15 min
 1. [Download Java SE Development Kit 7u80](http://www.oracle.com/technetwork/java/javase/downloads/java-archive-downloads-javase7-521261.html)
 2. [Follow the Quickstart](https://cloud.google.com/eclipse/docs/quickstart)
     - For Eclipse, download 'Eclipse IDE for Java Developers'
+3. Point Eclipse to the `java\` in the root directory of the repository.
+4. Copy `java\src\main\webapp\WEB-INF\appengine-web.template.xml` to `java\src\main\webapp\WEB-INF\appengine-web.xml`. `appengine-web.xml` is where we store our Database and Bungie OAuth information. This file is excluded from the repository because it has sensitive information. You should not share your `appengine-web.xml` file.
 
 
 ## MySQL Database Setup
-
-
+1. Create your own MySQL instance. You can [download and install MySQL](https://www.mysql.com/downloads/), or run an instance on Google App Engine or AWS.
+2. Run `database\CREATE DATABASE.sql`.
+3. Update `java\src\main\webapp\WEB-INF\appengine-web.xml` with your connection string info.
 
 
 ## Bungie API Setup
