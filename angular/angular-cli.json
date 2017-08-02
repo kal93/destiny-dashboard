@@ -1,0 +1,54 @@
+{
+  "project": {
+    "name": "destiny-dashboard"
+  },
+  "apps": [
+    {
+      "root": "src",
+      "outDir": "build",
+      "assets": [
+        "apple-touch-icon.png",
+        "destiny-manifest_0.1.62.zip",
+        "favicon.ico",
+        "manifest.json",
+        "sql.js"
+      ],
+      "index": "index.html",
+      "main": "main.ts",
+      "polyfills": "polyfills.ts",
+      "tsconfig": "tsconfig.json",
+      "prefix": "app",
+      "scripts": [
+        "../node_modules/jszip/dist/jszip.min.js"
+      ],
+      "styles": [
+        "../node_modules/ngx-toastr/toastr.css",
+        "styles/icons.scss",
+        "styles/fonts.scss",
+        "styles/style.scss",
+        "styles/theme.scss"
+      ],
+      "environmentSource": "environments/environment.ts",
+      "environments": {
+        "dev": "environments/environment.ts",
+        "prod": "environments/environment.prod.ts"
+      }
+    }
+  ],
+  "defaults": {
+    "styleExt": "css",
+    "prefixInterfaces": false,
+    "inline": {
+      "style": false,
+      "template": false
+    },
+    "spec": {
+      "class": false,
+      "component": true,
+      "directive": true,
+      "module": false,
+      "pipe": true,
+      "service": true
+    }
+  }
+}

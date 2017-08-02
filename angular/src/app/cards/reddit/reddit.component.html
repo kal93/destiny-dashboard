@@ -1,0 +1,31 @@
+<!-- Dashboard Card Display Mode Only -->
+<div class="dd-card">
+  <dd-card-header *ngIf="dashboardCard != null" [dashboardCard]="dashboardCard"></dd-card-header>
+  <div class="dd-card-content dd-reddit">
+    <nav class="dd-nav">
+      <button md-button (click)="initializeTab('Hot')" [class.selected]="selectedTab == 'Hot'">Hot</button>
+      <button md-button (click)="initializeTab('New')" [class.selected]="selectedTab == 'New'">New</button>
+    </nav>
+    <div class="content-wrap" [@bounceChildrenFromLeft]="redditResults.length">
+      <div *ngFor="let post of redditResults" class="post-wrap">
+        <div class="left-wrap">
+          <div class="score"> {{post.score}} </div>
+          <div mdTooltip="{{post.selftext | pRedditParse | pSubstring:0:300:true}}" [mdTooltipPosition]="'after'">
+            <div class="dd-reddit-logo"></div>
+          </div>
+        </div>
+        <div class="middle-wrap">
+          <div class="title" (click)="post.clicked = !post.clicked" [style.display]="post.clicked? 'inline-block': ''"> {{post.title | pRedditParse }} </div>
+        </div>
+        <div class="right-wrap" (click)="sharedApp.openExternalLink(post.url)">
+          <md-icon>keyboard_arrow_right</md-icon>
+        </div>
+      </div>
+
+      <div *ngIf="redditResults.length > 0 && redditResults.length < 50" class="load-more" (click)="loadPosts()">
+        <md-icon>expand_more</md-icon>
+        <md-icon>expand_more</md-icon>
+      </div>
+    </div>
+  </div>
+</div>

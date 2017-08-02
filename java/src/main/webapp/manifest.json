@@ -1,0 +1,17 @@
+{
+    "name": "Destiny Dashboard",
+    "short_name": "Dashboard",
+    "theme_color": "#303F9F",
+    "background_color": "#303F9F",
+    "lang": "en-US",
+    "icons": [
+        {
+            "src": "apple-touch-icon.png",
+            "sizes": "512x512",
+            "type": "image\/png"
+        }
+    ],
+    "display": "standalone",
+    "orientation": "portrait",
+    "start_url": "./index.html"
+}

@@ -1,0 +1,133 @@
+<md-toolbar color="primary" class="box-shadow-2">
+  <!-- Nav bar when Dashboard is not in edit mode -->
+  <ng-container *ngIf="!sharedDashboard.editMode">
+    <!-- Nav Button -->
+    <button md-icon-button *ngIf="router.url == '/dashboard'" [@fadeIn] (click)="mainNav.toggle(); subNav?.close()">
+      <md-icon>menu</md-icon>
+    </button>
+
+    <!-- Back Button (when not on the Dashboard) -->
+    <button md-icon-button *ngIf="router.url != '/dashboard'" [@fadeIn] (click)="backToDashboard()" class="nav-back-button">
+      <md-icon>arrow_back</md-icon>
+      Dashboard 
+    </button>
+
+    <!-- Page Title -->
+    <ng-container *ngIf="sharedDashboard.selectedDashboard == null || router.url != '/dashboard'; then pageTitle else dashboardPageTitle"></ng-container>
+    <ng-template #pageTitle>
+      <div class="page-title" [@fadeIn]>{{sharedApp.pageTitle}}</div>
+    </ng-template>
+    <ng-template #dashboardPageTitle>
+      <div class="page-title" [@fadeIn]>{{sharedDashboard.selectedDashboard.name}}</div>
+    </ng-template>
+
+    <!-- Sub Nav Button -->
+    <button md-icon-button *ngIf="sharedApp.subNavItems.length > 0 && sharedApp.toolbarItems.length == 0" [@fadeIn] (click)="subNav?.toggle(); mainNav.close()"
+      class="sub-nav-button">
+      <md-icon>perm_data_setting</md-icon>
+    </button>
+
+    <!-- Sub Nav Button placeholder-->
+    <button md-icon-button *ngIf="sharedApp.subNavItems.length == 0 || sharedApp.toolbarItems.length > 0" class="sub-nav-button"></button>
+
+
+    <!-- Toolbar Items -->
+    <button md-icon-button *ngFor="let toolbarItem of sharedApp.toolbarItems" [@fadeIn] (click)="toolbarItemClicked(toolbarItem)"
+      class="toolbar-item">    
+    <md-icon>{{toolbarItem.materialIcon}}</md-icon>
+      <div class="title">{{toolbarItem.title}}</div>
+    </button>
+  </ng-container>
+
+
+  <ng-container *ngIf="sharedDashboard.editMode">
+    <!-- Edit Dashboard Name -->
+    <md-input-container class="page-title page-title-edit">
+      <input mdInput [(ngModel)]="sharedDashboard.selectedDashboard.name" [@fadeIn] maxlength="24">
+    </md-input-container>
+
+    <!-- Toolbar Items -->
+    <button md-icon-button *ngFor="let toolbarItem of sharedApp.toolbarItems" [@fadeIn] (click)="toolbarItemClicked(toolbarItem)"
+      class="toolbar-item">    
+    <md-icon>{{toolbarItem.materialIcon}}</md-icon>
+      <div class="title">{{toolbarItem.title}}</div>
+    </button>
+  </ng-container>
+</md-toolbar>
+
+<md-sidenav-container>
+  <!-- Main Nav (left side) -->
+  <md-sidenav #mainNav mode="over" class="main-nav">
+    <!-- Login -->
+    <div *ngIf="!sharedApp.accessToken" md-ripple [mdRippleRadius]="20" [mdRippleColor]="'rgba(255,255,255,.25)'" class="login dd-login-logo"
+      (click)="logIn()"></div>
+
+    <!-- Bungie Profile Info -->
+    <div class="bungie-profile-wrap" *ngIf="sharedBungie.bungieNetUser">
+      <img alt="profile" class="picture" [src]="'https://www.bungie.net'+ sharedBungie.bungieNetUser.profilePicturePath" (click)="sharedApp.openExternalLink('https://www.bungie.net/')"
+      />
+      <div class="name">{{sharedBungie.bungieNetUser.displayName}}</div>
+    </div>
+
+    <!-- Platform(s) Profile Info -->
+    <ng-container *ngIf="sharedBungie.destinyMemberships != null && sharedApp.userPreferences != null">
+      <div class="platform-profile-wrap" *ngFor="let membership of sharedBungie.destinyMemberships; let i = index">
+        <md-radio-button *ngIf="sharedBungie.destinyMemberships.length > 1" class="radio-button" [value]="i" [checked]="sharedApp.userPreferences.membershipIndex == i"
+          (change)="membershipRadioChanged($event)">
+        </md-radio-button>
+        <img alt="profile" class="picture" [src]="'https://www.bungie.net'+ membership.iconPath" />
+        <div class="name">{{membership.displayName}}</div>
+      </div>
+    </ng-container>
+
+    <!-- QuickLinks Nav Items-->
+    <div class="section-header" color="primary" (click)="quickLinksCollapsed = !quickLinksCollapsed">
+      Quick Links
+      <md-icon class="carrot" [class.collapsed]="quickLinksCollapsed">keyboard_arrow_down</md-icon>
+    </div>
+    <md-nav-list *ngIf="sharedDashboard.selectedDashboard != null" [style.opacity]="quickLinksCollapsed ? .2:1" [style.max-height]="quickLinksCollapsed ? '0':'500px'">
+      <md-list-item (click)="navigateToRoute('/stats')">Stats</md-list-item>
+    </md-nav-list>
+
+    <!-- Dashboard Nav Items-->
+    <div class="section-header" color="primary" (click)="dashboardsCollapsed = !dashboardsCollapsed">
+      Dashboards
+      <md-icon class="carrot" [class.collapsed]="dashboardsCollapsed">keyboard_arrow_down</md-icon>
+    </div>
+    <md-nav-list *ngFor="let dashboard of sharedDashboard.userDashboards" [style.opacity]="dashboardsCollapsed ? .2:1" [style.max-height]="dashboardsCollapsed ? '0':'500px'">
+      <md-list-item [style.color]="dashboard == sharedDashboard.selectedDashboard ? '#03A9F4':''" (click)="selectDashboard(dashboard)">{{dashboard.name}}</md-list-item>
+    </md-nav-list>
+
+    <!-- Help -->
+    <div class="section-header" color="primary" (click)="helpCollapsed = !helpCollapsed">
+      Help
+      <md-icon class="carrot" [class.collapsed]="helpCollapsed">keyboard_arrow_down</md-icon>
+    </div>
+    <md-nav-list [style.max-height]="helpCollapsed ? '0':'200px'" [style.opacity]="helpCollapsed ? .2:1">
+      <md-list-item (click)="sharedApp.startTutorial()">Tutorial</md-list-item>
+      <md-list-item (click)="navigateToRoute('/about')">About</md-list-item>
+    </md-nav-list>
+
+    <div *ngIf="sharedApp.accessToken" md-ripple [mdRippleRadius]="20" [mdRippleColor]="'rgba(255,255,255,.25)'" class="logout"
+      (click)="logOut()">Logout</div>
+  </md-sidenav>
+
+  <!-- Sub Nav (right side) -->
+  <md-sidenav #subNav *ngIf="sharedApp.subNavItems != null" mode="over" align="end" class="sub-nav">
+    <md-nav-list>
+      <ng-container *ngFor="let subNavItem of sharedApp.subNavItems">
+        <md-list-item *ngIf="subNavItem.title != '_spacer'" (click)="subNavItemClicked(subNavItem)" [class.sub-nav-item-selected]="subNavItem.selectedStyle">
+          <md-icon>{{subNavItem.materialIcon}}</md-icon>
+          <span class="sub-nav-title">{{subNavItem.title}}</span>
+        </md-list-item>
+        <div *ngIf="subNavItem.title == '_spacer'" class="sub-nav-spacer"></div>
+      </ng-container>
+    </md-nav-list>
+  </md-sidenav>
+
+  <!-- Only load the router if the app has been initialized -->
+  <div *ngIf="sharedApp.appInitialized" [@routerTransition]="prepareRouteAnimation(routerOutlet)" class="router-wrap dd-dashboard-background">
+    <router-outlet #routerOutlet="outlet"></router-outlet>
+  </div>
+
+</md-sidenav-container>

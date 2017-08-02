@@ -1,0 +1,124 @@
+@import '../../../styles/theme.scss';
+
+.dd-add-card {
+    background-color: #fff;
+    max-width: 700px;
+    border-radius: 6px;
+
+    .header {
+        padding: 15px;
+        background-color: mat-color($app-secondary);
+        color: $app-text-light;
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+        font-size: 1.1em;
+    }
+
+    .content {
+        background-color: #fff;
+        width: auto;
+        overflow: hidden;
+        text-align: center;
+
+        nav.dd-nav {
+            button {
+                color: mat-color($app-secondary);
+            }
+        }
+
+        .search-text {
+            margin-top: 5px;
+            color: mat-color($app-secondary);
+        }
+
+        .carousel-wrap {
+            margin: 20px auto 10px;
+            width: 208px;
+            height: 220px;
+            position: relative;
+            perspective: 3000px;
+            cursor: pointer;
+
+            .carousel {
+                height: 100%;
+                width: 100%;
+                position: absolute;
+                transform-style: preserve-3d;
+
+                .carousel-item {
+                    transition: all 400ms ease-in-out;
+                    display: block;
+                    position: absolute;
+                    width: 208px;
+                    height: 220px;
+                    color: #FFF;
+                    background-size: contain;
+                    opacity: .96;
+                }
+            }
+        }
+
+        .search-count-summary {
+            display: inline-block;
+            width: 200px;
+            text-align: right;
+            font-size: .9em;
+            color: mat-color($app-primary);
+        }
+
+        .summary {
+            margin: 10px 0;
+            padding: 0 15px;
+            min-height: 90px;
+
+            .title {
+                color: mat-color($app-primary);
+                font-size: 1.1em;
+                letter-spacing: .5px;
+            }
+
+            .description {
+                margin-top: 8px;
+                color: #777;
+                font-size: 1em;
+            }
+
+            .requires-login {
+                margin-top: 5px;
+                font-size: .9em;
+                color: mat-color($app-warn);
+            }
+        }
+    }
+
+    .footer {
+        background-color: mat-color($app-secondary);
+        color: $app-text-light;
+        display: flex;
+        justify-content: flex-end;
+        border-bottom-left-radius: 6px;
+        border-bottom-right-radius: 6px;
+
+        .mat-button {
+            padding: 12px 2px;
+        }
+
+    }
+}
+@media(max-width:800px) {
+    .dd-add-card {
+        .content {
+            .carousel-wrap {
+                width: 170px;
+                height: 180px;
+
+                .carousel {
+                    .carousel-item {
+                        width: 170px;
+                        height: 180px;
+                    }
+                }
+            }
+        }
+    }
+}

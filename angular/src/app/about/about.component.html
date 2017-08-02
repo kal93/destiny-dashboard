@@ -1,0 +1,69 @@
+<div>
+  <div class="dd-about">
+    <md-card class="card">
+      <md-card-header>
+        <md-card-title class="title">Info</md-card-title>
+      </md-card-header>
+      <md-card-content>
+        <p>
+          App Version: {{environment.version}}
+          <br/><br/> Local Storage Size: {{cacheSizeKB}}kB
+          <br/><br/> This site is build using Angular {{angularVersion.full}}, Angular Material, Google App Engine, and Google
+          Cloud SQL.
+        </p>
+      </md-card-content>
+    </md-card>
+
+    <md-card class="card">
+      <md-card-header>
+        <md-card-title class="title">Feedback</md-card-title>
+      </md-card-header>
+      <md-card-content>
+        <p>
+          You can find me on <span class="link" (click)="sharedApp.openExternalLink('https://www.reddit.com/r/DestinyDashboard/')">Reddit</span>.
+          Bugs and feature requests are welcome!
+        </p>
+      </md-card-content>
+    </md-card>
+
+    <md-card class="card">
+      <md-card-header>
+        <md-card-title class="title">Privacy</md-card-title>
+      </md-card-header>
+      <md-card-content>
+        <p>
+          <b>Security</b>
+          <br/> We use Bungie's officially supported OAuth to verify you as a user. We do not have access to your username,
+          password, or email through Bungie. In order you use this site, you must approve access to this app through Bungie's
+          website. In doing so, we get an access token that let's us communicate with Bungie's servers on your behalf.
+
+          <br/><br/> You can revoke these permissions at any time <span class="link" (click)="sharedApp.openExternalLink('https://www.bungie.net/en/Profile/Settings/#tab=account')">here</span>.
+
+
+          <br/><br/>
+          <b> Information Collection &amp; Storage</b>
+          <br/> We do not try to store any personally identifying information. We may log your IP address to help fight spam.
+          <br/> Every transmission to this site is secured using HTTPS/SSL.
+          <br/><br/>
+          <b>Cookies</b>
+          <br/> This site uses HTML5 local storage instead of cookies. Third party <span class="link" (click)="sharedApp.openExternalLink('https://www.google.com/policies/privacy/partners/')">ad providers</span>          may store cookies on your device.
+        </p>
+      </md-card-content>
+    </md-card>
+
+
+    <md-card class="card">
+      <md-card-header>
+        <md-card-title class="title">Credits</md-card-title>
+      </md-card-header>
+      <md-card-content>
+        <p>
+          A huge thank you to Bungie for allowing sites like this to happen!
+
+          <br/><br/> Thanks to lowlines, Tetron, Spartain, N1N313, sgtfrankieboy, rpk788.
+        </p>
+      </md-card-content>
+    </md-card>
+
+  </div>
+</div>

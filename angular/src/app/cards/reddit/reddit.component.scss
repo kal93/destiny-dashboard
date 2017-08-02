@@ -1,0 +1,85 @@
+@import '../../../styles/theme.scss';
+$reddit-light-blue: #cee3f8;
+$reddit-medium-blue: #5f99cf;
+$reddit-orange: #ff4500;
+
+.dd-card {
+    //These styles only applies to dashboard cards
+    .dd-card-content.dd-reddit {
+        height: calc(100% - 40px); //Subtract header height
+        font-family: verdana, arial, helvetica, sans-serif;
+        background-color: #90CAF9;
+
+        .content-wrap {
+            height: calc(100% - 48px);
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            .post-wrap {
+                margin: 15px 10px;
+                padding-bottom: 5px;
+                display: flex;
+                border-bottom: 1px solid $reddit-medium-blue;
+
+                .left-wrap {
+                    display: flex;
+                    justify-content: center;
+                    flex-direction: column;
+                    text-align: center;
+
+                    .score {
+                        font-size: .9em;
+                        color: $reddit-medium-blue;
+                        width: 38px;
+                    }
+
+                    .dd-reddit-logo {
+                        cursor: help;
+                        margin: 4px auto;
+                        width: 24px;
+                        height: 24px;
+                        background-size: contain;
+                        background-position: center center;
+                    }
+                }
+
+                .middle-wrap {
+                    flex: 1;
+
+                    .title {
+                        margin-left: 8px;
+                        font-size: .8em;
+                        color: #fff;
+                        display: inline-block;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 3;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                    }
+                }
+
+                .right-wrap {
+                    display: flex;
+                    justify-content: center;
+                    flex-direction: column;
+                    color: $reddit-medium-blue;
+                    cursor: pointer;
+                    margin-top: -7px;
+                }
+            }
+        }
+
+        .load-more {
+            color: $app-text-light;
+            font-size: .8em;
+            text-align: center;
+            padding: 4px 0;
+            background-color: rgba(#fff, .15);
+            cursor: pointer;
+
+            md-icon {
+                margin: 3px 5px;
+            }
+        }
+    }
+}

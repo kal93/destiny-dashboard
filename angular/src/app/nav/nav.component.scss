@@ -1,0 +1,216 @@
+@import '../../styles/theme.scss';
+
+.mat-toolbar {
+    position: relative;
+    z-index: 1;
+    user-select: none;
+    padding: 0 12px;
+
+    .nav-back-button {
+        width: auto;
+    }
+
+    .page-title {
+        flex: 1;
+        padding: 0 20px;
+        font-size: .9em;
+        text-align: center;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+
+        &.page-title-edit {
+            padding: 5px 30px 0 5px;
+        }
+
+        ::ng-deep .mat-input-wrapper {
+            max-width: 350px;
+
+            ::ng-deep input.mat-input-element {
+                color: rgba($app-text-light, .9);
+                font-size: .9em;
+                text-align: center;
+            }
+
+            ::ng-deep .mat-input-underline {
+                background-color: rgba($app-text-selected, .5);
+            }
+        }
+    }
+
+    .sub-nav-button {
+        margin-top: 3px;
+        padding: 14px;
+
+        md-icon {
+            transform: rotate(-134.8deg) translateX(12px) translateY(1px);
+            padding: 5px 0 0 3px;
+        }
+    }
+
+    .toolbar-item {
+        margin: -15px 0 0 12px;
+        width: 46px;
+
+        .title {
+            margin-top: -15px;
+            font-size: .8em;
+        }
+    }
+}
+
+.mat-sidenav-container {
+    color: $app-text-dark;
+    user-select: none;
+
+    .main-nav {
+        bottom: auto;
+        height: auto;
+
+        .login {
+            cursor: pointer;
+            margin: 15px auto;
+            width: 85%;
+            height: 50px;
+            transition: box-shadow 400ms ease;
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+            border-radius: 2px;
+
+            &:hover {
+                box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        .dd-login-logo {
+            background-position: center 8px;
+            background-size: 80px 25px;
+            background-color: #303F9F;
+        }
+
+        .bungie-profile-wrap {
+            background-color: #2A333E;
+            color: #fff;
+            display: flex;
+            padding: 2px;
+
+            .picture {
+                width: 45px;
+                height: 45px;
+                cursor: pointer;
+            }
+
+            .name {
+                flex: 1;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 0 3px;
+            }
+        }
+
+        .platform-profile-wrap {
+            margin: 10px 0 10px 20px;
+            background-color: #fff;
+            color: #2A333E;
+            display: flex;
+            max-width: 150px;
+            align-items: flex-end;
+
+            .picture {
+                width: 20px;
+                height: 20px;
+            }
+
+            .name {
+                margin-left: 10px;
+                font-size: .8em;
+                flex: 1;
+                display: flex;
+                align-items: center;
+                padding: 0 3px;
+            }
+
+        }
+
+        .section-header {
+            min-width: 145px;
+            text-transform: uppercase;
+            padding: 15px 20px 15px 15px;
+            background-color: mat-color($app-primary);
+            color: $app-text-light;
+            cursor: pointer;
+
+            .carrot {
+                float: right;
+                transition: all 250ms ease;
+                cursor: pointer;
+
+                &.collapsed {
+                    margin-top: -4px;
+                    transform: rotate(-180deg);
+                }
+            }
+        }
+
+        .mat-nav-list {
+            padding: 0;
+            transition: all 300ms ease;
+            overflow-y: auto;
+
+            .mat-list-item {
+                color: $app-text-dark;
+            }
+        }
+
+        .logout {
+            margin: 5px;
+            border-radius: 2px;
+            height: 36px;
+            justify-content: center;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            text-align: center;
+            font-family: destiny;
+            font-size: .85em;
+            letter-spacing: 2px;
+            font-weight: 600;
+            text-transform: uppercase;
+            background-color: mat-color($app-primary);
+            color: $app-text-light;
+        }
+    }
+
+    .sub-nav {
+        bottom: auto;
+        height: auto;
+
+        .mat-nav-list {
+            padding: 0;
+
+            .mat-list-item {
+                transition: all 250ms ease;
+                padding: 12px 14px;
+                color: $app-text-dark;
+
+                &.sub-nav-item-selected {
+                    color: $app-text-selected;
+                }
+
+                .sub-nav-title {
+                    margin: 0 6px 0 26px;
+                }
+            }
+
+            .sub-nav-spacer {
+                margin: 5px 10px 3px;
+                height: 1px;
+                background-color: rgba(0, 0, 0, .3);
+            }
+        }
+    }
+
+    .router-wrap {
+        background-color: #e3e3e3;
+    }
+}

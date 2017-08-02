@@ -1,0 +1,128 @@
+@import '../../../styles/theme.scss';
+
+//These styles apply to both dashboard and fullscreen
+.dd-countdown {
+    background-color: #070A09;
+
+    .dd-countdown-image {
+        background-size: contain;
+    }
+}
+
+//These styles only applies to dashboard cards
+.dd-card-content.dd-countdown {
+    .dd-countdown-image {
+        width: 100%;
+        height: 100%;
+
+        //This style only applies to the .dd-countdown-image class has a 1x1 layout
+        &.rows1-cols1 {
+            background-position: center 15px;
+        }
+
+        &.rows1-cols2 {
+            background-position: 0 center;
+        }
+
+        &.rows1-cols3 {
+            background-position: 40px center;
+        }
+
+        &.rows2-cols2 {
+            background-position: center 35px;
+        }
+
+        &.rows2-cols3 {
+            width: 90%;
+            height: 90%;
+            margin-left: 5%;
+        }
+    }
+
+    .dd-countdown-timer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+
+        color: $app-text-light;
+        letter-spacing: .5px;
+        font-family: destiny;
+        text-align: center;
+
+        //This style only applies to the .dd-countdown-timer class has a 1x1 layout
+        &.rows1-cols1 {
+            font-size: 1em;
+            margin-bottom: 7px;
+            word-spacing: 4px;
+        }
+
+        &.rows1-cols2,
+        &.rows1-cols3 {
+            font-size: 1.5em;
+            word-spacing: 9px;
+            text-align: right;
+            bottom: auto;
+            left: 75%;
+            top: 48px;
+            width: 50px;
+            line-height: 35px;
+        }
+
+        &.rows2-cols2 {
+            font-size: 2em;
+            word-spacing: 9px;
+            margin-bottom: 40px;
+        }
+
+        &.rows2-cols3 {
+            font-size: 2.5em;
+            word-spacing: 20px;
+            margin-bottom: 5px;
+        }
+    }
+}
+
+//These styles only apply to fullscreen mode
+.dd-fullscreen.dd-countdown {
+    font-family: destiny;
+    color: $app-text-light;
+
+    .date {
+        padding: 20px 0;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        font-size: 2em;
+    }
+
+    .dd-countdown-image {
+        width: 725px;
+        height: 450px;
+        max-width: 100%;
+        max-height: 90%;
+        margin: 0 auto;
+    }
+    @media(max-width: 600px) {
+        .dd-countdown-image {
+            width: 483px;
+            height: 300px;
+        }
+    }
+
+    .timer {
+        text-align: center;
+        margin: 30px 0;
+        font-size: 3em;
+        letter-spacing: 2px;
+    }
+
+    .preorder-wrapper {
+        text-align: center;
+
+        .preorder {
+            color: $app-text-light;
+            background-color: mat-color($app-secondary);
+        }
+    }
+}

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cronentries>
+	<cron>
+		<url>/cron/tokenCron</url>
+		<description>Clean old sessions every 24 hrs</description>
+		<schedule>every 24 hours</schedule>
+	</cron>
+
+	<cron>
+		<url>/cron/databaseMaintenanceCron</url>
+		<description>Run database maintenance scripts</description>
+		<schedule>every 72 hours</schedule>
+	</cron>
+</cronentries>

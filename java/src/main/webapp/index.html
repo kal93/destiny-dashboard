@@ -1,0 +1,37 @@
+<!doctype html><html lang="en-US"><head><meta name="viewport" content="width=device-width,initial-scale=1"><meta charset="utf-8"><meta name="theme-color" content="#303F9F"><title>Destiny Dashboard</title><base href="./"><link rel="icon" type="image/x-icon" href="favicon.ico"><link rel="manifest" href="manifest.json"><script async defer src="https://www.google-analytics.com/analytics.js"></script><script>// Make sure we're using www version of site if we're running on destinydashboard.net (Don't do this for localhost)
+    if (window.location.hostname.toLowerCase().indexOf("destinydashboard.net") != -1 && !window.location.hostname.toLowerCase().startsWith("www")) {
+      window.location.href = "https://www.destinydashboard.net/";
+    }
+
+    // Check to see if we have a code in our query string. The user is attempting to log in with their one time use code.
+    var indexOfCode = window.location.href.indexOf('?code=');
+    if (indexOfCode != -1) {
+      var parsedAuthCode = window.location.href.substr(indexOfCode + 6);
+      var parsedAuthCode = parsedAuthCode.substr(0, parsedAuthCode.indexOf("&"));
+      var parsedState = window.location.href.substr(window.location.href.indexOf("&state=") + 7);
+
+
+      var returnedAuthState = localStorage.getItem("bungieAuthState")
+      localStorage.removeItem("bungieAuthState");
+
+      // Check state we sent to Bungie to verify it matches
+      if (returnedAuthState == null || parsedState != returnedAuthState)
+        console.warn("Invalid state returned from Bungie.");
+
+      // Set the auth code to be consumed by the app
+      else
+        localStorage.setItem("bungieAuthCode", parsedAuthCode);
+    }
+    var viewport = document.querySelector("meta[name=viewport]");
+    if (screen.width < 410)
+      viewport.setAttribute('content', 'width=410, initial-scale=' + screen.width / 410);
+    else
+      viewport.setAttribute('content', 'width=device-width, initial-scale=1');</script><link href="styles.2be03f987115ffa9653c.bundle.css" rel="stylesheet"/></head><body><script>// Google Analytics injection
+    window.ga = window.ga || function () { (ga.q = ga.q || []).push(arguments) };
+    ga.l = +new Date;
+    ga('create', 'UA-25152010-8', 'auto');</script><dd-app><div class="loader"><svg class="circular" viewBox="25 25 50 50"><circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/></svg></div><div class="site-logo-256" style="position: fixed; left: 50%; bottom: 20%; transform: translate(-50%); 
+    display: flex; flex-direction: column;
+    justify-content: flex-end;
+    height: 300px; width: 250px; 
+    background-position: center; background-size: 180px 180px;
+    text-align: center; text-transform: uppercase; color: #fff; letter-spacing: 2px; font-family: destiny; font-size: 1.2em">Destiny Dashboard</div></dd-app><script type="text/javascript" defer src="inline.abead221511b25090405.bundle.js"></script><script type="text/javascript" defer src="polyfills.762d9b0ba7aa4d573bba.bundle.js"></script><script type="text/javascript" defer src="scripts.e25603b38c352e45a34d.bundle.js"></script><script type="text/javascript" defer src="vendor.bcd2092c9c50621bb827.bundle.js"></script><script type="text/javascript" defer src="main.5ab7158c0b5972625452.bundle.js"></script></body></html>

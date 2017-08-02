@@ -1,0 +1,22 @@
+<div>
+  <!-- If Else condition based on whether or not we're on the dashboard-->
+  <ng-container *ngIf="dashboardCard != null; then dashboardDisplay else fullscreenDisplay"></ng-container>
+
+  <!-- Dashboard Card Display Mode -->
+  <ng-template #dashboardDisplay>
+    <div class="dd-card">
+      <dd-card-header *ngIf="dashboardCard != null" [dashboardCard]="dashboardCard"></dd-card-header>
+      <div class="dd-card-content dd-public-events">
+        public-events card
+
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- Fullscreen Display Mode -->
+  <ng-template #fullscreenDisplay>
+    <div class="dd-fullscreen dd-public-events">
+      public-events fullscreen
+    </div>
+  </ng-template>
+</div>

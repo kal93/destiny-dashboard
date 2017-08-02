@@ -1,0 +1,20 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+    "files.exclude": {
+        "**/.git": false,
+        "**/.gitignore": true,
+        "**/.DS_Store": true,
+        "**/app/**/*.js": false,
+        "**/app/**/*.map": false,
+        "**/*.css": false,
+        "**/*.ico": false,
+        "**/images": false,
+        "**/plugins": false,
+        "**/platforms": false,
+        "**/www": false
+    },
+    // Controls auto save of dirty files. Accepted values:  "off", "afterDelay", "onFocusChange". If set to "afterDelay" you can configure the delay in "files.autoSaveDelay".
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 3000,
+    "typescript.check.tscVersion": false
+}

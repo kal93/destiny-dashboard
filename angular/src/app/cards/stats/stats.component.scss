@@ -1,0 +1,248 @@
+@import '../../../styles/theme.scss';
+
+//These styles apply to both dashboard and fullscreen
+.dd-stats {
+    background-color: #43A047;
+    color: $app-text-light;
+
+    .gamertag-wrap {
+        display: flex;
+        justify-content: center;
+        margin-bottom: -10px;
+        padding-top: 5px;
+    }
+
+    //Wrapper for entire tab
+    .mat-tab-group {
+        height: 100%;
+
+        ::ng-deep .mat-tab-label-active {
+            opacity: 1;
+        }
+
+        .tab-label-wrap {
+            margin: 0 -8px;
+
+            .background {
+                margin-top: 6px;
+                width: 177px;
+                height: 36px;
+                background-repeat: no-repeat;
+                background-size: contain;
+                color: $app-text-light;
+                line-height: 16px;
+
+                &.summary {
+                    background-color: #1B5E20;
+                    color: $app-text-light;
+                    opacity: .98;
+
+                    .emblem {
+                        left: 12px;
+                        top: 14px;
+                        width: 22px;
+                        height: 22px;
+                        border-radius: 50%;
+                    }
+
+                    .class {
+                        font-size: 1em;
+                        left: 44px;
+                        top: 9px;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        max-width: 135px;
+                        text-align: left;
+                    }
+
+                    .race-gender {
+                        left: 44px;
+                    }
+                }
+
+                .emblem {
+                    position: absolute;
+                    left: 8px;
+                    top: 8px;
+                    width: 32px;
+                    height: 32px;
+                    background-repeat: no-repeat;
+                    background-size: contain;
+                    display: inline-block;
+                }
+
+                .class {
+                    position: absolute;
+                    display: inline-block;
+                    font-size: 1.1em;
+                    left: 47px;
+                    top: 9px;
+                }
+
+                .race-gender {
+                    position: absolute;
+                    display: inline-block;
+                    font-size: .85em;
+                    left: 48px;
+                    top: 24px;
+                    letter-spacing: 1px;
+                    opacity: .8;
+                }
+
+                .level {
+                    position: absolute;
+                    top: 9px;
+                    right: 7px;
+                    font-size: 1.4em;
+                }
+
+                .light {
+                    position: absolute;
+                    top: 25px;
+                    right: 7px;
+                    font-size: .8em;
+                    color: #FFEB3B;
+                    display: flex;
+
+                    .star {
+                        font-size: .7em;
+                        margin-right: 1px;
+                    }
+                }
+            }
+        }
+
+        ::ng-deep .mat-tab-body-wrapper {
+            height: calc(100% - 115px);
+
+            .mat-tab-body {
+                height: 100%;
+
+                .mat-tab-body-content {
+                    overflow: auto;
+
+                    .sub-tab-wrap {
+                        overflow-y: auto;
+                        display: flex;
+                        flex-flow: wrap;
+                        align-content: flex-start;
+                        align-items: flex-start;
+                        padding: 0 5px;
+
+                        .stat-section {
+                            flex: 1 0 240px;
+                            margin: 8px 5px;
+                            box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
+
+                            .header {
+                                background-color: #1B5E20;
+                                padding: 8px;
+                                font-size: .95em;
+                                letter-spacing: 1px;
+                                margin: 0;
+                                text-align: center;
+                                display: block;
+                            }
+
+                            div {
+                                color: $app-text-light;
+                                padding: 6px 4px;
+                                display: flex;
+                                font-size: .9em;
+                                letter-spacing: .5px;
+
+                                span {
+                                    &:first-of-type {
+                                        flex: 1;
+                                    }
+
+                                    &:last-of-type {
+                                        opacity: .8;
+                                    }
+                                }
+
+                                &:nth-child(even) {
+                                    background-color: rgba(0,0,0,.1);
+                                }
+                            }
+                        }
+
+                        .reputation-section {
+                            flex: 1 0 200px;
+                            margin: 8px 5px;
+                            padding: 7px;
+                            box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
+                            min-height: 155px;
+
+                            .top-wrap {
+                                display: flex;
+                                align-items: center;
+                                justify-content: space-around;
+                                padding: 0 7px;
+
+                                .icon {
+                                    width: 60px;
+                                    height: 60px;
+                                    background-repeat: no-repeat;
+                                    background-size: contain;
+                                    display: inline-block;
+                                }
+
+                                .name {
+                                    flex: 2;
+                                    text-align: center;
+                                    font-size: 1.1em;
+                                    letter-spacing: 1px;
+                                    text-transform: uppercase;
+                                    font-family: destiny;
+                                    padding: 0 5px;
+                                }
+                            }
+
+                            .description {
+                                text-align: center;
+                                font-size: .8em;
+                                opacity: .7;
+                                margin-top: 10px;
+                                height: 54px;
+                            }
+
+                            .progress-wrap {
+                                margin: 10px 15px 0;
+                                display: flex;
+                                align-items: center;
+
+                                .progress-bar {
+                                    margin: 0 15px;
+                                }
+                            }
+
+                            .xp {
+                                text-align: center;
+                                font-size: .8em;
+                                opacity: .7;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    nav.dd-nav {
+        button {
+            line-height: 26px;
+        }
+    }
+}
+
+//These styles only applies to dashboard cards
+.dd-card-content.dd-stats {
+    height: calc(100% - 40px);
+}
+
+//These styles only apply to fullscreen mode
+.dd-fullscreen.dd-stats {
+    height: calc(100%);
+}

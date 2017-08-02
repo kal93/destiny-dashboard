@@ -1,0 +1,23 @@
+<!-- Dashboard Card Display Mode Only -->
+<div class="dd-card">
+  <dd-card-header *ngIf="dashboardCard != null" [dashboardCard]="dashboardCard"></dd-card-header>
+  <div class="dd-card-content dd-twitch" [@bounceChildrenFromLeft]="displayedTwitchStreams.length">
+    <div *ngFor="let twitchStream of displayedTwitchStreams" class="stream-wrap rows{{dashboardCard.layout.rows}}-cols{{dashboardCard.layout.cols}}">
+      <div class="shadow-wrap">
+        <img [alt]="twitchStream.streamer" (click)="sharedApp.openExternalLink(twitchStream.streamUrl)" class="stream-image" [src]="twitchStream.previewImageUrl"
+        />
+        <div class="bottom-wrap">
+          <div class="streamer-detail">
+            <span class="viewers">{{twitchStream.viewers}} viewers</span>
+            <span class="streamer" (click)="sharedApp.openExternalLink(twitchStream.streamUrl)">{{twitchStream.streamer}}</span>
+          </div>
+          <div class="title">{{twitchStream.streamTitle}}</div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="hiddenTwitchStreams.length > 0" class="load-more" (click)="loadMore()">
+      <md-icon>expand_more</md-icon>
+      <md-icon>expand_more</md-icon>
+    </div>
+  </div>
+</div>

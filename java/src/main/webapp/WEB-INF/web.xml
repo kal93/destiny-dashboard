@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>everything</web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+		<user-data-constraint>
+			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
+
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+
+	<!-- BUNGIE -->
+	<servlet>
+		<servlet-name>BungieAuthAccessToken</servlet-name>
+		<servlet-class>net.destinydashboard.servlet.bungie.AccessTokenServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>BungieAuthAccessToken</servlet-name>
+		<url-pattern>/api/bungie/accessToken/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>BungieAuthRefreshToken</servlet-name>
+		<servlet-class>net.destinydashboard.servlet.bungie.RefreshTokenServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>BungieAuthRefreshToken</servlet-name>
+		<url-pattern>/api/bungie/refreshToken/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>BungieManifest</servlet-name>
+		<servlet-class>net.destinydashboard.servlet.bungie.ManifestServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>BungieManifest</servlet-name>
+		<url-pattern>/api/bungie/manifest/*</url-pattern>
+	</servlet-mapping>
+
+	<!-- DASHBOARD -->
+	<servlet>
+		<servlet-name>Dashboard</servlet-name>
+		<servlet-class>net.destinydashboard.servlet.dashboard.DashboardServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Dashboard</servlet-name>
+		<url-pattern>/api/dashboard/dashboard/*</url-pattern> 
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>DashboardPreferences</servlet-name>
+		<servlet-class>net.destinydashboard.servlet.dashboard.PreferencesServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DashboardPreferences</servlet-name>
+		<url-pattern>/api/dashboard/preferences/*</url-pattern>
+	</servlet-mapping>
+
+	<!-- CRON -->
+	<servlet>
+		<servlet-name>TokenCron</servlet-name>
+		<servlet-class>net.destinydashboard.core.cron.TokenCron</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TokenCron</servlet-name>
+		<url-pattern>/cron/tokenCron/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>DatabaseMaintenanceCron</servlet-name> 
+		<servlet-class>net.destinydashboard.core.cron.DatabaseMaintenanceCron</servlet-class> 
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DatabaseMaintenanceCron</servlet-name>
+		<url-pattern>/cron/databaseMaintenanceCron/*</url-pattern>
+	</servlet-mapping>
+
+</web-app>

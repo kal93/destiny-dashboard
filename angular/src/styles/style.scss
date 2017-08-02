@@ -1,0 +1,190 @@
+@import './theme.scss';
+
+html {
+    min-width: 410px;
+    height: 100%;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-callout: none;
+    color: $app-text-dark;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    background: mat-color($app-primary);
+    min-height: 100vh;
+}
+
+//Standard Button Nav
+nav.dd-nav {
+    display: flex;
+
+    button {
+        flex: 1;
+        padding: 5px 0;
+        color: #fff;
+        border-bottom: 2px solid rgba(#000, 0);
+    }
+
+    .selected {
+        flex: 1;
+        opacity: 1;
+        transition: border 300ms ease;
+        border-bottom: 2px solid rgba(0, 0, 0, .2);
+    }
+}
+
+//Tooltip
+.mat-tooltip {
+    font-size: .8em !important;
+    word-wrap: break-word;
+}
+
+//Loading indicator
+.loading-dim {
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, .3);
+}
+
+.loader {
+    position: absolute;
+    left: 50%;
+    top: 20%;
+    transform: translate(-50%);
+    width: 120px;
+
+    &:before {
+        content: '';
+        display: block;
+        padding-top: 100%;
+    }
+
+    .circular {
+        animation: rotate 1.5s linear infinite;
+        height: 100%;
+        transform-origin: center center;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+
+    .path {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+        animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+        stroke-linecap: round;
+    }
+    @keyframes rotate {
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+    @keyframes dash {
+        0% {
+            stroke-dasharray: 1, 200;
+            stroke-dashoffset: 0;
+        }
+
+        50% {
+            stroke-dasharray: 89, 200;
+            stroke-dashoffset: -35px;
+        }
+
+        100% {
+            stroke-dasharray: 89, 200;
+            stroke-dashoffset: -124px;
+        }
+    }
+    @keyframes color {
+        0%,
+        100% {
+            stroke: #d62d20;
+        }
+
+        40% {
+            stroke: #0057e7;
+        }
+
+        66% {
+            stroke: #008744;
+        }
+
+        80%,
+        90% {
+            stroke: #ffa700;
+        }
+    }
+}
+
+#toast-container {
+    .toast {
+        background-size: 18px;
+        background-position: 12px 15px;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+        border-radius: 2px;
+        padding: 15px 15px 15px 42px;
+
+        .toast-message {
+            font-size: .9em;
+        }
+    }
+}
+
+snack-bar-container {
+    background-color: mat-color($app-primary) !important;
+    border: 1px solid #66E;
+    border-bottom: none;
+}
+
+.box-shadow-1 {
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+}
+
+.box-shadow-2 {
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+}
+
+.box-shadow-3 {
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
+}
+
+.box-shadow-4 {
+    box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.3);
+}
+
+.box-shadow-5 {
+    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+    background-color: #F7F7F7;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    @media (min-width: 600px) {
+        height: 12px;
+        width: 8px;
+    }
+    background-color: #fff;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(#64B5F6, .8);
+    background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent);
+}

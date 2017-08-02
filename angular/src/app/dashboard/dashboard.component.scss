@@ -1,0 +1,102 @@
+@import '../../styles/theme.scss';
+
+.dashboard-wrap {
+    padding: 10px;
+
+    //Fill entire screen minus the toolbar height
+    min-height: calc(100vh - 64px);
+    box-sizing: border-box;
+
+    .mat-grid-list {
+        .edit-card-wrap {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1;
+            background-color: rgba(#000, .6);
+            display: flex;
+            flex-direction: column;
+
+            button {
+                box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+                opacity: .9;
+                transition: all 100ms ease-in;
+
+                &:hover {
+                    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
+                    opacity: 1;
+                }
+
+                &:disabled,
+                &[disabled] {
+                    box-shadow: none;
+                    opacity: .4;
+                }
+            }
+
+            .fill {
+                flex: 3;
+            }
+
+            .card-remove {
+                flex: 2;
+                display: flex;
+                justify-content: center;
+                align-items: flex-end;
+                min-height: 55px;
+
+                .mat-icon-button {
+                    color: #FFF;
+                    background-color: rgba(#C62828, .8);
+
+                    .mat-icon {
+                        margin-top: -2px;
+                    }
+                }
+            }
+
+            .card-size {
+                flex: 2;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 55px;
+
+                .mat-icon-button {
+                    margin: 0 10%;
+                    color: #000;
+                    background-color: rgba(#fff, .7);
+                }
+            }
+
+            .card-position {
+                min-height: 50px;
+                max-height: 100px;
+                flex: 1;
+                color: $app-text-link;
+                display: flex;
+                background-color: rgba(#000, .5);
+                justify-content: center;
+
+                .mat-button {
+                    flex: 1;
+                    padding: 0 8px;
+                    min-width: 40px;
+                }
+            }
+        }
+    }
+}
+@media(max-width: 600px) {
+    .dashboard-wrap {
+        //Fill entire screen minus the toolbar height, which is dynamic based on screen width
+        min-height: calc(100vh - 56px);
+    }
+}
+@media(max-width: 600px) {
+    .dashboard-wrap {
+        padding: 5px 2px;
+    }
+}

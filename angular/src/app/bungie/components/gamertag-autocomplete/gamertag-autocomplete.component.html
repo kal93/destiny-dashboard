@@ -1,0 +1,28 @@
+<div class="dd-gamertag-autocomplete" [@fadeInChildren]="possibleMemberships.length">
+  <ng-container *ngIf="possibleMemberships.length == 0">
+    <md-input-container>
+      <input mdInput [ngModel]="selectedText" placeholder="Gamertag" [mdAutocomplete]="autocomplete" [formControl]="formControl"
+        (keyup.enter)="search()">
+      <div class="search-button" (click)="search()">
+        <md-icon>search</md-icon>
+      </div>
+    </md-input-container>
+
+    <md-autocomplete #autocomplete="mdAutocomplete">
+      <md-option *ngFor="let membership of filteredMemberships" (onSelectionChange)="autocompleteOptionSelected($event, membership)"
+        [value]="membership.displayName" style="padding: 0 8px;">
+        <div [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + membership.iconPath  +')')"
+          style="float:left; margin: 14px 10px 0 1px; width: 20px; height: 20px;  border-radius: 50%; background-size: contain;"></div>
+        <div style="display: inline-block; max-width: 110px; overflow-x: hidden; text-overflow:ellipsis; white-space:nowrap; font-size: .9em;">{{ membership.displayName }}</div>
+        <md-icon style="float: right; margin: 2px -8px 0 0; padding: 10px" (click)="removeMembershipFromHistory($event, membership)">close</md-icon>
+      </md-option>
+    </md-autocomplete>
+  </ng-container>
+
+  <div class="choose-platform-wrap" *ngIf="possibleMemberships.length > 0">
+    <div class="title">Choose Platform</div>
+    <div class="platform-wrap">
+      <div class="icon" *ngFor="let membership of possibleMemberships" (click)="selectMembership(membership)" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + membership.iconPath  +')')"></div>
+    </div>
+  </div>
+</div>

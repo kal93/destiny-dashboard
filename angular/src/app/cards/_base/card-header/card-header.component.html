@@ -1,0 +1,9 @@
+<div class="dd-card-header">
+    <div class="card-header-title">{{dashboardCard.definition.title}}</div>
+    <div class="card-header-menu">
+        <button md-icon-button (click)="dashboardCard.definition.isExternalRoute ? sharedApp.openExternalLink(dashboardCard.definition.route) : router.navigate([dashboardCard.definition.route])">
+            <md-icon *ngIf="!dashboardCard.definition.isExternalRoute" class="menu-icon">launch</md-icon>
+            <md-icon *ngIf="dashboardCard.definition.isExternalRoute" class="menu-icon">link</md-icon>
+        </button>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+@import '../../../../styles/theme.scss';
+
+.dd-card-header {
+    color: $app-text-light;
+    height: 40px;
+    background-color: mat-color($app-tertiary);
+    //background-color: #424242;
+    display: flex;
+    justify-content: space-between;
+
+    .card-header-title {
+        align-self: center;
+        color: $app-text-light;
+        padding-left: 12px;
+        font-size: 1em;
+        white-space: nowrap;
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .card-header-menu {
+        .mat-icon-button {
+            .menu-icon {
+                color: $app-text-light;
+                font-size: 22px;
+            }
+        }
+    }
+}
