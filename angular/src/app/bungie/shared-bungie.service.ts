@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpRequestType, HttpService } from '../shared/services/http.service';
 
 import { environment } from '../../environments/environment';
-import { BungieNetUser, DestinyMembership, DestinyMembershipType } from './user/user.interface';
+import { BungieNetUser, DestinyMembership, DestinyMembershipType } from './services/user/user.interface';
 
 /** This Injectable manages the data layer for a Bungie User */
 @Injectable()
