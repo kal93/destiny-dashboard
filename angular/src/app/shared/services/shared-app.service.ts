@@ -34,6 +34,7 @@ export class SharedApp {
     public toolbarItems = new Array<IToolbarItem>();
     public subNavItems = new Array<ISubNavItem>();
     public showLoadingIds = new Map<any, boolean>();
+    public languageKey: string = "en";
 
     // Application wide Bungie variables
     public accessToken: string;
