@@ -49,7 +49,7 @@ public class DashboardRepository
         long dashboardId = -1;
         String name = "";
 
-        if (userDashboard.id == -1) {
+        if (userDashboard.id < 0) {
             // Make sure user has < 7 dashboards created
             try (Statement statement = conn.createStatement()) {
                 ResultSet rs = statement.executeQuery("SELECT count(*) FROM user_dashboard WHERE membership_id = " + membershipId);

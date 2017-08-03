@@ -27,7 +27,7 @@ export class SharedDashboard {
 
         var lastDashboardIndex = this.sharedApp.getLocalStorage("selectedDashboardId", 0);
         if (lastDashboardIndex > this.userDashboards.length) lastDashboardIndex = 0;
-        this.selectedDashboard = this.userDashboards[lastDashboardIndex];
+        this._selectedDashboard = this.userDashboards[lastDashboardIndex];
 
         this.userDashboardsChangedSubject.next();
     }
@@ -50,10 +50,13 @@ export class SharedDashboard {
             if (layoutResponse.length == 0) {
                 this.sharedApp.showInfoOnce("Add or remove cards to customize your dashboard.");
 
-                // If user has absolutely no cards, give them the default ones
+                // If user has absolutely no cards, give them the default ones and save them
                 if (this.userDashboards.length == 0) {
                     this.userDashboards = CardDefinitions.defaultDashboards;
                     this.selectedDashboard = this.userDashboards[0];
+                    this.userDashboards.forEach((defaultDashboard) => {
+                        this.saveUserDashboard(defaultDashboard);
+                    });
                 }
             }
             else {
