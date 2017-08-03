@@ -26,7 +26,7 @@ import { DestinyMembership } from '../../bungie/services/user/user.interface'
   animations: [fadeIn()]
 })
 export class StatsComponent extends CardComponent {
-  CARD_ID = 1;
+  CARD_DEFINITION_ID  = 1;
 
   @ViewChild("tabGroup")
   tabGroup: MdTabGroup;

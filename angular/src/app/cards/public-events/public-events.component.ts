@@ -8,7 +8,7 @@ import { SharedApp } from '../../shared/services/shared-app.service';
   styleUrls: ['../_base/card.component.scss', './public-events.component.scss'],
 })
 export class PublicEventsComponent extends CardComponent {
-  CARD_ID = 3;
+  CARD_DEFINITION_ID  = 3;
 
   constructor(public sharedApp: SharedApp) {
     super(sharedApp);

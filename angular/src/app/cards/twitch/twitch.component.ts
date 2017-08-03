@@ -13,7 +13,7 @@ import { bounceChildrenFromLeft } from '../../shared/animations';
   animations: [bounceChildrenFromLeft(100)]
 })
 export class TwitchComponent extends CardComponent {
-  CARD_ID = 4;
+  CARD_DEFINITION_ID  = 4;
 
   public hiddenTwitchStreams = new Array<ITwitchData>();
   public displayedTwitchStreams = new Array<ITwitchData>();

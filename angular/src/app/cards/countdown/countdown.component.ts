@@ -8,7 +8,7 @@ import { SharedApp } from '../../shared/services/shared-app.service';
   styleUrls: ['../_base/card.component.scss', './countdown.component.scss'],
 })
 export class CountdownComponent extends CardComponent {
-  CARD_ID = 0;
+  CARD_DEFINITION_ID  = 0;
 
   countdownIntervalId;
   countdownValue: string;

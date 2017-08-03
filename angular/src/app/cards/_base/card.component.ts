@@ -6,7 +6,7 @@ import { ICard } from './card.interface';
 
 export class CardComponent {
   //Should be populated at constructor time in every child
-  CARD_ID: number;
+  CARD_DEFINITION_ID : number;
 
   //Allows cards to easily set local storage for themselves
   localStorageId: string;
@@ -18,7 +18,7 @@ export class CardComponent {
   }
 
   ngOnInit() {
-    this.localStorageId = "card" + this.CARD_ID + "-";
+    this.localStorageId = "card" + this.CARD_DEFINITION_ID  + "-";
   }
 
   ngOnDestroy() {
