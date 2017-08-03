@@ -36,13 +36,13 @@ export class AddCardComponent implements OnInit {
     //Create map of cards the user already has for quick lookups
     var alreadyAddedCards = new Map<number, boolean>();
     this.sharedDashboard.selectedDashboard.cards.forEach(dashboardCard => {
-      alreadyAddedCards.set(dashboardCard.definitionId, true);
+      alreadyAddedCards.set(dashboardCard.id, true);
     });
 
     //Remove the card if the user already has it
     this.availableCards = CardDefinitions.definitions.slice();
     for (var i = 0; i < this.availableCards.length; i++) {
-      if (alreadyAddedCards.has(this.availableCards[i].definitionId)) {
+      if (alreadyAddedCards.has(this.availableCards[i].id)) {
         this.availableCards.splice(i, 1);
         i--;
       }
@@ -138,7 +138,7 @@ export class AddCardComponent implements OnInit {
     //Create the card to pass in to manage layout
     var selectedCard = {
       id: -1, //Set to -1 since we don't have a value yet. It will be populated once we get it from the database
-      definitionId: selectedCardDefinition.definitionId,
+      definitionId: selectedCardDefinition.id,
       sequence: 0, //Set to 0 as default
       layoutId: 0,
       layout: selectedCardDefinition.layouts[0],

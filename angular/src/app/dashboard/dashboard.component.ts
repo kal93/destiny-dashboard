@@ -258,7 +258,7 @@ export class DashboardComponent {
     }
 
     // Restore any cards that were deleted
-    this.layoutBeforeEdit.forEach((card: ICard, definitionId: number) => {
+    this.layoutBeforeEdit.forEach((card: ICard, id: number) => {
       selectedDashboard.cards.push(card);
     });
 
