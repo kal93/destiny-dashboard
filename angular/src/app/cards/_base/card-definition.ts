@@ -120,7 +120,7 @@ export class CardDefinitions {
                 dashboardCard.id = j;
 
                 //Verify the card's definition still exists and assign it
-                dashboardCard.definition = CardDefinitions.definitions[dashboardCard.id];
+                dashboardCard.definition = CardDefinitions.definitions[dashboardCard.definitionId];
                 if (dashboardCard.definition == null) {
                     //If the card definition can't be found, remove this card
                     userDashboard.cards.splice(j, 1);
