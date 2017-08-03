@@ -96,16 +96,16 @@ export class CardDefinitions {
 
     static defaultDashboards: Array<IUserDashboard> = [{
         id: -1, name: "Default Dashboard", cards: [
-            { id: 1, sequence: 2, definitionId: 1, layoutId: 1, definition: CardDefinitions.definitions[1], layout: CardDefinitions.definitions[1].layouts[1] },
-            { id: 2, sequence: 0, definitionId: 4, layoutId: 2, definition: CardDefinitions.definitions[4], layout: CardDefinitions.definitions[4].layouts[2] },
-            { id: 3, sequence: 3, definitionId: 2, layoutId: 0, definition: CardDefinitions.definitions[2], layout: CardDefinitions.definitions[2].layouts[0] },
-            { id: 4, sequence: 1, definitionId: 0, layoutId: 0, definition: CardDefinitions.definitions[0], layout: CardDefinitions.definitions[0].layouts[0] },
-            { id: 5, sequence: 4, definitionId: 3, layoutId: 2, definition: CardDefinitions.definitions[3], layout: CardDefinitions.definitions[3].layouts[2] }
+            { id: -1, sequence: 2, definitionId: 1, layoutId: 1, definition: CardDefinitions.definitions[1], layout: CardDefinitions.definitions[1].layouts[1] },
+            { id: -2, sequence: 0, definitionId: 4, layoutId: 2, definition: CardDefinitions.definitions[4], layout: CardDefinitions.definitions[4].layouts[2] },
+            { id: -3, sequence: 3, definitionId: 2, layoutId: 0, definition: CardDefinitions.definitions[2], layout: CardDefinitions.definitions[2].layouts[0] },
+            { id: -4, sequence: 1, definitionId: 0, layoutId: 0, definition: CardDefinitions.definitions[0], layout: CardDefinitions.definitions[0].layouts[0] },
+            { id: -5, sequence: 4, definitionId: 3, layoutId: 2, definition: CardDefinitions.definitions[3], layout: CardDefinitions.definitions[3].layouts[2] }
         ]
     }, {
         id: -2, name: "News", cards: [
-            { id: 0, sequence: 0, definitionId: 4, layoutId: 2, definition: CardDefinitions.definitions[4], layout: CardDefinitions.definitions[4].layouts[2] },
-            { id: 2, sequence: 3, definitionId: 2, layoutId: 0, definition: CardDefinitions.definitions[2], layout: CardDefinitions.definitions[2].layouts[0] }
+            { id: -1, sequence: 0, definitionId: 4, layoutId: 2, definition: CardDefinitions.definitions[4], layout: CardDefinitions.definitions[4].layouts[2] },
+            { id: -2, sequence: 3, definitionId: 2, layoutId: 0, definition: CardDefinitions.definitions[2], layout: CardDefinitions.definitions[2].layouts[0] },
         ]
     }];
 
@@ -138,5 +138,4 @@ export class CardDefinitions {
 
         return userDashboards;
     }
-
 }
