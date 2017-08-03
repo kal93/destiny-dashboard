@@ -88,7 +88,7 @@
         }
 
         .bungie-profile-wrap {
-            background-color: #2A333E;
+            background-color: $bungie-blue;
             color: #fff;
             display: flex;
             padding: 2px;
@@ -111,7 +111,7 @@
         .platform-profile-wrap {
             margin: 10px 0 10px 20px;
             background-color: #fff;
-            color: #2A333E;
+            color: $bungie-blue;
             display: flex;
             max-width: 150px;
             align-items: flex-end;
