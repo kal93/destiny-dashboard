@@ -1,6 +1,6 @@
 <!-- Dashboard Card Display Mode Only -->
 <div class="dd-card">
-  <dd-card-header *ngIf="dashboardCard != null" [dashboardCard]="dashboardCard"></dd-card-header>
+  <dd-card-header [dashboardCard]="dashboardCard"></dd-card-header>
   <div class="dd-card-content dd-twitch" [@bounceChildrenFromLeft]="displayedTwitchStreams.length">
     <div *ngFor="let twitchStream of displayedTwitchStreams" class="stream-wrap rows{{dashboardCard.layout.rows}}-cols{{dashboardCard.layout.cols}}">
       <div class="shadow-wrap">

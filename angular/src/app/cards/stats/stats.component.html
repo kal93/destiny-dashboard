@@ -1,7 +1,7 @@
 <div>
-  <div [class.dd-card]="dashboardCard != null">
-    <dd-card-header *ngIf="dashboardCard != null" [dashboardCard]="dashboardCard"></dd-card-header>
-    <div class="dd-stats" [class.dd-fullscreen]="dashboardCard == null" [class.dd-card-content]="dashboardCard != null">
+  <div [class.dd-card]="!isFullscreen">
+    <dd-card-header *ngIf="!isFullscreen" [dashboardCard]="dashboardCard"></dd-card-header>
+    <div class="dd-stats" [class.dd-fullscreen]="isFullscreen" [class.dd-card-content]="!isFullscreen">
 
       <div class="gamertag-wrap">
         <dd-gamertag-autocomplete [autocompleteId]="'stats'" (membershipSelected)="membershipSelected($event)" (initialMembership)="membershipSelected($event)"></dd-gamertag-autocomplete>

@@ -1,11 +1,11 @@
 <div>
   <!-- If Else condition based on whether or not we're on the dashboard-->
-  <ng-container *ngIf="dashboardCard != null; then dashboardDisplay else fullscreenDisplay"></ng-container>
+  <ng-container *ngIf="!isFullscreen; then dashboardDisplay else fullscreenDisplay"></ng-container>
 
   <!-- Dashboard Card Display Mode -->
   <ng-template #dashboardDisplay>
     <div class="dd-card">
-      <dd-card-header *ngIf="dashboardCard != null" [dashboardCard]="dashboardCard"></dd-card-header>
+      <dd-card-header [dashboardCard]="dashboardCard"></dd-card-header>
       <div class="dd-card-content dd-countdown">
         <div class="dd-countdown-image rows{{dashboardCard.layout.rows}}-cols{{dashboardCard.layout.cols}}"></div>
         <div class="dd-countdown-timer rows{{dashboardCard.layout.rows}}-cols{{dashboardCard.layout.cols}}">
