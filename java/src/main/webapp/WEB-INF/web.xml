@@ -53,7 +53,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Dashboard</servlet-name>
-		<url-pattern>/api/dashboard/dashboard/*</url-pattern> 
+		<url-pattern>/api/dashboard/dashboard/*</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -63,6 +63,16 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet-mapping>
 		<servlet-name>DashboardPreferences</servlet-name>
 		<url-pattern>/api/dashboard/preferences/*</url-pattern>
+	</servlet-mapping>
+
+	<!-- Twitter -->
+	<servlet>
+		<servlet-name>Twitter</servlet-name>
+		<servlet-class>net.destinydashboard.servlet.twitter.TwitterServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Twitter</servlet-name>
+		<url-pattern>/api/twitter/*</url-pattern>
 	</servlet-mapping>
 
 	<!-- CRON -->
@@ -75,8 +85,8 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/cron/tokenCron/*</url-pattern>
 	</servlet-mapping>
 	<servlet>
-		<servlet-name>DatabaseMaintenanceCron</servlet-name> 
-		<servlet-class>net.destinydashboard.core.cron.DatabaseMaintenanceCron</servlet-class> 
+		<servlet-name>DatabaseMaintenanceCron</servlet-name>
+		<servlet-class>net.destinydashboard.core.cron.DatabaseMaintenanceCron</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>DatabaseMaintenanceCron</servlet-name>

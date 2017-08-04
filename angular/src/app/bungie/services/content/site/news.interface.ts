@@ -1,6 +1,6 @@
 
 export interface INews {
-    results: Result[];
+    results: INewsResult[];
     totalResults: number;
     hasMore: boolean;
     query: Query;
@@ -14,7 +14,7 @@ interface Query {
     currentPage: number;
 }
 
-interface Result {
+export interface INewsResult {
     contentId: string;
     cType: string;
     cmsPath: string;

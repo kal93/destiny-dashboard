@@ -139,8 +139,6 @@ public class HttpUtils
     }
 
     public static HttpResponse doGetString(String url, List<HttpHeader> headers) throws IOException {
-        // Make request
-        // Make request
         URL loginURL = new URL(url);
         HttpURLConnection conn = (HttpURLConnection) loginURL.openConnection();
         conn.setDoOutput(true);

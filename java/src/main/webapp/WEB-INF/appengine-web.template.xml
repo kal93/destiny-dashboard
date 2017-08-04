@@ -11,6 +11,9 @@
 		<property name="test-api-key" value="476b19d252da4473a60b841546ac9431" />
 		<property name="test-encoded-auth"
 			value="MTM3MTY6a3lIYXZpN3Y0SkRmelZkS2tIa21JYVZuR3hWSHFVS01wczZXWGdSQnRyaw==" />
+
+		<property name="twitter-secret-key" value="abc123" />
+		<property name="twitter-secret-token" value="abc123" />
 	</system-properties>
 
 	<automatic-scaling>
@@ -20,7 +23,7 @@
 		<min-pending-latency>400ms</min-pending-latency>
 		<max-pending-latency>8000ms</max-pending-latency>
 	</automatic-scaling>
-	
+
 	<static-files>
 		<include path="/index.html" />
 		<include path="/**.css" expiration="120d" />
