@@ -16,7 +16,7 @@ import { IAccountStats } from '../../bungie/services/destiny/account-stats.inter
 import { IAccountSummary } from '../../bungie/services/destiny/account-summary.interface';
 import { ICharacterProgression, Progression } from '../../bungie/services/destiny/character-progression.interface';
 import { ICharacterStats } from '../../bungie/services/destiny/character-stats.interface';
-import { GroupTypes, ModeTypes, PeriodTypes } from '../../bungie/services/destiny/enums.interface';
+import { GroupTypes, ModeTypes, PeriodTypes } from '../../bungie/services/enums.interface';
 import { DestinyMembership } from '../../bungie/services/user/user.interface'
 
 @Component({

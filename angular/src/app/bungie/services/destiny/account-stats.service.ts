@@ -5,7 +5,7 @@ import { SharedBungie } from '../../shared-bungie.service';
 
 import { DestinyMembership } from '../../../bungie/services/user/user.interface'
 import { IAccountStats } from './account-stats.interface';
-import { GroupTypes } from './enums.interface';
+import { GroupTypes } from '../enums.interface';
 
 /** This Injectable manages the data layer for Destiny Accounts.*/
 @Injectable()
