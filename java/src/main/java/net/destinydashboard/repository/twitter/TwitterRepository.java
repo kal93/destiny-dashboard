@@ -35,7 +35,7 @@ public class TwitterRepository
 
         Twitter twitter = new TwitterFactory(cb.build()).getInstance();
 
-        List<Status> statuses = twitter.getUserTimeline("bungie", new Paging(1, 10));
+        List<Status> statuses = twitter.getUserTimeline("bungie", new Paging(1, 8));
 
         twitterResponse = new ITwitterResponse();
 
