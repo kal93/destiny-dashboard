@@ -15,6 +15,26 @@ $reddit-orange: #ff4500;
             overflow-y: auto;
             overflow-x: hidden;
 
+            &.rows2-cols1,
+            &.rows3-cols1 {
+                .post-wrap {
+                    margin: 15px 8px;
+                    padding-bottom: 5px;
+                    display: flex;
+                    border-bottom: 1px solid $reddit-medium-blue;
+
+                    .left-wrap {
+                        display: none;
+                    }
+
+                    .middle-wrap {
+                        .title {
+                            margin-left: 0;
+                        }
+                    }
+                }
+            }
+
             .post-wrap {
                 margin: 15px 10px;
                 padding-bottom: 5px;
@@ -47,6 +67,7 @@ $reddit-orange: #ff4500;
                     flex: 1;
 
                     .title {
+                        cursor: pointer;
                         margin-left: 8px;
                         font-size: .8em;
                         color: #fff;

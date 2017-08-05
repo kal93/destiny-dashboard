@@ -15,6 +15,33 @@ $twitch-purple: #4B367C;
             display: inline-block;
             width: 50%;
             margin: 10px 0 20px;
+            cursor: pointer;
+
+            &.rows2-cols1,
+            &.rows3-cols1 {
+                width: 100%;
+                margin: 0;
+
+                .shadow-wrap {
+                    margin: 5px;
+
+                    .stream-image {
+                        min-height: 50px;
+                    }
+
+                    .bottom-wrap {
+                        .streamer-detail {
+                            .viewers {
+                                font-size: .8em;
+                            }
+
+                            .streamer {
+                                font-size: .7em;
+                            }
+                        }
+                    }
+                }
+            }
 
             &.rows2-cols2,
             &.rows3-cols2 {
@@ -39,7 +66,6 @@ $twitch-purple: #4B367C;
                 }
 
                 .stream-image {
-                    cursor: pointer;
                     min-height: 100px;
                     width: 100%;
                     transform: translate3d(0,0,0);

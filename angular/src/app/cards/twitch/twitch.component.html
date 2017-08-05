@@ -2,10 +2,10 @@
 <div class="dd-card">
   <dd-card-header [dashboardCard]="dashboardCard"></dd-card-header>
   <div class="dd-card-content dd-twitch" [@bounceChildrenFromLeft]="displayedTwitchStreams.length">
-    <div *ngFor="let twitchStream of displayedTwitchStreams" class="stream-wrap rows{{dashboardCard.layout.rows}}-cols{{dashboardCard.layout.cols}}">
+    <div *ngFor="let twitchStream of displayedTwitchStreams" class="stream-wrap rows{{dashboardCard.layout.rows}}-cols{{dashboardCard.layout.cols}}"
+      (click)="sharedApp.openExternalLink(twitchStream.streamUrl)">
       <div class="shadow-wrap">
-        <img [alt]="twitchStream.streamer" (click)="sharedApp.openExternalLink(twitchStream.streamUrl)" class="stream-image" [src]="twitchStream.previewImageUrl"
-        />
+        <img [alt]="twitchStream.streamer" class="stream-image" [src]="twitchStream.previewImageUrl" />
         <div class="bottom-wrap">
           <div class="streamer-detail">
             <span class="viewers">{{twitchStream.viewers}} viewers</span>

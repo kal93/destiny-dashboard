@@ -6,7 +6,7 @@
       <button md-button (click)="initializeTab('Hot')" [class.selected]="selectedTab == 'Hot'">Hot</button>
       <button md-button (click)="initializeTab('New')" [class.selected]="selectedTab == 'New'">New</button>
     </nav>
-    <div class="content-wrap" [@bounceChildrenFromLeft]="redditResults.length">
+    <div class="content-wrap rows{{dashboardCard.layout.rows}}-cols{{dashboardCard.layout.cols}}" [@bounceChildrenFromLeft]="redditResults.length">
       <div *ngFor="let post of redditResults" class="post-wrap">
         <div class="left-wrap">
           <div class="score"> {{post.score}} </div>

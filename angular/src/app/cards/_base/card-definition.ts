@@ -55,6 +55,7 @@ export class CardDefinitions {
         rating: 5,
         route: "https://www.reddit.com/r/destinythegame/",
         layouts: [
+            { rows: 2, cols: 1 },
             { rows: 2, cols: 2 },
             { rows: 2, cols: 3 }, { rows: 3, cols: 3 }
         ],
@@ -85,6 +86,7 @@ export class CardDefinitions {
         rating: 5,
         route: "https://www.twitch.tv/directory/game/Destiny",
         layouts: [
+            { rows: 2, cols: 1 }, { rows: 3, cols: 1 },
             { rows: 2, cols: 2 }, { rows: 3, cols: 2 },
             { rows: 2, cols: 3 }, { rows: 3, cols: 3 }
         ],
@@ -104,8 +106,8 @@ export class CardDefinitions {
         ]
     }, {
         id: -2, name: "News", cards: [
-            { id: -1, sequence: 0, definitionId: 4, layoutId: 2, definition: CardDefinitions.definitions[4], layout: CardDefinitions.definitions[4].layouts[2] },
-            { id: -2, sequence: 3, definitionId: 2, layoutId: 0, definition: CardDefinitions.definitions[2], layout: CardDefinitions.definitions[2].layouts[0] },
+			{ id: -1, sequence: 1, definitionId: 4, layoutId: 2, definition: CardDefinitions.definitions[4], layout: CardDefinitions.definitions[4].layouts[2] },
+            { id: -2, sequence: 2, definitionId: 2, layoutId: 0, definition: CardDefinitions.definitions[2], layout: CardDefinitions.definitions[2].layouts[0] }
         ]
     }];
 
