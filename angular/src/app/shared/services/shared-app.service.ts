@@ -94,7 +94,6 @@ export class SharedApp {
         });
     }
 
-    @delayBy(200)
     private tutorialStep2() {
         this.toggleSubNavSubject.next(true);
         this.snackBar.open("The sub menu has options for the page you're currently on.", "Next").afterDismissed().subscribe(() => {
@@ -102,7 +101,6 @@ export class SharedApp {
         });
     }
 
-    @delayBy(200)
     private tutorialStep3() {
         this.snackBar.open("The sub menu for the dashboard allows you to create a dashboard or edit the current dashboard. Let's see how to edit a dashboard!", "Next").afterDismissed().subscribe(() => {
             this.toggleSubNavSubject.next(false);
@@ -111,7 +109,6 @@ export class SharedApp {
         });
     }
 
-    @delayBy(50)
     private tutorialStep5() {
         this.snackBar.open("You can set the position and size of cards, add or remove cards, and rename your dashboard. Let's see how to add a card!", "Next").afterDismissed().subscribe(() => {
             this.toggleSubNavSubject.next(false);
@@ -120,7 +117,6 @@ export class SharedApp {
         });
     }
 
-    @delayBy(200)
     private tutorialStep6() {
         this.snackBar.open("You can swipe through cards to browse. Cards you have already added will not appear.", "Done").afterDismissed().subscribe(() => {
             this.tutorialAddCardSubject.next(false);

@@ -35,14 +35,17 @@ export class DateStringTimeAgoPipe implements PipeTransform {
       var elapsedMs = Date.now() - dateParsed.getTime();
       var elapsedMin = elapsedMs / 1000 / 60;
       if (elapsedMin < 60)
-        return Math.floor(elapsedMin) + " min ago";
+        return Math.floor(elapsedMin) + " min";
 
       var elapsedHr = elapsedMin / 60;
-      if (elapsedHr < 48)
-        return Math.floor(elapsedMin) + " hr ago";
+      if (elapsedHr < 24)
+        return Math.floor(elapsedHr) + " hr";
 
-      var elapsedDay = elapsedHr / 24;
-      return Math.floor(elapsedDay) + " days ago";
+      var elapsedDay = Math.floor(elapsedHr / 24);
+      if (elapsedDay == 1)
+        return elapsedDay + " day";
+      else
+        return elapsedDay + " days";
     }
     catch (error) {
       return value;

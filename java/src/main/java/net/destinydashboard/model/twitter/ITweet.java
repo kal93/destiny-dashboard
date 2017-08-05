@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class ITweet implements Serializable
 {
+    public String id;
     public Date createdAt;
     public String text;
     public int favoriteCount;
@@ -14,7 +15,8 @@ public class ITweet implements Serializable
 
     }
 
-    public ITweet(Date createdAt, String text, int favoriteCount, int retweetCount) {
+    public ITweet(String id, Date createdAt, String text, int favoriteCount, int retweetCount) {
+        this.id = id;
         this.createdAt = createdAt;
         this.text = text;
         this.favoriteCount = favoriteCount;

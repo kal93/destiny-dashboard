@@ -322,6 +322,6 @@ export class DashboardComponent {
   setColumnCount() {
     // 187 is the magic number apparently
     this.columnCount = Math.max(Math.round(this.sharedApp.windowWidth / 187), 3);
-    this.gutterSize = this.columnCount;
+    this.gutterSize = this.columnCount + 1;
   }
 }

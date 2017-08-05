@@ -21,6 +21,7 @@ public class TwitterRepository
 
     public static ITwitterResponse getBungieTwitter() throws TwitterException {
         ITwitterResponse twitterResponse = (ITwitterResponse) memCache.get("twitter-bungie");
+        // ITwitterResponse twitterResponse = null;
         if (twitterResponse != null)
             return twitterResponse;
 
@@ -35,7 +36,7 @@ public class TwitterRepository
 
         Twitter twitter = new TwitterFactory(cb.build()).getInstance();
 
-        List<Status> statuses = twitter.getUserTimeline("bungie", new Paging(1, 8));
+        List<Status> statuses = twitter.getUserTimeline("bungie", new Paging(1, 10));
 
         twitterResponse = new ITwitterResponse();
 
@@ -44,7 +45,8 @@ public class TwitterRepository
             if (i == 0)
                 twitterResponse.imageUrl = status.getUser().getBiggerProfileImageURLHttps();
 
-            ITweet tweet = new ITweet(status.getCreatedAt(), status.getText(), status.getFavoriteCount(), status.getRetweetCount());
+            ITweet tweet = new ITweet(Long.toString(status.getId()), status.getCreatedAt(), status.getText(), status.getFavoriteCount(),
+                    status.getRetweetCount());
 
             twitterResponse.tweets.add(tweet);
         }
