@@ -49,6 +49,7 @@ import { GamertagAutocompleteComponent } from './bungie/components/gamertag-auto
 import { DownloadManifestComponent } from './bungie/manifest/download/download.component';
 
 //Cards
+import { BungieNewsComponent } from './cards/bungie-news/bungie-news.component';
 import { CountdownComponent } from './cards/countdown/countdown.component';
 import { PublicEventsComponent } from './cards/public-events/public-events.component';
 import { RedditComponent } from './cards/reddit/reddit.component';
@@ -83,7 +84,7 @@ import { NumberFormatLocalePipe, RoundToDecimalPlacePipe } from './shared/pipes/
     AboutComponent, GamertagAutocompleteComponent, DownloadManifestComponent,
 
     //Cards
-    CountdownComponent, PublicEventsComponent, RedditComponent, StatsComponent, TwitchComponent,
+    BungieNewsComponent, CountdownComponent, PublicEventsComponent, RedditComponent, StatsComponent, TwitchComponent,
 
     //Directives
     ModalDirective, MouseEventsDirective, ScrollWithElementDirective, Swipeable,

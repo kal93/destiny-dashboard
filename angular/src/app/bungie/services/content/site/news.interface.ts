@@ -29,6 +29,9 @@ export interface INewsResult {
     properties: Properties;
     representations: any[];
     tags: string[];
+
+    //Runtime variable
+    clicked: boolean;
 }
 
 interface Properties {

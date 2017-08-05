@@ -94,6 +94,21 @@ export class CardDefinitions {
         isExternalRoute: true,
         lastUpdated: 1497058159790,
         previewImageClass: "dd-twitch-preview"
+    },
+    {
+        id: 5,
+        title: "Bungie News",
+        description: "The latest news from Bungie.net",
+        rating: 5,
+        route: "https://www.bungie.net/en/News",
+        layouts: [
+            { rows: 2, cols: 2 }, { rows: 3, cols: 2 },
+            { rows: 2, cols: 3 }, { rows: 3, cols: 3 }, { rows: 4, cols: 3 }
+        ],
+        requiresLogin: false,
+        isExternalRoute: true,
+        lastUpdated: 1501718581327,
+        previewImageClass: "dd-bungie-news-preview"
     }];
 
     static defaultDashboards: Array<IUserDashboard> = [{
@@ -106,7 +121,8 @@ export class CardDefinitions {
         ]
     }, {
         id: -2, name: "News", cards: [
-			{ id: -1, sequence: 1, definitionId: 4, layoutId: 2, definition: CardDefinitions.definitions[4], layout: CardDefinitions.definitions[4].layouts[2] },
+            { id: -3, sequence: 0, definitionId: 5, layoutId: 3, definition: CardDefinitions.definitions[5], layout: CardDefinitions.definitions[5].layouts[3] },
+            { id: -1, sequence: 1, definitionId: 4, layoutId: 2, definition: CardDefinitions.definitions[4], layout: CardDefinitions.definitions[4].layouts[2] },
             { id: -2, sequence: 2, definitionId: 2, layoutId: 0, definition: CardDefinitions.definitions[2], layout: CardDefinitions.definitions[2].layouts[0] }
         ]
     }];

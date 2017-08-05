@@ -4,7 +4,7 @@ import { HttpService } from './shared/services/http.service';
 import { ConfirmDialog } from './dialog/confirm.component';
 import { AccountStatsService } from './bungie/services/destiny/account-stats.service';
 import { AccountSummaryService } from './bungie/services/destiny/account-summary.service';
-import { BungieNewsService } from './bungie/services/content/site/news.service';
+import { BungieSiteNewsService } from './bungie/services/content/site/news.service';
 import { CharacterProgressionService } from './bungie/services/destiny/character-progression.service';
 import { CharacterStatsService } from './bungie/services/destiny/character-stats.service';
 import { ManifestService } from './bungie/manifest/manifest.service';
@@ -31,7 +31,7 @@ import { delayBy } from './shared/decorators/delayBy.decorator';
   </div>
   `,
   providers: [AccountStatsService, AccountSummaryService, CharacterStatsService, CharacterProgressionService, HttpService,
-    ManifestService, BungieNewsService, SharedBungie, SharedDashboard],
+    ManifestService, BungieSiteNewsService, SharedBungie, SharedDashboard],
   animations: [fadeInOut()]
 })
 export class AppComponent {

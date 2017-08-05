@@ -1,0 +1,69 @@
+<!-- Dashboard Card Display Mode Only -->
+<div class="dd-card">
+  <dd-card-header [dashboardCard]="dashboardCard"></dd-card-header>
+  <div class="dd-card-content dd-bungie-news" [@bounceChildrenFromLeft]="bungieTwitterResults?.tweets.length">
+    <div class="tweets-wrap">
+      <div class="section-heading">
+        <div class="text">Twitter</div>
+        <div class="icon dd-twitter-icon"></div>
+      </div>
+      <div class="tweets-wrap-inner">
+        <div *ngFor="let tweet of bungieTwitterResults?.tweets" class="tweet" (click)="sharedApp.openExternalLink('https://twitter.com/Bungie/status/' + tweet.id)">
+          <div class="top-wrap">
+            <div class="image" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(' + bungieTwitterResults.imageUrl + ')')"></div>
+            <div class="top-left">
+              <div class="name">Bungie</div>
+              <div class="time">
+                <span>{{tweet.createdAt | pDateStringTimeAgo}}</span>
+              </div>
+            </div>
+            <div class="top-right">
+              <div class="retweet">
+                <md-icon>repeat</md-icon>
+                <span>{{tweet.retweetCount}}</span>
+              </div>
+              <div class="favorite">
+                <md-icon>favorite</md-icon>
+                <span>{{tweet.favoriteCount}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="text" [innerHTML]="tweet.text"></div>
+        </div>
+      </div>
+    </div>
+    <div class="news-wrap" [@bounceChildrenFromLeft]="bungieNewsResults.length">
+      <div class="section-heading">
+        <div class="text">Blog Feed</div>
+        <div class="icon dd-news-icon"></div>
+      </div>
+      <div *ngFor="let newsPost of bungieNewsResults" class="news-entry rows{{dashboardCard.layout.rows}}-cols{{dashboardCard.layout.cols}}"
+        [style.height]="newsPost.clicked ? 'auto': '300px'">
+        <div class="shadow-wrap">
+          <div class="image-wrap" (click)="sharedApp.openExternalLink('https://www.bungie.net/en/News/Article/' + newsPost.contentId)">
+            <md-icon class="link">link</md-icon>
+            <img [alt]="newsPost.properties.Summary" class="post-image" [src]="'https://www.bungie.net/' + newsPost.properties.FrontPageBanner"
+            />
+          </div>
+
+          <div class="bottom-wrap" (click)="newsPost.clicked = !newsPost.clicked">
+            <div class="heading">
+              <div class="image" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + newsPost.author.profilePicturePath  +')')"></div>
+              <div class="author">{{newsPost.author.displayName}}</div>
+              <div class="date">{{newsPost.creationDate | pDateStringTimeAgo}}</div>
+            </div>
+            <md-icon *ngIf="!newsPost.clicked" class="expand">expand_more</md-icon>
+            <md-icon *ngIf="newsPost.clicked" class="expand">expand_less</md-icon>
+            <div class="title">{{newsPost.properties.MobileTitle}}</div>
+            <div class="subtitle">{{newsPost.properties.Subtitle}}</div>
+            <div class="content" [innerHTML]="newsPost.properties.Content"></div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="bungieNewsResults.length > 0" class="load-more" (click)="loadMore()">
+        <md-icon>expand_more</md-icon>
+        <md-icon>expand_more</md-icon>
+      </div>
+    </div>
+  </div>
+</div>

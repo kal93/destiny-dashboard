@@ -4,6 +4,8 @@ import { ActivatedRouteSnapshot, DetachedRouteHandle, Routes, RouterModule, Rout
 
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { AboutComponent } from '../about/about.component';
+
+import { BungieNewsComponent } from '../cards/bungie-news/bungie-news.component';
 import { CountdownComponent } from '../cards/countdown/countdown.component';
 import { PublicEventsComponent } from '../cards/public-events/public-events.component';
 import { DownloadManifestComponent } from '../bungie/manifest/download/download.component';
@@ -55,6 +57,12 @@ const routes: Routes = [
         path: 'about', component: AboutComponent, data: {
             animation: 'card',
             title: "About"
+        }
+    },
+    {
+        path: 'bungie-news', component: BungieNewsComponent, data: {
+            animation: 'card',
+            title: "Bungie News"
         }
     },
     {
