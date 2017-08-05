@@ -36,7 +36,7 @@ export class AddCardComponent implements OnInit {
     //Create map of cards the user already has for quick lookups
     var alreadyAddedCards = new Map<number, boolean>();
     this.sharedDashboard.selectedDashboard.cards.forEach(dashboardCard => {
-      alreadyAddedCards.set(dashboardCard.id, true);
+      alreadyAddedCards.set(dashboardCard.definitionId, true);
     });
 
     //Remove the card if the user already has it

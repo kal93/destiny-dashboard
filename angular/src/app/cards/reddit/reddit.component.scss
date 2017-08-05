@@ -18,7 +18,7 @@ $reddit-orange: #ff4500;
             &.rows2-cols1,
             &.rows3-cols1 {
                 .post-wrap {
-                    margin: 15px 8px;
+                    margin: 15px 5px;
                     padding-bottom: 5px;
                     display: flex;
                     border-bottom: 1px solid $reddit-medium-blue;
@@ -31,6 +31,10 @@ $reddit-orange: #ff4500;
                         .title {
                             margin-left: 0;
                         }
+                    }
+
+                    .right-wrap {
+                        margin-right: -5px;
                     }
                 }
             }
