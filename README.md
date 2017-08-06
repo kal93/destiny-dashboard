@@ -2,15 +2,17 @@
 
 
 # Goals
-The goal for this project is to create a community platform where developers become "Card Owners". A Card Owner should take full ownership of a card and keep it up to date as the API changes. Search the repository for [HOW TO] for commits that serve as a guide on how to implement something. For example, there is a commit named [HOW TO] [Add a new card] that shows every piece of code needed to create a new card.
+The goal for this project is to create a community platform where developers become "Card Owners". This project will emphasize performance and cutting edge web development practices. Service Workers, HTTP level caching, and efficient Manifest parsing are all included in the project.
+
+Search the repository for [HOW TO] for commits that serve as a guide on how to implement something. For example, there is a commit named [HOW TO] [Add a new card] that shows every piece of code needed to create a new card.
 
 # Dashboard
-A user can create multiple dashboards. Dashboards consist of one or more cards. The dashboard is the main interface for the application. Users can modify their dashboard as they please, and their changes will persist across devices and be linked to the users Bungie account.
+A user can create multiple dashboards. Dashboards consist of one or more cards. The dashboard is the main interface for the application. Users can modify their dashboard as they please, and their changes will persist across devices and be linked to their Bungie account.
 
 # Cards
 There are two types of cards.
 1. Internal cards, which have a fullscreen mode. (Stats card for example) 
-2. External cards, which do not have a fullscreen mode. (Twitter card for example). 
+2. External cards, which do not have a fullscreen mode. (Reddit card for example). 
 
 
 # DestinyDashboard Development Setup
