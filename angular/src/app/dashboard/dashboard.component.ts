@@ -290,16 +290,18 @@ export class DashboardComponent {
   }
 
   setCardPosition(card: ICard, byValue: number) {
-    var selectedDashboard = this.sharedDashboard.selectedDashboard;
+    var neighborCardIndex = card.sequence + byValue;
+    if (neighborCardIndex < 0 || neighborCardIndex >= this.sharedDashboard.selectedDashboard.cards.length)
+      return;
 
     // Update next or previous card sequence
-    selectedDashboard.cards[card.sequence + byValue].sequence += (byValue * -1);
+    this.sharedDashboard.selectedDashboard.cards[neighborCardIndex].sequence += (byValue * -1);
 
     // Update current card sequence
     card.sequence += byValue;
 
     // Sort based on new sequence
-    selectedDashboard.cards.sort((a, b) => { return a.sequence - b.sequence; });
+    this.sharedDashboard.selectedDashboard.cards.sort((a, b) => { return a.sequence - b.sequence; });
   }
 
   // Add Card
