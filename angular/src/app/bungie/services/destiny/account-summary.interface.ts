@@ -21,25 +21,30 @@ export interface ICharacter {
 }
 
 export interface ICharacterBase {
+    buildStatGroupHash: any;
+    characterId: string;
+    classHash: any;
+    classType: number;
+    currentActivityHash: number;
+    customization: ICustomization;
+    dateLastPlayed: Date;
+    genderHash: any;
+    genderType: number;
+    grimoireScore: number;
+    lastCompletedStoryHash: number;
     membershipId: string;
     membershipType: number;
-    characterId: string;
-    dateLastPlayed: Date;
     minutesPlayedThisSession: string;
     minutesPlayedTotal: string;
+    peerView: IPeerView;
     powerLevel: number;
     raceHash: any;
-    genderHash: any;
-    classHash: any;
-    currentActivityHash: number;
-    lastCompletedStoryHash: number;
     stats: IStats;
-    customization: ICustomization;
-    grimoireScore: number;
-    peerView: IPeerView;
-    genderType: number;
-    classType: number;
-    buildStatGroupHash: any;
+
+    //Runtime variables
+    classHashValue: any;
+    genderHashValue: any;
+    raceHashValue: any;
 }
 
 export interface ILevelProgression {

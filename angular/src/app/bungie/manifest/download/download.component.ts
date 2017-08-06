@@ -114,7 +114,20 @@ export class DownloadManifestComponent implements OnDestroy, OnInit {
 
         // Delete other unnecessary fields
         delete rowObj.hash;
+
+        //DetinyInventoryItemDefinition
         delete rowObj.itemHash;
+
+        // DestinyClassDefinition
+        delete rowObj.classNameFemale;
+        delete rowObj.classNameMale;
+
+        // DestinyRaceDefinition
+        delete rowObj.raceNameFemale;
+        delete rowObj.raceNameMale;
+
+        // DestinyGenderDefinition
+        delete rowObj.genderDescription;
 
         // Delete certain fields that we don't care about
         if (tableName == "DestinyInventoryItemDefinition") {

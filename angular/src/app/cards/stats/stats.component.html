@@ -95,8 +95,8 @@
             <div class="tab-label-wrap">
               <div class="background" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.backgroundPath +')')">
                 <div class="emblem" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemPath +')')"></div>
-                <div class="class">Hunter</div>
-                <div class="race-gender">Human Male</div>
+                <div class="class">{{character.characterBase.classHashValue.className}}</div>
+                <div class="race-gender">{{character.characterBase.raceHashValue.raceName}} {{character.characterBase.genderHashValue.genderName}}</div>
                 <div class="level">{{character.characterLevel}}</div>
                 <div class="light"><span class="star">&#10022;</span>{{character.characterBase.stats.STAT_LIGHT.value}}</div>
               </div>
@@ -109,7 +109,7 @@
 
           <!-- Character Stats -->
           <div *ngIf="characterStats != null && selectedSubTab == 'Stats'" class="sub-tab-wrap" [@fadeIn]="selectedSubTab">
-            <div class="stat-section">
+            <div *ngIf="characterStats.allPvE.allTime!= null && characterStats.allPvP.allTime != null" class="stat-section">
               <div class="header">Summary</div>
               <div><span>Time Played</span> <span>{{characterStats.allPvE.allTime.secondsPlayed?.basic.displayValue}}</span></div>
               <div><span>Last Played</span><span>{{character.characterBase.dateLastPlayed | pDateStringTimeAgo}}</span></div>
@@ -125,7 +125,7 @@
               <div><span>Orbs Collected</span> <span>{{characterStats.allPvP.allTime.orbsGathered?.basic.displayValue | pNumberFormatLocale}}</span></div>
             </div>
 
-            <div class="stat-section">
+            <div *ngIf="characterStats.allPvP.allTime != null" class="stat-section">
               <div class="header">PvP</div>
               <div><span>Time Played</span> <span>{{characterStats.allPvP.allTime.secondsPlayed?.basic.displayValue}}</span></div>
               <div><span>Combat Rating</span> <span>{{characterStats.allPvP.allTime.combatRating?.basic.displayValue}}</span></div>
@@ -152,7 +152,7 @@
               <div><span>Precision Kills</span> <span>{{characterStats.allPvP.allTime.precisionKills?.basic.displayValue}}</span></div>
             </div>
 
-            <div class="stat-section">
+            <div *ngIf="characterStats.allPvE.allTime != null" class="stat-section">
               <div class="header">PvE</div>
               <div><span>Time Played</span> <span>{{characterStats.allPvE.allTime.secondsPlayed?.basic.displayValue}}</span></div>
               <div><span>Kills</span> <span>{{characterStats.allPvE.allTime.kills?.basic.displayValue | pNumberFormatLocale}}</span></div>
