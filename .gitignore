@@ -4,3 +4,7 @@ node_modules
 /angular/build
 /java/src/main/webapp/WEB-INF/appengine-web.xml
 /angular/src/environments/environment.prod.ts
+
+# IntelliJ
+.idea
+*.iml
