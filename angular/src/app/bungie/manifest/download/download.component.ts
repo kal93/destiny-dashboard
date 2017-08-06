@@ -77,12 +77,12 @@ export class DownloadManifestComponent implements OnDestroy, OnInit {
 
       // Tables that we want to ignore completely
       if (tableName == "DestinyActivityBundleDefinition" || tableName == "DestinyActivityCategoryDefinition" || tableName == "DestinyActivityDefinition" || tableName == "DestinyActivityModeDefinition"
-        || tableName == "DestinyActivityTypeDefinition" || tableName == "DestinyBondDefinition" || tableName == "DestinyClassDefinition" || tableName == "DestinyCombatantDefinition"
+        || tableName == "DestinyActivityTypeDefinition" || tableName == "DestinyBondDefinition" || tableName == "DestinyCombatantDefinition"
         || tableName == "DestinyDamageTypeDefinition" || tableName == "DestinyDestinationDefinition" || tableName == "DestinyDirectorBookDefinition" || tableName == "DestinyEnemyRaceDefinition"
-        || tableName == "DestinyGenderDefinition" || tableName == "DestinyGrimoireCardDefinition" || tableName == "DestinyGrimoireDefinition"
+        || tableName == "DestinyGrimoireCardDefinition" || tableName == "DestinyGrimoireDefinition"
         || tableName == "DestinyHistoricalStatsDefinition" || tableName == "DestinyItemCategoryDefinition"
         || tableName == "DestinyLocationDefinition" || tableName == "DestinyMedalTierDefinition" || tableName == "DestinyObjectiveDefinition" || tableName == "DestinyPlaceDefinition"
-        || tableName == "DestinyRaceDefinition" || tableName == "DestinyRecordBookDefinition" || tableName == "DestinyRecordDefinition"
+        || tableName == "DestinyRecordBookDefinition" || tableName == "DestinyRecordDefinition"
         || tableName == "DestinyRewardSourceDefinition" || tableName == "DestinySandboxPerkDefinition" || tableName == "DestinyScriptedSkullDefinition" || tableName == "DestinySpecialEventDefinition"
         || tableName == "DestinyStatDefinition" || tableName == "DestinyStatGroupDefinition" || tableName == "DestinyTalentGridDefinition" || tableName == "DestinyTriumphSetDefinition"
         || tableName == "DestinyUnlockFlagDefinition" || tableName == "DestinyVendorCategoryDefinition" || tableName == "DestinyVendorDefinition") {

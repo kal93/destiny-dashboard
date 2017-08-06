@@ -31,11 +31,11 @@ export class ManifestService {
         this.sharedApp.showLoading(loadingId);
         return new Promise((resolve, reject) => {
             //Download latest local manifest zip file
-            this.http.httpGetBinary("./destiny-manifest_0.1.62.zip").then((manifestZipBlob: Blob) => {
+            this.http.httpGetBinary("./destiny-manifest_0.1.73.zip").then((manifestZipBlob: Blob) => {
                 //Convert it a workable format for unzipping
                 FileUtils.blobToUintArray8(manifestZipBlob).then((arrayBuffer: Uint8Array) => {
                     //Unzip it
-                    FileUtils.unzipArrayBuffer(arrayBuffer, "destiny-manifest_0.1.62.json").then((unzippedManifest: Uint8Array) => {
+                    FileUtils.unzipArrayBuffer(arrayBuffer, "destiny-manifest_0.1.73.json").then((unzippedManifest: Uint8Array) => {
                         //Convert bytearray to JSON string
                         var stringifiedDB = FileUtils.utf8ByteArrayToString(unzippedManifest);
 
