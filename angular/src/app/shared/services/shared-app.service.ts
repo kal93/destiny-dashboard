@@ -141,12 +141,18 @@ export class SharedApp {
 
     setLocalStorage(key: string, value: any) {
         if (this.localStorageDisabled) return;
-        if (environment.production)
-            value == null ? localStorage.removeItem(key)
-                : localStorage.setItem(key, LZString.compressToUTF16(value.toString()));
-        else
-            value == null ? localStorage.removeItem(key)
-                : localStorage.setItem(key, value.toString());
+        try {
+            if (environment.production)
+                value == null ? localStorage.removeItem(key)
+                    : localStorage.setItem(key, LZString.compressToUTF16(value.toString()));
+            else
+                value == null ? localStorage.removeItem(key)
+                    : localStorage.setItem(key, value.toString());
+        }
+        catch (error) {
+            console.log("Could not set local storage. Quota may be exceeded.");
+            this.globalErrorHandler.handleError(error);
+        }
     }
 
     getLocalStorageMap(key: string, defaultValue?: Map<any, any>) {

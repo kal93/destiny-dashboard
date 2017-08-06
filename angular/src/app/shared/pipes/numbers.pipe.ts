@@ -10,13 +10,19 @@ export class NumberFormatLocalePipe implements PipeTransform {
       return "";
     return value.toLocaleString();
   }
-} 
+}
 
 @Pipe({
   name: 'pRoundToDecimalPlace'
 })
 export class RoundToDecimalPlacePipe implements PipeTransform {
   transform(value: number, count: number): string {
-    return value.toFixed(count);
+    try {
+      return value.toFixed(count);
+    }
+    catch (error) {
+      return "";
+    }
   }
+
 } 

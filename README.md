@@ -1,8 +1,10 @@
 ![destiny dashboard](https://destinydashboard.net/favicon.ico "Destiny Dashboard")
 
 
-# Goals
-The goal for this project is to create a community platform where developers become "Card Owners". This project will emphasize performance and cutting edge web development practices. Service Workers, HTTP level caching, and efficient Manifest parsing are all included in the project.
+# Vision
+This site will have every tool a Destiny player might need. No more jumping to 6 different websites to check your stats, grimoire, dead ghosts, item transferring, public events, news, etc.
+
+This project will emphasize performance and cutting edge web development practices. Service Workers, HTTP level caching, AoT compiling, and efficient Manifest parsing are already included in the project.
 
 Search the repository for [HOW TO] for commits that serve as a guide on how to implement something. For example, there is a commit named [HOW TO] [Add a new card] that shows every piece of code needed to create a new card.
 
@@ -16,7 +18,7 @@ There are two types of cards.
 
 
 # DestinyDashboard Development Setup
-There are 4 main setup steps for this project. Total setup time about 15 minutes.
+There are 4 main setup steps for this project. Total setup time about 20 minutes.
 
 1. [Angular 4 Material](#angular-4-material-setup)
 3. [Google App Engine Java](#google-app-engine-java-setup )
@@ -47,11 +49,15 @@ There are 4 main setup steps for this project. Total setup time about 15 minutes
 
 
 ## Google App Engine Java Setup 
-1. [Download Java SE Development Kit 7u80](http://www.oracle.com/technetwork/java/javase/downloads/java-archive-downloads-javase7-521261.html)
-2. [Follow the Quickstart](https://cloud.google.com/eclipse/docs/quickstart)
+ For the following, make sure you follow the same architecture. If you download 32 bit Eclipse, use 32 bit JRE and JDK.
+
+1. [Download Java 7 JDK](http://www.oracle.com/technetwork/java/javase/downloads/java-archive-downloads-javase7-521261.html)
+2. [Download Java JRE 8](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html)  (Note- Do not uninstall v7. We need v7 for App Engine, but v8 for Eclipse)
+ 
+3. [Follow the Quickstart](https://cloud.google.com/eclipse/docs/quickstart)
     - For Eclipse, download 'Eclipse IDE for Java Developers'
-3. Point Eclipse to the `java\` in the root directory of the repository.
-4. Copy `java\src\main\webapp\WEB-INF\appengine-web.template.xml` to `java\src\main\webapp\WEB-INF\appengine-web.xml`. `appengine-web.xml` is where we store our Database credentials and Bungie OAuth secret keys. This file is excluded from the repository because it has sensitive information. You should not share your `appengine-web.xml` file.
+4. Point Eclipse to the `java\` in the root directory of the repository.
+5. Copy `java\src\main\webapp\WEB-INF\appengine-web.template.xml` to `java\src\main\webapp\WEB-INF\appengine-web.xml`. `appengine-web.xml` is where we store our Database credentials and Bungie OAuth secret keys. This file is excluded from the repository because it has sensitive information. You should not share your `appengine-web.xml` file.
 
 
 ## MySQL Database Setup
@@ -96,6 +102,7 @@ There are 4 main setup steps for this project. Total setup time about 15 minutes
 - [x] Stackdriver logging
 - [ ] Add Card should show how many users have it installed
 - [ ] Ability for users to subscribe to push notifications for different cards
+- [ ] Localization to support all languages supported by the Manifest
 
 
 ## Cards Todo list
@@ -108,12 +115,15 @@ There are 4 main setup steps for this project. Total setup time about 15 minutes
 - [ ] Xur
 - [ ] Grimoire
 - [ ] PvP realtime analysis
+    - Detect current in-game opponents and show commons stats like K/D, Favorite subclass or super, most used weapons
 - [ ] Quest Lines 
-- [ ] Weekly Checklist
+- [ ] Checklist
+    - Has user completed the Daily, Weekly, Raids, Nightfall?
 - [ ] Game History Browser
-- [ ] Site news
+- [ ] Destiny Dashboard News
 - [ ] Public Events ?
 - [ ] Dead Ghosts ?
+- [ ] Your Idea Here
 
 ## Known issues
 - [ ] Safari Display issues for image in Countdown card
