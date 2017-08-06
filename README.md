@@ -1,7 +1,19 @@
 ![destiny dashboard](https://destinydashboard.net/favicon.ico "Destiny Dashboard")
 
 
-# DestinyDashboard
+# Goals
+The goal for this project is to create a community platform where developers become "Card Owners". A Card Owner should take full ownership of a card and keep it up to date as the API changes. Search the repository for [HOW TO] for commits that serve as a guide on how to implement something. For example, there is a commit named [HOW TO] [Add a new card] that shows every piece of code needed to create a new card.
+
+# Dashboard
+A user can create multiple dashboards. Dashboards consist of one or more cards. The dashboard is the main interface for the application. Users can modify their dashboard as they please, and their changes will persist across devices and be linked to the users Bungie account.
+
+# Cards
+There are two types of cards.
+1. Internal cards, which have a fullscreen mode. (Stats card for example) 
+2. External cards, which do not have a fullscreen mode. (Twitter card for example). 
+
+
+# DestinyDashboard Development Setup
 There are 4 main setup steps for this project. Total setup time about 15 minutes.
 
 1. [Angular 4 Material](#angular-4-material-setup)
@@ -37,7 +49,7 @@ There are 4 main setup steps for this project. Total setup time about 15 minutes
 2. [Follow the Quickstart](https://cloud.google.com/eclipse/docs/quickstart)
     - For Eclipse, download 'Eclipse IDE for Java Developers'
 3. Point Eclipse to the `java\` in the root directory of the repository.
-4. Copy `java\src\main\webapp\WEB-INF\appengine-web.template.xml` to `java\src\main\webapp\WEB-INF\appengine-web.xml`. `appengine-web.xml` is where we store our Database and Bungie OAuth information. This file is excluded from the repository because it has sensitive information. You should not share your `appengine-web.xml` file.
+4. Copy `java\src\main\webapp\WEB-INF\appengine-web.template.xml` to `java\src\main\webapp\WEB-INF\appengine-web.xml`. `appengine-web.xml` is where we store our Database credentials and Bungie OAuth secret keys. This file is excluded from the repository because it has sensitive information. You should not share your `appengine-web.xml` file.
 
 
 ## MySQL Database Setup
@@ -81,6 +93,7 @@ There are 4 main setup steps for this project. Total setup time about 15 minutes
 - [x] Cards base class
 - [x] Stackdriver logging
 - [ ] Add Card should show how many users have it installed
+- [ ] Ability for users to subscribe to push notifications for different cards
 
 
 ## Cards Todo list
@@ -88,7 +101,7 @@ There are 4 main setup steps for this project. Total setup time about 15 minutes
 - [x] Twitch
 - [x] Countdown
 - [x] Stats
-- [ ] Bungie News (Weekly Update, blogs)
+- [x] Bungie News (Weekly Update, blogs)
 - [ ] ITEM TRANSFER
 - [ ] Xur
 - [ ] Grimoire
