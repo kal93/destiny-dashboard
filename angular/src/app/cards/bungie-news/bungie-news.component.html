@@ -2,7 +2,7 @@
 <div class="dd-card">
   <dd-card-header [dashboardCard]="dashboardCard"></dd-card-header>
   <div class="dd-card-content dd-bungie-news" [@bounceChildrenFromLeft]="bungieTwitterResults?.tweets.length">
-    <div class="tweets-wrap">
+    <div *ngIf="bungieTwitterResults != null" class="tweets-wrap">
       <div class="section-heading">
         <div class="text">Twitter</div>
         <div class="icon dd-twitter-icon"></div>
