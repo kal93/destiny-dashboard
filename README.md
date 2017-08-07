@@ -9,7 +9,7 @@ This project will emphasize performance and cutting edge web development practic
 Search the repository for [HOW TO] for commits that serve as a guide on how to implement something. For example, there is a commit named [[HOW TO] [Add a new card]](https://github.com/lax20attack/destiny-dashboard/commit/a7c0e9b8cde5e71355cba404137afb39f68f5ac8)  that shows every piece of code needed to create a new card.
 
 # Dashboard
-A user can create multiple dashboards. Dashboards consist of one or more cards. The dashboard is the main interface for the application. Users can modify their dashboard as they please, and their changes will persist across devices and be linked to their Bungie account.
+A user can create multiple dashboards. Dashboards consist of one or more cards. Cards can be added, removed, resized, and moved. Users can modify their dashboard as they please, and their changes will be linked to their Bungie account.
 
 # Cards
 There are two types of cards.
@@ -40,7 +40,7 @@ There are 4 main setup steps for this project. Total setup time about 20 minutes
 
 5. Copy and rename `\angular\src\environments\environment.prod.template.ts` to `environment.prod.ts`.
 
-6. Copy and rename `\angular\src\environments\environment.template.ts` to `environment.prod.ts`.
+6. Copy and rename `\angular\src\environments\environment.template.ts` to `environment.ts`.
 
 7. In VS Code, File-> Open Folder to the `angular` subdirectory in the root of the repo.
 
@@ -66,6 +66,7 @@ You are now running Destiny Dashboard locally. You are also hitting a test API s
     - For Eclipse, download 'Eclipse IDE for Java Developers'
 4. Point Eclipse to the `java\` in the root directory of the repository.
 5. Copy `java\src\main\webapp\WEB-INF\appengine-web.template.xml` to `java\src\main\webapp\WEB-INF\appengine-web.xml`. `appengine-web.xml` is where we store our Database credentials and Bungie OAuth secret keys. This file is excluded from the repository because it has sensitive information. You should not share your `appengine-web.xml` file.
+6. Update `angular\src\environments\environment.ts` and set `useApiPrefix: ""`. This will prevent Angular code from using a remote API.
 
 
 ## MySQL Database Setup
