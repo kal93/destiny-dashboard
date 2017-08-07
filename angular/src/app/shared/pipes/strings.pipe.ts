@@ -29,9 +29,14 @@ export class SubstringPipe implements PipeTransform {
   name: 'pDateStringTimeAgo'
 })
 export class DateStringTimeAgoPipe implements PipeTransform {
-  transform(value: string): string {
+  transform(value: any): string {
     try {
-      var dateParsed = new Date(value);
+      var dateParsed;
+      if (value instanceof Date)
+        dateParsed = value
+      else
+        dateParsed = new Date(value);
+
       var elapsedMs = Date.now() - dateParsed.getTime();
       var elapsedMin = elapsedMs / 1000 / 60;
       if (elapsedMin < 60)

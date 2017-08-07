@@ -34,9 +34,7 @@ export class BungieNewsComponent extends CardComponent {
   ngOnInit() {
     super.ngOnInit();
 
-    // Don't try to get twitter unless it's production... This will avoid API errors 
-    if (environment.production)
-      this.getBungieTwitter();
+    this.getBungieTwitter();
 
     this.getNextPage();
   }
@@ -50,6 +48,7 @@ export class BungieNewsComponent extends CardComponent {
       this.bungieTwitterResults = bungieTwitterResults;
       this.bungieTwitterResults.tweets.forEach((tweet: Tweet) => {
         tweet.text = tweet.text.split("<br /><br />").join("<br />");
+        tweet.createdAgoDate = new Date(Date.now() - tweet.createdAgoMs);
       });
     });
   }
