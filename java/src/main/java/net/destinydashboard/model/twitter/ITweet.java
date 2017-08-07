@@ -1,12 +1,11 @@
 package net.destinydashboard.model.twitter;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class ITweet implements Serializable
 {
     public String id;
-    public Date createdAt;
+    public long createdAgoMs;
     public String text;
     public int favoriteCount;
     public int retweetCount;
@@ -15,9 +14,9 @@ public class ITweet implements Serializable
 
     }
 
-    public ITweet(String id, Date createdAt, String text, int favoriteCount, int retweetCount) {
+    public ITweet(String id, long createdAgoMs, String text, int favoriteCount, int retweetCount) {
         this.id = id;
-        this.createdAt = createdAt;
+        this.createdAgoMs = createdAgoMs;
         this.text = text;
         this.favoriteCount = favoriteCount;
         this.retweetCount = retweetCount;

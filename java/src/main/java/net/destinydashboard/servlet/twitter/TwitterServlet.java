@@ -4,7 +4,6 @@ import java.net.HttpURLConnection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,11 +11,14 @@ import com.google.gson.Gson;
 
 import net.destinydashboard.model.twitter.ITwitterResponse;
 import net.destinydashboard.repository.twitter.TwitterRepository;
+import net.destinydashboard.servlet.BaseServlet;
 
-public class TwitterServlet extends HttpServlet
+public class TwitterServlet extends BaseServlet
 {
     // Returns a list of dashboards by user
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
+        super.doGet(req, resp);
+        
         try {
             String twitterType = req.getParameter("type");
             ITwitterResponse twitterResponse = null;

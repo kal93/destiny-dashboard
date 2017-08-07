@@ -2,15 +2,15 @@
 export interface IAccountSummary {
     membershipId: string;
     membershipType: number;
-    characters: ICharacter[];
-    inventory: IInventory;
+    characters: Character[];
+    inventory: Inventory;
     grimoireScore: number;
     versions: number;
 }
 
-export interface ICharacter {
-    characterBase: ICharacterBase;
-    levelProgression: ILevelProgression;
+export interface Character {
+    characterBase: CharacterBase;
+    levelProgression: LevelProgression;
     emblemPath: string;
     backgroundPath: string;
     emblemHash: any;
@@ -20,13 +20,13 @@ export interface ICharacter {
     percentToNextLevel: number;
 }
 
-export interface ICharacterBase {
+interface CharacterBase {
     buildStatGroupHash: any;
     characterId: string;
     classHash: any;
     classType: number;
     currentActivityHash: number;
-    customization: ICustomization;
+    customization: Customization;
     dateLastPlayed: Date;
     genderHash: any;
     genderType: number;
@@ -36,10 +36,10 @@ export interface ICharacterBase {
     membershipType: number;
     minutesPlayedThisSession: string;
     minutesPlayedTotal: string;
-    peerView: IPeerView;
+    peerView: PeerView;
     powerLevel: number;
     raceHash: any;
-    stats: IStats;
+    stats: Stats;
 
     //Runtime variables
     classHashValue: any;
@@ -47,7 +47,7 @@ export interface ICharacterBase {
     raceHashValue: any;
 }
 
-export interface ILevelProgression {
+interface LevelProgression {
     dailyProgress: number;
     weeklyProgress: number;
     currentProgress: number;
@@ -58,29 +58,29 @@ export interface ILevelProgression {
     progressionHash: number;
 }
 
-export interface IStats {
-    STAT_DEFENSE: IStat;
-    STAT_INTELLECT: IStat;
-    STAT_DISCIPLINE: IStat;
-    STAT_STRENGTH: IStat;
-    STAT_LIGHT: IStat;
-    STAT_ARMOR: IStat;
-    STAT_AGILITY: IStat;
-    STAT_RECOVERY: IStat;
-    STAT_OPTICS: IStat;
-    STAT_ATTACK_SPEED: IStat;
-    STAT_DAMAGE_REDUCTION: IStat;
-    STAT_ATTACK_EFFICIENCY: IStat;
-    STAT_ATTACK_ENERGY: IStat;
+interface Stats {
+    STAT_DEFENSE: Stat;
+    STAT_INTELLECT: Stat;
+    STAT_DISCIPLINE: Stat;
+    STAT_STRENGTH: Stat;
+    STAT_LIGHT: Stat;
+    STAT_ARMOR: Stat;
+    STAT_AGILITY: Stat;
+    STAT_RECOVERY: Stat;
+    STAT_OPTICS: Stat;
+    STAT_ATTACK_SPEED: Stat;
+    STAT_DAMAGE_REDUCTION: Stat;
+    STAT_ATTACK_EFFICIENCY: Stat;
+    STAT_ATTACK_ENERGY: Stat;
 }
 
-export interface IStat {
+interface Stat {
     statHash: number;
     value: number;
     maximumValue: number;
 }
 
-export interface ICustomization {
+interface Customization {
     personality: any;
     face: any;
     skinColor: number;
@@ -95,26 +95,26 @@ export interface ICustomization {
     decalIndex: number;
 }
 
-export interface IPeerView {
-    equipment: IEquipment[];
+export interface PeerView {
+    equipment: Equipment[];
 }
 
-export interface IEquipment {
+export interface Equipment {
     itemHash: any;
-    dyes: IDye[];
+    dyes: Dye[];
 }
 
-export interface IDye {
+export interface Dye {
     channelHash: any;
     dyeHash: any;
 }
 
-export interface IInventory {
-    items: IItem[];
-    currencies: ICurrency[];
+interface Inventory {
+    items: Item[];
+    currencies: Currency[];
 }
 
-export interface IItem {
+interface Item {
     itemHash: any;
     itemId: string;
     quantity: number;
@@ -125,10 +125,10 @@ export interface IItem {
     state: number;
     characterIndex: number;
     bucketHash: any;
-    primaryStat: IStat;
+    primaryStat: Stat;
 }
 
-export interface ICurrency {
+interface Currency {
     itemHash: any;
     value: number;
 }

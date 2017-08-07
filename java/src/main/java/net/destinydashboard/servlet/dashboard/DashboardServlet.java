@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,11 +17,14 @@ import net.destinydashboard.core.DBCore;
 import net.destinydashboard.model.dashboard.IUserDashboard;
 import net.destinydashboard.repository.bungie.TokenRepository;
 import net.destinydashboard.repository.dashboard.DashboardRepository;
+import net.destinydashboard.servlet.BaseServlet;
 
-public class DashboardServlet extends HttpServlet
+public class DashboardServlet extends BaseServlet
 {
     // Returns a list of dashboards by user
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
+        super.doGet(req, resp);
+
         try {
             String accessToken = req.getHeader("Authorization");
             if (accessToken == null)
@@ -45,6 +47,8 @@ public class DashboardServlet extends HttpServlet
 
     // Saves a single dashboard
     public void doPost(HttpServletRequest req, HttpServletResponse resp) {
+        super.doPost(req, resp);
+
         try {
             String accessToken = req.getHeader("Authorization");
             if (accessToken == null)
@@ -87,6 +91,8 @@ public class DashboardServlet extends HttpServlet
 
     // Deletes a single dashboard
     public void doDelete(HttpServletRequest req, HttpServletResponse resp) {
+        super.doDelete(req, resp);
+
         try {
             long dashboardId = Long.parseLong(req.getParameter("id"));
 
