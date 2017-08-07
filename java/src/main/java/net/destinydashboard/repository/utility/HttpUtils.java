@@ -61,7 +61,8 @@ public class HttpUtils
         String useOrigin = "";
 
         // Get ApiKey and EncodedAuth values from appengine-web.xml
-        if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production) {
+        if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production
+                && SystemProperty.applicationId.get().equals("destiny-dashboard")) {
             useApiKey = System.getProperty("prod-api-key");
             useEncodedAuth = System.getProperty("prod-encoded-auth");
             useOrigin = "https://www.destinydashboard.net";
@@ -88,7 +89,8 @@ public class HttpUtils
         String useApiKey = "";
 
         // Get ApiKey and EncodedAuth values from appengine-web.xml
-        if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production)
+        if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production
+                && SystemProperty.applicationId.get().equals("destiny-dashboard"))
             useApiKey = System.getProperty("prod-api-key");
         else
             useApiKey = System.getProperty("test-api-key");

@@ -13,7 +13,7 @@ import { CharacterStatsService } from '../../bungie/services/destiny/character-s
 
 import { fadeIn } from '../../shared/animations';
 import { IAccountStats } from '../../bungie/services/destiny/account-stats.interface';
-import { IAccountSummary, ICharacter } from '../../bungie/services/destiny/account-summary.interface';
+import { IAccountSummary, Character } from '../../bungie/services/destiny/account-summary.interface';
 import { ICharacterProgression, Progression } from '../../bungie/services/destiny/character-progression.interface';
 import { ICharacterStats } from '../../bungie/services/destiny/character-stats.interface';
 import { GroupTypes, ModeTypes, PeriodTypes } from '../../bungie/services/enums.interface';
@@ -76,7 +76,7 @@ export class StatsComponent extends CardComponent {
     //Get Account Summary to get the list of available characters
     this.accountSummaryService.getAccountSummary(this.selectedMembership).then((accountSummary: IAccountSummary) => {
       this.accountSummary = accountSummary;
-      this.accountSummary.characters.forEach((character: ICharacter) => {
+      this.accountSummary.characters.forEach((character: Character) => {
         character.characterBase.classHashValue = this.manifestService.getManifestEntry("DestinyClassDefinition", character.characterBase.classHash);
         character.characterBase.genderHashValue = this.manifestService.getManifestEntry("DestinyGenderDefinition", character.characterBase.genderHash);
         character.characterBase.raceHashValue = this.manifestService.getManifestEntry("DestinyRaceDefinition", character.characterBase.raceHash);

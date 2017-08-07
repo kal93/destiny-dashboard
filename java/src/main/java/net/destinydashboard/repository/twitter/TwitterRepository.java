@@ -45,7 +45,9 @@ public class TwitterRepository
             if (i == 0)
                 twitterResponse.imageUrl = status.getUser().getBiggerProfileImageURLHttps();
 
-            ITweet tweet = new ITweet(Long.toString(status.getId()), status.getCreatedAt(), status.getText(), status.getFavoriteCount(),
+            long createAgoMs = System.currentTimeMillis() - status.getCreatedAt().getTime();
+
+            ITweet tweet = new ITweet(Long.toString(status.getId()), createAgoMs, status.getText(), status.getFavoriteCount(),
                     status.getRetweetCount());
 
             twitterResponse.tweets.add(tweet);

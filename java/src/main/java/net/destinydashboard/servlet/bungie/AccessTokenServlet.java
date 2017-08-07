@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,10 +14,13 @@ import com.google.gson.GsonBuilder;
 import net.destinydashboard.core.DBCore;
 import net.destinydashboard.model.bungie.ITokenResponse;
 import net.destinydashboard.repository.bungie.TokenRepository;
+import net.destinydashboard.servlet.BaseServlet;
 
-public class AccessTokenServlet extends HttpServlet
+public class AccessTokenServlet extends BaseServlet
 {
     public void doPost(HttpServletRequest req, HttpServletResponse resp) {
+        super.doPost(req, resp);
+        
         try {
             // Read one time use bungieAuthCode POST body parameters
             String bungieAuthCode = req.getReader().readLine();
@@ -49,6 +51,8 @@ public class AccessTokenServlet extends HttpServlet
 
     // Deletes an access token (on logout)
     public void doDelete(HttpServletRequest req, HttpServletResponse resp) {
+        super.doDelete(req, resp);
+        
         try {
             String accessToken = req.getHeader("Authorization");
             if (accessToken == null)

@@ -1,5 +1,5 @@
 <div>
-  <div [class.dd-card]="!isFullscreen">
+  <div [class.dd-card-wrap]="!isFullscreen">
     <dd-card-header *ngIf="!isFullscreen" [dashboardCard]="dashboardCard"></dd-card-header>
     <div class="dd-stats" [class.dd-fullscreen]="isFullscreen" [class.dd-card-content]="!isFullscreen">
 

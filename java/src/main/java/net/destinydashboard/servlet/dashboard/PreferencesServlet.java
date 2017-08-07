@@ -6,7 +6,6 @@ import java.sql.Connection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,11 +16,14 @@ import net.destinydashboard.core.DBCore;
 import net.destinydashboard.model.dashboard.IUserPreferences;
 import net.destinydashboard.repository.bungie.TokenRepository;
 import net.destinydashboard.repository.dashboard.PreferenceRepository;
+import net.destinydashboard.servlet.BaseServlet;
 
-public class PreferencesServlet extends HttpServlet
+public class PreferencesServlet extends BaseServlet
 {
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
+        super.doGet(req, resp);
+        
         try {
             String accessToken = req.getHeader("Authorization");
             if (accessToken == null)
@@ -44,6 +46,8 @@ public class PreferencesServlet extends HttpServlet
     }
 
     public void doPost(HttpServletRequest req, HttpServletResponse resp) {
+        super.doPost(req, resp);
+        
         try {
             String accessToken = req.getHeader("Authorization");
             if (accessToken == null)

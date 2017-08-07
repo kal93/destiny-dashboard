@@ -3,7 +3,7 @@ $reddit-light-blue: #cee3f8;
 $reddit-medium-blue: #5f99cf;
 $reddit-orange: #ff4500;
 
-.dd-card {
+.dd-card-wrap {
     //These styles only applies to dashboard cards
     .dd-card-content.dd-reddit {
         height: calc(100% - 40px); //Subtract header height

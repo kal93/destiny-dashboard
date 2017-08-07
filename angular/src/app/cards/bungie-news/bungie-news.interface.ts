@@ -5,8 +5,11 @@ export interface ITwitterReponse {
 
 export interface Tweet {
     id: string;
-    createdAt: string;
+    createdAgoMs: number;
     text: string;
     favoriteCount: number;
     retweetCount: number;
+
+    //Runtime variables
+    createdAgoDate: Date;
 }
