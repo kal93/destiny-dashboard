@@ -20,9 +20,8 @@ public class TwitterRepository
     private static MemcacheService memCache = MemcacheServiceFactory.getMemcacheService();
 
     public static ITwitterResponse getBungieTwitter() throws TwitterException {
-        // ITwitterResponse twitterResponse = (ITwitterResponse)
-        // memCache.get("twitter-bungie");
-        ITwitterResponse twitterResponse = null;
+        ITwitterResponse twitterResponse = (ITwitterResponse) memCache.get("twitter-bungie");
+        // ITwitterResponse twitterResponse = null;
         if (twitterResponse != null)
             return twitterResponse;
 
