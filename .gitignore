@@ -2,6 +2,7 @@
 *.log*
 node_modules
 /angular/build
-/java/src/main/webapp/WEB-INF/appengine-web.xml
 /angular/src/environments/environment.prod.ts
+/angular/src/environments/environment.ts
+/java/src/main/webapp/WEB-INF/appengine-web.xml
 /java/.settings/com.google.cloud.tools.eclipse.appengine.deploy.prefs
