@@ -10,6 +10,8 @@ import { INews, INewsResult } from '../../bungie/services/content/site/news.inte
 import { ITwitterReponse, Tweet } from './bungie-news.interface';
 import { NewsTypes } from '../../bungie/services/enums.interface';
 
+import { environment } from '../../../environments/environment';
+
 @Component({
   selector: 'dd-bungie-news',
   templateUrl: './bungie-news.component.html',
@@ -32,7 +34,10 @@ export class BungieNewsComponent extends CardComponent {
   ngOnInit() {
     super.ngOnInit();
 
-    this.getBungieTwitter();
+    // Don't try to get twitter unless it's production... This will avoid API errors 
+    if (environment.production)
+      this.getBungieTwitter();
+
     this.getNextPage();
   }
 
