@@ -17,6 +17,9 @@ dependencies {
     compile group: 'org.twitter4j', name: 'twitter4j-core', version: '4.0.4'
     compile group: 'org.twitter4j', name: 'twitter4j-appengine', version: '4.0.4'
     compile group: 'com.google.appengine', name: 'appengine-api-1.0-sdk', version: '1.9.51'
+    compile group: 'javax.servlet', name: 'jstl', version: '1.2'
 
     provided group: 'javax.servlet', name: 'servlet-api', version: '2.5'
+    provided group: 'javax.servlet.jsp', name: 'jsp-api', version: '2.1'
+
 }
