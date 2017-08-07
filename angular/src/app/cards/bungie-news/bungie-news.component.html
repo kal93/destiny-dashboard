@@ -1,5 +1,5 @@
 <!-- Dashboard Card Display Mode Only -->
-<div class="dd-card">
+<div class="dd-card-wrap">
   <dd-card-header [dashboardCard]="dashboardCard"></dd-card-header>
   <div class="dd-card-content dd-bungie-news" [@bounceChildrenFromLeft]="bungieTwitterResults?.tweets.length">
     <div *ngIf="bungieTwitterResults != null" class="tweets-wrap">

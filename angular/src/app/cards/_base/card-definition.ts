@@ -122,8 +122,8 @@ export class CardDefinitions {
     }, {
         id: -2, name: "News", cards: [
             { id: -3, sequence: 0, definitionId: 5, layoutId: 3, definition: CardDefinitions.definitions[5], layout: CardDefinitions.definitions[5].layouts[3] },
-            { id: -1, sequence: 1, definitionId: 4, layoutId: 2, definition: CardDefinitions.definitions[4], layout: CardDefinitions.definitions[4].layouts[2] },
-            { id: -2, sequence: 2, definitionId: 2, layoutId: 0, definition: CardDefinitions.definitions[2], layout: CardDefinitions.definitions[2].layouts[0] }
+            { id: -1, sequence: 1, definitionId: 4, layoutId: 1, definition: CardDefinitions.definitions[4], layout: CardDefinitions.definitions[4].layouts[1] },
+            { id: -2, sequence: 2, definitionId: 2, layoutId: 1, definition: CardDefinitions.definitions[2], layout: CardDefinitions.definitions[2].layouts[1] }
         ]
     }];
 
