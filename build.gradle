@@ -1,0 +1,9 @@
+plugins {
+    id 'idea'
+    id 'eclipse'
+}
+
+repositories {
+    mavenCentral()
+}
+

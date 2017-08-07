@@ -9,3 +9,8 @@ node_modules
 # IntelliJ
 .idea
 *.iml
+*.ipr
+*.iws
+
+# Generated gradle files
+.gradle
