@@ -6,7 +6,7 @@ This site will have every tool a Destiny player might need. No more jumping to 6
 
 This project will emphasize performance and cutting edge web development practices. Service Workers, HTTP level caching, AoT compiling, and efficient Manifest parsing are already included in the project.
 
-Search the repository for [HOW TO] for commits that serve as a guide on how to implement something. For example, there is a commit named [HOW TO] [Add a new card] that shows every piece of code needed to create a new card.
+Search the repository for [HOW TO] for commits that serve as a guide on how to implement something. For example, there is a commit named [HOW TO] [Add a new card] a7c0e9b8cde5e71355cba404137afb39f68f5ac8 that shows every piece of code needed to create a new card.
 
 # Dashboard
 A user can create multiple dashboards. Dashboards consist of one or more cards. The dashboard is the main interface for the application. Users can modify their dashboard as they please, and their changes will persist across devices and be linked to their Bungie account.
