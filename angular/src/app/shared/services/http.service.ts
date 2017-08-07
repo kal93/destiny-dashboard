@@ -70,6 +70,10 @@ export class HttpService implements OnDestroy {
 
         let headers = this.getDashboardHeaders();
 
+        //Use a prefix url if not serving the API from localhost
+        if (environment.useApiPrefix != "")
+            url = environment.useApiPrefix + url;
+
         return this.httpGet(url, headers).then((response) => {
             this.sharedApp.hideLoading(loadingId);
             return response;
@@ -85,6 +89,10 @@ export class HttpService implements OnDestroy {
 
         let headers = this.getDashboardHeaders();
 
+        //Use a prefix url if not serving the API from localhost
+        if (environment.useApiPrefix != "")
+            url = environment.useApiPrefix + url;
+
         return this.httpPost(url, body, headers).then((response) => {
             this.sharedApp.hideLoading(loadingId);
             return response;
@@ -99,6 +107,10 @@ export class HttpService implements OnDestroy {
         this.sharedApp.showLoading(loadingId);
 
         let headers = this.getDashboardHeaders();
+
+        //Use a prefix url if not serving the API from localhost
+        if (environment.useApiPrefix != "")
+            url = environment.useApiPrefix + url;
 
         return this.httpDelete(url, headers).then((response) => {
             this.sharedApp.hideLoading(loadingId);
@@ -134,6 +146,11 @@ export class HttpService implements OnDestroy {
             return this.refreshTokenPromise;
 
         let tokenUrl = authCodeOnce ? "api/bungie/accessToken" : "api/bungie/refreshToken";
+
+        //Use a prefix url if not serving the API from localhost
+        if (environment.useApiPrefix != "")
+            tokenUrl = environment.useApiPrefix + tokenUrl;
+
         let postBody = authCodeOnce ? authCodeOnce : this.sharedApp.accessToken;
         this.refreshTokenPromise = this.httpPost(tokenUrl, postBody).then((authResponse) => {
             //Refresh when the token is 98% expired

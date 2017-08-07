@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,12 +13,14 @@ import com.google.gson.GsonBuilder;
 
 import net.destinydashboard.repository.bungie.ManifestRepository;
 import net.destinydashboard.repository.bungie.ManifestRepository.IManifestRepository;
+import net.destinydashboard.servlet.BaseServlet;
 
-public class ManifestServlet extends HttpServlet
+public class ManifestServlet extends BaseServlet
 {
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
+        super.doGet(req, resp);
+        
         try {
-
             byte[] zippedManifest = ManifestRepository.downloadManifest();
 
             List<IManifestRepository> manifestTables = ManifestRepository.parseManifestDatabase(zippedManifest);
