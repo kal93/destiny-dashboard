@@ -102,6 +102,7 @@ There are 4 main setup steps for this project. Total setup time about 20 minutes
 - [x] Stackdriver logging
 - [ ] Add Card should show how many users have it installed
 - [ ] Ability for users to subscribe to push notifications for different cards
+- [ ] Add Cordova wrapper and push to iOS and Android stores
 - [ ] Localization to support all languages supported by the Manifest
 
 
@@ -121,8 +122,10 @@ There are 4 main setup steps for this project. Total setup time about 20 minutes
     - Has user completed the Daily, Weekly, Raids, Nightfall?
 - [ ] Game History Browser
 - [ ] Destiny Dashboard News
+- [ ] LFG/ Team finder with scheduling
 - [ ] Public Events ?
 - [ ] Dead Ghosts ?
+- [ ] Clan support ?
 - [ ] Your Idea Here
 
 ## Known issues
@@ -133,7 +136,7 @@ There are 4 main setup steps for this project. Total setup time about 20 minutes
 ## References
 1. [Bungie API](https://destiny-db.appspot.com/api/)
 2. [Reddit](https://www.reddit.com/r/DestinyDashboard/)
-3. [Discord](https://discordapp.com/invite/WJDSUgj)
+3. [Discord](https://discord.gg/A5fPSTa)
 4. [Bungie User Endpoints](https://www.bungie.net/platform/User/help/)
 5. [Bungie Destiny Endpoints](https://www.bungie.net/platform/destiny/help/)
 6. [Angular 2+ SSL Info](http://brianflove.com/2016/10/22/angular-cli-using-https/)

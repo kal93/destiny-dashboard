@@ -126,7 +126,7 @@ export class SharedApp {
     }
 
     getLocalStorage(key: string, defaultValue?: any): any {
-        if (this.localStorageDisabled) return;
+        if (this.localStorageDisabled) return defaultValue;
         var localStorageValue = localStorage.getItem(key);
         if (environment.production)
             localStorageValue = LZString.decompressFromUTF16(localStorageValue);
@@ -156,7 +156,7 @@ export class SharedApp {
     }
 
     getLocalStorageMap(key: string, defaultValue?: Map<any, any>) {
-        if (this.localStorageDisabled) return;
+        if (this.localStorageDisabled) return defaultValue;
         var localStorageValue = this.getLocalStorage(key);
         if (localStorageValue == null)
             return defaultValue;
@@ -174,7 +174,7 @@ export class SharedApp {
     }
 
     getLocalStorageAsJsonObject(key: string, defaultValue?: any): any {
-        if (this.localStorageDisabled) return;
+        if (this.localStorageDisabled) return defaultValue;
         var localStorageValue = this.getLocalStorage(key, null);
 
         // If local storage value doesn't exist, return the default value
@@ -199,7 +199,7 @@ export class SharedApp {
     }
 
     getSessionStorage(key: string, defaultValue?: any) {
-        if (this.localStorageDisabled) return;
+        if (this.localStorageDisabled) return defaultValue;
 
         var sessionStorageValue = sessionStorage.getItem(key);
         if (sessionStorageValue == null)
