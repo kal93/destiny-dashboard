@@ -37,15 +37,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/api/bungie/refreshToken/*</url-pattern>
 	</servlet-mapping>
 
-	<servlet>
-		<servlet-name>BungieManifest</servlet-name>
-		<servlet-class>net.destinydashboard.servlet.bungie.ManifestServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>BungieManifest</servlet-name>
-		<url-pattern>/api/bungie/manifest/*</url-pattern>
-	</servlet-mapping>
-
 	<!-- DASHBOARD -->
 	<servlet>
 		<servlet-name>Dashboard</servlet-name>
