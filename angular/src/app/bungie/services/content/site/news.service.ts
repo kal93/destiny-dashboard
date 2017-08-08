@@ -3,8 +3,7 @@ import { HttpRequestType, HttpService } from '../../../../shared/services/http.s
 import { SharedApp } from '../../../../shared/services/shared-app.service';
 import { SharedBungie } from '../../../shared-bungie.service';
 
-import { DestinyMembership } from '../../../../bungie/services/user/user.interface'
-import { INews } from './news.interface';
+import { DestinyMembership, INews } from '../../interface.barrel'
 import { NewsTypes } from '../../enums.interface';
 
 /** This Injectable manages the data layer for Destiny Accounts.*/

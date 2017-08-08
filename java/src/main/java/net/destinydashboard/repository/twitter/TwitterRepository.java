@@ -25,9 +25,9 @@ public class TwitterRepository
         if (twitterResponse != null)
             return twitterResponse;
 
-        String TWITTER_CONSUMER_KEY = "ta17zpvCoynaqFDMRaGlQXMiU";
+        String TWITTER_CONSUMER_KEY = System.getProperty("twitter-consumer-key");
         String TWITTER_SECRET_KEY = System.getProperty("twitter-secret-key");
-        String TWITTER_ACCESS_TOKEN = "875723640519708672-gOo9R5ni0r3q7lsvgGmenvAk3303rVk";
+        String TWITTER_ACCESS_TOKEN = System.getProperty("twitter-access-token");
         String TWITTER_ACCESS_TOKEN_SECRET = System.getProperty("twitter-secret-token");
 
         ConfigurationBuilder cb = new ConfigurationBuilder();
@@ -36,7 +36,7 @@ public class TwitterRepository
 
         Twitter twitter = new TwitterFactory(cb.build()).getInstance();
 
-        List<Status> statuses = twitter.getUserTimeline("bungie", new Paging(1, 10));
+        List<Status> statuses = twitter.getUserTimeline("bungie", new Paging(1, 6));
 
         twitterResponse = new ITwitterResponse();
 

@@ -45,12 +45,14 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 
 //Other components 
 import { AboutComponent } from './about/about.component';
-import { GamertagAutocompleteComponent } from './bungie/components/gamertag-autocomplete/gamertag-autocomplete.component';
 import { DownloadManifestComponent } from './bungie/manifest/download/download.component';
+import { GamertagAutocompleteComponent } from './bungie/components/gamertag-autocomplete/gamertag-autocomplete.component';
+import { MdTabCharacterHeadingComponent } from './bungie/components/md-tab-character-heading/md-tab-character-heading.component';
 
 //Cards
 import { BungieNewsComponent } from './cards/bungie-news/bungie-news.component';
 import { CountdownComponent } from './cards/countdown/countdown.component';
+import { ItemManagerComponent } from './cards/item-manager/item-manager.component';
 import { PublicEventsComponent } from './cards/public-events/public-events.component';
 import { RedditComponent } from './cards/reddit/reddit.component';
 import { StatsComponent } from './cards/stats/stats.component';
@@ -81,10 +83,10 @@ import { NumberFormatLocalePipe, RoundToDecimalPlacePipe } from './shared/pipes/
     AddCardComponent, CardHeaderComponent, CardLoaderComponent, DashboardComponent,
 
     //Other components 
-    AboutComponent, GamertagAutocompleteComponent, DownloadManifestComponent,
+    AboutComponent, DownloadManifestComponent, GamertagAutocompleteComponent, MdTabCharacterHeadingComponent,
 
     //Cards
-    BungieNewsComponent, CountdownComponent, PublicEventsComponent, RedditComponent, StatsComponent, TwitchComponent,
+    BungieNewsComponent, CountdownComponent, ItemManagerComponent, PublicEventsComponent, RedditComponent, StatsComponent, TwitchComponent,
 
     //Directives
     ModalDirective, MouseEventsDirective, ScrollWithElementDirective, Swipeable,

@@ -8,7 +8,7 @@ import { environment } from '../../../environments/environment';
 import { AlertDialog } from '../../dialog/alert.component';
 
 import { ISubNavItem, IToolbarItem } from '../../nav/nav.interface';
-import { delayBy } from '../decorators/delayBy.decorator';
+import { delayBy } from '../decorators';
 
 import { Subject } from 'rxjs/Subject';
 
