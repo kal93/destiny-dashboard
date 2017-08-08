@@ -1,0 +1,14 @@
+<div class="tab-label-wrap">
+  <div *ngIf="character != null" class="background" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.backgroundPath +')')">
+    <div class="emblem" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemPath +')')"></div>
+    <div class="class">{{character.characterBase.classHashValue.className}}</div>
+    <div class="race-gender">{{character.characterBase.raceHashValue.raceName}} {{character.characterBase.genderHashValue.genderName}}</div>
+    <div class="level">{{character.characterLevel}}</div>
+    <div class="light"><span class="star">&#10022;</span>{{character.characterBase.stats.STAT_LIGHT.value}}</div>
+  </div>
+  <div *ngIf="character == null" class="background summary">
+    <div class="emblem" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(' + nonCharacterIconPath + ')')"></div>
+    <div class="class">{{nonCharacterTitle}}</div>
+    <div class="race-gender">{{nonCharacterSubtitle}}</div>
+  </div>
+</div>

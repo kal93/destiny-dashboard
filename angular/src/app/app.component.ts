@@ -56,6 +56,7 @@ export class AppComponent {
           this.loadUser();
         }).catch((error) => {
           this.sharedApp.showError("There was an error when getting the Auth Token from Bungie. Please try again.", error);
+          this.setAppInitialized();
         });
       }
     }
