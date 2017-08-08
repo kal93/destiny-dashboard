@@ -6,7 +6,7 @@ import { SharedApp } from '../../../shared/services/shared-app.service';
 import { SharedBungie } from '../../shared-bungie.service';
 
 import { fadeInChildren, fadeInOut } from '../../../shared/animations';
-import { DestinyMembership, DestinyMembershipType } from '../../services/user/user.interface';
+import { DestinyMembership, DestinyMembershipType } from '../../services/interface.barrel';
 
 import 'rxjs/add/operator/startWith';
 

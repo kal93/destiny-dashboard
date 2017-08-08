@@ -3,8 +3,7 @@ import { HttpRequestType, HttpService } from '../../../shared/services/http.serv
 import { SharedApp } from '../../../shared/services/shared-app.service';
 import { SharedBungie } from '../../shared-bungie.service';
 
-import { DestinyMembership } from '../../../bungie/services/user/user.interface'
-import { ICharacterProgression } from './character-progression.interface';
+import { DestinyMembership, ICharacterProgression } from '../interface.barrel'
 
 /** This Injectable manages the data layer for Destiny Character Stats*/
 @Injectable()

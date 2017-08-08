@@ -1,25 +1,21 @@
 import { ChangeDetectorRef, Component, HostListener } from '@angular/core';
 import { MdDialog } from '@angular/material';
-import { HttpService } from './shared/services/http.service';
 import { ConfirmDialog } from './dialog/confirm.component';
-import { AccountStatsService } from './bungie/services/destiny/account-stats.service';
-import { AccountSummaryService } from './bungie/services/destiny/account-summary.service';
-import { BungieSiteNewsService } from './bungie/services/content/site/news.service';
-import { CharacterInventoryService } from './bungie/services/destiny/character-inventory.service';
-import { CharacterProgressionService } from './bungie/services/destiny/character-progression.service';
-import { CharacterStatsService } from './bungie/services/destiny/character-stats.service';
+import { HttpService } from './shared/services/http.service';
 import { ManifestService } from './bungie/manifest/manifest.service';
+import { SharedApp } from './shared/services/shared-app.service';
 import { SharedBungie } from './bungie/shared-bungie.service';
 import { SharedDashboard } from './dashboard/shared-dashboard.service';
-import { SharedApp } from './shared/services/shared-app.service';
-import { VaultSummaryService } from './bungie/services/destiny/vault-summary.service';
+
+import { AccountStatsService, AccountSummaryService, BungieSiteNewsService, CharacterInventoryService, CharacterProgressionService, CharacterStatsService, VaultSummaryService } from './bungie/services/service.barrel';
+
 import { ICard, IUserDashboard } from './cards/_base/card.interface';
-import { fadeInOut } from './shared/animations';
 
 import { Angulartics2GoogleAnalytics } from 'angulartics2';
 
 import { CardDefinitions } from './cards/_base/card-definition';
-import { delayBy } from './shared/decorators/delayBy.decorator';
+import { delayBy } from './shared/decorators';
+import { fadeInOut } from './shared/animations';
 
 @Component({
   selector: 'dd-app',

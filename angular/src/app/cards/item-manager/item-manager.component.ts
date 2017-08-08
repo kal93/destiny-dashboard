@@ -4,15 +4,10 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { CardComponent } from '../_base/card.component';
 import { SharedBungie } from '../../bungie/shared-bungie.service';
 import { SharedApp } from '../../shared/services/shared-app.service';
-import { AccountSummaryService } from '../../bungie/services/destiny/account-summary.service';
-import { CharacterInventoryService } from '../../bungie/services/destiny/character-inventory.service';
 import { ManifestService } from '../../bungie/manifest/manifest.service';
-import { VaultSummaryService } from '../../bungie/services/destiny/vault-summary.service';
 
-import { IAccountSummary, SummaryCharacter } from '../../bungie/services/destiny/account-summary.interface';
-import { ICharacterInventory, CharacterInventoryItem } from '../../bungie/services/destiny/character-inventory.interface';
-import { DestinyMembership } from '../../bungie/services/user/user.interface'
-import { IVaultSummary, VaultItem } from '../../bungie/services/destiny/vault-summary.interface';
+import { AccountSummaryService, CharacterInventoryService, VaultSummaryService } from '../../bungie/services/service.barrel';
+import { CharacterInventoryItem, DestinyMembership, IAccountSummary, ICharacterInventory, IVaultSummary, SummaryCharacter, VaultItem } from '../../bungie/services/interface.barrel';
 
 import { fadeIn } from '../../shared/animations';
 

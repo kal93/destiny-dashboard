@@ -5,10 +5,12 @@ import { CardComponent } from '../_base/card.component';
 import { SharedBungie } from '../../bungie/shared-bungie.service';
 import { SharedApp } from '../../shared/services/shared-app.service';
 import { ManifestService } from '../../bungie/manifest/manifest.service';
+import { AccountStatsService, AccountSummaryService, CharacterProgressionService, CharacterStatsService } from '../../bungie/services/service.barrel';
+
+import { GroupTypes, ModeTypes, PeriodTypes } from '../../bungie/services/enums.interface';
+import { DestinyMembership, IAccountStats, IAccountSummary, ICharacterStats, Progression, SummaryCharacter } from '../../bungie/services/interface.barrel';
 
 import { fadeIn } from '../../shared/animations';
-import { AccountStatsService, AccountSummaryService, CharacterProgressionService, CharacterStatsService, DestinyMembership, IAccountStats, IAccountSummary, ICharacterStats, ICharacterProgression, Progression, SummaryCharacter } from '../../bungie/services';
-import { GroupTypes, ModeTypes, PeriodTypes } from '../../bungie/services/enums.interface';
 
 @Component({
   selector: 'dd-stats',

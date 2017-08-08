@@ -3,8 +3,7 @@ import { HttpRequestType, HttpService } from '../../../shared/services/http.serv
 import { SharedApp } from '../../../shared/services/shared-app.service';
 import { SharedBungie } from '../../shared-bungie.service';
 
-import { DestinyMembership } from '../../../bungie/services/user/user.interface'
-import { ICharacterStats } from './character-stats.interface';
+import { DestinyMembership, ICharacterStats } from '../interface.barrel'
 import { GroupTypes, ModeTypes, PeriodTypes } from '../enums.interface';
 
 /** This Injectable manages the data layer for Destiny Character Stats*/

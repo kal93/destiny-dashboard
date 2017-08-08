@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { IAccountSummary, SummaryCharacter } from '../../services/destiny/account-summary.interface';
+import { IAccountSummary, SummaryCharacter } from '../../services/interface.barrel';
 
 @Component({
   selector: 'dd-md-tab-character-heading',

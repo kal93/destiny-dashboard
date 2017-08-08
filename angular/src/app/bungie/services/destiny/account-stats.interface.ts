@@ -19,7 +19,7 @@ export interface MergedCharacterData {
 }
 
 export interface Merged {
-    allTime: PvEStats | PvPStats;
+    allTime: PvEStats & PvPStats;
 }
 
 export interface Results {

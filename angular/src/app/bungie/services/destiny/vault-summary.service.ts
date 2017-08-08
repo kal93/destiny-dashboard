@@ -3,8 +3,7 @@ import { HttpRequestType, HttpService } from '../../../shared/services/http.serv
 import { SharedApp } from '../../../shared/services/shared-app.service';
 import { SharedBungie } from '../../shared-bungie.service';
 
-import { DestinyMembership } from '../../../bungie/services/user/user.interface'
-import { IVaultSummary } from './vault-summary.interface';
+import { DestinyMembership, IVaultSummary } from '../interface.barrel'
 
 @Injectable()
 export class VaultSummaryService {
