@@ -12,7 +12,9 @@
 		<property name="test-encoded-auth"
 			value="MTM3MTY6a3lIYXZpN3Y0SkRmelZkS2tIa21JYVZuR3hWSHFVS01wczZXWGdSQnRyaw==" />
 
+		<property name="twitter-consumer-key" value="abc123" />
 		<property name="twitter-secret-key" value="abc123" />
+		<property name="twitter-access-token" value="abc123" />
 		<property name="twitter-secret-token" value="abc123" />
 	</system-properties>
 
