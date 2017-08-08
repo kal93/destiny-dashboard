@@ -41,9 +41,6 @@ export class AppComponent {
   ngOnInit() {
     this.manifestService.loadManifest().then(() => {
       this.initApp();
-    }).catch((error) => {
-      this.sharedApp.showError("Could not load manifest!", error);
-      this.initApp();
     });
   }
 
@@ -65,12 +62,6 @@ export class AppComponent {
     else {
       this.loadUser();
     }
-
-    // Let the rest of the app know that the manifest has been loaded and the app is ready to go
-    this.sharedApp.appInitialized = true;
-
-    // Run CD since we are changing a variable that has been initialized during this function
-    this.changeDetectorRef.detectChanges();
   }
 
   welcomeUser() {
@@ -88,6 +79,7 @@ export class AppComponent {
       });
       this.sharedApp.setSessionStorage("LimitedFeaturesDialog", "");
     }
+    this.setAppInitialized();
   }
 
   loadUser() {
@@ -97,10 +89,21 @@ export class AppComponent {
       this.sharedDashboard.loadUser().then(() => {
         if (this.sharedApp.userPreferences.membershipIndex > this.sharedBungie.destinyMemberships.length - 1)
           this.sharedApp.userPreferences.membershipIndex = 0;
+        this.setAppInitialized();
+      }).catch((error) => {
+        this.setAppInitialized();
       });
     }).catch((error) => {
-      this.sharedApp.showError("There was an error when getting your layout. Please try again.", error);
+      this.setAppInitialized();
     });
+  }
+
+  setAppInitialized() {
+    // Let the rest of the app know that the manifest has been loaded and the app is ready to go
+    this.sharedApp.appInitialized = true;
+
+    // Run CD since we are changing a variable that has been initialized during this function
+    this.changeDetectorRef.detectChanges();
   }
 
   //Global dom events
