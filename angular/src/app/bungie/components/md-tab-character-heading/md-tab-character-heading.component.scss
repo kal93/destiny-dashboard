@@ -16,12 +16,12 @@
         color: $app-text-light;
         line-height: 16px;
 
-        &.summary {
+        &.non-character {
             background-color: #1B5E20;
             color: $app-text-light;
             opacity: .98;
 
-            .emblem {
+            .icon {
                 left: 12px;
                 top: 14px;
                 width: 22px;
@@ -29,7 +29,7 @@
                 border-radius: 50%;
             }
 
-            .class {
+            .top-left {
                 font-size: 1em;
                 left: 44px;
                 top: 9px;
@@ -40,12 +40,12 @@
                 text-align: left;
             }
 
-            .race-gender {
+            .bottom-left {
                 left: 44px;
             }
         }
 
-        .emblem {
+        .icon {
             position: absolute;
             left: 8px;
             top: 8px;
@@ -56,7 +56,7 @@
             display: inline-block;
         }
 
-        .class {
+        .top-left {
             position: absolute;
             display: inline-block;
             font-size: 1.1em;
@@ -64,7 +64,7 @@
             top: 9px;
         }
 
-        .race-gender {
+        .bottom-left {
             position: absolute;
             display: inline-block;
             font-size: .85em;
@@ -74,14 +74,14 @@
             opacity: .8;
         }
 
-        .level {
+        .top-right {
             position: absolute;
             top: 9px;
             right: 7px;
             font-size: 1.4em;
         }
 
-        .light {
+        .bottom-right {
             position: absolute;
             top: 25px;
             right: 7px;
