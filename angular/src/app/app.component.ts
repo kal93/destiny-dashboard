@@ -5,12 +5,14 @@ import { ConfirmDialog } from './dialog/confirm.component';
 import { AccountStatsService } from './bungie/services/destiny/account-stats.service';
 import { AccountSummaryService } from './bungie/services/destiny/account-summary.service';
 import { BungieSiteNewsService } from './bungie/services/content/site/news.service';
+import { CharacterInventoryService } from './bungie/services/destiny/character-inventory.service';
 import { CharacterProgressionService } from './bungie/services/destiny/character-progression.service';
 import { CharacterStatsService } from './bungie/services/destiny/character-stats.service';
 import { ManifestService } from './bungie/manifest/manifest.service';
 import { SharedBungie } from './bungie/shared-bungie.service';
 import { SharedDashboard } from './dashboard/shared-dashboard.service';
 import { SharedApp } from './shared/services/shared-app.service';
+import { VaultSummaryService } from './bungie/services/destiny/vault-summary.service';
 import { ICard, IUserDashboard } from './cards/_base/card.interface';
 import { fadeInOut } from './shared/animations';
 
@@ -30,8 +32,8 @@ import { delayBy } from './shared/decorators/delayBy.decorator';
     </div>
   </div>
   `,
-  providers: [AccountStatsService, AccountSummaryService, CharacterStatsService, CharacterProgressionService, HttpService,
-    ManifestService, BungieSiteNewsService, SharedBungie, SharedDashboard],
+  providers: [AccountStatsService, AccountSummaryService, BungieSiteNewsService, CharacterInventoryService, CharacterProgressionService, CharacterStatsService, HttpService,
+    ManifestService, SharedBungie, SharedDashboard, VaultSummaryService],
   animations: [fadeInOut()]
 })
 export class AppComponent {

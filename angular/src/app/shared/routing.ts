@@ -7,6 +7,7 @@ import { AboutComponent } from '../about/about.component';
 
 import { BungieNewsComponent } from '../cards/bungie-news/bungie-news.component';
 import { CountdownComponent } from '../cards/countdown/countdown.component';
+import { ItemManagerComponent } from '../cards/item-manager/item-manager.component';
 import { PublicEventsComponent } from '../cards/public-events/public-events.component';
 import { DownloadManifestComponent } from '../bungie/manifest/download/download.component';
 import { RedditComponent } from '../cards/reddit/reddit.component';
@@ -78,13 +79,19 @@ const routes: Routes = [
         }
     },
     {
+        canActivate: [AuthGuard],
+        path: 'item-manager', component: ItemManagerComponent, data: {
+            animation: 'card',
+            title: "Item Manager"
+        }
+    },
+    {
         path: 'public-events', component: PublicEventsComponent, data: {
             animation: 'card',
             title: "Public Events"
         }
     },
     {
-        //canActivate: [AuthGuard],
         path: 'stats', component: StatsComponent, data: {
             animation: 'card',
             title: "Stats"

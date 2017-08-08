@@ -1,0 +1,39 @@
+@import '../../../styles/theme.scss';
+
+//Blue grey color pallette https://material.io/guidelines/style/color.html#color-color-palette
+
+//These styles apply to both dashboard and fullscreen
+.dd-item-manager {
+    background-color: #37474F;
+    color: $app-text-light;
+
+    .mat-tab-group {
+        height: 100%;
+
+        ::ng-deep .mat-tab-label-active {
+            opacity: 1;
+        }
+
+        ::ng-deep .mat-tab-body-wrapper {
+            height: calc(100% - 115px);
+
+            .mat-tab-body {
+                height: 100%;
+
+                .mat-tab-body-content {
+                    overflow: auto;
+                }
+            }
+        }
+    }
+}
+
+//These styles only applies to dashboard cards
+.dd-card-content.dd-item-manager {
+    height: calc(100% - 40px);
+}
+
+//These styles only apply to fullscreen mode
+.dd-fullscreen.dd-item-manager {
+    height: 100%;
+}

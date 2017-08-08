@@ -109,6 +109,21 @@ export class CardDefinitions {
         isExternalRoute: true,
         lastUpdated: 1501718581327,
         previewImageClass: "dd-bungie-news-preview"
+    },
+    {
+        id: 6,
+        title: "Item Manager",
+        description: "Manage your vault and inventories.",
+        rating: 5,
+        route: "item-manager",
+        layouts: [
+            { rows: 2, cols: 2 }, { rows: 3, cols: 2 },
+            { rows: 2, cols: 3 }, { rows: 3, cols: 3 }, { rows: 4, cols: 3 }
+        ],
+        requiresLogin: true,
+        isExternalRoute: false,
+        lastUpdated: 1502124275046,
+        previewImageClass: "dd-item-manager-preview"
     }];
 
     static defaultDashboards: Array<IUserDashboard> = [{
