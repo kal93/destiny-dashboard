@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { IAccountSummary, Character } from '../../services/destiny/account-summary.interface';
+import { IAccountSummary, SummaryCharacter } from '../../services/destiny/account-summary.interface';
 
 @Component({
   selector: 'dd-md-tab-character-heading',
@@ -9,7 +9,7 @@ import { IAccountSummary, Character } from '../../services/destiny/account-summa
 })
 export class MdTabCharacterHeadingComponent {
   @Input()
-  public character: Character;
+  public character: SummaryCharacter;
 
   // This component can also be used to show a placeholder md-tab, which is not a Character
   @Input()

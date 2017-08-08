@@ -7,12 +7,11 @@
         <dd-gamertag-autocomplete [autocompleteId]="'stats'" (membershipSelected)="membershipSelected($event)" (initialMembership)="membershipSelected($event)"></dd-gamertag-autocomplete>
       </div>
 
-      <md-tab-group #tabGroup (selectedIndexChange)="selectedTabIndexChanged($event)">
-
+      <md-tab-group #tabGroup *ngIf="selectedMembership != null" (selectedIndexChange)="selectedTabIndexChanged($event)">
         <!-- Account Wide Stats -->
         <md-tab>
           <ng-template md-tab-label>
-            <dd-md-tab-character-heading *ngIf="selectedMembership != null" [nonCharacterTitle]="selectedMembership.displayName" [nonCharacterSubtitle]="'Player Summary'"
+            <dd-md-tab-character-heading [nonCharacterTitle]="selectedMembership.displayName" [nonCharacterSubtitle]="'Player Summary'"
               [nonCharacterIconPath]="'https://www.bungie.net' + selectedMembership.iconPath"></dd-md-tab-character-heading>
           </ng-template>
 

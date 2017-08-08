@@ -2,13 +2,13 @@
 export interface IAccountSummary {
     membershipId: string;
     membershipType: number;
-    characters: Character[];
+    characters: SummaryCharacter[];
     inventory: Inventory;
     grimoireScore: number;
     versions: number;
 }
 
-export interface Character {
+export interface SummaryCharacter {
     characterBase: CharacterBase;
     levelProgression: LevelProgression;
     emblemPath: string;
