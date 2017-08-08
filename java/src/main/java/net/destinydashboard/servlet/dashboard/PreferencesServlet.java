@@ -35,7 +35,6 @@ public class PreferencesServlet extends BaseServlet
                 IUserPreferences userPreferences = PreferenceRepository.loadUserPreferences(membershipId, conn);
 
                 resp.getWriter().write(new Gson().toJson(userPreferences));
-                resp.setStatus(HttpURLConnection.HTTP_OK);
             }
 
         }

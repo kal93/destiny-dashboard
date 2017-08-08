@@ -37,7 +37,6 @@ public class DashboardServlet extends BaseServlet
 
                 resp.getWriter().write(new Gson().toJson(userDashboards));
             }
-
         }
         catch (Exception e) {
             Logger.getLogger("DashboardServlet").log(Level.SEVERE, e.getMessage(), e);
