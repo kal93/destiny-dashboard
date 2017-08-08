@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { MdDialogRef } from '@angular/material';
 
-
 @Component({
     template: `<h1 md-dialog-title>{{title}}</h1>
                 <div md-dialog-content>{{message}}</div>

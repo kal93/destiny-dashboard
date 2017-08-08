@@ -3,12 +3,11 @@ import { FormControl } from '@angular/forms';
 import { MdOptionSelectionChange } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SharedApp } from '../../../shared/services/shared-app.service';
-import { SharedBungie } from '../../../bungie/shared-bungie.service';
+import { SharedBungie } from '../../shared-bungie.service';
 
 import { fadeInChildren, fadeInOut } from '../../../shared/animations';
-import { DestinyMembership, DestinyMembershipType } from '../../services/user/user.interface';
+import { DestinyMembership, DestinyMembershipType } from '../../services/interface.barrel';
 
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/startWith';
 
 @Component({

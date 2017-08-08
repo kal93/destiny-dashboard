@@ -1,0 +1,25 @@
+<div>
+  <div [class.dd-card-wrap]="!isFullscreen">
+    <dd-card-header *ngIf="!isFullscreen" [dashboardCard]="dashboardCard"></dd-card-header>
+    <div class="dd-item-manager" [class.dd-fullscreen]="isFullscreen" [class.dd-card-content]="!isFullscreen">
+
+      <md-tab-group #tabGroup *ngIf="selectedMembership != null" (selectedIndexChange)="selectedTabIndexChanged($event)">
+        <!-- Account Wide Stats -->
+        <md-tab>
+          <ng-template md-tab-label>
+            <dd-md-tab-character-heading [nonCharacterTitle]="'Vault'" [nonCharacterSubtitle]="selectedMembership.displayName" [nonCharacterIconPath]="'https://www.bungie.net/img/theme/destiny/icons/icon_vault.png'"></dd-md-tab-character-heading>
+          </ng-template>
+          <div *ngIf="accountStats != null && accountSummary != null" class="sub-tab-wrap">
+          </div>
+        </md-tab>
+
+        <!-- Character Specific Data -->
+        <md-tab *ngFor="let character of accountSummary?.characters; let i = index">
+          <ng-template md-tab-label>
+            <dd-md-tab-character-heading [character]="character"></dd-md-tab-character-heading>
+          </ng-template>
+        </md-tab>
+      </md-tab-group>
+    </div>
+  </div>
+</div>

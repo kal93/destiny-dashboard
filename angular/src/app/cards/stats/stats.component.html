@@ -7,18 +7,12 @@
         <dd-gamertag-autocomplete [autocompleteId]="'stats'" (membershipSelected)="membershipSelected($event)" (initialMembership)="membershipSelected($event)"></dd-gamertag-autocomplete>
       </div>
 
-      <md-tab-group #tabGroup (selectedIndexChange)="selectedTabIndexChanged($event)">
-
+      <md-tab-group #tabGroup *ngIf="selectedMembership != null" (selectedIndexChange)="selectedTabIndexChanged($event)">
         <!-- Account Wide Stats -->
         <md-tab>
           <ng-template md-tab-label>
-            <div class="tab-label-wrap">
-              <div *ngIf="selectedMembership != null" class="background summary">
-                <div class="emblem" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + selectedMembership.iconPath  +')')"></div>
-                <div class="class">{{selectedMembership.displayName}}</div>
-                <div class="race-gender">Player Summary</div>
-              </div>
-            </div>
+            <dd-md-tab-character-heading [nonCharacterTitle]="selectedMembership.displayName" [nonCharacterSubtitle]="'Player Summary'"
+              [nonCharacterIconPath]="'https://www.bungie.net' + selectedMembership.iconPath"></dd-md-tab-character-heading>
           </ng-template>
 
           <div *ngIf="accountStats != null && accountSummary != null" class="sub-tab-wrap">
@@ -92,15 +86,7 @@
         <!-- Character Specific Data -->
         <md-tab *ngFor="let character of accountSummary?.characters; let i = index">
           <ng-template md-tab-label>
-            <div class="tab-label-wrap">
-              <div class="background" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.backgroundPath +')')">
-                <div class="emblem" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemPath +')')"></div>
-                <div class="class">{{character.characterBase.classHashValue.className}}</div>
-                <div class="race-gender">{{character.characterBase.raceHashValue.raceName}} {{character.characterBase.genderHashValue.genderName}}</div>
-                <div class="level">{{character.characterLevel}}</div>
-                <div class="light"><span class="star">&#10022;</span>{{character.characterBase.stats.STAT_LIGHT.value}}</div>
-              </div>
-            </div>
+            <dd-md-tab-character-heading [character]="character"></dd-md-tab-character-heading>
           </ng-template>
 
           <nav class="dd-nav">

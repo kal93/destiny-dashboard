@@ -1,23 +1,21 @@
 import { ChangeDetectorRef, Component, HostListener } from '@angular/core';
 import { MdDialog } from '@angular/material';
-import { HttpService } from './shared/services/http.service';
 import { ConfirmDialog } from './dialog/confirm.component';
-import { AccountStatsService } from './bungie/services/destiny/account-stats.service';
-import { AccountSummaryService } from './bungie/services/destiny/account-summary.service';
-import { BungieSiteNewsService } from './bungie/services/content/site/news.service';
-import { CharacterProgressionService } from './bungie/services/destiny/character-progression.service';
-import { CharacterStatsService } from './bungie/services/destiny/character-stats.service';
+import { HttpService } from './shared/services/http.service';
 import { ManifestService } from './bungie/manifest/manifest.service';
+import { SharedApp } from './shared/services/shared-app.service';
 import { SharedBungie } from './bungie/shared-bungie.service';
 import { SharedDashboard } from './dashboard/shared-dashboard.service';
-import { SharedApp } from './shared/services/shared-app.service';
+
+import { AccountStatsService, AccountSummaryService, BungieSiteNewsService, CharacterInventoryService, CharacterProgressionService, CharacterStatsService, VaultSummaryService } from './bungie/services/service.barrel';
+
 import { ICard, IUserDashboard } from './cards/_base/card.interface';
-import { fadeInOut } from './shared/animations';
 
 import { Angulartics2GoogleAnalytics } from 'angulartics2';
 
 import { CardDefinitions } from './cards/_base/card-definition';
-import { delayBy } from './shared/decorators/delayBy.decorator';
+import { delayBy } from './shared/decorators';
+import { fadeInOut } from './shared/animations';
 
 @Component({
   selector: 'dd-app',
@@ -30,8 +28,8 @@ import { delayBy } from './shared/decorators/delayBy.decorator';
     </div>
   </div>
   `,
-  providers: [AccountStatsService, AccountSummaryService, CharacterStatsService, CharacterProgressionService, HttpService,
-    ManifestService, BungieSiteNewsService, SharedBungie, SharedDashboard],
+  providers: [AccountStatsService, AccountSummaryService, BungieSiteNewsService, CharacterInventoryService, CharacterProgressionService, CharacterStatsService, HttpService,
+    ManifestService, SharedBungie, SharedDashboard, VaultSummaryService],
   animations: [fadeInOut()]
 })
 export class AppComponent {
@@ -40,9 +38,6 @@ export class AppComponent {
 
   ngOnInit() {
     this.manifestService.loadManifest().then(() => {
-      this.initApp();
-    }).catch((error) => {
-      this.sharedApp.showError("Could not load manifest!", error);
       this.initApp();
     });
   }
@@ -59,18 +54,13 @@ export class AppComponent {
           this.loadUser();
         }).catch((error) => {
           this.sharedApp.showError("There was an error when getting the Auth Token from Bungie. Please try again.", error);
+          this.setAppInitialized();
         });
       }
     }
     else {
       this.loadUser();
     }
-
-    // Let the rest of the app know that the manifest has been loaded and the app is ready to go
-    this.sharedApp.appInitialized = true;
-
-    // Run CD since we are changing a variable that has been initialized during this function
-    this.changeDetectorRef.detectChanges();
   }
 
   welcomeUser() {
@@ -88,6 +78,7 @@ export class AppComponent {
       });
       this.sharedApp.setSessionStorage("LimitedFeaturesDialog", "");
     }
+    this.setAppInitialized();
   }
 
   loadUser() {
@@ -97,10 +88,21 @@ export class AppComponent {
       this.sharedDashboard.loadUser().then(() => {
         if (this.sharedApp.userPreferences.membershipIndex > this.sharedBungie.destinyMemberships.length - 1)
           this.sharedApp.userPreferences.membershipIndex = 0;
+        this.setAppInitialized();
+      }).catch((error) => {
+        this.setAppInitialized();
       });
     }).catch((error) => {
-      this.sharedApp.showError("There was an error when getting your layout. Please try again.", error);
+      this.setAppInitialized();
     });
+  }
+
+  setAppInitialized() {
+    // Let the rest of the app know that the manifest has been loaded and the app is ready to go
+    this.sharedApp.appInitialized = true;
+
+    // Run CD since we are changing a variable that has been initialized during this function
+    this.changeDetectorRef.detectChanges();
   }
 
   //Global dom events

@@ -7,7 +7,7 @@ import { SharedDashboard } from './shared-dashboard.service';
 import { ConfirmDialog } from '../dialog/confirm.component';
 import { SimpleInputDialog } from '../dialog/simple-input.component';
 
-import { debounceBy } from '../shared/decorators/debounceBy.decorator';
+import { debounceBy } from '../shared/decorators';
 import { fadeInChildren, fadeInOut } from '../shared/animations';
 import { ISubNavItem, IToolbarItem } from '../nav/nav.interface';
 import { ICard, IUserDashboard } from '../cards/_base/card.interface';

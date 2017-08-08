@@ -173,7 +173,7 @@ export class HttpService implements OnDestroy {
     private checkBungieRefreshToken(): Promise<any> {
         if (this.sharedApp.accessToken != null && this.sharedApp.accessTokenExpires <= Date.now())
             return this.getBungieTokenResponse().catch((error) => {
-                this.sharedApp.showError("There was an error when trying to Refresh Token. Try to log in again.");
+                console.log("There was an error when trying to Refresh Token.");
             });
         else
             return Promise.resolve();
@@ -210,8 +210,8 @@ export class HttpService implements OnDestroy {
                         //Give more detail for errors we have some info about
                         switch (error.status) {
                             case 401:
-                                //Don't reject() it since we know how to handle this error code
-                                this.sharedApp.showError("Authentication error when trying to get data from Bungie. Please try to log in again.", error);
+                                this.sharedApp.showError("Authentication error when trying to connect to Bungie. Please try to log in again.", error);
+                                reject(error);
                                 break;
 
                             default:

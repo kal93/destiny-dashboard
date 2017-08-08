@@ -4,20 +4,13 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { CardComponent } from '../_base/card.component';
 import { SharedBungie } from '../../bungie/shared-bungie.service';
 import { SharedApp } from '../../shared/services/shared-app.service';
-import { AccountStatsService } from '../../bungie/services/destiny/account-stats.service';
-import { AccountSummaryService } from '../../bungie/services/destiny/account-summary.service';
 import { ManifestService } from '../../bungie/manifest/manifest.service';
+import { AccountStatsService, AccountSummaryService, CharacterProgressionService, CharacterStatsService } from '../../bungie/services/service.barrel';
 
-import { CharacterProgressionService } from '../../bungie/services/destiny/character-progression.service';
-import { CharacterStatsService } from '../../bungie/services/destiny/character-stats.service';
+import { GroupTypes, ModeTypes, PeriodTypes } from '../../bungie/services/enums.interface';
+import { DestinyMembership, IAccountStats, IAccountSummary, ICharacterStats, Progression, SummaryCharacter } from '../../bungie/services/interface.barrel';
 
 import { fadeIn } from '../../shared/animations';
-import { IAccountStats } from '../../bungie/services/destiny/account-stats.interface';
-import { IAccountSummary, Character } from '../../bungie/services/destiny/account-summary.interface';
-import { ICharacterProgression, Progression } from '../../bungie/services/destiny/character-progression.interface';
-import { ICharacterStats } from '../../bungie/services/destiny/character-stats.interface';
-import { GroupTypes, ModeTypes, PeriodTypes } from '../../bungie/services/enums.interface';
-import { DestinyMembership } from '../../bungie/services/user/user.interface'
 
 @Component({
   selector: 'dd-stats',
@@ -76,7 +69,7 @@ export class StatsComponent extends CardComponent {
     //Get Account Summary to get the list of available characters
     this.accountSummaryService.getAccountSummary(this.selectedMembership).then((accountSummary: IAccountSummary) => {
       this.accountSummary = accountSummary;
-      this.accountSummary.characters.forEach((character: Character) => {
+      this.accountSummary.characters.forEach((character: SummaryCharacter) => {
         character.characterBase.classHashValue = this.manifestService.getManifestEntry("DestinyClassDefinition", character.characterBase.classHash);
         character.characterBase.genderHashValue = this.manifestService.getManifestEntry("DestinyGenderDefinition", character.characterBase.genderHash);
         character.characterBase.raceHashValue = this.manifestService.getManifestEntry("DestinyRaceDefinition", character.characterBase.raceHash);

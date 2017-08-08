@@ -26,7 +26,7 @@ export class ManifestService {
         return this.manifestMap.get(table);
     }
 
-    public loadManifest() {
+    public loadManifest(): Promise<any> {
         var loadingId = Date.now();
         this.sharedApp.showLoading(loadingId);
         return new Promise((resolve, reject) => {
@@ -68,6 +68,7 @@ export class ManifestService {
                     });
                 });
             }).catch((error) => {
+                this.sharedApp.showError("Could not load manifest!", error);
                 this.sharedApp.hideLoading(loadingId);
                 reject(error);
             });

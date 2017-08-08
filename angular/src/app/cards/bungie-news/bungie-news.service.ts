@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
 import { HttpRequestType, HttpService } from '../../shared/services/http.service';
-import { BungieSiteNewsService } from '../../bungie/services/content/site/news.service';
+import { BungieSiteNewsService } from '../../bungie/services/service.barrel';
 
-import { INews } from '../../bungie/services/content/site/news.interface';
+import { INews } from '../../bungie/services/interface.barrel';
 import { ITwitterReponse } from './bungie-news.interface';
 import { NewsTypes } from '../../bungie/services/enums.interface';
 

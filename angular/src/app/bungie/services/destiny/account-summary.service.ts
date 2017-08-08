@@ -3,8 +3,7 @@ import { HttpRequestType, HttpService } from '../../../shared/services/http.serv
 import { SharedApp } from '../../../shared/services/shared-app.service';
 import { SharedBungie } from '../../shared-bungie.service';
 
-import { DestinyMembership } from '../../../bungie/services/user/user.interface'
-import { IAccountSummary } from './account-summary.interface';
+import { DestinyMembership, IAccountSummary, INews } from '../interface.barrel'
 
 import 'rxjs/add/operator/map';
 

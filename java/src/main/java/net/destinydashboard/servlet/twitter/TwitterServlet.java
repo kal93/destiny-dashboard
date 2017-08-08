@@ -24,7 +24,8 @@ public class TwitterServlet extends BaseServlet
             ITwitterResponse twitterResponse = null;
             if (twitterType.equals("bungie"))
                 twitterResponse = TwitterRepository.getBungieTwitter();
-
+            
+            resp.setCharacterEncoding("UTF8");
             resp.getWriter().write(new Gson().toJson(twitterResponse));
             resp.setStatus(HttpURLConnection.HTTP_OK);
         }

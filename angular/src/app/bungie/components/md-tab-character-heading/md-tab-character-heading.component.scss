@@ -1,0 +1,98 @@
+@import '../../../../styles/theme.scss';
+
+::ng-deep .mat-tab-label-active {
+    opacity: 1;
+}
+
+.tab-label-wrap {
+    margin: 0 -8px;
+
+    .background {
+        margin-top: 6px;
+        width: 177px;
+        height: 36px;
+        background-repeat: no-repeat;
+        background-size: contain;
+        color: $app-text-light;
+        line-height: 16px;
+
+        &.summary {
+            background-color: #1B5E20;
+            color: $app-text-light;
+            opacity: .98;
+
+            .emblem {
+                left: 12px;
+                top: 14px;
+                width: 22px;
+                height: 22px;
+                border-radius: 50%;
+            }
+
+            .class {
+                font-size: 1em;
+                left: 44px;
+                top: 9px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 135px;
+                text-align: left;
+            }
+
+            .race-gender {
+                left: 44px;
+            }
+        }
+
+        .emblem {
+            position: absolute;
+            left: 8px;
+            top: 8px;
+            width: 32px;
+            height: 32px;
+            background-repeat: no-repeat;
+            background-size: contain;
+            display: inline-block;
+        }
+
+        .class {
+            position: absolute;
+            display: inline-block;
+            font-size: 1.1em;
+            left: 47px;
+            top: 9px;
+        }
+
+        .race-gender {
+            position: absolute;
+            display: inline-block;
+            font-size: .85em;
+            left: 48px;
+            top: 24px;
+            letter-spacing: 1px;
+            opacity: .8;
+        }
+
+        .level {
+            position: absolute;
+            top: 9px;
+            right: 7px;
+            font-size: 1.4em;
+        }
+
+        .light {
+            position: absolute;
+            top: 25px;
+            right: 7px;
+            font-size: .8em;
+            color: #FFEB3B;
+            display: flex;
+
+            .star {
+                font-size: .7em;
+                margin-right: 1px;
+            }
+        }
+    }
+}
