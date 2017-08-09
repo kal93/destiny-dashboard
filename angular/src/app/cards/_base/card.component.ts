@@ -1,10 +1,10 @@
-import { Input } from '@angular/core';
+import {Input, OnDestroy, OnInit} from '@angular/core';
 import { MdProgressSpinner } from '@angular/material';
-import { SharedApp } from '../../shared/services/shared-app.service';
+import { SharedApp } from 'app/shared/services/shared-app.service';
 
 import { ICard } from './card.interface';
 
-export class CardComponent {
+export class CardComponent implements OnInit, OnDestroy{
   //Should be populated at constructor time in every child
   CARD_DEFINITION_ID: number;
 
@@ -15,8 +15,6 @@ export class CardComponent {
   localStorageId: string;
 
   public isFullscreen: boolean = false;
-
-
 
   constructor(public sharedApp: SharedApp) {
   }

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CardComponent } from '../_base/card.component';
-import { SharedApp } from '../../shared/services/shared-app.service';
+import { SharedApp } from 'app/shared/services/shared-app.service';
 
 @Component({
   selector: 'dd-countdown',

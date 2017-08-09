@@ -1,9 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
-import { SharedApp } from '../../shared/services/shared-app.service';
+import { SharedApp } from 'app/shared/services/shared-app.service';
 import { CardComponent } from '../_base/card.component';
 import { TwitchService } from './twitch.service';
 import { ITwitchData, ITwitchResponse } from './twitch.interface';
-import { bounceChildrenFromLeft } from '../../shared/animations';
+import { bounceChildrenFromLeft } from 'app/shared/animations';
 
 @Component({
   selector: 'dd-twitch',
@@ -18,7 +18,7 @@ export class TwitchComponent extends CardComponent {
   public hiddenTwitchStreams = new Array<ITwitchData>();
   public displayedTwitchStreams = new Array<ITwitchData>();
 
-  constructor(public sharedApp: SharedApp, public twitchService: TwitchService) {
+  constructor(public sharedApp: SharedApp, private twitchService: TwitchService) {
     super(sharedApp);
   }
 

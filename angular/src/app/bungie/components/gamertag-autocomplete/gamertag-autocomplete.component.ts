@@ -2,11 +2,11 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@ang
 import { FormControl } from '@angular/forms';
 import { MdOptionSelectionChange } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
-import { SharedApp } from '../../../shared/services/shared-app.service';
-import { SharedBungie } from '../../shared-bungie.service';
+import { SharedApp } from 'app/shared/services/shared-app.service';
+import { SharedBungie } from 'app/bungie/shared-bungie.service';
 
-import { fadeInChildren, fadeInOut } from '../../../shared/animations';
-import { DestinyMembership, DestinyMembershipType } from '../../services/interface.barrel';
+import { fadeInChildren, fadeInOut } from 'app/shared/animations';
+import { DestinyMembership, DestinyMembershipType } from 'app/bungie/services/interface.barrel';
 
 import 'rxjs/add/operator/startWith';
 

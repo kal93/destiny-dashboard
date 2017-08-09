@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { HttpRequestType, HttpService } from '../../../shared/services/http.service';
-import { SharedApp } from '../../../shared/services/shared-app.service';
-import { FileUtils } from '../../../shared/utilities/FileUtils';
+import { HttpRequestType, HttpService } from 'app/shared/services/http.service';
+import { SharedApp } from 'app/shared/services/shared-app.service';
+import { FileUtils } from 'app/shared/utilities/FileUtils';
 import { IDestinyManifestMeta } from './download.interface';
 import { environment } from '../../../../environments/environment';
 

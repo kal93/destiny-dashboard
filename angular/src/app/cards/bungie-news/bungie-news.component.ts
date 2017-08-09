@@ -1,14 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CardComponent } from '../_base/card.component';
-import { SharedApp } from '../../shared/services/shared-app.service';
+import { SharedApp } from 'app/shared/services/shared-app.service';
 import { BungieNewsService } from './bungie-news.service';
 
-import { INews, INewsResult } from '../../bungie/services/interface.barrel';
+import { INews, INewsResult } from 'app/bungie/services/interface.barrel';
 import { ITwitterReponse, Tweet } from './bungie-news.interface';
-import { NewsTypes } from '../../bungie/services/enums.interface';
+import { NewsTypes } from 'app/bungie/services/enums.interface';
 
-import { bounceChildrenFromLeft } from '../../shared/animations';
+import { bounceChildrenFromLeft } from 'app/shared/animations';
 import { environment } from '../../../environments/environment';
 
 @Component({
