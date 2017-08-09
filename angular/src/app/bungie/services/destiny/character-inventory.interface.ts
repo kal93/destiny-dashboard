@@ -1,4 +1,5 @@
 import { Progression, Stat3 } from "./_shared.interface";
+import { InventoryItem } from "./manifest/inventory-item.interface";
 
 export interface ICharacterInventory {
   buckets: Buckets;
@@ -22,37 +23,40 @@ interface Equippable {
 }
 
 export interface CharacterInventoryItem {
-  itemHash: number;
+  artRegions: ArtRegions;
   bindStatus: number;
-  isEquipped: boolean;
-  itemInstanceId: string;
-  itemLevel: number;
-  stackSize: number;
-  qualityLevel: number;
-  stats: Stat3[];
   canEquip: boolean;
-  equipRequiredLevel: number;
-  unlockFlagHashRequiredToEquip: number;
   cannotEquipReason: number;
   damageType: number;
   damageTypeHash: number;
   damageTypeNodeIndex: number;
   damageTypeStepIndex: number;
-  progression?: Progression;
-  talentGridHash: number;
-  nodes: Node[];
-  useCustomDyes: boolean;
-  artRegions: ArtRegions;
+  equipRequiredLevel: number;
   isEquipment: boolean;
+  isEquipped: boolean;
   isGridComplete: boolean;
-  perks: Perk[];
+  itemHash: number;
+  itemInstanceId: string;
+  itemLevel: number;
   location: number;
-  transferStatus: number;
-  locked: boolean;
   lockable: boolean;
+  locked: boolean;
+  nodes: Node[];
   objectives: any[];
-  state: number;
+  perks: Perk[];
   primaryStat?: Stat3;
+  progression?: Progression;
+  qualityLevel: number;
+  stackSize: number;
+  state: number;
+  stats: Stat3[];
+  talentGridHash: number;
+  transferStatus: number;
+  unlockFlagHashRequiredToEquip: number;
+  useCustomDyes: boolean;
+
+  //Runtime variable
+  itemValue: InventoryItem;
 }
 
 interface Perk {

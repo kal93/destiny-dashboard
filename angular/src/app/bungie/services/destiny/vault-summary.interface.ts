@@ -1,3 +1,6 @@
+import { Stat3 } from "./_shared.interface";
+import { InventoryItem } from "./manifest/inventory-item.interface";
+
 export interface IVaultSummary {
     items: VaultItem[];
 }
@@ -13,11 +16,15 @@ export interface VaultItem {
     state: number;
     characterIndex: number;
     bucketHash: number;
-    primaryStat?: PrimaryStat;
+    primaryStat?: Stat3;
+
+    // Runtime variables
+    itemValue: InventoryItem;
+    damageTypeValue: any;
 }
 
-interface PrimaryStat {
-    statHash: number;
-    value: number;
-    maximumValue: number;
+export interface Bucket {
+    hash: number;
+    bucketValue: any;
+    items: Array<VaultItem>;
 }

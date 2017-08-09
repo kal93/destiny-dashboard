@@ -218,3 +218,10 @@ export interface Stat3 {
     value: number;
     maximumValue: number;
 }
+
+export interface Stat4 {
+    statHash: number;
+    value: number;
+    minimum: number;
+    maximum: number;
+}
