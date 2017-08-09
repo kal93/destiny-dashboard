@@ -1,25 +1,25 @@
-<div>
-  <div [class.dd-card-wrap]="!isFullscreen">
-    <dd-card-header *ngIf="!isFullscreen" [dashboardCard]="dashboardCard"></dd-card-header>
-    <div class="dd-item-manager" [class.dd-fullscreen]="isFullscreen" [class.dd-card-content]="!isFullscreen">
+<div [class.dd-card-wrap]="!isFullscreen">
+  <dd-card-header *ngIf="!isFullscreen" [dashboardCard]="dashboardCard"></dd-card-header>
+  <div class="dd-item-manager" [class.dd-fullscreen]="isFullscreen" [class.dd-card-content]="!isFullscreen">
+    <nav class="dd-nav" *ngIf="accountSummary?.characters != null">
+      <ng-container *ngFor="let character of accountSummary.characters; let i = index">
+        <button md-button (click)="selectedTabIndex = i" [class.selected]="selectedTabIndex == i">
+            <div>
+              <div>{{character.characterBase.raceValue.raceName}}</div>
+              <div><span>&#10022;</span>{{character.characterBase.stats.STAT_LIGHT.value}}</div>
+            </div>
+        </button>
+      </ng-container>
+      <button md-button (click)="selectedTabIndex = accountSummary.characters.length" [class.selected]="selectedTabIndex == accountSummary.characters.length">Vault</button>
+    </nav>
 
-      <md-tab-group #tabGroup *ngIf="selectedMembership != null" (selectedIndexChange)="selectedTabIndexChanged($event)">
-        <!-- Account Wide Stats -->
-        <md-tab>
-          <ng-template md-tab-label>
-            <dd-md-tab-character-heading [nonCharacterTitle]="'Vault'" [nonCharacterSubtitle]="selectedMembership.displayName" [nonCharacterIconPath]="'https://www.bungie.net/img/theme/destiny/icons/icon_vault.png'"></dd-md-tab-character-heading>
-          </ng-template>
-          <div *ngIf="accountStats != null && accountSummary != null" class="sub-tab-wrap">
-          </div>
-        </md-tab>
-
-        <!-- Character Specific Data -->
-        <md-tab *ngFor="let character of accountSummary?.characters; let i = index">
-          <ng-template md-tab-label>
-            <dd-md-tab-character-heading [character]="character"></dd-md-tab-character-heading>
-          </ng-template>
-        </md-tab>
-      </md-tab-group>
+    <div *ngIf="vaultBuckets != null" class="inventory-section-wrap">
+      <ng-container *ngFor="let vaultBucket of vaultBuckets">
+        <div class="section-header">{{vaultBucket.bucketValue.bucketName}}</div>
+        <div class="bucket-wrap">
+          <dd-vault-item *ngFor="let vaultItem of vaultBucket.items" [vaultItem]="vaultItem"></dd-vault-item>
+        </div>
+      </ng-container>
     </div>
   </div>
 </div>

@@ -1,0 +1,30 @@
+@import '../../../../styles/theme.scss';
+
+:host {
+    margin: 0 2px;
+    color: $app-text-light;
+
+    .icon {
+        width: 60px;
+        height: 60px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        border: 1px solid #aaa;
+    }
+
+    .name {
+        display: inline-block;
+        font-size: .68em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 62px;
+        text-align: center;
+    }
+
+    .quantity {
+        font-size: .9em;
+        margin-left: 4px;
+    }
+}

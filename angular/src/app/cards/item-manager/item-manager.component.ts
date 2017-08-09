@@ -1,35 +1,35 @@
-import { Component, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { MdTabGroup } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CardComponent } from '../_base/card.component';
-import { SharedBungie } from 'app/bungie/shared-bungie.service';
-import { SharedApp } from 'app/shared/services/shared-app.service';
-import { ManifestService } from 'app/bungie/manifest/manifest.service';
+import { SharedBungie } from '../../bungie/shared-bungie.service';
+import { SharedApp } from '../../shared/services/shared-app.service';
+import { ManifestService } from '../../bungie/manifest/manifest.service';
 
 import { AccountSummaryService, CharacterInventoryService, VaultSummaryService } from 'app/bungie/services/service.barrel';
-import { CharacterInventoryItem, DestinyMembership, IAccountSummary, ICharacterInventory, IVaultSummary, SummaryCharacter, VaultItem } from 'app/bungie/services/interface.barrel';
+import { Bucket, CharacterInventoryItem, DestinyMembership, IAccountSummary, ICharacterInventory, IVaultSummary, SummaryCharacter, VaultItem } from 'app/bungie/services/interface.barrel';
 
-import { fadeIn } from 'app/shared/animations';
+import { fadeIn } from '../../shared/animations';
 
 @Component({
   selector: 'dd-item-manager',
   templateUrl: './item-manager.component.html',
   styleUrls: ['../_base/card.component.scss', './item-manager.component.scss'],
-  animations: [fadeIn()]
+  animations: [fadeIn()],
+  //changeDetection: ChangeDetectionStrategy.OnPush
 })
+
 export class ItemManagerComponent extends CardComponent {
   CARD_DEFINITION_ID = 6;
-
-  @ViewChild("tabGroup")
-  tabGroup: MdTabGroup;
 
   selectedTabIndex: number = 0;
   accountSummary: IAccountSummary;
   selectedMembership: DestinyMembership;
 
-  vaultBuckets: Map<string, Array<VaultItem>>;
+  vaultBucketsMap: Map<number, Bucket>;
+  vaultBuckets: Array<Bucket>;
 
-  constructor(private accountSummaryService: AccountSummaryService, private characterInventoryService: CharacterInventoryService,
+  constructor(private accountSummaryService: AccountSummaryService, private changeDetectorRef: ChangeDetectorRef, private characterInventoryService: CharacterInventoryService,
     public domSanitizer: DomSanitizer, private manifestService: ManifestService, private sharedBungie: SharedBungie, public sharedApp: SharedApp,
     private vaultSummaryService: VaultSummaryService) {
     super(sharedApp);
@@ -46,8 +46,8 @@ export class ItemManagerComponent extends CardComponent {
 
     // Fetch the inventory
     this.getInventory().then(() => {
-      this.tabGroup.selectedIndex = this.selectedTabIndex;
       this.selectedTabIndexChanged(this.selectedTabIndex);
+      //this.changeDetectorRef.detectChanges();
     }).catch((error) => {
       this.sharedApp.showError("There was an error fetching the inventory.", error);
     });
@@ -55,6 +55,11 @@ export class ItemManagerComponent extends CardComponent {
 
   ngOnDestroy() {
     super.ngOnDestroy();
+  }
+
+  selectedTabIndexChanged(targetCharacterIndex: number) {
+    this.selectedTabIndex = targetCharacterIndex;
+    this.setCardLocalStorage("selectedTabIndex", this.selectedTabIndex);
   }
 
   getInventory(): Promise<any> {
@@ -74,14 +79,15 @@ export class ItemManagerComponent extends CardComponent {
           inventoryDataPromises.push(this.characterInventoryService.getCharacterInventory(this.selectedMembership, character.characterBase.characterId));
 
           // Set the manifest values for the characters
-          character.characterBase.classHashValue = this.manifestService.getManifestEntry("DestinyClassDefinition", character.characterBase.classHash);
-          character.characterBase.genderHashValue = this.manifestService.getManifestEntry("DestinyGenderDefinition", character.characterBase.genderHash);
-          character.characterBase.raceHashValue = this.manifestService.getManifestEntry("DestinyRaceDefinition", character.characterBase.raceHash);
+          character.characterBase.classValue = this.manifestService.getManifestEntry("DestinyClassDefinition", character.characterBase.classHash);
+          character.characterBase.genderValue = this.manifestService.getManifestEntry("DestinyGenderDefinition", character.characterBase.genderHash);
+          character.characterBase.raceValue = this.manifestService.getManifestEntry("DestinyRaceDefinition", character.characterBase.raceHash);
         });
 
         Promise.all(inventoryDataPromises).then((responses) => {
           // Vault is always the first response, so let's take that first
           var vaultSummaryResponse: IVaultSummary = responses.shift();
+
           this.populateVaultBuckets(vaultSummaryResponse.items);
 
           // All remaining responses should be characters
@@ -102,29 +108,60 @@ export class ItemManagerComponent extends CardComponent {
     });
   }
 
-  populateVaultBuckets(vaultItems: Array<VaultItem>) {
-    // Reset vault buckets
-    this.vaultBuckets = new Map<string, Array<VaultItem>>();
+  populateVaultBuckets(vaultItemsResponse: Array<VaultItem>) {
+    //Create a map so we can quickly place vault items in to their proper buckets
+    this.vaultBucketsMap = new Map<number, Bucket>();
 
     // Loop each vault item and place in to proper bucket
-    vaultItems.forEach((vaultItem) => {
+    vaultItemsResponse.forEach((vaultItem) => {
 
+      var bucket: Bucket = this.vaultBucketsMap.get(vaultItem.bucketHash);
+
+      // If the bucket for this vault item doesn't exist yet, create it
+      if (bucket == null) {
+        bucket = {
+          hash: vaultItem.bucketHash,
+          bucketValue: this.manifestService.getManifestEntry("DestinyInventoryBucketDefinition", vaultItem.bucketHash),
+          items: new Array<VaultItem>()
+        }
+        this.vaultBucketsMap.set(vaultItem.bucketHash, bucket);
+      }
+
+      // Get the vault item definition 
+      vaultItem.itemValue = this.manifestService.getManifestEntry("DestinyInventoryItemDefinition", vaultItem.itemHash);
+
+      // Get the damage type definition, if exists
+      if (vaultItem.damageTypeHash != 0)
+        vaultItem.damageTypeValue = this.manifestService.getManifestEntry("DestinyDamageTypeDefinition", vaultItem.damageTypeHash);
+
+      bucket.items.push(vaultItem);
     });
 
-    //Sort each bucket alphabetically
+    this.flattenBuckets();
+  }
+
+  flattenBuckets() {
+    this.vaultBuckets = new Array<Bucket>();
+    this.vaultBucketsMap.forEach((bucket, bucketHash) => {
+      // Sort vault bucket items alphabetically
+      //bucket.items.sort((a, b) => {
+      //  return a.itemValue.itemId < b.itemValue.itemId ? -1 : 1;
+      //});
+
+      // Add it to the flattened array
+      this.vaultBuckets.push(bucket);
+    });
+
+    // Sort buckets
+    this.vaultBuckets.sort((a, b) => {
+      return a.bucketValue.bucketOrder - b.bucketValue.bucketOrder;
+    });
+
+    console.log(this.vaultBuckets);
   }
 
   initInventoryItem(inventoryItem: VaultItem) {
 
-  }
-
-
-  selectedTabIndexChanged(targetCharacterIndex: number) {
-    // Set new character tab index
-    this.selectedTabIndex = targetCharacterIndex;
-
-    // Save the selected tab index
-    this.setCardLocalStorage("selectedTabIndex", this.selectedTabIndex);
   }
 
 }

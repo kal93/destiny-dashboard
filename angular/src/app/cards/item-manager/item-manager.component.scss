@@ -7,23 +7,16 @@
     background-color: #37474F;
     color: $app-text-light;
 
-    .mat-tab-group {
-        height: 100%;
-
-        ::ng-deep .mat-tab-label-active {
-            opacity: 1;
+    //.dd-nav is a global style
+    .inventory-section-wrap {
+        .section-header {
+            font-size: 2em;
         }
 
-        ::ng-deep .mat-tab-body-wrapper {
-            height: calc(100% - 115px);
-
-            .mat-tab-body {
-                height: 100%;
-
-                .mat-tab-body-content {
-                    overflow: auto;
-                }
-            }
+        .bucket-wrap {
+            display: flex;
+            flex-flow: wrap;
+            justify-content: center;
         }
     }
 }

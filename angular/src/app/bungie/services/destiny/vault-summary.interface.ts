@@ -6,21 +6,21 @@ export interface IVaultSummary {
 }
 
 export interface VaultItem {
-    itemHash: number;
-    itemId: string;
-    quantity: number;
+    bucketHash: number;
+    characterIndex: number;
     damageType: number;
     damageTypeHash: number;
     isGridComplete: boolean;
-    transferStatus: number;
-    state: number;
-    characterIndex: number;
-    bucketHash: number;
+    itemHash: number;
+    itemId: string;
     primaryStat?: Stat3;
+    quantity: number;
+    state: number;
+    transferStatus: number;
 
     // Runtime variables
-    itemValue: InventoryItem;
     damageTypeValue: any;
+    itemValue: InventoryItem;
 }
 
 export interface Bucket {

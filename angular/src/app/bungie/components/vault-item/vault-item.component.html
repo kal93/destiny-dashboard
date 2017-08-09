@@ -1,0 +1,10 @@
+<div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + vaultItem.itemValue.icon  +')')">
+  <span *ngIf="vaultItem.quantity > 1" class="quantity">{{vaultItem.quantity}}</span>
+</div>
+<div class="name"> {{vaultItem.itemValue.itemName}} </div>
+
+
+<!-- 
+  {{vaultItem.itemValue.icon}} 
+<span> {{vaultItem.itemValue.tierType}} </span>
+-->
