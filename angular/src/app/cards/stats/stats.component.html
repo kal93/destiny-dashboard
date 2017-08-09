@@ -160,12 +160,12 @@
           <div *ngIf="selectedSubTab == 'Rep'" class="sub-tab-wrap" [@fadeIn]="true">
             <div *ngFor="let progression of characterProgressions" class="reputation-section">
               <div class="top-wrap">
-                <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + progression.factionHashValue.factionIcon  +')')"></div>
-                <div class="name">{{progression.factionHashValue.factionName}}</div>
+                <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + progression.factionValue.factionIcon  +')')"></div>
+                <div class="name">{{progression.factionValue.factionName}}</div>
               </div>
 
-              <div [mdTooltip]="progression.factionHashValue.factionDescription" [mdTooltipPosition]="'after'">
-                <div class="description">{{progression.factionHashValue.factionDescription}}</div>
+              <div [mdTooltip]="progression.factionValue.factionDescription" [mdTooltipPosition]="'after'">
+                <div class="description">{{progression.factionValue.factionDescription}}</div>
               </div>
 
               <div class="progress-wrap">

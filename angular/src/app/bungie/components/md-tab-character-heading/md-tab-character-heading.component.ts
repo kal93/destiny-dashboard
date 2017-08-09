@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { IAccountSummary, SummaryCharacter } from 'app/bungie/services/interface.barrel';
+import { SummaryCharacter } from '../../services/interface.barrel';
 
 @Component({
   selector: 'dd-md-tab-character-heading',
