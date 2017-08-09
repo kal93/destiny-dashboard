@@ -53,7 +53,9 @@ export class AppComponent {
           localStorage.removeItem("bungieAuthCode");
           this.loadUser();
         }).catch((error) => {
-          this.sharedApp.showError("There was an error when getting the Auth Token from Bungie. Please try again.", error);
+          this.sharedApp.showError("There was an error when getting the Access Token from Bungie. Please try again.", error);
+          this.sharedApp.logOutSubject.next();
+          this.sharedDashboard.userDashboards = CardDefinitions.defaultDashboards;
           this.setAppInitialized();
         });
       }

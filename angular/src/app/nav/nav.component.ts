@@ -43,6 +43,7 @@ export class NavComponent implements OnDestroy {
     //Application events
     this.toggleMainNavSubscription = this.sharedApp.toggleMainNavSubject.subscribe((open: boolean) => { open ? this.mainNav.open() : this.mainNav.close() });
     this.toggleSubNavSubscription = this.sharedApp.toggleSubNavSubject.subscribe((open: boolean) => { open ? this.subNav.open() : this.subNav.close() });
+    this.logOutSubscription = this.sharedApp.logOutSubject.subscribe(() => { this.logOut(); });
 
     //Handle router end event
     router.events.subscribe((e) => {
@@ -96,6 +97,7 @@ export class NavComponent implements OnDestroy {
     this.sharedApp.removeLocalStorage("accessToken", "accessTokenExpires", "membershipId", "bungieAuthCode");
     this.sharedDashboard.userDashboards = CardDefinitions.defaultDashboards;
     this.sharedApp.invalidateCachesSubject.next();
+    this.backToDashboard();
   }
 
   prepareRouteAnimation(routerOutlet) {

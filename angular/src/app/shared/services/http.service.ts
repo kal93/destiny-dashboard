@@ -57,8 +57,10 @@ export class HttpService implements OnDestroy {
     }
 
     private getDashboardHeaders(): HttpHeaders {
-        if (this.sharedApp.accessToken == null)
-            throw "sharedApp.accessToken was null when calling getDashboardHeaders()";
+        if (this.sharedApp.accessToken == null) {
+            console.error("AccessToken was null when getting dashboard headers.");
+            return;
+        }
 
         return new HttpHeaders().set('Authorization', this.sharedApp.accessToken);
     }
@@ -131,6 +133,7 @@ export class HttpService implements OnDestroy {
                 this.sharedApp.hideLoading(loadingId);
                 resolve(accessTokenResponse);
             }).catch((error) => {
+                this.sharedApp.logOutSubject.next();
                 this.sharedApp.hideLoading(loadingId);
                 reject(error);
             });
@@ -211,6 +214,7 @@ export class HttpService implements OnDestroy {
                         switch (error.status) {
                             case 401:
                                 this.sharedApp.showError("Authentication error when trying to connect to Bungie. Please try to log in again.", error);
+                                this.sharedApp.logOutSubject.next();
                                 reject(error);
                                 break;
 

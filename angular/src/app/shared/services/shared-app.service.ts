@@ -25,6 +25,7 @@ export class SharedApp {
     tutorialEditDashboardSubject = new Subject<boolean>();
     tutorialAddCardSubject = new Subject<boolean>();
     invalidateCachesSubject = new Subject<void>();
+    logOutSubject = new Subject<void>();
 
     // Application specific
     public appInitialized: boolean = false;
