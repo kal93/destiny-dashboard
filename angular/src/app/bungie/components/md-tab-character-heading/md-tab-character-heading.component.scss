@@ -4,13 +4,18 @@
     opacity: 1;
 }
 
+::ng-deep .mat-tab-label {
+    height: 44px !important;
+    line-height: 44px !important;
+}
+
 .tab-label-wrap {
-    margin: 0 -8px;
+    margin: 0 -10px;
 
     .background {
         margin-top: 6px;
-        width: 177px;
-        height: 36px;
+        width: 158px;
+        height: 32px;
         background-repeat: no-repeat;
         background-size: contain;
         color: $app-text-light;
@@ -19,38 +24,29 @@
         &.non-character {
             background-color: #1B5E20;
             color: $app-text-light;
-            opacity: .98;
 
             .icon {
-                left: 12px;
-                top: 14px;
-                width: 22px;
-                height: 22px;
+                left: 8px;
+                top: 10px;
+                width: 24px;
+                height: 24px;
                 border-radius: 50%;
             }
 
             .top-left {
-                font-size: 1em;
-                left: 44px;
-                top: 9px;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                max-width: 135px;
-                text-align: left;
-            }
-
-            .bottom-left {
-                left: 44px;
+                max-width: 121px;
             }
         }
 
         .icon {
             position: absolute;
-            left: 8px;
+            left: 7px;
             top: 8px;
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             background-repeat: no-repeat;
             background-size: contain;
             display: inline-block;
@@ -59,33 +55,33 @@
         .top-left {
             position: absolute;
             display: inline-block;
-            font-size: 1.1em;
-            left: 47px;
-            top: 9px;
+            font-size: .95em;
+            left: 39px;
+            top: 8px;
         }
 
         .bottom-left {
             position: absolute;
             display: inline-block;
-            font-size: .85em;
-            left: 48px;
-            top: 24px;
-            letter-spacing: 1px;
+            font-size: .8em;
+            left: 40px;
+            top: 22px;
+            letter-spacing: .5px;
             opacity: .8;
         }
 
         .top-right {
             position: absolute;
-            top: 9px;
+            top: 8px;
             right: 7px;
-            font-size: 1.4em;
+            font-size: 1.1em;
         }
 
         .bottom-right {
             position: absolute;
-            top: 25px;
+            top: 22px;
             right: 7px;
-            font-size: .8em;
+            font-size: .75em;
             color: #FFEB3B;
             display: flex;
 
