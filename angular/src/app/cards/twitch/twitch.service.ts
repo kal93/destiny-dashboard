@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
-import { HttpService } from '../../shared/services/http.service';
+import { HttpService } from 'app/shared/services/http.service';
 
 @Injectable()
 export class TwitchService {

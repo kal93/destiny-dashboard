@@ -2,15 +2,15 @@ import { Component, ViewChild } from '@angular/core';
 import { MdTabGroup } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CardComponent } from '../_base/card.component';
-import { SharedBungie } from '../../bungie/shared-bungie.service';
-import { SharedApp } from '../../shared/services/shared-app.service';
-import { ManifestService } from '../../bungie/manifest/manifest.service';
-import { AccountStatsService, AccountSummaryService, CharacterProgressionService, CharacterStatsService } from '../../bungie/services/service.barrel';
+import { SharedBungie } from 'app/bungie/shared-bungie.service';
+import { SharedApp } from 'app/shared/services/shared-app.service';
+import { ManifestService } from 'app/bungie/manifest/manifest.service';
+import { AccountStatsService, AccountSummaryService, CharacterProgressionService, CharacterStatsService } from 'app/bungie/services/service.barrel';
 
-import { GroupTypes, ModeTypes, PeriodTypes } from '../../bungie/services/enums.interface';
-import { DestinyMembership, IAccountStats, IAccountSummary, ICharacterStats, Progression, SummaryCharacter } from '../../bungie/services/interface.barrel';
+import { GroupTypes, ModeTypes, PeriodTypes } from 'app/bungie/services/enums.interface';
+import { DestinyMembership, IAccountStats, IAccountSummary, ICharacterStats, Progression, SummaryCharacter } from 'app/bungie/services/interface.barrel';
 
-import { fadeIn } from '../../shared/animations';
+import { fadeIn } from 'app/shared/animations';
 
 @Component({
   selector: 'dd-stats',

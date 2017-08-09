@@ -1,9 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { CardComponent } from '../_base/card.component';
-import { SharedApp } from '../../shared/services/shared-app.service';
+import { SharedApp } from 'app/shared/services/shared-app.service';
 import { RedditService } from './reddit.service';
 
-import { bounceChildrenFromLeft } from '../../shared/animations';
+import { bounceChildrenFromLeft } from 'app/shared/animations';
 import { IRedditData } from './reddit.interface';
 
 @Component({
@@ -21,7 +21,7 @@ export class RedditComponent extends CardComponent {
 
   public selectedTab: string = "";
 
-  constructor(public sharedApp: SharedApp, public redditService: RedditService) {
+  constructor(public sharedApp: SharedApp, private redditService: RedditService) {
     super(sharedApp);
   }
 

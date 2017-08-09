@@ -2,14 +2,14 @@ import { Component, ViewChild } from '@angular/core';
 import { MdTabGroup } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CardComponent } from '../_base/card.component';
-import { SharedBungie } from '../../bungie/shared-bungie.service';
-import { SharedApp } from '../../shared/services/shared-app.service';
-import { ManifestService } from '../../bungie/manifest/manifest.service';
+import { SharedBungie } from 'app/bungie/shared-bungie.service';
+import { SharedApp } from 'app/shared/services/shared-app.service';
+import { ManifestService } from 'app/bungie/manifest/manifest.service';
 
-import { AccountSummaryService, CharacterInventoryService, VaultSummaryService } from '../../bungie/services/service.barrel';
-import { CharacterInventoryItem, DestinyMembership, IAccountSummary, ICharacterInventory, IVaultSummary, SummaryCharacter, VaultItem } from '../../bungie/services/interface.barrel';
+import { AccountSummaryService, CharacterInventoryService, VaultSummaryService } from 'app/bungie/services/service.barrel';
+import { CharacterInventoryItem, DestinyMembership, IAccountSummary, ICharacterInventory, IVaultSummary, SummaryCharacter, VaultItem } from 'app/bungie/services/interface.barrel';
 
-import { fadeIn } from '../../shared/animations';
+import { fadeIn } from 'app/shared/animations';
 
 @Component({
   selector: 'dd-item-manager',

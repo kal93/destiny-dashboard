@@ -1,4 +1,3 @@
-
 import { ICardDefinition } from './card-definition';
 
 export interface IUserDashboard {

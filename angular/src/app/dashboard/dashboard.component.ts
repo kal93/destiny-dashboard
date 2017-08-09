@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { NavigationEnd, Router } from '@angular/router';
 import { ModalDirective } from '../shared/directives/modal.directive';

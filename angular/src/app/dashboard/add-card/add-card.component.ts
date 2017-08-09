@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { SharedApp } from '../../shared/services/shared-app.service';
-import { SharedDashboard } from '../../dashboard/shared-dashboard.service';
+import { SharedApp } from 'app/shared/services/shared-app.service';
+import { SharedDashboard } from 'app/dashboard/shared-dashboard.service';
 
-import { ICardDefinition, CardDefinitions } from '../../cards/_base/card-definition';
-import { ICard } from '../../cards/_base/card.interface';
+import { ICardDefinition, CardDefinitions } from 'app/cards/_base/card-definition';
+import { ICard } from 'app/cards/_base/card.interface';
 
 @Component({
   selector: 'dd-add-card',
@@ -23,7 +23,7 @@ export class AddCardComponent implements OnInit {
   carouselIndex: number = 0;
   filteredIndex: number = 0;
 
-  constructor(public sharedApp: SharedApp, public sharedDashboard: SharedDashboard, public sanitizer: DomSanitizer) {
+  constructor(public sharedApp: SharedApp, private sharedDashboard: SharedDashboard, public sanitizer: DomSanitizer) {
   }
 
   ngOnInit() {

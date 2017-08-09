@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpRequestType, HttpService } from '../../shared/services/http.service';
+import { HttpRequestType, HttpService } from 'app/shared/services/http.service';
 
 @Injectable()
 export class RedditService {

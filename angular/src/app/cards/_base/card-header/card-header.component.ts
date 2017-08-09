@@ -1,6 +1,6 @@
-import { Component, Input, Output } from '@angular/core';
+import { Component, Input} from '@angular/core';
 import { Router } from '@angular/router';
-import { SharedApp } from '../../../shared/services/shared-app.service';
+import { SharedApp } from 'app/shared/services/shared-app.service';
 import { ICard } from '../card.interface';
 
 @Component({
@@ -13,5 +13,4 @@ export class CardHeaderComponent {
 
   constructor(public router: Router, public sharedApp: SharedApp) { }
 
-  ngOnInit() { }
 }
