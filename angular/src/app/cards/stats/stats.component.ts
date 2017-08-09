@@ -70,9 +70,9 @@ export class StatsComponent extends CardComponent {
     this.accountSummaryService.getAccountSummary(this.selectedMembership).then((accountSummary: IAccountSummary) => {
       this.accountSummary = accountSummary;
       this.accountSummary.characters.forEach((character: SummaryCharacter) => {
-        character.characterBase.classHashValue = this.manifestService.getManifestEntry("DestinyClassDefinition", character.characterBase.classHash);
-        character.characterBase.genderHashValue = this.manifestService.getManifestEntry("DestinyGenderDefinition", character.characterBase.genderHash);
-        character.characterBase.raceHashValue = this.manifestService.getManifestEntry("DestinyRaceDefinition", character.characterBase.raceHash);
+        character.characterBase.classValue = this.manifestService.getManifestEntry("DestinyClassDefinition", character.characterBase.classHash);
+        character.characterBase.genderValue = this.manifestService.getManifestEntry("DestinyGenderDefinition", character.characterBase.genderHash);
+        character.characterBase.raceValue = this.manifestService.getManifestEntry("DestinyRaceDefinition", character.characterBase.raceHash);
       });
 
       this.tabGroup.selectedIndex = this.selectedTabIndex;
@@ -143,18 +143,18 @@ export class StatsComponent extends CardComponent {
 
         // Set the manifest value for the given progression hash
         this.characterProgressions.forEach((progression) => {
-          var factionHashValue = progressionHashFactionMap.get(progression.progressionHash);
+          var factionValue = progressionHashFactionMap.get(progression.progressionHash);
 
           // Set the faction if it exists
-          if (factionHashValue != null) {
-            progression.factionHashValue = factionHashValue;
-            progression.hashValue = this.manifestService.getManifestEntry("DestinyProgressionDefinition", progression.progressionHash);
+          if (factionValue != null) {
+            progression.factionValue = factionValue;
+            progression.progressionValue = this.manifestService.getManifestEntry("DestinyProgressionDefinition", progression.progressionHash);
           }
         });
 
         // Filter out progressions we don't have a faction entry for, or if it's a negative level (Test faction probably)
         this.characterProgressions = this.characterProgressions.filter((progression) => {
-          return progression.factionHashValue != null && progression.level != -1;
+          return progression.factionValue != null && progression.level != -1;
         });
 
         // Sort progressions based on progress

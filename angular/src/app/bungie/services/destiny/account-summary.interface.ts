@@ -42,9 +42,9 @@ interface CharacterBase {
     stats: Stats;
 
     //Runtime variables
-    classHashValue: any;
-    genderHashValue: any;
-    raceHashValue: any;
+    classValue: any;
+    genderValue: any;
+    raceValue: any;
 }
 
 interface LevelProgression {

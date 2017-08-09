@@ -1,8 +1,8 @@
 <div class="tab-label-wrap">
   <div *ngIf="character != null" class="background" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.backgroundPath +')')">
     <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemPath +')')"></div>
-    <div class="top-left">{{character.characterBase.classHashValue.className}}</div>
-    <div class="bottom-left">{{character.characterBase.raceHashValue.raceName}} {{character.characterBase.genderHashValue.genderName}}</div>
+    <div class="top-left">{{character.characterBase.classValue.className}}</div>
+    <div class="bottom-left">{{character.characterBase.raceValue.raceName}} {{character.characterBase.genderValue.genderName}}</div>
     <div class="top-right">{{character.characterLevel}}</div>
     <div class="bottom-right"><span class="star">&#10022;</span>{{character.characterBase.stats.STAT_LIGHT.value}}</div>
   </div>

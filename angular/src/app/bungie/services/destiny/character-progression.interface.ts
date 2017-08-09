@@ -20,6 +20,6 @@ export interface Progression {
     progressionHash: number;
 
     // Populated at runtime
-    hashValue: any;
-    factionHashValue: any;
+    progressionValue: any;
+    factionValue: any;
 }
