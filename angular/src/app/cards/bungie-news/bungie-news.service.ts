@@ -9,10 +9,8 @@ import { NewsTypes } from 'app/bungie/services/enums.interface';
 
 @Injectable()
 export class BungieNewsService {
-    private clientId: string = "l4w6ogugmp0qgeh2gz9uqa1z0bg0rj";
 
-    constructor(private bungieSiteNewsService: BungieSiteNewsService, private http: HttpService) {
-    }
+    constructor(private bungieSiteNewsService: BungieSiteNewsService, private http: HttpService) { }
 
     getBungieTwitter(): Promise<ITwitterReponse> {
         //Cache for 5 min
