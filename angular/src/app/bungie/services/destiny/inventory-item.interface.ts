@@ -1,6 +1,30 @@
-import { Stat4 } from "../_shared.interface";
+import { Stat3, Stat4 } from "./_shared.interface";
+
+export interface InventoryBucket {
+  hash: number;
+  bucketValue: any;
+  items: Array<InventoryItem>;
+}
 
 export interface InventoryItem {
+  bucketHash: number;
+  characterIndex: number;
+  damageType: number;
+  damageTypeHash: number;
+  isGridComplete: boolean;
+  itemHash: number;
+  itemId: string;
+  primaryStat?: Stat3;
+  quantity: number;
+  state: number;
+  transferStatus: number;
+
+  // Runtime variables
+  damageTypeValue: any;
+  itemValue: InventoryItem;
+}
+
+interface InventoryItemManifest {
   itemHash: number;
   itemName: string;
   itemDescription: string;

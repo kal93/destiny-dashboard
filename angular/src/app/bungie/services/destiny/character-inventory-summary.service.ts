@@ -3,19 +3,19 @@ import { HttpRequestType, HttpService } from '../../../shared/services/http.serv
 import { SharedApp } from '../../../shared/services/shared-app.service';
 import { SharedBungie } from '../../shared-bungie.service';
 
-import { DestinyMembership, ICharacterInventory } from '../interface.barrel'
+import { DestinyMembership, ICharacterInventorySummary } from '../interface.barrel'
 
 @Injectable()
-export class CharacterInventoryService {
+export class CharacterInventorySummaryService {
     //Very low inventory cache... Don't really want to cache this but if multiple cards are requesting this endpoint at the same time let's cache it
     private cacheTimeMs: number = 100;
 
     constructor(protected http: HttpService, private sharedApp: SharedApp, private sharedBungie: SharedBungie) { }
 
-    getCharacterInventory(membership: DestinyMembership, characterId: string): Promise<ICharacterInventory> {
+    getCharacterInventorySummary(membership: DestinyMembership, characterId: string): Promise<ICharacterInventorySummary> {
         // Build the request URL
-        var requestUrl = "https://www.bungie.net/Platform/Destiny/" + membership.membershipType + "/Account/" + membership.membershipId + "/Character/" + characterId +
-            "/Inventory/";
+        var requestUrl = "https://www.bungie.net/d1/Platform/Destiny/" + membership.membershipType + "/Account/" + membership.membershipId + "/Character/" + characterId +
+            "/Inventory/Summary/";
 
         //Get the response, or return the cached result
         return this.http.getWithCache(requestUrl, HttpRequestType.BUNGIE_PRIVILEGED, this.cacheTimeMs).then(response => response.data);

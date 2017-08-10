@@ -1,0 +1,10 @@
+<div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + inventoryItem.itemValue.icon  +')')">
+  <span *ngIf="inventoryItem.quantity > 1" class="quantity">{{inventoryItem.quantity}}</span>
+</div>
+<div class="name"> {{inventoryItem.itemValue.itemName}} </div>
+
+
+<!-- 
+  {{inventoryItem.itemValue.icon}} 
+<span> {{inventoryItem.itemValue.tierType}} </span>
+-->

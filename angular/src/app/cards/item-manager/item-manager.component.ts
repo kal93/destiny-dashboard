@@ -2,12 +2,13 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild } from
 import { MdTabGroup } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CardComponent } from '../_base/card.component';
+import { ItemManagerService } from './item-manager.service';
+import { ManifestService } from '../../bungie/manifest/manifest.service';
 import { SharedBungie } from '../../bungie/shared-bungie.service';
 import { SharedApp } from '../../shared/services/shared-app.service';
-import { ManifestService } from '../../bungie/manifest/manifest.service';
 
-import { AccountSummaryService, CharacterInventoryService, VaultSummaryService } from 'app/bungie/services/service.barrel';
-import { Bucket, CharacterInventoryItem, DestinyMembership, IAccountSummary, ICharacterInventory, IVaultSummary, SummaryCharacter, VaultItem } from 'app/bungie/services/interface.barrel';
+import { AccountSummaryService } from 'app/bungie/services/service.barrel';
+import { DestinyMembership, InventoryBucket, InventoryItem, IAccountSummary, IVaultSummary, SummaryCharacter } from 'app/bungie/services/interface.barrel';
 
 import { fadeIn } from '../../shared/animations';
 
@@ -16,40 +17,84 @@ import { fadeIn } from '../../shared/animations';
   templateUrl: './item-manager.component.html',
   styleUrls: ['../_base/card.component.scss', './item-manager.component.scss'],
   animations: [fadeIn()],
-  //changeDetection: ChangeDetectionStrategy.OnPush
+  providers: [ItemManagerService]
 })
 
 export class ItemManagerComponent extends CardComponent {
   CARD_DEFINITION_ID = 6;
 
-  selectedTabIndex: number = 0;
+  // Get the selected membership (Xbox, PSN, Blizzard)
+  private selectedMembership: DestinyMembership;
+
+  // Account summary so we can get the characters associated to this account
   accountSummary: IAccountSummary;
-  selectedMembership: DestinyMembership;
 
-  vaultBucketsMap: Map<number, Bucket>;
-  vaultBuckets: Array<Bucket>;
+  // Map of vault bucket data <bucketHash, bucket>
+  private vaultBucketsMap: Map<number, InventoryBucket>;
 
-  constructor(private accountSummaryService: AccountSummaryService, private changeDetectorRef: ChangeDetectorRef, private characterInventoryService: CharacterInventoryService,
-    public domSanitizer: DomSanitizer, private manifestService: ManifestService, private sharedBungie: SharedBungie, public sharedApp: SharedApp,
-    private vaultSummaryService: VaultSummaryService) {
+  // Array of vault buckets for display in .html
+  vaultBucketsArray: Array<InventoryBucket> = new Array<InventoryBucket>();
+
+  // Array of Map of <bucketHash, bucket>. Array position matches caracter position in this.accountSummary.characters
+  private charactersBucketsMap: Array<Map<number, InventoryBucket>>;
+
+  // Array of character buckets for display in .html. Array position matches caracter position in this.accountSummary.characters
+  charactersBucketsArray: Array<Array<InventoryBucket>> = new Array<Array<InventoryBucket>>();
+
+  // Tower definition from the manifest so we can have the icon
+  towerDefinition: any;
+
+  constructor(private accountSummaryService: AccountSummaryService, private changeDetectorRef: ChangeDetectorRef,
+    public domSanitizer: DomSanitizer, private itemManagerService: ItemManagerService, private manifestService: ManifestService, private sharedBungie: SharedBungie, public sharedApp: SharedApp) {
     super(sharedApp);
   }
 
   ngOnInit() {
     super.ngOnInit();
 
-    // Load previously selected tab index
-    this.selectedTabIndex = +this.getCardLocalStorage("selectedTabIndex", 0);
+    // Get tower definition so we can show the tower emblem
+    this.towerDefinition = this.manifestService.getManifestEntry("DestinyActivityDefinition", 1522220810);
 
-    // Set our membership
+    // Set our membership (XBL, PSN, Blizzard)
     this.selectedMembership = this.sharedBungie.destinyMemberships[this.sharedApp.userPreferences.membershipIndex];
 
-    // Fetch the inventory
-    this.getInventory().then(() => {
-      this.selectedTabIndexChanged(this.selectedTabIndex);
-      //this.changeDetectorRef.detectChanges();
-    }).catch((error) => {
-      this.sharedApp.showError("There was an error fetching the inventory.", error);
+    // Get Account Summary to get the list of available characters
+    this.accountSummaryService.getAccountSummary(this.selectedMembership).then((accountSummary: IAccountSummary) => {
+      this.accountSummary = accountSummary;
+      this.accountSummary.characters.forEach((character: SummaryCharacter) => {
+        // Set the manifest values for the characters
+        character.characterBase.classValue = this.manifestService.getManifestEntry("DestinyClassDefinition", character.characterBase.classHash);
+        character.characterBase.genderValue = this.manifestService.getManifestEntry("DestinyGenderDefinition", character.characterBase.genderHash);
+        character.characterBase.raceValue = this.manifestService.getManifestEntry("DestinyRaceDefinition", character.characterBase.raceHash);
+      });
+
+      // Fetch the inventory
+      this.itemManagerService.getInventory(this.selectedMembership, this.accountSummary).then((inventoryResponses) => {
+        // Vault is the first response
+        var vaultSummaryResponse: IVaultSummary = inventoryResponses.shift();
+
+        // Populate vault buckets
+        this.vaultBucketsMap = new Map<number, InventoryBucket>();
+        this.vaultBucketsArray = new Array<InventoryBucket>();
+        this.populateBucketMapFromResponse(vaultSummaryResponse.items, this.vaultBucketsMap);
+        this.flattenInventoryBuckets(this.vaultBucketsMap, this.vaultBucketsArray);
+
+        // Init the array for the character buckets map. Should be the same size as the number of characters we have.
+        this.charactersBucketsMap = new Array<Map<number, InventoryBucket>>(inventoryResponses.length);
+
+        // All remaining responses should be characters
+        for (var i = 0; i < inventoryResponses.length; i++) {
+          this.charactersBucketsMap[i] = new Map<number, InventoryBucket>();
+          this.charactersBucketsArray[i] = new Array<InventoryBucket>();
+          this.populateBucketMapFromResponse(inventoryResponses[i].items, this.charactersBucketsMap[i]);
+          this.flattenInventoryBuckets(this.charactersBucketsMap[i], this.charactersBucketsArray[i]);
+        }
+      }).catch((error) => {
+        this.sharedApp.showError("There was an error getting the inventory.", error);
+      });
+
+    }).catch(error => {
+      this.sharedApp.showError("There was an error getting the account summary.", error);
     });
   }
 
@@ -57,74 +102,20 @@ export class ItemManagerComponent extends CardComponent {
     super.ngOnDestroy();
   }
 
-  selectedTabIndexChanged(targetCharacterIndex: number) {
-    this.selectedTabIndex = targetCharacterIndex;
-    this.setCardLocalStorage("selectedTabIndex", this.selectedTabIndex);
-  }
-
-  getInventory(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      // Get Account Summary to get the list of available characters
-      this.accountSummaryService.getAccountSummary(this.selectedMembership).then((accountSummary: IAccountSummary) => {
-        this.accountSummary = accountSummary;
-
-        // Set an array of promises so we can use Promise.All later
-        var inventoryDataPromises = new Array<Promise<any>>();
-
-        // Add the vault request to the promises we're about to fire 
-        inventoryDataPromises.push(this.vaultSummaryService.getVaultSummary(this.selectedMembership));
-
-        // Now add character promises
-        this.accountSummary.characters.forEach((character: SummaryCharacter) => {
-          inventoryDataPromises.push(this.characterInventoryService.getCharacterInventory(this.selectedMembership, character.characterBase.characterId));
-
-          // Set the manifest values for the characters
-          character.characterBase.classValue = this.manifestService.getManifestEntry("DestinyClassDefinition", character.characterBase.classHash);
-          character.characterBase.genderValue = this.manifestService.getManifestEntry("DestinyGenderDefinition", character.characterBase.genderHash);
-          character.characterBase.raceValue = this.manifestService.getManifestEntry("DestinyRaceDefinition", character.characterBase.raceHash);
-        });
-
-        Promise.all(inventoryDataPromises).then((responses) => {
-          // Vault is always the first response, so let's take that first
-          var vaultSummaryResponse: IVaultSummary = responses.shift();
-
-          this.populateVaultBuckets(vaultSummaryResponse.items);
-
-          // All remaining responses should be characters
-          for (var i = 0; i < this.accountSummary.characters.length; i++) {
-            var character = this.accountSummary.characters[i];
-            var characterInventoryResponse = responses[i];
-          }
-
-          resolve();
-        }).catch((error) => {
-          reject(error);
-        });
-
-      }).catch(error => {
-        this.sharedApp.showError("There was a problem getting the account summary.", error);
-        reject(error);
-      });
-    });
-  }
-
-  populateVaultBuckets(vaultItemsResponse: Array<VaultItem>) {
-    //Create a map so we can quickly place vault items in to their proper buckets
-    this.vaultBucketsMap = new Map<number, Bucket>();
-
+  // Converts an API response to a workable bucketMap
+  private populateBucketMapFromResponse(bucketItemsResponse: Array<InventoryItem>, bucketsMap: Map<number, InventoryBucket>) {
     // Loop each vault item and place in to proper bucket
-    vaultItemsResponse.forEach((vaultItem) => {
-
-      var bucket: Bucket = this.vaultBucketsMap.get(vaultItem.bucketHash);
+    bucketItemsResponse.forEach((vaultItem) => {
+      var inventoryBucket: InventoryBucket = bucketsMap.get(vaultItem.bucketHash);
 
       // If the bucket for this vault item doesn't exist yet, create it
-      if (bucket == null) {
-        bucket = {
+      if (inventoryBucket == null) {
+        inventoryBucket = {
           hash: vaultItem.bucketHash,
           bucketValue: this.manifestService.getManifestEntry("DestinyInventoryBucketDefinition", vaultItem.bucketHash),
-          items: new Array<VaultItem>()
+          items: new Array<InventoryItem>()
         }
-        this.vaultBucketsMap.set(vaultItem.bucketHash, bucket);
+        bucketsMap.set(vaultItem.bucketHash, inventoryBucket);
       }
 
       // Get the vault item definition 
@@ -134,34 +125,20 @@ export class ItemManagerComponent extends CardComponent {
       if (vaultItem.damageTypeHash != 0)
         vaultItem.damageTypeValue = this.manifestService.getManifestEntry("DestinyDamageTypeDefinition", vaultItem.damageTypeHash);
 
-      bucket.items.push(vaultItem);
+      inventoryBucket.items.push(vaultItem);
     });
-
-    this.flattenBuckets();
   }
 
-  flattenBuckets() {
-    this.vaultBuckets = new Array<Bucket>();
-    this.vaultBucketsMap.forEach((bucket, bucketHash) => {
-      // Sort vault bucket items alphabetically
-      //bucket.items.sort((a, b) => {
-      //  return a.itemValue.itemId < b.itemValue.itemId ? -1 : 1;
-      //});
-
-      // Add it to the flattened array
-      this.vaultBuckets.push(bucket);
+  // Flattens a bucket map in to an array so it can be handled efficiently in .html
+  private flattenInventoryBuckets(bucketsMap: Map<number, InventoryBucket>, bucketsArray: Array<InventoryBucket>) {
+    // Add it to the flattened array
+    bucketsMap.forEach((bucket, bucketHash) => {
+      bucketsArray.push(bucket);
     });
 
     // Sort buckets
-    this.vaultBuckets.sort((a, b) => {
+    bucketsArray.sort((a, b) => {
       return a.bucketValue.bucketOrder - b.bucketValue.bucketOrder;
     });
-
-    console.log(this.vaultBuckets);
   }
-
-  initInventoryItem(inventoryItem: VaultItem) {
-
-  }
-
 }

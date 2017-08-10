@@ -1,3 +1,4 @@
+import { Currency } from "./_shared.interface";
 
 export interface IAccountSummary {
     membershipId: string;
@@ -126,9 +127,4 @@ interface Item {
     characterIndex: number;
     bucketHash: any;
     primaryStat: Stat;
-}
-
-interface Currency {
-    itemHash: any;
-    value: number;
 }

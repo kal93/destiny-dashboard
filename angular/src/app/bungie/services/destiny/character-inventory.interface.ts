@@ -1,5 +1,5 @@
 import { Progression, Stat3 } from "./_shared.interface";
-import { InventoryItem } from "./manifest/inventory-item.interface";
+import { InventoryItem } from "./inventory-item.interface";
 
 export interface ICharacterInventory {
   buckets: Buckets;

@@ -6,13 +6,32 @@
 .dd-item-manager {
     background-color: #37474F;
     color: $app-text-light;
-    padding: 5px;
+    padding: 7px 5px;
+
+    .separator {
+        height: 2px;
+        background-color: #B0BEC5;
+        margin-top: 40px;
+        background-image: linear-gradient(to right, #b8e1fc 0%, #A9D2F3 20%, #6BA8E5 30%, #CFD8DC 50%, #6BA8E5 70%, #A9D2F3 80%, #b8e1fc 100%);
+    }
 
     .character-header {
         position: relative;
         max-width: 400px;
-        margin: 10px auto;
         font-family: destiny;
+        margin: 0 auto;
+
+        &:not(:first-of-type) {
+            margin-top: 40px;
+        }
+
+        &.vault-header {
+            .background {
+                width: 400px;
+                height: 81px;
+                background-size: contain;
+            }
+        }
 
         .background {
             width: 100%;
@@ -66,46 +85,21 @@
         }
     }
 
-    .vault-header {
-        position: relative;
-        max-width: 400px;
-        margin: 10px auto;
-        font-family: destiny;
+    .section-wrap {
+        margin-left: 4px;
 
-        .background {
-            width: 400px;
-            height: 81px;
-            background-size: contain;
-        }
-
-        .icon {
-            position: absolute;
-            width: 81px;
-            height: 81px;
-            top: 0;
-            left: 0;
-            background-repeat: no-repeat;
-            background-size: contain;
-        }
-
-        .top-left {
-            position: absolute;
-            font-size: 2.1em;
-            top: 8px;
-            left: 95px;
-        }
-    }
-
-    .inventory-section-wrap {
         .section-header {
-            font-size: 2em;
+            margin: 10px 0 5px;
+            font-family: destiny;
+            font-size: 1.2em;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         .bucket-wrap {
-            justify-content: left;
             display: flex;
             flex-flow: wrap;
-            justify-content: center;
+            justify-content: left;
         }
     }
 }

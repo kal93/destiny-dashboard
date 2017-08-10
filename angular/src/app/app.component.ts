@@ -7,7 +7,10 @@ import { SharedApp } from './shared/services/shared-app.service';
 import { SharedBungie } from './bungie/shared-bungie.service';
 import { SharedDashboard } from './dashboard/shared-dashboard.service';
 
-import { AccountStatsService, AccountSummaryService, BungieSiteNewsService, CharacterInventoryService, CharacterProgressionService, CharacterStatsService, VaultSummaryService } from './bungie/services/service.barrel';
+import {
+  AccountStatsService, AccountSummaryService, BungieSiteNewsService, CharacterInventorySummaryService, CharacterProgressionService,
+  CharacterStatsService, VaultSummaryService
+} from './bungie/services/service.barrel';
 
 import { ICard, IUserDashboard } from './cards/_base/card.interface';
 
@@ -28,7 +31,7 @@ import { fadeInOut } from './shared/animations';
     </div>
   </div>
   `,
-  providers: [AccountStatsService, AccountSummaryService, BungieSiteNewsService, CharacterInventoryService, CharacterProgressionService, CharacterStatsService, HttpService,
+  providers: [AccountStatsService, AccountSummaryService, BungieSiteNewsService, CharacterInventorySummaryService, CharacterProgressionService, CharacterStatsService, HttpService,
     ManifestService, SharedBungie, SharedDashboard, VaultSummaryService],
   animations: [fadeInOut()]
 })

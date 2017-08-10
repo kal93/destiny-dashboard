@@ -3,7 +3,7 @@
   <div class="dd-item-manager" [class.dd-fullscreen]="isFullscreen" [class.dd-card-content]="!isFullscreen">
     <div>
       <!-- Characters -->
-      <div *ngFor="let character of accountSummary?.characters; let i = index">
+      <ng-container *ngFor="let character of accountSummary?.characters; let i = index">
         <div class="character-header">
           <img class="background" [src]="domSanitizer.bypassSecurityTrustUrl('https://www.bungie.net' + character.backgroundPath)"
           />
@@ -13,20 +13,32 @@
           <div class="top-right">{{character.characterLevel}}</div>
           <div class="bottom-right"><span class="star">&#10022;</span>{{character.characterBase.stats.STAT_LIGHT.value}}</div>
         </div>
-      </div>
+
+        <div *ngIf="charactersBucketsArray[i] != null" class="section-wrap">
+          <ng-container *ngFor="let characterBucket of charactersBucketsArray[i]">
+            <div class="section-header">{{characterBucket.bucketValue.bucketName}}</div>
+            <div class="bucket-wrap">
+              <dd-inventory-item *ngFor="let inventoryItem of characterBucket.items" [inventoryItem]="inventoryItem"></dd-inventory-item>
+            </div>
+          </ng-container>
+        </div>
+
+        <div class="separator"></div>
+
+      </ng-container>
 
       <!-- Vault -->
-      <div class="vault-header">
+      <div class="character-header vault-header">
         <div class="background dd-tower-background"></div>
-        <div class="icon dd-tower-emblem"></div>
+        <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + towerDefinition.icon +')')"></div>
         <div class="top-left">Vault</div>
       </div>
 
-      <div *ngIf="vaultBuckets != null" class="inventory-section-wrap">
-        <ng-container *ngFor="let vaultBucket of vaultBuckets">
+      <div *ngIf="vaultBucketsArray != null" class="section-wrap">
+        <ng-container *ngFor="let vaultBucket of vaultBucketsArray">
           <div class="section-header">{{vaultBucket.bucketValue.bucketName}}</div>
           <div class="bucket-wrap">
-            <dd-vault-item *ngFor="let vaultItem of vaultBucket.items" [vaultItem]="vaultItem"></dd-vault-item>
+            <dd-inventory-item *ngFor="let inventoryItem of vaultBucket.items" [inventoryItem]="inventoryItem"></dd-inventory-item>
           </div>
         </ng-container>
       </div>

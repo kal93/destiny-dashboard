@@ -10,7 +10,7 @@ import 'rxjs/add/operator/map';
 /** This Injectable manages the data layer for Destiny. This handles caching automatically.*/
 @Injectable()
 export class AccountSummaryService {
-    private cacheTimeMs: number = 60000;
+    private cacheTimeMs: number = 120000;
 
     constructor(private http: HttpService, private sharedApp: SharedApp, private sharedBungie: SharedBungie) {
     }

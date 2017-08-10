@@ -4,6 +4,11 @@ export interface Basic {
     value: number;
 }
 
+export interface Currency {
+    itemHash: any;
+    value: number;
+}
+
 export interface Progression {
     dailyProgress: number;
     weeklyProgress: number;
