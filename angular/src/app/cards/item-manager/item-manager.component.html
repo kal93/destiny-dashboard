@@ -1,25 +1,36 @@
 <div [class.dd-card-wrap]="!isFullscreen">
   <dd-card-header *ngIf="!isFullscreen" [dashboardCard]="dashboardCard"></dd-card-header>
   <div class="dd-item-manager" [class.dd-fullscreen]="isFullscreen" [class.dd-card-content]="!isFullscreen">
-    <nav class="dd-nav" *ngIf="accountSummary?.characters != null">
-      <ng-container *ngFor="let character of accountSummary.characters; let i = index">
-        <button md-button (click)="selectedTabIndex = i" [class.selected]="selectedTabIndex == i">
-            <div>
-              <div>{{character.characterBase.raceValue.raceName}}</div>
-              <div><span>&#10022;</span>{{character.characterBase.stats.STAT_LIGHT.value}}</div>
-            </div>
-        </button>
-      </ng-container>
-      <button md-button (click)="selectedTabIndex = accountSummary.characters.length" [class.selected]="selectedTabIndex == accountSummary.characters.length">Vault</button>
-    </nav>
-
-    <div *ngIf="vaultBuckets != null" class="inventory-section-wrap">
-      <ng-container *ngFor="let vaultBucket of vaultBuckets">
-        <div class="section-header">{{vaultBucket.bucketValue.bucketName}}</div>
-        <div class="bucket-wrap">
-          <dd-vault-item *ngFor="let vaultItem of vaultBucket.items" [vaultItem]="vaultItem"></dd-vault-item>
+    <div>
+      <!-- Characters -->
+      <div *ngFor="let character of accountSummary?.characters; let i = index">
+        <div class="character-header">
+          <img class="background" [src]="domSanitizer.bypassSecurityTrustUrl('https://www.bungie.net' + character.backgroundPath)"
+          />
+          <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemPath +')')"></div>
+          <div class="top-left">{{character.characterBase.classValue.className}}</div>
+          <div class="bottom-left">{{character.characterBase.raceValue.raceName}} {{character.characterBase.genderValue.genderName}}</div>
+          <div class="top-right">{{character.characterLevel}}</div>
+          <div class="bottom-right"><span class="star">&#10022;</span>{{character.characterBase.stats.STAT_LIGHT.value}}</div>
         </div>
-      </ng-container>
+      </div>
+
+      <!-- Vault -->
+      <div class="vault-header">
+        <div class="dd-tower-background"></div>
+        <div class="icon dd-tower-emblem"></div>
+        <div class="top-left">Vault</div>
+      </div>
+
+      <div *ngIf="vaultBuckets != null" class="inventory-section-wrap">
+        <ng-container *ngFor="let vaultBucket of vaultBuckets">
+          <div class="section-header">{{vaultBucket.bucketValue.bucketName}}</div>
+          <div class="bucket-wrap">
+            <dd-vault-item *ngFor="let vaultItem of vaultBucket.items" [vaultItem]="vaultItem"></dd-vault-item>
+          </div>
+        </ng-container>
+      </div>
+
     </div>
   </div>
 </div>
