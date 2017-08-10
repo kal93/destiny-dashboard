@@ -80,7 +80,7 @@ export class DownloadManifestComponent implements OnDestroy, OnInit {
       var tableName: string = tableDefinitions.values[i][0];
 
       // Tables that we want to ignore completely
-      if (tableName == "DestinyActivityBundleDefinition" || tableName == "DestinyActivityCategoryDefinition" || tableName == "DestinyActivityDefinition" || tableName == "DestinyActivityModeDefinition"
+      if (tableName == "DestinyActivityBundleDefinition" || tableName == "DestinyActivityCategoryDefinition" || tableName == "DestinyActivityModeDefinition"
         || tableName == "DestinyActivityTypeDefinition" || tableName == "DestinyBondDefinition" || tableName == "DestinyCombatantDefinition"
         || tableName == "DestinyDestinationDefinition" || tableName == "DestinyDirectorBookDefinition" || tableName == "DestinyEnemyRaceDefinition"
         || tableName == "DestinyGrimoireCardDefinition" || tableName == "DestinyGrimoireDefinition"
