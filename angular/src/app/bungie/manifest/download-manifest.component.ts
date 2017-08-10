@@ -2,23 +2,24 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpRequestType, HttpService } from 'app/shared/services/http.service';
 import { SharedApp } from 'app/shared/services/shared-app.service';
 import { FileUtils } from 'app/shared/utilities/FileUtils';
-import { IDestinyManifestMeta } from './download.interface';
-import { environment } from '../../../../environments/environment';
+import { IDestinyManifestMeta } from './download-manifest.interface';
+import { ManifestService } from './manifest.service';
+import { environment } from '../../../environments/environment';
 
 declare var SQL: any;
 
 // Not used by users. This is an admin help page to generate manifest things
 @Component({
   selector: 'app-manifest',
-  templateUrl: './download.component.html',
-  styleUrls: ['./download.component.scss']
+  templateUrl: './download-manifest.component.html',
+  styleUrls: ['./download-manifest.component.scss']
 })
 export class DownloadManifestComponent implements OnDestroy, OnInit {
   db: any;
 
   public tableMap = new Map<string, Array<any>>();
 
-  constructor(protected http: HttpService, private sharedApp: SharedApp) {
+  constructor(protected http: HttpService, protected manifestService: ManifestService, private sharedApp: SharedApp) {
     // "Lazy load" script so it's not part of the main bundle
     var script = document.createElement('script');
     script.src = "./sql.js";
@@ -32,33 +33,36 @@ export class DownloadManifestComponent implements OnDestroy, OnInit {
       this.db.close();
   }
 
-  startProcess() {
-    this.downloadNewMainfest().then((unzippedManifest: Uint8Array) => {
-      this.reduceManifest(unzippedManifest);
-    });
-  }
-
-  //Get new manifest from Bungie
-  public downloadNewMainfest(): Promise<Uint8Array> {
-    return new Promise((resolve, reject) => {
-      // Download manifest metadata, no cache
-      this.http.getWithCache("https://www.bungie.net/d1/Platform/Destiny/Manifest/", HttpRequestType.BUNGIE_BASIC, 0).then((manifestMeta: IDestinyManifestMeta) => {
-        var manifestFilename = manifestMeta.mobileWorldContentPaths.en.substr(manifestMeta.mobileWorldContentPaths.en.lastIndexOf("/") + 1);
-        //Get the manifest .sqlite file
-        this.http.httpGetBinary("https://www.bungie.net" + manifestMeta.mobileWorldContentPaths.en).then((sqlLiteZipBlob: Blob) => {
-          FileUtils.blobToUintArray8(sqlLiteZipBlob).then((arrayBuffer: Uint8Array) => {
-            FileUtils.unzipArrayBuffer(arrayBuffer, manifestFilename).then((unzippedManifest: Uint8Array) => {
-              resolve(unzippedManifest);
-            });
+  downloadManifestJson() {
+    this.manifestService.getManifestMetadata().then((manifestMeta: IDestinyManifestMeta) => {
+      var manifestFilename = manifestMeta.mobileWorldContentPaths.en.substr(manifestMeta.mobileWorldContentPaths.en.lastIndexOf("/") + 1);
+      this.manifestService.getManifestDatabase(manifestMeta).then((sqlLiteZipBlob: Blob) => {
+        FileUtils.blobToUintArray8(sqlLiteZipBlob).then((arrayBuffer: Uint8Array) => {
+          FileUtils.unzipArrayBuffer(arrayBuffer, manifestFilename).then((unzippedManifest: Uint8Array) => {
+            var reducedManifest = this.reduceManifest(unzippedManifest);
+            FileUtils.saveFile(reducedManifest, "destiny-manifest_" + environment.version + ".json", "plain/text");
           });
-        }).catch((error) => {
-          reject(error);
         });
+
       });
     });
   }
 
-  private reduceManifest(unzippedManifest: Uint8Array) {
+  downloadManifestDatabase() {
+    this.manifestService.getManifestMetadata().then((manifestMeta: IDestinyManifestMeta) => {
+      var manifestFilename = manifestMeta.mobileWorldContentPaths.en.substr(manifestMeta.mobileWorldContentPaths.en.lastIndexOf("/") + 1);
+      this.manifestService.getManifestDatabase(manifestMeta).then((sqlLiteZipBlob: Blob) => {
+        FileUtils.blobToUintArray8(sqlLiteZipBlob).then((arrayBuffer: Uint8Array) => {
+          FileUtils.unzipArrayBuffer(arrayBuffer, manifestFilename).then((unzippedManifest: Uint8Array) => {
+            FileUtils.saveFile(unzippedManifest, manifestFilename + ".sqlite", "plain/text");
+          });
+        });
+
+      });
+    });
+  }
+
+  private reduceManifest(unzippedManifest: Uint8Array): string {
     // Now we have database
     this.db = new SQL.Database(unzippedManifest);
 
@@ -149,7 +153,12 @@ export class DownloadManifestComponent implements OnDestroy, OnInit {
 
     var stringifiedDB = JSON.stringify(Array.from(this.tableMap.entries()));
 
-    FileUtils.saveFile(stringifiedDB, "destiny-manifest_" + environment.version + ".json", "plain/text");
+    return stringifiedDB;
   }
 
 }
+
+
+
+// WEBPACK FOOTER //
+// C:/destiny/destiny-dashboard/angular/src/app/bungie/manifest/download-manifest.component.ts

@@ -45,7 +45,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 
 //Other components 
 import { AboutComponent } from './about/about.component';
-import { DownloadManifestComponent } from './bungie/manifest/download/download.component';
+import { DownloadManifestComponent } from './bungie/manifest/download-manifest.component';
 import { GamertagAutocompleteComponent } from './bungie/components/gamertag-autocomplete/gamertag-autocomplete.component';
 import { VaultItemComponent } from './bungie/components/vault-item/vault-item.component';
 import { MdTabCharacterHeadingComponent } from './bungie/components/md-tab-character-heading/md-tab-character-heading.component';

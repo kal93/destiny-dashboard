@@ -9,7 +9,7 @@ import { BungieNewsComponent } from '../cards/bungie-news/bungie-news.component'
 import { CountdownComponent } from '../cards/countdown/countdown.component';
 import { ItemManagerComponent } from '../cards/item-manager/item-manager.component';
 import { PublicEventsComponent } from '../cards/public-events/public-events.component';
-import { DownloadManifestComponent } from '../bungie/manifest/download/download.component';
+import { DownloadManifestComponent } from '../bungie/manifest/download-manifest.component';
 import { RedditComponent } from '../cards/reddit/reddit.component';
 import { StatsComponent } from '../cards/stats/stats.component';
 import { TwitchComponent } from '../cards/twitch/twitch.component';

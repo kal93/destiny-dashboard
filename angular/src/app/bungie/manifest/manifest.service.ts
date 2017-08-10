@@ -5,6 +5,7 @@ import { SharedBungie } from '../shared-bungie.service';
 import { environment } from '../../../environments/environment';
 
 import { FileUtils } from '../../shared/utilities/FileUtils';
+import { IDestinyManifestMeta } from './download-manifest.interface';
 
 declare var SQL: any;
 
@@ -74,4 +75,12 @@ export class ManifestService {
             });
         });
     }
-} 
+
+    getManifestMetadata(): Promise<IDestinyManifestMeta> {
+        return this.http.getWithCache("https://www.bungie.net/d1/Platform/Destiny/Manifest/", HttpRequestType.BUNGIE_BASIC, 0);
+    }
+
+    getManifestDatabase(manifestMeta: IDestinyManifestMeta): Promise<Blob> {
+        return this.http.httpGetBinary("https://www.bungie.net" + manifestMeta.mobileWorldContentPaths.en);
+    }
+}
