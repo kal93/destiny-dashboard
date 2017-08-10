@@ -30,7 +30,7 @@ gulp.task('clean', function (done) {
 });
 
 gulp.task('aot_compile', shell.task([
-    'ng build --prod --aot --no-sourcemap --base-href ./'
+    'ng build --prod --aot --build-optimizer --no-sourcemap --base-href ./'
 ]));
 
 gulp.task('service-worker', shell.task([
