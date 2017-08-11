@@ -9,7 +9,7 @@ import { GroupTypes } from '../enums.interface';
 /** This Injectable manages the data layer for Destiny Accounts.*/
 @Injectable()
 export class AccountStatsService {
-    private cacheTimeMs: number = 30000;
+    private cacheTimeMs: number = 60000;
 
     constructor(private http: HttpService, private sharedApp: SharedApp, private sharedBungie: SharedBungie) {
     }
