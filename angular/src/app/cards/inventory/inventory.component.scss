@@ -73,6 +73,27 @@
                     margin-right: 1px;
                 }
             }
+
+            .carrot {
+                position: absolute;
+                width: 32px;
+                height: 32px;
+                bottom: -24px;
+                right: 0;
+                transition: all 250ms ease;
+                cursor: pointer;
+
+                md-icon {
+                    height: 28px;
+                    width: 28px;
+                    font-size: 28px;
+                }
+
+                &.collapsed {
+                    bottom: 4px;
+                    transform: rotate(-180deg);
+                }
+            }
         }
 
         .character-inventory-wrap {
@@ -94,7 +115,7 @@
             .bucket-header {
                 margin: 12px 0 5px;
                 font-family: destiny;
-                font-size: 1.3em;
+                font-size: 1.25em;
                 letter-spacing: 1px;
                 text-transform: uppercase;
             }
@@ -149,34 +170,36 @@
             height: 0;
         }
 
-        .character-header {
-            max-width: 390px;
+        .character-wrap {
+            .character-header {
+                max-width: 390px;
 
-            &.vault-header {
-                .background {
-                    width: 390px;
+                &.vault-header {
+                    .background {
+                        width: 390px;
+                        height: 78px;
+                    }
+                }
+
+                .icon {
+                    width: 78px;
                     height: 78px;
                 }
             }
 
-            .icon {
-                width: 78px;
-                height: 78px;
+            .character-inventory-wrap {
+                .bucket-group {
+                    flex: 1 0 calc(100vw - 14px);
+                    margin: 0 5px;
+                }
             }
-        }
 
-        .character-inventory-wrap {
-            .bucket-group {
-                flex: 1 0 calc(100vw - 14px);
-                margin: 0 5px;
-            }
-        }
+            .bucket-wrap {
+                margin-left: 0;
 
-        .bucket-wrap {
-            margin-left: 0;
-
-            .bucket-header {
-                margin: 8px 2px 3px;
+                .bucket-header {
+                    margin: 8px 2px 3px;
+                }
             }
         }
     }

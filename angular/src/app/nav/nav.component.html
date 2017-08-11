@@ -7,7 +7,7 @@
     </button>
 
     <!-- Back Button (when not on the Dashboard) -->
-    <button md-icon-button *ngIf="router.url != '/dashboard'" [@fadeIn] (click)="backToDashboard()" class="nav-back-button">
+    <button disableRipple md-icon-button *ngIf="router.url != '/dashboard'" [@fadeIn] (click)="backToDashboard()" class="nav-back-button">
       <md-icon>arrow_back</md-icon>
       Dashboard 
     </button>
