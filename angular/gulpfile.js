@@ -49,9 +49,12 @@ gulp.task('publish', function (done) {
     //Defer js
     gulp.src('./build/index.html').pipe(replace('src=', 'defer src=')).pipe(gulp.dest('../java/src/main/webapp'));
 
+    /*
+    // Don't push sql.js to web server
     setTimeout(() => {
         gulp.src('../java/src/main/webapp/sql.js').pipe(clean({ force: true }))
         done();
     }, 500);
+*/
 
 });

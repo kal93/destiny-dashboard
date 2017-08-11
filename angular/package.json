@@ -28,7 +28,7 @@
     "hammerjs": "2.0.8",
     "jszip": "3.1.3",
     "ngx-toastr": "6.0.1",
-    "rxjs": "5.4.2",
+    "rxjs": "5.4.3",
     "stacktrace-js": "2.0.0",
     "zone.js": "0.8.16"
   },
@@ -45,6 +45,6 @@
     "run-sequence": "2.1.0",
     "sql.js": "0.4.0",
     "sw-precache": "5.2.0",
-    "typescript": "2.4.0"
+    "typescript": "2.4.2"
   }
 }
