@@ -53,7 +53,7 @@ import { MdTabCharacterHeadingComponent } from './bungie/components/md-tab-chara
 //Cards
 import { BungieNewsComponent } from './cards/bungie-news/bungie-news.component';
 import { CountdownComponent } from './cards/countdown/countdown.component';
-import { ItemManagerComponent } from './cards/item-manager/item-manager.component';
+import { ItemManagerComponent } from './cards/inventory/inventory.component';
 import { PublicEventsComponent } from './cards/public-events/public-events.component';
 import { RedditComponent } from './cards/reddit/reddit.component';
 import { StatsComponent } from './cards/stats/stats.component';

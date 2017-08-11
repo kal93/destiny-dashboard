@@ -10,7 +10,7 @@ import { CharacterInventorySummaryService, VaultSummaryService } from 'app/bungi
 import { DestinyMembership, IAccountSummary, SummaryCharacter } from 'app/bungie/services/interface.barrel';
 
 @Injectable()
-export class ItemManagerService {
+export class inventoryService {
 
     constructor(private characterInventorySummaryService: CharacterInventorySummaryService, private vaultSummaryService: VaultSummaryService) { }
 

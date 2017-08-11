@@ -112,10 +112,10 @@ export class CardDefinitions {
     },
     {
         id: 6,
-        title: "Item Manager",
+        title: "Inventory",
         description: "Manage your vault and inventories.",
         rating: 5,
-        route: "item-manager",
+        route: "inventory",
         layouts: [
             { rows: 2, cols: 2 }, { rows: 3, cols: 2 },
             { rows: 2, cols: 3 }, { rows: 3, cols: 3 }, { rows: 4, cols: 3 }
@@ -123,7 +123,7 @@ export class CardDefinitions {
         requiresLogin: true,
         isExternalRoute: false,
         lastUpdated: 1502124275046,
-        previewImageClass: "dd-item-manager-preview"
+        previewImageClass: "dd-inventory-preview"
     }];
 
     static defaultDashboards: Array<IUserDashboard> = [{

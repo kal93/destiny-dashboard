@@ -1,9 +1,10 @@
 <div [class.dd-card-wrap]="!isFullscreen">
   <dd-card-header *ngIf="!isFullscreen" [dashboardCard]="dashboardCard"></dd-card-header>
-  <div class="dd-item-manager" [class.dd-fullscreen]="isFullscreen" [class.dd-card-content]="!isFullscreen">
-    <div>
+  <div class="dd-inventory" [class.dd-fullscreen]="isFullscreen" [class.dd-card-content]="!isFullscreen">
+    <!-- Wait until everything is loaded. charactersBucketsGroupsArray is the last thing to be loaded  -->
+    <div *ngIf="charactersBucketsGroupsArray != null">
       <!-- Characters -->
-      <ng-container *ngFor="let character of accountSummary?.characters; let i = index">
+      <div class="character-wrap" *ngFor="let character of accountSummary?.characters; let i = index">
         <div class="character-header">
           <img class="background" [src]="domSanitizer.bypassSecurityTrustUrl('https://www.bungie.net' + character.backgroundPath)"
           />
@@ -14,18 +15,19 @@
           <div class="bottom-right"><span class="star">&#10022;</span>{{character.characterBase.stats.STAT_LIGHT.value}}</div>
         </div>
 
-        <div *ngIf="charactersBucketsArray[i] != null" class="section-wrap">
-          <ng-container *ngFor="let characterBucket of charactersBucketsArray[i]">
-            <div class="section-header">{{characterBucket.bucketValue.bucketName}}</div>
-            <div class="bucket-wrap">
-              <dd-inventory-item *ngFor="let inventoryItem of characterBucket.items" [inventoryItem]="inventoryItem"></dd-inventory-item>
+        <div class="character-inventory-wrap" *ngIf="charactersBucketsArray[i] != null">
+          <div class="bucket-group" *ngFor="let characterBucketGroup of charactersBucketsGroupsArray[i]">
+            <div *ngFor="let characterBucket of characterBucketGroup" class="bucket-wrap">
+              <div class="bucket-header">{{characterBucket.bucketValue.bucketName}}</div>
+              <div class="bucket">
+                <dd-inventory-item *ngFor="let inventoryItem of characterBucket.items" [inventoryItem]="inventoryItem"></dd-inventory-item>
+              </div>
             </div>
-          </ng-container>
+          </div>
         </div>
 
         <div class="separator"></div>
-
-      </ng-container>
+      </div>
 
       <!-- Vault -->
       <div class="character-header vault-header">
@@ -34,10 +36,10 @@
         <div class="top-left">Vault</div>
       </div>
 
-      <div *ngIf="vaultBucketsArray != null" class="section-wrap">
+      <div class="bucket-wrap">
         <ng-container *ngFor="let vaultBucket of vaultBucketsArray">
-          <div class="section-header">{{vaultBucket.bucketValue.bucketName}}</div>
-          <div class="bucket-wrap">
+          <div class="bucket-header">{{vaultBucket.bucketValue.bucketName}}</div>
+          <div class="bucket">
             <dd-inventory-item *ngFor="let inventoryItem of vaultBucket.items" [inventoryItem]="inventoryItem"></dd-inventory-item>
           </div>
         </ng-container>

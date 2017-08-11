@@ -1,0 +1,188 @@
+@import '../../../styles/theme.scss';
+
+//Blue grey color pallette https://material.io/guidelines/style/color.html#color-color-palette
+
+//These styles apply to both dashboard and fullscreen
+.dd-inventory {
+    background-color: #37474F;
+    color: $app-text-light;
+    padding: 7px 0;
+
+    .character-wrap {
+        .character-header {
+            position: relative;
+            max-width: 400px;
+            font-family: destiny;
+            margin: 0 auto;
+
+            &.vault-header {
+                .background {
+                    width: 400px;
+                    height: 81px;
+                    background-size: contain;
+                }
+            }
+
+            .background {
+                width: 100%;
+            }
+
+            .icon {
+                position: absolute;
+                width: 81px;
+                height: 81px;
+                top: 0;
+                left: 0;
+                background-repeat: no-repeat;
+                background-size: contain;
+            }
+
+            .top-left {
+                position: absolute;
+                font-size: 2.1em;
+                top: 8px;
+                left: 95px;
+            }
+
+            .bottom-left {
+                position: absolute;
+                font-size: 1.25em;
+                bottom: 11px;
+                left: 98px;
+                letter-spacing: .5px;
+                opacity: .8;
+            }
+
+            .top-right {
+                position: absolute;
+                font-size: 2.2em;
+                top: 6px;
+                right: 8px;
+            }
+
+            .bottom-right {
+                position: absolute;
+                font-size: 1.15em;
+                bottom: 10px;
+                right: 11px;
+                color: #FFEB3B;
+                display: flex;
+
+                .star {
+                    font-size: 1em;
+                    margin-right: 1px;
+                }
+            }
+        }
+
+        .character-inventory-wrap {
+            display: flex;
+            flex-flow: wrap;
+            align-content: flex-start;
+            align-items: flex-start;
+            justify-content: space-around;
+
+            .bucket-group {
+                flex-basis: calc(100vw - 25px);
+                margin: 0 10px 10px 0;
+            }
+        }
+
+        .bucket-wrap {
+            margin-left: 4px;
+
+            .bucket-header {
+                margin: 12px 0 5px;
+                font-family: destiny;
+                font-size: 1.3em;
+                letter-spacing: 1px;
+                text-transform: uppercase;
+            }
+
+            .bucket {
+                display: flex;
+                flex-flow: wrap;
+                justify-content: left;
+            }
+        }
+
+        .separator {
+            height: 3px;
+            background-color: #B0BEC5;
+            margin: 40px 10px;
+            background-image: linear-gradient(to right, #b8e1fc 0%, #A9D2F3 20%, #6BA8E5 30%, #CFD8DC 50%, #6BA8E5 70%, #A9D2F3 80%, #b8e1fc 100%);
+        }
+    }
+}
+
+//These styles only applies to dashboard cards
+.dd-card-content.dd-inventory {
+    height: calc(100% - 40px);
+}
+
+//These styles only apply to fullscreen mode
+.dd-fullscreen.dd-inventory {
+    height: calc(100vh - 64px);
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+// Apply XL styles
+@media(min-width: 850px) {
+    .dd-inventory {
+        .character-inventory-wrap {
+            .bucket-group {
+                flex-basis: calc(50vw - 15px);
+            }
+        }
+    }
+}
+
+// Apply phone styles
+@media(max-width: 600px) {
+    .dd-inventory {
+        background-color: #37474F;
+        color: $app-text-light;
+        padding: 7px 0;
+
+        .separator {
+            height: 0;
+        }
+
+        .character-header {
+            max-width: 390px;
+
+            &.vault-header {
+                .background {
+                    width: 390px;
+                    height: 78px;
+                }
+            }
+
+            .icon {
+                width: 78px;
+                height: 78px;
+            }
+        }
+
+        .character-inventory-wrap {
+            .bucket-group {
+                flex: 1 0 calc(100vw - 14px);
+                margin: 0 5px;
+            }
+        }
+
+        .bucket-wrap {
+            margin-left: 0;
+
+            .bucket-header {
+                margin: 8px 2px 3px;
+            }
+        }
+    }
+
+    .dd-fullscreen.dd-inventory {
+        // Header bar changes height at 600px
+        height: calc(100vh - 56px);
+    }
+}

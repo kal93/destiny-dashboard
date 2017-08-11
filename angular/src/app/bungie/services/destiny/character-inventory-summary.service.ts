@@ -8,7 +8,7 @@ import { DestinyMembership, ICharacterInventorySummary } from '../interface.barr
 @Injectable()
 export class CharacterInventorySummaryService {
     //Very low inventory cache... Don't really want to cache this but if multiple cards are requesting this endpoint at the same time let's cache it
-    private cacheTimeMs: number = 100;
+    private cacheTimeMs: number = 60000;
 
     constructor(protected http: HttpService, private sharedApp: SharedApp, private sharedBungie: SharedBungie) { }
 
