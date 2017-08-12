@@ -1,10 +1,10 @@
-import {Input, OnDestroy, OnInit} from '@angular/core';
+import { Input } from '@angular/core';
 import { MdProgressSpinner } from '@angular/material';
 import { SharedApp } from 'app/shared/services/shared-app.service';
 
 import { ICard } from './card.interface';
 
-export class CardComponent implements OnInit, OnDestroy{
+export class CardComponent {
   //Should be populated at constructor time in every child
   CARD_DEFINITION_ID: number;
 
@@ -33,5 +33,9 @@ export class CardComponent implements OnInit, OnDestroy{
 
   getCardLocalStorage(key: string, defaultValue?: any): string {
     return this.sharedApp.getLocalStorage(this.localStorageId + key, defaultValue);
+  }
+
+  getCardLocalStorageAsJsonObject(key: string, defaultValue?: any) {
+    return this.sharedApp.getLocalStorageAsJsonObject(this.localStorageId + key, defaultValue);
   }
 }

@@ -10,13 +10,13 @@ import { SharedApp } from '../../shared/services/shared-app.service';
 import { AccountSummaryService } from 'app/bungie/services/service.barrel';
 import { DestinyMembership, InventoryBucket, InventoryItem, IAccountSummary, IVaultSummary, SummaryCharacter } from 'app/bungie/services/interface.barrel';
 
-import { fadeIn } from '../../shared/animations';
+import { expandInShrinkOut } from '../../shared/animations';
 
 @Component({
     selector: 'dd-inventory',
     templateUrl: './inventory.component.html',
     styleUrls: ['../_base/card.component.scss', './inventory.component.scss'],
-    animations: [fadeIn()],
+    animations: [expandInShrinkOut()],
     providers: [inventoryService]
 })
 
@@ -47,6 +47,9 @@ export class ItemManagerComponent extends CardComponent {
     // Tower definition from the manifest so we can have the icon
     towerDefinition: any;
 
+    // Keep track if a user has collapsed a section
+    collapsedSections: Array<boolean>;
+
     constructor(private accountSummaryService: AccountSummaryService, private changeDetectorRef: ChangeDetectorRef,
         public domSanitizer: DomSanitizer, private inventoryService: inventoryService, private manifestService: ManifestService, private sharedBungie: SharedBungie, public sharedApp: SharedApp) {
         super(sharedApp);
@@ -54,6 +57,9 @@ export class ItemManagerComponent extends CardComponent {
 
     ngOnInit() {
         super.ngOnInit();
+
+        // Set collapsed sections
+        this.collapsedSections = this.getCardLocalStorageAsJsonObject("collapsedSections", [false, false, false, false]);
 
         // Get tower definition so we can show the tower emblem
         this.towerDefinition = this.manifestService.getManifestEntry("DestinyActivityDefinition", 1522220810);
@@ -72,7 +78,7 @@ export class ItemManagerComponent extends CardComponent {
             });
 
             // Fetch the inventory
-            this.inventoryService.getInventory(this.selectedMembership, this.accountSummary).then((inventoryResponses) => {
+            this.inventoryService.getFullInventory(this.selectedMembership, this.accountSummary).then((inventoryResponses) => {
                 // Vault is the first response
                 var vaultSummaryResponse: IVaultSummary = inventoryResponses.shift();
 
@@ -174,5 +180,35 @@ export class ItemManagerComponent extends CardComponent {
                 this.charactersBucketsGroupsArray[i][groupIndex].push(characterBucket);
             }
         }
+    }
+
+    refreshCharacter(characterIndex: number) {
+        let character: SummaryCharacter = this.accountSummary[characterIndex];
+
+        this.inventoryService.getCharacterInventory(this.selectedMembership, character.characterBase.characterId).then((inventoryResponse) => {
+            this.charactersBucketsMap[characterIndex] = new Map<number, InventoryBucket>();
+            this.charactersBucketsArray[characterIndex] = new Array<InventoryBucket>();
+            this.populateBucketMapFromResponse(inventoryResponse.items, this.charactersBucketsMap[characterIndex]);
+            this.flattenInventoryBuckets(this.charactersBucketsMap[characterIndex], this.charactersBucketsArray[characterIndex]);
+
+            // Group character buckets in to separate arrays based on their category id
+            this.groupCharacterBuckets();
+        });
+    }
+
+    refreshVault() {
+        this.inventoryService.clearVaultInventoryCache(this.selectedMembership);
+        this.inventoryService.getVaultInventory(this.selectedMembership).then((vaultSummaryResponse: IVaultSummary) => {
+            // Populate vault buckets
+            this.vaultBucketsMap = new Map<number, InventoryBucket>();
+            this.vaultBucketsArray = new Array<InventoryBucket>();
+            this.populateBucketMapFromResponse(vaultSummaryResponse.items, this.vaultBucketsMap);
+            this.flattenInventoryBuckets(this.vaultBucketsMap, this.vaultBucketsArray);
+        });
+    }
+
+    collapseSection(sectionIndex: number) {
+        this.collapsedSections[sectionIndex] = !this.collapsedSections[sectionIndex];
+        this.setCardLocalStorage("collapsedSections", JSON.stringify(this.collapsedSections));
     }
 }

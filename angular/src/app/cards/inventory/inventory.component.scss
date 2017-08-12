@@ -6,14 +6,14 @@
 .dd-inventory {
     background-color: #37474F;
     color: $app-text-light;
-    padding: 7px 0;
+    padding: 10px 0;
 
     .character-wrap {
         .character-header {
             position: relative;
             max-width: 400px;
             font-family: destiny;
-            margin: 0 auto;
+            margin: 0 auto 40px;
 
             &.vault-header {
                 .background {
@@ -25,6 +25,7 @@
 
             .background {
                 width: 100%;
+                display: block;
             }
 
             .icon {
@@ -74,24 +75,39 @@
                 }
             }
 
-            .carrot {
+            .option {
                 position: absolute;
                 width: 32px;
                 height: 32px;
-                bottom: -24px;
-                right: 0;
-                transition: all 250ms ease;
+                transition: all 400ms ease-out;
                 cursor: pointer;
 
-                md-icon {
-                    height: 28px;
-                    width: 28px;
-                    font-size: 28px;
+                &.carrot {
+                    bottom: -33px;
+                    right: 0;
+
+                    md-icon {
+                        height: 28px;
+                        width: 28px;
+                        font-size: 28px;
+                    }
+
+                    &.collapsed {
+                        bottom: -36px;
+                        transform: rotate(-180deg);
+                        transition-timing-function: ease-in;
+                    }
                 }
 
-                &.collapsed {
-                    bottom: 4px;
-                    transform: rotate(-180deg);
+                &.refresh {
+                    bottom: -30px;
+                    right: 36px;
+
+                    md-icon {
+                        height: 25px;
+                        width: 25px;
+                        font-size: 25px;
+                    }
                 }
             }
         }
@@ -102,36 +118,31 @@
             align-content: flex-start;
             align-items: flex-start;
             justify-content: space-around;
+            justify-content: space-evenly;
+            overflow-y: hidden;
 
             .bucket-group {
                 flex-basis: calc(100vw - 25px);
-                margin: 0 10px 10px 0;
-            }
-        }
-
-        .bucket-wrap {
-            margin-left: 4px;
-
-            .bucket-header {
-                margin: 12px 0 5px;
-                font-family: destiny;
-                font-size: 1.25em;
-                letter-spacing: 1px;
-                text-transform: uppercase;
+                margin-bottom: 10px;
             }
 
-            .bucket {
-                display: flex;
-                flex-flow: wrap;
-                justify-content: left;
-            }
-        }
+            .bucket-wrap {
+                margin-left: 4px;
 
-        .separator {
-            height: 3px;
-            background-color: #B0BEC5;
-            margin: 40px 10px;
-            background-image: linear-gradient(to right, #b8e1fc 0%, #A9D2F3 20%, #6BA8E5 30%, #CFD8DC 50%, #6BA8E5 70%, #A9D2F3 80%, #b8e1fc 100%);
+                .bucket-header {
+                    margin: 12px 0 5px;
+                    font-family: destiny;
+                    font-size: 1.25em;
+                    letter-spacing: 1px;
+                    text-transform: uppercase;
+                }
+
+                .bucket {
+                    display: flex;
+                    flex-flow: wrap;
+                    justify-content: left;
+                }
+            }
         }
     }
 }
@@ -151,9 +162,12 @@
 // Apply XL styles
 @media(min-width: 850px) {
     .dd-inventory {
-        .character-inventory-wrap {
-            .bucket-group {
-                flex-basis: calc(50vw - 15px);
+        .character-wrap {
+            .character-inventory-wrap {
+                .bucket-group {
+                    flex-basis: calc(50vw - 10px);
+                    max-width: 45%;
+                }
             }
         }
     }
@@ -162,8 +176,6 @@
 // Apply phone styles
 @media(max-width: 600px) {
     .dd-inventory {
-        background-color: #37474F;
-        color: $app-text-light;
         padding: 7px 0;
 
         .separator {
@@ -189,7 +201,7 @@
 
             .character-inventory-wrap {
                 .bucket-group {
-                    flex: 1 0 calc(100vw - 14px);
+                    flex: 1 0 calc(100vw - 15px);
                     margin: 0 5px;
                 }
             }

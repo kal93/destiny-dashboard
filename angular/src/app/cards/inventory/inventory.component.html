@@ -14,10 +14,11 @@
           <div class="top-right">{{character.characterLevel}}</div>
           <div class="bottom-right"><span class="star">&#10022;</span>{{character.characterBase.stats.STAT_LIGHT.value}}</div>
 
-          <button md-icon-button class="carrot"><md-icon>keyboard_arrow_down</md-icon></button>
+          <button md-icon-button (click)="collapseSection(i)" class="option carrot" [class.collapsed]="collapsedSections[i]"><md-icon>keyboard_arrow_down</md-icon></button>
+          <button md-icon-button (click)="refreshCharacter(character)" class="option refresh"><md-icon>refresh</md-icon></button>
         </div>
 
-        <div class="character-inventory-wrap" *ngIf="charactersBucketsArray[i] != null">
+        <div class="character-inventory-wrap" *ngIf="collapsedSections[i] == false && charactersBucketsArray[i] != null" [@expandInShrinkOut]>
           <div class="bucket-group" *ngFor="let characterBucketGroup of charactersBucketsGroupsArray[i]">
             <div *ngFor="let characterBucket of characterBucketGroup" class="bucket-wrap">
               <div class="bucket-header">{{characterBucket.bucketValue.bucketName}}</div>
@@ -27,8 +28,6 @@
             </div>
           </div>
         </div>
-
-        <div class="separator"></div>
       </div>
 
       <div class="character-wrap">
@@ -37,15 +36,20 @@
           <div class="background dd-tower-background"></div>
           <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + towerDefinition.icon +')')"></div>
           <div class="top-left">Vault</div>
+
+          <button md-icon-button class="option carrot" (click)="collapseSection(3)" [class.collapsed]="collapsedSections[3]"><md-icon>keyboard_arrow_down</md-icon></button>
+          <button md-icon-button class="option refresh" (click)="refreshVault()"><md-icon>refresh</md-icon></button>
         </div>
 
-        <div class="bucket-wrap">
-          <ng-container *ngFor="let vaultBucket of vaultBucketsArray">
-            <div class="bucket-header">{{vaultBucket.bucketValue.bucketName}}</div>
-            <div class="bucket">
-              <dd-inventory-item *ngFor="let inventoryItem of vaultBucket.items" [inventoryItem]="inventoryItem"></dd-inventory-item>
-            </div>
-          </ng-container>
+        <div *ngIf="collapsedSections[3] == false" class="character-inventory-wrap" [@expandInShrinkOut]>
+          <div class="bucket-wrap">
+            <ng-container *ngFor="let vaultBucket of vaultBucketsArray">
+              <div class="bucket-header">{{vaultBucket.bucketValue.bucketName}}</div>
+              <div class="bucket">
+                <dd-inventory-item *ngFor="let inventoryItem of vaultBucket.items" [inventoryItem]="inventoryItem"></dd-inventory-item>
+              </div>
+            </ng-container>
+          </div>
         </div>
       </div>
 

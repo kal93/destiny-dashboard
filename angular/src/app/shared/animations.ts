@@ -88,3 +88,19 @@ export function slideChildrenFromBottom() {
         ])
     ]);
 }
+
+export function expandInShrinkOut() {
+    return trigger('expandInShrinkOut', [
+        transition(
+            ':enter', [
+                style({ opacity: .5, height: 0 }),
+                animate('400ms ease-out', style({ opacity: 1, height: '*' }))
+            ]
+        ),
+        transition(
+            ':leave', [
+                style({ opacity: 1, height: '*' }),
+                animate('400ms ease-in', style({ opacity: .5, height: 0 }))
+            ])
+    ]);
+}
