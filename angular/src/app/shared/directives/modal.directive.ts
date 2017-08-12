@@ -1,4 +1,4 @@
-import { AfterViewInit, Directive, ElementRef, EventEmitter, Input, OnDestroy, Output, Renderer } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, EventEmitter, Input, Output, Renderer } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser'
 
 @Directive({
@@ -16,7 +16,7 @@ import { DomSanitizer } from '@angular/platform-browser'
 })
 
 //You should call closeModal when closing the modal for animations to work properly
-export class ModalDirective implements OnDestroy {
+export class ModalDirective {
   @Output()
   modalClosedEvent = new EventEmitter<void>();
 
@@ -64,9 +64,6 @@ export class ModalDirective implements OnDestroy {
         this.renderer.setElementStyle(this.dimElement, "backgroundColor", "rgba(0, 0, 0, .6)");
       this.opacity = 1;
     }, 50);
-  }
-
-  ngOnDestroy() {
   }
 
   public closeModal() {

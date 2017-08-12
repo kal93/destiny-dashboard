@@ -1,9 +1,9 @@
-import { Directive, ElementRef, EventEmitter, OnDestroy, Output } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, Output } from '@angular/core';
 
 @Directive({
   selector: '[ddMouseEvents]'
 })
-export class MouseEventsDirective implements OnDestroy {
+export class MouseEventsDirective {
   @Output()
   onMouseDown = new EventEmitter<void>();
 
@@ -13,9 +13,7 @@ export class MouseEventsDirective implements OnDestroy {
   private mouseDownBound: boolean = false;
   private mouseUpBound: boolean = false;
 
-  constructor(protected elementRef: ElementRef) {
-
-  }
+  constructor(protected elementRef: ElementRef) { }
 
   ngOnInit() {
     //Manually subscribe to events instead of HostListener since we don't want to listen to events the parent element doesn't care about

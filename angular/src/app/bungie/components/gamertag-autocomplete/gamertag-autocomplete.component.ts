@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MdOptionSelectionChange } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -16,7 +16,7 @@ import 'rxjs/add/operator/startWith';
   styleUrls: ['./gamertag-autocomplete.component.scss'],
   animations: [fadeInChildren(), fadeInOut()],
 })
-export class GamertagAutocompleteComponent implements OnInit {
+export class GamertagAutocompleteComponent {
   @Input()
   public autocompleteId: string;
   private localStorageId: string;

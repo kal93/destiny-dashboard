@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SharedApp } from './shared-app.service';
 
@@ -19,7 +19,7 @@ export enum HttpRequestType {
 }
 
 @Injectable()
-export class HttpService implements OnDestroy {
+export class HttpService {
     // Set api key info based on if prod or test
     public apiKey: string = environment.apiKey;
 

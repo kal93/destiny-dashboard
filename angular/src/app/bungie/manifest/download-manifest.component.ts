@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { HttpRequestType, HttpService } from 'app/shared/services/http.service';
 import { SharedApp } from 'app/shared/services/shared-app.service';
 import { FileUtils } from 'app/shared/utilities/FileUtils';
@@ -14,7 +14,7 @@ declare var SQL: any;
   templateUrl: './download-manifest.component.html',
   styleUrls: ['./download-manifest.component.scss']
 })
-export class DownloadManifestComponent implements OnDestroy, OnInit {
+export class DownloadManifestComponent {
   db: any;
 
   public tableMap = new Map<string, Array<any>>();
@@ -25,8 +25,6 @@ export class DownloadManifestComponent implements OnDestroy, OnInit {
     script.src = "./sql.js";
     document.getElementsByTagName('head')[0].appendChild(script);
   }
-
-  ngOnInit() { }
 
   ngOnDestroy() {
     if (this.db)

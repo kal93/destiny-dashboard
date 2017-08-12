@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SharedApp } from 'app/shared/services/shared-app.service';
 import { SharedDashboard } from 'app/dashboard/shared-dashboard.service';
@@ -11,7 +11,7 @@ import { ICard } from 'app/cards/_base/card.interface';
   templateUrl: './add-card.component.html',
   styleUrls: ['./add-card.component.scss']
 })
-export class AddCardComponent implements OnInit {
+export class AddCardComponent {
   @Output()
   addCardEvent = new EventEmitter<ICard>();
 
@@ -23,8 +23,7 @@ export class AddCardComponent implements OnInit {
   carouselIndex: number = 0;
   filteredIndex: number = 0;
 
-  constructor(public sharedApp: SharedApp, private sharedDashboard: SharedDashboard, public sanitizer: DomSanitizer) {
-  }
+  constructor(public sharedApp: SharedApp, private sharedDashboard: SharedDashboard, public sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     this.setAvailableCards();

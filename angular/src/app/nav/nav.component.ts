@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MdRadioChange, MdSidenav } from '@angular/material';
 import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { SharedBungie } from '../bungie/shared-bungie.service';
@@ -20,7 +20,7 @@ import { Subscription } from 'rxjs/Subscription';
   styleUrls: ['./nav.component.scss'],
   animations: [fadeIn(), routerTransition()],
 })
-export class NavComponent implements OnDestroy {
+export class NavComponent {
   @ViewChild("mainNav")
   mainNav: MdSidenav;
 
@@ -70,8 +70,6 @@ export class NavComponent implements OnDestroy {
       }
     })
   }
-
-  ngOnInit() { }
 
   ngOnDestroy() {
     this.toggleMainNavSubscription.unsubscribe();
