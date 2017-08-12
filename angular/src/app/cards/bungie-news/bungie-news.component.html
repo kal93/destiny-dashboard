@@ -28,7 +28,7 @@
               </div>
             </div>
           </div>
-          <div class="text" [innerHTML]="tweet.text"></div>
+          <div class="text" [innerHTML]="domSanitizer.bypassSecurityTrustHtml(tweet.text)"></div>
         </div>
       </div>
     </div>
@@ -56,7 +56,7 @@
             <md-icon *ngIf="newsPost.clicked" class="expand">expand_less</md-icon>
             <div class="title">{{newsPost.properties.MobileTitle}}</div>
             <div class="subtitle">{{newsPost.properties.Subtitle}}</div>
-            <div class="content" [innerHTML]="newsPost.properties.Content"></div>
+            <div class="content" [innerHTML]="domSanitizer.bypassSecurityTrustHtml(newsPost.properties.Content)"></div>
           </div>
         </div>
       </div>
