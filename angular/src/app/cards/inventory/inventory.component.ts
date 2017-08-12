@@ -88,18 +88,20 @@ export class ItemManagerComponent extends CardComponent {
                 this.populateBucketMapFromResponse(vaultSummaryResponse.items, this.vaultBucketsMap);
                 this.flattenInventoryBuckets(this.vaultBucketsMap, this.vaultBucketsArray);
 
-                // Init the array for the character buckets map. Should be the same size as the number of characters we have.
+                // Init the array for the character buckets map and bucketsGroupArray. Should be the same size as the number of characters we have.
                 this.charactersBucketsMap = new Array<Map<number, InventoryBucket>>(inventoryResponses.length);
 
+                this.charactersBucketsGroupsArray = new Array<Array<Array<InventoryBucket>>>(inventoryResponses.length);
                 // All remaining responses should be characters
                 for (var i = 0; i < inventoryResponses.length; i++) {
                     this.charactersBucketsMap[i] = new Map<number, InventoryBucket>();
                     this.charactersBucketsArray[i] = new Array<InventoryBucket>();
                     this.populateBucketMapFromResponse(inventoryResponses[i].items, this.charactersBucketsMap[i]);
                     this.flattenInventoryBuckets(this.charactersBucketsMap[i], this.charactersBucketsArray[i]);
+
+                    // Group character buckets in to separate arrays based on their category id
+                    this.groupCharactersBuckets(this.charactersBucketsArray[i], i);
                 }
-                // Group character buckets in to separate arrays based on their category id
-                this.groupCharacterBuckets();
 
             }).catch((error) => {
                 this.sharedApp.showError("There was an error getting the inventory.", error);
@@ -114,39 +116,37 @@ export class ItemManagerComponent extends CardComponent {
         super.ngOnDestroy();
     }
 
-    // Converts an API response to a workable bucketMap
+    // Converts an API response to a workable bucketMap, and populates the hashes for bucket and items
     private populateBucketMapFromResponse(bucketItemsResponse: Array<InventoryItem>, bucketsMap: Map<number, InventoryBucket>) {
         // Loop each vault item and place in to proper bucket
-        bucketItemsResponse.forEach((vaultItem) => {
-            var inventoryBucket: InventoryBucket = bucketsMap.get(vaultItem.bucketHash);
+        bucketItemsResponse.forEach((inventoryItem) => {
+            var inventoryBucket: InventoryBucket = bucketsMap.get(inventoryItem.bucketHash);
 
             // If the bucket for this vault item doesn't exist yet, create it
             if (inventoryBucket == null) {
                 inventoryBucket = {
-                    hash: vaultItem.bucketHash,
-                    bucketValue: this.manifestService.getManifestEntry("DestinyInventoryBucketDefinition", vaultItem.bucketHash),
+                    hash: inventoryItem.bucketHash,
+                    bucketValue: this.manifestService.getManifestEntry("DestinyInventoryBucketDefinition", inventoryItem.bucketHash),
                     items: new Array<InventoryItem>()
                 }
-                bucketsMap.set(vaultItem.bucketHash, inventoryBucket);
+                bucketsMap.set(inventoryItem.bucketHash, inventoryBucket);
             }
 
             // Get the vault item definition 
-            vaultItem.itemValue = this.manifestService.getManifestEntry("DestinyInventoryItemDefinition", vaultItem.itemHash);
+            inventoryItem.itemValue = this.manifestService.getManifestEntry("DestinyInventoryItemDefinition", inventoryItem.itemHash);
 
             // Get the damage type definition, if exists
-            if (vaultItem.damageTypeHash != 0)
-                vaultItem.damageTypeValue = this.manifestService.getManifestEntry("DestinyDamageTypeDefinition", vaultItem.damageTypeHash);
+            if (inventoryItem.damageTypeHash != 0)
+                inventoryItem.damageTypeValue = this.manifestService.getManifestEntry("DestinyDamageTypeDefinition", inventoryItem.damageTypeHash);
 
-            inventoryBucket.items.push(vaultItem);
+            inventoryBucket.items.push(inventoryItem);
         });
     }
 
     // Flattens a bucket map in to an array so it can be handled efficiently in .html
     private flattenInventoryBuckets(bucketsMap: Map<number, InventoryBucket>, bucketsArray: Array<InventoryBucket>) {
         // Add it to the flattened array
-        bucketsMap.forEach((bucket, bucketHash) => {
-            bucketsArray.push(bucket);
-        });
+        bucketsMap.forEach((bucket, bucketHash) => { bucketsArray.push(bucket); });
 
         // Sort buckets
         bucketsArray.sort((a, b) => {
@@ -156,43 +156,34 @@ export class ItemManagerComponent extends CardComponent {
         });
     }
 
-    private groupCharacterBuckets() {
-        this.charactersBucketsGroupsArray = new Array<Array<Array<InventoryBucket>>>();
-        for (var i = 0; i < this.charactersBucketsArray.length; i++) {
-            let characterBuckets = this.charactersBucketsArray[i]
+    private groupCharactersBuckets(characterBuckets: Array<InventoryBucket>, characterIndex: number) {
+        // Create array for the character             [BucketGroup[Buckets]]
+        this.charactersBucketsGroupsArray[characterIndex] = new Array<Array<InventoryBucket>>();
+        this.charactersBucketsGroupsArray[characterIndex][0] = new Array<InventoryBucket>();
 
-            // Create array for the character             [BucketGroup[Buckets]]
-            this.charactersBucketsGroupsArray[i] = new Array<Array<InventoryBucket>>();
-            this.charactersBucketsGroupsArray[i][0] = new Array<InventoryBucket>();
+        var groupIndex: number = 0;
+        for (var j = 0; j < characterBuckets.length; j++) {
+            let characterBucket = characterBuckets[j];
 
-            var groupIndex: number = 0;
+            //If we're changing to a specific bucket type, let's break it in to a new group
+            var bucketName = characterBuckets[j].bucketValue.bucketName;
+            if (bucketName == "Helmet" || bucketName == "Vehicle" || bucketName == "Shaders" || bucketName == "Materials" || bucketName == "Mission")
+                this.charactersBucketsGroupsArray[characterIndex][++groupIndex] = new Array<InventoryBucket>();
 
-            for (var j = 0; j < characterBuckets.length; j++) {
-                let characterBucket = characterBuckets[j];
-
-                //If we're changing to a specific bucket type, let's break it in to a new group
-                var bucketName = characterBuckets[j].bucketValue.bucketName;
-                if (bucketName == "Helmet" || bucketName == "Vehicle" || bucketName == "Shaders" || bucketName == "Materials" || bucketName == "Mission") {
-                    groupIndex++;
-                    this.charactersBucketsGroupsArray[i][groupIndex] = new Array<InventoryBucket>();
-                }
-
-                this.charactersBucketsGroupsArray[i][groupIndex].push(characterBucket);
-            }
+            this.charactersBucketsGroupsArray[characterIndex][groupIndex].push(characterBucket);
         }
     }
 
     refreshCharacter(characterIndex: number) {
-        let character: SummaryCharacter = this.accountSummary[characterIndex];
+        let character: SummaryCharacter = this.accountSummary.characters[characterIndex];
 
+        this.inventoryService.clearCharacterInventoryCache(this.selectedMembership, character.characterBase.characterId);
         this.inventoryService.getCharacterInventory(this.selectedMembership, character.characterBase.characterId).then((inventoryResponse) => {
             this.charactersBucketsMap[characterIndex] = new Map<number, InventoryBucket>();
             this.charactersBucketsArray[characterIndex] = new Array<InventoryBucket>();
             this.populateBucketMapFromResponse(inventoryResponse.items, this.charactersBucketsMap[characterIndex]);
             this.flattenInventoryBuckets(this.charactersBucketsMap[characterIndex], this.charactersBucketsArray[characterIndex]);
-
-            // Group character buckets in to separate arrays based on their category id
-            this.groupCharacterBuckets();
+            this.groupCharactersBuckets(this.charactersBucketsArray[characterIndex], characterIndex);
         });
     }
 
