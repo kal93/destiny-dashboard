@@ -11,7 +11,7 @@
     .character-wrap {
         &:not(:first-of-type) {
             .character-header {
-                margin-top: 50px;
+                margin-top: 20px;
             }
         }
 
@@ -100,19 +100,18 @@
                     font-size: 28px;
                 }
 
-                &.carrot {
-                    bottom: -33px;
-                    right: 0;
-
-                    &.collapsed {
-                        bottom: -37px;
-                        transform: rotate(-180deg);
-                    }
+                &.refresh {
+                    top: 3px;
+                    right: -41px;
                 }
 
-                &.refresh {
-                    bottom: -32px;
-                    right: 36px;
+                &.carrot {
+                    bottom: -1px;
+                    right: -41px;
+
+                    &.collapsed {
+                        transform: rotate(-180deg);
+                    }
                 }
             }
         }
@@ -148,6 +147,16 @@
                     display: flex;
                     flex-flow: wrap;
                     justify-content: left;
+
+                    dd-inventory-item {
+                        &.edit-mode {
+                            opacity: .6;
+                        }
+
+                        &.selected {
+                            opacity: 1;
+                        }
+                    }
                 }
             }
         }
@@ -191,25 +200,32 @@
 
         .character-wrap {
             .character-header {
-                max-width: 390px;
+                max-width: 345px;
+                margin: 0 12px;
 
                 &.vault-header {
                     .background {
-                        width: 390px;
-                        height: 78px;
+                        width: 345px;
+                        height: 70px;
                     }
                 }
 
                 .icon {
-                    width: 78px;
-                    height: 78px;
+                    width: 70px;
+                    height: 70px;
+                }
+
+                .option {
+                    &.refresh {
+                        top: 0;
+                    }
                 }
             }
 
             .inventory-wrap {
                 .bucket-group {
                     flex: 1 0 calc(100vw - 15px);
-                    margin: 0 5px;
+                    margin: 0 4px;
                 }
 
                 .bucket-wrap {

@@ -23,4 +23,5 @@ export interface InventoryItem {
   // Runtime variables
   damageTypeValue: any;
   itemValue: DestinyInventoryItemDefinition;
+  selected: boolean;
 }

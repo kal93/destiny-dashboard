@@ -14,18 +14,22 @@
           <div class="top-right">{{character.characterLevel}}</div>
           <div class="bottom-right"><span class="star">&#10022;</span>{{character.characterBase.stats.STAT_LIGHT.value}}</div>
 
-          <button md-icon-button (click)="collapseSection(i)" class="option carrot" [class.collapsed]="collapsedSections[i]"><md-icon>keyboard_arrow_down</md-icon></button>
           <button md-icon-button (click)="refreshCharacter(i)" class="option refresh"><md-icon>refresh</md-icon></button>
+          <button md-icon-button (click)="collapseSection(i)" class="option carrot" [class.collapsed]="collapsedSections[i]"><md-icon>keyboard_arrow_down</md-icon></button>
         </div>
 
-        <div *ngIf="collapsedSections[i] == false && charactersBucketsArray[i] != null" class="inventory-wrap" [@expandInShrinkOut]>
+        <div *ngIf="collapsedSections[i] == false && charactersBucketsArray[i] != null" class="inventory-wrap" [@expandInShrinkOut]="collapsedSections != null">
           <div class="bucket-group" *ngFor="let characterBucketGroup of charactersBucketsGroupsArray[i]">
-            <div *ngFor="let characterBucket of characterBucketGroup" class="bucket-wrap">
-              <div class="bucket-header">{{characterBucket.bucketValue.bucketName}}</div>
-              <div class="bucket">
-                <dd-inventory-item *ngFor="let inventoryItem of characterBucket.items" [inventoryItem]="inventoryItem"></dd-inventory-item>
+            <ng-container *ngFor="let characterBucket of characterBucketGroup">
+              <div *ngIf="characterBucket.items.length > 0" class="bucket-wrap">
+                <div class="bucket-header">{{characterBucket.bucketValue.bucketName}}</div>
+                <div class="bucket">
+                  <dd-inventory-item *ngFor="let inventoryItem of characterBucket.items" [class.edit-mode]="editMode" [class.selected]="inventoryItem.selected"
+                    [inventoryItem]="inventoryItem" [disablePopup]="editMode" [equipped]="inventoryItem.transferStatus % 2 == 1" [selected]="editMode && inventoryItem.selected"
+                    (clicked)="inventoryItemClicked(inventoryItem)" (longPress)="inventoryItemLongPress(inventoryItem)"></dd-inventory-item>
+                </div>
               </div>
-            </div>
+            </ng-container>
           </div>
         </div>
       </div>
@@ -37,8 +41,8 @@
           <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + towerDefinition.icon +')')"></div>
           <div class="top-left">Vault</div>
 
-          <button md-icon-button class="option carrot" (click)="collapseSection(3)" [class.collapsed]="collapsedSections[3]"><md-icon>keyboard_arrow_down</md-icon></button>
           <button md-icon-button class="option refresh" (click)="refreshVault()"><md-icon>refresh</md-icon></button>
+          <button md-icon-button class="option carrot" (click)="collapseSection(3)" [class.collapsed]="collapsedSections[3]"><md-icon>keyboard_arrow_down</md-icon></button>
         </div>
 
         <div *ngIf="collapsedSections[3] == false" class="inventory-wrap" [@expandInShrinkOut]>

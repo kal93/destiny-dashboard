@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MdTabGroup } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CardComponent } from '../_base/card.component';
@@ -7,10 +8,13 @@ import { ManifestService } from '../../bungie/manifest/manifest.service';
 import { SharedBungie } from '../../bungie/shared-bungie.service';
 import { SharedApp } from '../../shared/services/shared-app.service';
 
+import { ISubNavItem, IToolbarItem } from '../../nav/nav.interface';
 import { AccountSummaryService } from 'app/bungie/services/service.barrel';
 import { DestinyMembership, InventoryBucket, InventoryItem, IAccountSummary, IVaultSummary, SummaryCharacter } from 'app/bungie/services/interface.barrel';
 
 import { expandInShrinkOut } from '../../shared/animations';
+
+import { delayBy } from '../../shared/decorators';
 
 @Component({
     selector: 'dd-inventory',
@@ -50,8 +54,14 @@ export class ItemManagerComponent extends CardComponent {
     // Keep track if a user has collapsed a section
     collapsedSections: Array<boolean>;
 
-    constructor(private accountSummaryService: AccountSummaryService, private changeDetectorRef: ChangeDetectorRef,
-        public domSanitizer: DomSanitizer, private inventoryService: inventoryService, private manifestService: ManifestService, private sharedBungie: SharedBungie, public sharedApp: SharedApp) {
+    // If user has long pressed an inventory item, we are in edit mode
+    editMode: boolean = false;
+    isInitialClick: boolean = false;
+
+    selectedInventoryItems: Array<InventoryItem>;
+
+    constructor(private accountSummaryService: AccountSummaryService, private activatedRoute: ActivatedRoute, public domSanitizer: DomSanitizer,
+        private inventoryService: inventoryService, private manifestService: ManifestService, private sharedBungie: SharedBungie, public sharedApp: SharedApp) {
         super(sharedApp);
     }
 
@@ -67,6 +77,14 @@ export class ItemManagerComponent extends CardComponent {
         // Set our membership (XBL, PSN, Blizzard)
         this.selectedMembership = this.sharedBungie.destinyMemberships[this.sharedApp.userPreferences.membershipIndex];
 
+        this.setSubNavItems();
+
+        this.getFullInventory();
+
+        this.sharedApp.showInfoOnce("Long press to transfer items.");
+    }
+
+    private getFullInventory() {
         // Get Account Summary to get the list of available characters
         this.accountSummaryService.getAccountSummary(this.selectedMembership).then((accountSummary: IAccountSummary) => {
             this.accountSummary = accountSummary;
@@ -112,10 +130,6 @@ export class ItemManagerComponent extends CardComponent {
         });
     }
 
-    ngOnDestroy() {
-        super.ngOnDestroy();
-    }
-
     // Converts an API response to a workable bucketMap, and populates the hashes for bucket and items
     private populateBucketMapFromResponse(bucketItemsResponse: Array<InventoryItem>, bucketsMap: Map<number, InventoryBucket>) {
         // Loop each vault item and place in to proper bucket
@@ -146,14 +160,23 @@ export class ItemManagerComponent extends CardComponent {
     // Flattens a bucket map in to an array so it can be handled efficiently in .html
     private flattenInventoryBuckets(bucketsMap: Map<number, InventoryBucket>, bucketsArray: Array<InventoryBucket>) {
         // Add it to the flattened array
-        bucketsMap.forEach((bucket, bucketHash) => { bucketsArray.push(bucket); });
+        bucketsMap.forEach((bucket, bucketHash) => {
+            // Sort items in bucket. transferStatus == 1 means it's selected
+            bucket.items.sort((a: InventoryItem, b: InventoryItem) => {
+                return b.transferStatus - a.transferStatus;
+            });
 
-        // Sort buckets
+            bucketsArray.push(bucket);
+        });
+
+        // Sort buckets by category, then bucketOrder
         bucketsArray.sort((a, b) => {
             if (a.bucketValue.category == b.bucketValue.category)
                 return a.bucketValue.bucketOrder - b.bucketValue.bucketOrder;
             return b.bucketValue.category - a.bucketValue.category
         });
+
+        console.log(bucketsArray);
     }
 
     private groupCharactersBuckets(characterBuckets: Array<InventoryBucket>, characterIndex: number) {
@@ -201,5 +224,102 @@ export class ItemManagerComponent extends CardComponent {
     collapseSection(sectionIndex: number) {
         this.collapsedSections[sectionIndex] = !this.collapsedSections[sectionIndex];
         this.setCardLocalStorage("collapsedSections", JSON.stringify(this.collapsedSections));
+    }
+
+    inventoryItemLongPress(inventoryItem: InventoryItem) {
+        if (!this.editMode) {
+            inventoryItem.selected = true;
+            this.isInitialClick = true;
+            this.setEditMode(true);
+        }
+    }
+
+    inventoryItemClicked(inventoryItem: InventoryItem) {
+        if (this.editMode) {
+            // Don't reverse selection if this is the first click since we have turned on edit mode
+            if (!this.isInitialClick)
+                inventoryItem.selected = !inventoryItem.selected;
+            else
+                this.isInitialClick = false;
+            this.selectedInventoryItems.push(inventoryItem);
+        }
+    }
+
+    setEditMode(editOn: boolean) {
+        this.selectedInventoryItems = new Array<InventoryItem>();
+        this.editMode = editOn;
+        this.setToolbarItems();
+        if (this.editMode)
+            this.sharedApp.pageTitle = "";
+        else
+            this.sharedApp.pageTitle = this.activatedRoute.root.firstChild.snapshot.data['title'];
+    }
+
+    @delayBy(100)
+    setSubNavItems() {
+        this.sharedApp.subNavItems = new Array<ISubNavItem>();
+
+        // Create dashboard subNavItem
+        this.sharedApp.subNavItems.push({
+            title: 'Manage Loadouts', materialIcon: 'library_add',
+            selectedCallback: (subNavItem: ISubNavItem) => {
+                if (this.sharedApp.accessToken == null) {
+                    this.sharedApp.showWarning("Please log in to create dashboards.");
+                    return;
+                }
+            }
+        });
+
+        // Add spacer to subNav
+        this.sharedApp.subNavItems.push({ title: '_spacer', materialIcon: '' });
+
+        // Show list of loadouts
+
+    }
+
+    setToolbarItems() {
+        this.sharedApp.toolbarItems = new Array<IToolbarItem>();
+
+        //If we're not in edit mode, do not set toolbar items
+        if (!this.editMode)
+            return;
+
+        // Move toolbar item
+        this.sharedApp.toolbarItems.push({
+            title: "Move", materialIcon: "forward",
+            selectedCallback: (subNavItem: IToolbarItem) => {
+            }
+        });
+
+        this.sharedApp.toolbarItems.push({
+            title: "Equip", materialIcon: "swap_vert",
+            selectedCallback: (subNavItem: IToolbarItem) => {
+            }
+        });
+
+        this.sharedApp.toolbarItems.push({
+            title: "Hide", materialIcon: "visibility_off",
+            selectedCallback: (subNavItem: IToolbarItem) => {
+            }
+        });
+
+        // Cancel toolbar item
+        this.sharedApp.toolbarItems.push({
+            title: "Done", materialIcon: "done",
+            selectedCallback: (subNavItem: IToolbarItem) => {
+                this.setEditMode(false);
+
+                // Deselect all inventory items
+                this.selectedInventoryItems.forEach((selectedInventoryItem: InventoryItem) => {
+                    selectedInventoryItem.selected = false;
+                });
+
+                // Reset selected inventory items
+                this.selectedInventoryItems = new Array<InventoryItem>();
+
+                // Reset toolbars items
+                this.sharedApp.toolbarItems = new Array<IToolbarItem>();
+            }
+        });
     }
 }
