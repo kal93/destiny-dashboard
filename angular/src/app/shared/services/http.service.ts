@@ -205,6 +205,15 @@ export class HttpService {
                             case 1601:
                                 this.sharedApp.showError("Could not find Destiny information for this Bungie account. Have you played with this account?");
                                 break;
+
+                            case 1618:
+                                this.sharedApp.showError("An error has occurred while trying to get Destiny information. It's probably an issue with Bungie's API, please try again later.", error);
+                                break;
+
+                            default:
+                                this.sharedApp.showError("An error has occurred while trying to get Destiny information. It's probably an issue with Bungie's API, please try again later.", error);
+                                reject(error);
+                                break;
                         }
                     }
 
