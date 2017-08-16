@@ -9,7 +9,7 @@ import { SharedDashboard } from './dashboard/shared-dashboard.service';
 
 import {
   AccountStatsService, AccountSummaryService, BungieSiteNewsService, CharacterInventorySummaryService, CharacterProgressionService,
-  CharacterStatsService, VaultSummaryService
+  CharacterStatsService, VaultSummaryService, GetBungieAccountService, ClanLeaderboardsStatsService
 } from './bungie/services/service.barrel';
 
 import { ICard, IUserDashboard } from './cards/_base/card.interface';
@@ -32,7 +32,7 @@ import { fadeInOut } from './shared/animations';
   </div>
   `,
   providers: [AccountStatsService, AccountSummaryService, BungieSiteNewsService, CharacterInventorySummaryService, CharacterProgressionService, CharacterStatsService, HttpService,
-    ManifestService, SharedBungie, SharedDashboard, VaultSummaryService],
+    ManifestService, SharedBungie, SharedDashboard, VaultSummaryService, GetBungieAccountService, ClanLeaderboardsStatsService],
   animations: [fadeInOut()]
 })
 export class AppComponent {

@@ -1,0 +1,80 @@
+<div>
+  <div [class.dd-card-wrap]="!isFullscreen">
+    <dd-card-header *ngIf="!isFullscreen" [dashboardCard]="dashboardCard"></dd-card-header>
+    <div class="dd-clanleaderboards" [class.dd-fullscreen]="isFullscreen" [class.dd-card-content]="!isFullscreen">
+
+      <div class="gamertag-wrap">
+        <dd-gamertag-autocomplete [autocompleteId]="'clanleaderboards'" (membershipSelected)="membershipSelected($event)" (initialMembership)="membershipSelected($event)"></dd-gamertag-autocomplete>
+      </div>
+
+      <md-tab-group #tabGroup *ngIf="selectedMembership != null" (membershipSelected)="membershipSelected($event)">
+        <md-tab>
+
+          <ng-template md-tab-label>
+            <dd-md-tab-character-heading [nonCharacterTitle]="selectedMembership.displayName" [nonCharacterSubtitle]="bungieClanName"
+              [nonCharacterIconPath]="'https://www.bungie.net' + selectedMembership.iconPath"></dd-md-tab-character-heading>
+          </ng-template>
+
+          <div *ngIf="clanLeaderboardsStats != null" class="sub-tab-wrap">
+
+            <div *ngIf="clanLeaderboardsStats.raid.lbSingleGameKills != null" class="stat-section">
+              <!-- Player entries are stored in an array -->
+              <div class="header">Raid: Best Single Game Kills</div>
+              <div *ngFor="let entry of clanLeaderboardsStats.raid.lbSingleGameKills.entries; let i=index;">
+                <span>{{clanLeaderboardsStats.raid.lbSingleGameKills.entries[i]?.rank}}</span>
+                <span>{{clanLeaderboardsStats.raid.lbSingleGameKills.entries[i].player?.destinyUserInfo.displayName}}</span>
+                <span>{{clanLeaderboardsStats.raid.lbSingleGameKills.entries[i].value?.basic.displayValue | pNumberFormatLocale}}</span>
+              </div>
+            </div>
+            
+
+            <div *ngIf="clanLeaderboardsStats.raid.lbMostPrecisionKills != null" class="stat-section">
+              <!-- Player entries are stored in an array -->
+              <div class="header">Raid: Most Precision Kills</div>
+              <div *ngFor="let entry of clanLeaderboardsStats.raid.lbMostPrecisionKills.entries; let i=index;">
+                <span>{{clanLeaderboardsStats.raid.lbMostPrecisionKills.entries[i]?.rank}}</span>
+                <span>{{clanLeaderboardsStats.raid.lbMostPrecisionKills.entries[i].player?.destinyUserInfo.displayName}}</span>
+                <span>{{clanLeaderboardsStats.raid.lbMostPrecisionKills.entries[i].value?.basic.displayValue | pNumberFormatLocale}}</span>
+              </div>
+            </div>
+          
+
+            <div *ngIf="clanLeaderboardsStats.raid.lbLongestKillSpree != null" class="stat-section">
+              <!-- Player entries are stored in an array -->
+              <div class="header">Raid: Longest Kill Spree</div>
+              <div *ngFor="let entry of clanLeaderboardsStats.raid.lbLongestKillSpree.entries; let i=index;">
+                <span>{{clanLeaderboardsStats.raid.lbLongestKillSpree.entries[i]?.rank}}</span>
+                <span>{{clanLeaderboardsStats.raid.lbLongestKillSpree.entries[i].player?.destinyUserInfo.displayName}}</span>
+                <span>{{clanLeaderboardsStats.raid.lbLongestKillSpree.entries[i].value?.basic.displayValue | pNumberFormatLocale}}</span>
+              </div>
+            </div>
+        
+
+            <div *ngIf="clanLeaderboardsStats.raid.lbLongestSingleLife != null" class="stat-section">
+              <!-- Player entries are stored in an array -->
+              <div class="header">Raid: Longest Single Life</div>
+              <div *ngFor="let entry of clanLeaderboardsStats.raid.lbLongestSingleLife.entries; let i=index;">
+                <span>{{clanLeaderboardsStats.raid.lbLongestSingleLife.entries[i]?.rank}}</span>
+                <span>{{clanLeaderboardsStats.raid.lbLongestSingleLife.entries[i].player?.destinyUserInfo.displayName}}</span>
+                <span>{{clanLeaderboardsStats.raid.lbLongestSingleLife.entries[i].value?.basic.displayValue}}</span>
+              </div>
+            </div>
+
+            <div *ngIf="clanLeaderboardsStats.raid.lbSingleGameScore != null" class="stat-section">
+              <!-- Player entries are stored in an array -->
+              <div class="header">Raid: Longest Single Life</div>
+              <div *ngFor="let entry of clanLeaderboardsStats.raid.lbSingleGameScore.entries; let i=index;">
+                <span>{{clanLeaderboardsStats.raid.lbSingleGameScore.entries[i]?.rank}}</span>
+                <span>{{clanLeaderboardsStats.raid.lbSingleGameScore.entries[i].player?.destinyUserInfo.displayName}}</span>
+                <span>{{clanLeaderboardsStats.raid.lbSingleGameScore.entries[i].value?.basic.displayValue | pNumberFormatLocale}}</span>
+              </div>
+            </div>
+
+          </div>
+
+        </md-tab>
+      </md-tab-group>
+
+    </div>
+  </div>
+</div>

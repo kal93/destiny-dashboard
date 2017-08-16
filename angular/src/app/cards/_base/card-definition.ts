@@ -124,6 +124,22 @@ export class CardDefinitions {
         isExternalRoute: false,
         lastUpdated: 1502124275046,
         previewImageClass: "dd-inventory-preview"
+    },
+    {
+        id: 7,
+        title: "Clan Leaderboards",
+        description: "Basic clan leaderboards.",
+        rating: 5,
+        route: "clanleaderboards",
+        layouts: [
+            { rows: 2, cols: 2 },
+            { rows: 2, cols: 3 },
+            { rows: 3, cols: 3 }
+        ],
+        requiresLogin: false,
+        isExternalRoute: false,
+        lastUpdated: 1502670272976,
+        previewImageClass: "dd-clanleaderboards-preview"
     }];
 
     static defaultDashboards: Array<IUserDashboard> = [{
