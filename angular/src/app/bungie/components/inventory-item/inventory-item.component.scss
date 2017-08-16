@@ -5,17 +5,16 @@
     color: $app-text-light;
 
     .icon {
-        width: 66px;
-        height: 66px;
+        width: 68px;
+        height: 68px;
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
-        border: 2px solid #aaa;
+        border: 1px solid #90A4AE;
         position: relative;
 
         &:hover {
             cursor: pointer;
-            box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
         }
 
         .quantity {
@@ -23,6 +22,18 @@
             margin-left: 4px;
             position: absolute;
             bottom: 0;
+        }
+
+        &.equipped {
+            border: 3px double #F44336;
+            width: 64px;
+            height: 64px;
+        }
+
+        &.selected {
+            border: 2px solid #FFEB3B;
+            width: 66px;
+            height: 66px;
         }
     }
 
@@ -34,7 +45,7 @@
         text-overflow: ellipsis;
         width: 70px;
         text-align: center;
-        opacity: .7;
+        opacity: .8;
     }
 }
 
@@ -44,10 +55,19 @@
         .icon {
             width: 60px;
             height: 60px;
-            border-width: 1px;
 
             .quantity {
                 font-size: .9em;
+            }
+
+            &.equipped {
+                width: 56px;
+                height: 56px;
+            }
+
+            &.selected {
+                width: 58px;
+                height: 58px;
             }
         }
 

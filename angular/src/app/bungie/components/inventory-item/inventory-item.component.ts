@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { InventoryItem } from '../../services/interface.barrel';
 
@@ -9,7 +9,29 @@ import { InventoryItem } from '../../services/interface.barrel';
 })
 export class InventoryItemComponent {
   @Input()
-  public inventoryItem: InventoryItem;
+  inventoryItem: InventoryItem;
+  @Input()
+  equipped: boolean;
+  @Input()
+  selected: boolean;
+
+  @Input()
+  disablePopup: boolean = false;
+
+  @Output()
+  longPress = new EventEmitter<void>();
+
+  @Output()
+  clicked = new EventEmitter<void>();
 
   constructor(public domSanitizer: DomSanitizer) { }
+
+  click() {
+    // If a parent component is listening to the click event
+    this.clicked.emit();
+
+    if (this.disablePopup)
+      return;
+
+  }
 }

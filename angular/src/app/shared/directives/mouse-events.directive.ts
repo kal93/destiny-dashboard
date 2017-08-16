@@ -1,67 +1,50 @@
-import { Directive, ElementRef, EventEmitter, Output } from '@angular/core';
+import { Directive, EventEmitter, HostListener, Input, Output } from '@angular/core';
 
 @Directive({
   selector: '[ddMouseEvents]'
 })
 export class MouseEventsDirective {
-  @Output()
-  onMouseDown = new EventEmitter<void>();
+  @Input()
+  duration: number = 600;
 
   @Output()
-  onMouseUp = new EventEmitter<void>();
+  mouseDown = new EventEmitter<void>();
 
-  private mouseDownBound: boolean = false;
-  private mouseUpBound: boolean = false;
+  @Output()
+  mouseUp = new EventEmitter<void>();
 
-  constructor(protected elementRef: ElementRef) { }
+  @Output()
+  longPress = new EventEmitter<void>();
 
-  ngOnInit() {
-    //Manually subscribe to events instead of HostListener since we don't want to listen to events the parent element doesn't care about
-    if (this.onMouseDown.observers.length > 0) {
-      this.mouseDownBound = true;
+  private longPressTimeoutId: NodeJS.Timer;
 
-      this.elementRef.nativeElement.addEventListener('mousedown', (mouseEvent: MouseEvent) => {
-        this.mouseDownHandler();
-      });
+  constructor() { }
 
-      this.elementRef.nativeElement.addEventListener('touchstart', (mouseEvent: MouseEvent) => {
-        this.mouseDownHandler();
-        event.preventDefault();
-        event.stopPropagation();
-      });
-    }
-
-    if (this.onMouseUp.observers.length > 0) {
-      this.mouseUpBound = true;
-
-      this.elementRef.nativeElement.addEventListener('mouseup', (mouseEvent: MouseEvent) => {
-        this.mouseUpHandler();
-      });
-
-      this.elementRef.nativeElement.addEventListener('touchend', (mouseEvent: MouseEvent) => {
-        this.mouseUpHandler();
-        event.preventDefault();
-        event.stopPropagation();
-      });
-    }
+  // Listen for mouse events
+  @HostListener('mousedown', ['$event'])
+  onMouseDown() {
+    this.mouseDown.emit();
+    // We'll call onLongPress after the set duration, unless it's canceled by the mouseUp event
+    this.longPressTimeoutId = setTimeout(() => {
+      this.longPress.emit();
+    }, this.duration);
   }
 
-  ngOnDestroy() {
-    if (this.mouseDownBound) {
-      this.elementRef.nativeElement.removeEventListener('mousedown');
-      this.elementRef.nativeElement.removeEventListener('touchstart');
-    }
-    if (this.mouseUpBound) {
-      this.elementRef.nativeElement.removeEventListener('mouseup');
-      this.elementRef.nativeElement.removeEventListener('touchend');
-    }
+  @HostListener('mouseup', ['$event'])
+  onMouseUp() {
+    this.mouseUp.emit();
+    clearTimeout(this.longPressTimeoutId);
   }
 
-  mouseDownHandler() {
-    console.log("mouseDownHandler");
+  // Listen for mobile events too
+  @HostListener('touchstart', ['$event'])
+  touchStart() {
+    this.onMouseDown();
   }
-  mouseUpHandler() {
-    console.log("mouseUpHandler");
+
+  @HostListener('touchend', ['$event'])
+  touchEnd() {
+    this.onMouseUp();
   }
 
 }

@@ -21,7 +21,6 @@ export class AboutComponent {
     for (key in localStorage) {
       keySize = ((localStorage[key].length + key.length) * 2);
       total += keySize;
-      //console.log(key.substr(0, 50) + " = " + (keySize / 1024).toFixed(2) + " KB")
     };
     this.cacheSizeKB = (total / 1024).toFixed(2);
   }
