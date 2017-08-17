@@ -57,12 +57,8 @@ export class HttpService {
     }
 
     private getDashboardHeaders(): HttpHeaders {
-        if (this.sharedApp.accessToken == null) {
-            console.error("AccessToken was null when getting dashboard headers.");
-            return;
-        }
-
-        return new HttpHeaders().set('Authorization', this.sharedApp.accessToken);
+        if (this.sharedApp.accessToken != null)
+            return new HttpHeaders().set('Authorization', this.sharedApp.accessToken);
     }
 
     //Dashboard specific calls
