@@ -101,7 +101,7 @@ export class ItemManagerComponent extends CardComponent {
             // Fetch the inventory
             this.inventoryService.getFullInventory(this.selectedMembership, this.accountSummary).then((inventoryResponses) => {
                 // Vault is the first response
-                var vaultSummaryResponse: IVaultSummary = inventoryResponses.shift();
+                let vaultSummaryResponse: IVaultSummary = inventoryResponses.shift();
 
                 // Populate vault buckets
                 this.vaultBucketsMap = new Map<number, InventoryBucket>();
@@ -114,7 +114,7 @@ export class ItemManagerComponent extends CardComponent {
 
                 this.charactersBucketsGroupsArray = new Array<Array<Array<InventoryBucket>>>(inventoryResponses.length);
                 // All remaining responses should be characters
-                for (var i = 0; i < inventoryResponses.length; i++) {
+                for (let i = 0; i < inventoryResponses.length; i++) {
                     this.charactersBucketsMap[i] = new Map<number, InventoryBucket>();
                     this.charactersBucketsArray[i] = new Array<InventoryBucket>();
                     InventoryUtils.populateBucketMapFromResponse(this.manifestService, inventoryResponses[i].items, this.charactersBucketsMap[i]);
@@ -123,8 +123,6 @@ export class ItemManagerComponent extends CardComponent {
                     // Group character buckets in to separate arrays based on their category id
                     this.groupCharactersBuckets(this.charactersBucketsArray[i], i);
                 }
-
-                console.log(this.charactersBucketsArray);
 
             }).catch((error) => {
                 this.sharedApp.showError("There was an error getting the inventory.", error);
@@ -140,12 +138,12 @@ export class ItemManagerComponent extends CardComponent {
         this.charactersBucketsGroupsArray[characterIndex] = new Array<Array<InventoryBucket>>();
         this.charactersBucketsGroupsArray[characterIndex][0] = new Array<InventoryBucket>();
 
-        var groupIndex: number = 0;
-        for (var j = 0; j < characterBuckets.length; j++) {
+        let groupIndex: number = 0;
+        for (let j = 0; j < characterBuckets.length; j++) {
             let characterBucket = characterBuckets[j];
 
             //If we're changing to a specific bucket type, let's break it in to a new group
-            var bucketName = characterBuckets[j].bucketValue.bucketName;
+            let bucketName = characterBuckets[j].bucketValue.bucketName;
             if (bucketName == "Helmet" || bucketName == "Vehicle" || bucketName == "Shaders" || bucketName == "Materials" || bucketName == "Mission") {
                 groupIndex++;
                 this.charactersBucketsGroupsArray[characterIndex][groupIndex] = new Array<InventoryBucket>();
@@ -198,18 +196,18 @@ export class ItemManagerComponent extends CardComponent {
     @debounceBy(400)
     applyFilter(skipAlreadyFiltered: boolean = false) {
         // Apply filter to vault bucket
-        for (var i = 0; i < this.vaultBucketsArray.length; i++)
+        for (let i = 0; i < this.vaultBucketsArray.length; i++)
             this.applyFilterToBucket(this.vaultBucketsArray[i], skipAlreadyFiltered);
 
         // Apply filter to each characters bucket groups
-        for (var characterIndex = 0; characterIndex < this.charactersBucketsGroupsArray.length; characterIndex++) {
+        for (let characterIndex = 0; characterIndex < this.charactersBucketsGroupsArray.length; characterIndex++) {
             // Bucket groups for character
-            var bucketGroups = this.charactersBucketsGroupsArray[characterIndex];
+            let bucketGroups = this.charactersBucketsGroupsArray[characterIndex];
 
-            for (var groupIndex = 0; groupIndex < bucketGroups.length; groupIndex++) {
-                var buckets = this.charactersBucketsGroupsArray[characterIndex][groupIndex];
+            for (let groupIndex = 0; groupIndex < bucketGroups.length; groupIndex++) {
+                let buckets = this.charactersBucketsGroupsArray[characterIndex][groupIndex];
 
-                for (var i = 0; i < buckets.length; i++)
+                for (let i = 0; i < buckets.length; i++)
                     this.applyFilterToBucket(buckets[i], skipAlreadyFiltered);
             }
         }
@@ -225,10 +223,10 @@ export class ItemManagerComponent extends CardComponent {
                 return;
             }
         }
-        var searchTextLower = this.searchText.toLowerCase().trim();
-        var bucketHasItem = false;
-        for (var i = 0; i < bucket.items.length; i++) {
-            var inventoryItem = bucket.items[i];
+        let searchTextLower = this.searchText.toLowerCase().trim();
+        let bucketHasItem = false;
+        for (let i = 0; i < bucket.items.length; i++) {
+            let inventoryItem = bucket.items[i];
             if (inventoryItem.filteredOut && skipAlreadyFiltered)
                 continue;
 

@@ -48,7 +48,7 @@ export class AppComponent {
   initApp() {
     if (this.sharedApp.accessToken == null) {
       // Use regular local storage for bungieAuthCode since we use it in index.html before we've loaded sharedApp
-      var bungieAuthCode = localStorage.getItem("bungieAuthCode");
+      let bungieAuthCode = localStorage.getItem("bungieAuthCode");
       if (bungieAuthCode == null)
         this.welcomeUser();
       else {

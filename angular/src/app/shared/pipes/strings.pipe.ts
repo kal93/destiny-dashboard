@@ -31,22 +31,22 @@ export class SubstringPipe implements PipeTransform {
 export class DateStringTimeAgoPipe implements PipeTransform {
   transform(value: any): string {
     try {
-      var dateParsed;
+      let dateParsed;
       if (value instanceof Date)
         dateParsed = value
       else
         dateParsed = new Date(value);
 
-      var elapsedMs = Date.now() - dateParsed.getTime();
-      var elapsedMin = elapsedMs / 1000 / 60;
+      let elapsedMs = Date.now() - dateParsed.getTime();
+      let elapsedMin = elapsedMs / 1000 / 60;
       if (elapsedMin < 60)
         return Math.floor(elapsedMin) + " min";
 
-      var elapsedHr = elapsedMin / 60;
+      let elapsedHr = elapsedMin / 60;
       if (elapsedHr < 24)
         return Math.floor(elapsedHr) + " hr";
 
-      var elapsedDay = Math.floor(elapsedHr / 24);
+      let elapsedDay = Math.floor(elapsedHr / 24);
       if (elapsedDay == 1)
         return elapsedDay + " day";
       else

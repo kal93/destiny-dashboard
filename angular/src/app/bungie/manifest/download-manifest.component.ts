@@ -6,7 +6,7 @@ import { IDestinyManifestMeta } from './download-manifest.interface';
 import { ManifestService } from './manifest.service';
 import { environment } from '../../../environments/environment';
 
-declare var SQL: any;
+declare let SQL: any;
 
 // Not used by users. This is an admin help page to generate manifest things
 @Component({
@@ -21,7 +21,7 @@ export class DownloadManifestComponent {
 
   constructor(protected http: HttpService, protected manifestService: ManifestService, private sharedApp: SharedApp) {
     // "Lazy load" script so it's not part of the main bundle
-    var script = document.createElement('script');
+    let script = document.createElement('script');
     script.src = "./sql.js";
     document.getElementsByTagName('head')[0].appendChild(script);
   }
@@ -33,11 +33,11 @@ export class DownloadManifestComponent {
 
   downloadManifestJson() {
     this.manifestService.getManifestMetadata().then((manifestMeta: IDestinyManifestMeta) => {
-      var manifestFilename = manifestMeta.mobileWorldContentPaths.en.substr(manifestMeta.mobileWorldContentPaths.en.lastIndexOf("/") + 1);
+      let manifestFilename = manifestMeta.mobileWorldContentPaths.en.substr(manifestMeta.mobileWorldContentPaths.en.lastIndexOf("/") + 1);
       this.manifestService.getManifestDatabase(manifestMeta).then((sqlLiteZipBlob: Blob) => {
         FileUtils.blobToUintArray8(sqlLiteZipBlob).then((arrayBuffer: Uint8Array) => {
           FileUtils.unzipArrayBuffer(arrayBuffer, manifestFilename).then((unzippedManifest: Uint8Array) => {
-            var reducedManifest = this.reduceManifest(unzippedManifest);
+            let reducedManifest = this.reduceManifest(unzippedManifest);
             FileUtils.saveFile(reducedManifest, "destiny-manifest_" + environment.version + ".json", "plain/text");
           });
         });
@@ -48,7 +48,7 @@ export class DownloadManifestComponent {
 
   downloadManifestDatabase() {
     this.manifestService.getManifestMetadata().then((manifestMeta: IDestinyManifestMeta) => {
-      var manifestFilename = manifestMeta.mobileWorldContentPaths.en.substr(manifestMeta.mobileWorldContentPaths.en.lastIndexOf("/") + 1);
+      let manifestFilename = manifestMeta.mobileWorldContentPaths.en.substr(manifestMeta.mobileWorldContentPaths.en.lastIndexOf("/") + 1);
       this.manifestService.getManifestDatabase(manifestMeta).then((sqlLiteZipBlob: Blob) => {
         FileUtils.blobToUintArray8(sqlLiteZipBlob).then((arrayBuffer: Uint8Array) => {
           FileUtils.unzipArrayBuffer(arrayBuffer, manifestFilename).then((unzippedManifest: Uint8Array) => {
@@ -65,17 +65,17 @@ export class DownloadManifestComponent {
     this.db = new SQL.Database(unzippedManifest);
 
     // Get all tables from the database meta data
-    var resultSet = this.db.exec(`SELECT name FROM sqlite_master WHERE type='table'`);
+    let resultSet = this.db.exec(`SELECT name FROM sqlite_master WHERE type='table'`);
 
     // resultSet[0] is the actual select data
-    var tableDefinitions: Array<any> = resultSet[0];
+    let tableDefinitions: Array<any> = resultSet[0];
 
     // Create a map per table
     this.tableMap = new Map<string, Array<any>>();
 
     // For every table definition in the meta data
-    for (var i = 0; i < tableDefinitions.values.length; i++) {
-      var tableName: string = tableDefinitions.values[i][0];
+    for (let i = 0; i < tableDefinitions.values.length; i++) {
+      let tableName: string = tableDefinitions.values[i][0];
 
       // Tables that we want to ignore completely
       if (tableName == "DestinyActivityBundleDefinition" || tableName == "DestinyActivityCategoryDefinition" || tableName == "DestinyActivityModeDefinition"
@@ -93,20 +93,20 @@ export class DownloadManifestComponent {
       }
 
       resultSet = this.db.exec(`SELECT * FROM ${tableName}`);
-      var tableRows = resultSet[0];
+      let tableRows = resultSet[0];
 
       // Create a map for the hash - > json values
-      var rowMap = new Map<number, any>();
+      let rowMap = new Map<number, any>();
 
       // This is a unique hashId for most tables
       // Most tables follow the convention DestinyPlaceDefinition => placeHash. Others will be removed manually
-      var tableHashId: string = (tableName.replace("Destiny", "").replace("Definition", "")).toLowerCase() + "Hash";
+      let tableHashId: string = (tableName.replace("Destiny", "").replace("Definition", "")).toLowerCase() + "Hash";
 
       tableRows.values.forEach((row) => {
-        var hash = row[0];
-        var rowObj = JSON.parse(row[1]);
+        let hash = row[0];
+        let rowObj = JSON.parse(row[1]);
 
-        var originalHash = hash;
+        let originalHash = hash;
 
         // If the hash is negative, 0xFFFFFFF bitwise it because that's how it comes from Bungie
         if (hash < 0) hash += 4294967296
@@ -149,7 +149,7 @@ export class DownloadManifestComponent {
       this.tableMap.set(tableName, Array.from(rowMap.entries()));
     }
 
-    var stringifiedDB = JSON.stringify(Array.from(this.tableMap.entries()));
+    let stringifiedDB = JSON.stringify(Array.from(this.tableMap.entries()));
 
     return stringifiedDB;
   }

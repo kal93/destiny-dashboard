@@ -89,8 +89,8 @@ export class GamertagAutocompleteComponent {
       this.filteredMemberships = this.historicMemberships;
     else
       this.filteredMemberships = this.historicMemberships.filter((membership) => {
-        var filteredLower = membership.displayName.toLowerCase();
-        var selectedLower = selectedText.toLowerCase();
+        let filteredLower = membership.displayName.toLowerCase();
+        let selectedLower = selectedText.toLowerCase();
         return filteredLower != selectedLower && filteredLower.indexOf(selectedLower) > -1;
       });
   }
@@ -109,9 +109,9 @@ export class GamertagAutocompleteComponent {
       this.sharedBungie.searchDestinyPlayer(DestinyMembershipType.TIGERPSN, this.selectedText),
       this.sharedBungie.searchDestinyPlayer(DestinyMembershipType.TIGERBLIZZARD, this.selectedText)
     ]).then((responses) => {
-      var xboxResponse = responses[0];
-      var psnResponse = responses[1];
-      var blizzardResponse = responses[2];
+      let xboxResponse = responses[0];
+      let psnResponse = responses[1];
+      let blizzardResponse = responses[2];
 
       if (xboxResponse != null) this.possibleMemberships.push(xboxResponse);
       if (psnResponse != null) this.possibleMemberships.push(psnResponse);
@@ -153,8 +153,8 @@ export class GamertagAutocompleteComponent {
     this.possibleMemberships = new Array<DestinyMembership>();
 
     //Make sure we haven't already saved this gamertag and platform combo
-    var alreadySaved: boolean = false;
-    for (var i = 0; i < this.historicMemberships.length; i++) {
+    let alreadySaved: boolean = false;
+    for (let i = 0; i < this.historicMemberships.length; i++) {
       if (this.historicMemberships[i].displayName.toLowerCase() == selectedMembership.displayName.toLowerCase() &&
         this.historicMemberships[i].membershipType == selectedMembership.membershipType) {
         alreadySaved = true;
@@ -174,7 +174,7 @@ export class GamertagAutocompleteComponent {
 
   removeMembershipFromHistory(event: MouseEvent, removeMembership: DestinyMembership) {
     //Remove from historic
-    for (var i = 0; i < this.historicMemberships.length; i++) {
+    for (let i = 0; i < this.historicMemberships.length; i++) {
       if (this.historicMemberships[i].displayName.toLowerCase() == removeMembership.displayName.toLowerCase() &&
         this.historicMemberships[i].membershipType == removeMembership.membershipType) {
         this.historicMemberships.splice(i, 1);

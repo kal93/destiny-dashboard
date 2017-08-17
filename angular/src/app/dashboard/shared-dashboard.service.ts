@@ -25,7 +25,7 @@ export class SharedDashboard {
     set userDashboards(userDashboards: Array<IUserDashboard>) {
         this._userDashboards = userDashboards;
 
-        var lastDashboardIndex = this.sharedApp.getLocalStorage("selectedDashboardId", 0);
+        let lastDashboardIndex = this.sharedApp.getLocalStorage("selectedDashboardId", 0);
         if (lastDashboardIndex > this.userDashboards.length) lastDashboardIndex = 0;
         this._selectedDashboard = this.userDashboards[lastDashboardIndex];
 
@@ -45,7 +45,7 @@ export class SharedDashboard {
 
     loadUser(): Promise<any> {
         return Promise.all([this.getUserDashboards(), this.getUserPreferences()]).then((responses: Array<any>) => {
-            var layoutResponse: Array<IUserDashboard> = responses[0];
+            let layoutResponse: Array<IUserDashboard> = responses[0];
             //User had no cards saved in the database
             if (layoutResponse.length == 0) {
                 this.sharedApp.showInfoOnce("Add or remove cards to customize your dashboard.");
@@ -87,7 +87,7 @@ export class SharedDashboard {
             Promise.reject("sharedApp.accessToken was null when calling saveUserDashboard()");
 
         //Create temporary object so we can delete properties we don't need to send server side
-        var dashboardToSaveReplica: IUserDashboard = this.sharedApp.deepCopyObject(dashboardToSave);
+        let dashboardToSaveReplica: IUserDashboard = this.sharedApp.deepCopyObject(dashboardToSave);
         dashboardToSaveReplica.cards.forEach((card) => {
             delete card.id;
             delete card.layout;
@@ -119,7 +119,7 @@ export class SharedDashboard {
         }
 
         // If we're deleting the selected dashboard, set the selected dashboard to a different on
-        var deletingSelected: boolean = this.selectedDashboard == dashboardToDelete;
+        let deletingSelected: boolean = this.selectedDashboard == dashboardToDelete;
 
         // Remove target dashboard
         this.userDashboards.splice(this.userDashboards.indexOf(dashboardToDelete), 1);
@@ -148,12 +148,12 @@ export class SharedDashboard {
     }
 
     generateDashboardName() {
-        var newDashboardName: string;
-        var i = 1;
+        let newDashboardName: string;
+        let i = 1;
         while (true) {
-            var nameExists: boolean = false;
+            let nameExists: boolean = false;
             newDashboardName = "Dashboard " + i;
-            for (var j = 0; j < this.userDashboards.length; j++) {
+            for (let j = 0; j < this.userDashboards.length; j++) {
                 if (this.userDashboards[j].name.toLowerCase() == newDashboardName.toLowerCase()) {
                     nameExists = true;
                     break;

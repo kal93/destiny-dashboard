@@ -143,11 +143,11 @@ export class CardDefinitions {
     }];
 
     static initDashboardsFromAPI(userDashboards: Array<IUserDashboard>) {
-        for (var i = 0; i < userDashboards.length; i++) {
-            var userDashboard = userDashboards[i];
+        for (let i = 0; i < userDashboards.length; i++) {
+            let userDashboard = userDashboards[i];
             //Validate user cards
-            for (var j = 0; j < userDashboard.cards.length; j++) {
-                var dashboardCard: ICard = userDashboard.cards[j];
+            for (let j = 0; j < userDashboard.cards.length; j++) {
+                let dashboardCard: ICard = userDashboard.cards[j];
 
                 //Set a unique value for each card so we can reference it in the future
                 dashboardCard.id = j;

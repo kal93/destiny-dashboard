@@ -10,7 +10,7 @@ export class inventoryService {
 
     getFullInventory(selectedMembership: DestinyMembership, accountSummary: IAccountSummary): Promise<any> {
         // Set an array of promises so we can use Promise.All later
-        var inventoryDataPromises = new Array<Promise<any>>();
+        let inventoryDataPromises = new Array<Promise<any>>();
 
         // Add the vault request to the promises we're about to fire 
         inventoryDataPromises.push(this.getVaultInventory(selectedMembership));

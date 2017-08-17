@@ -7,7 +7,7 @@ import { environment } from '../../../environments/environment';
 import { FileUtils } from '../../shared/utilities/FileUtils';
 import { IDestinyManifestMeta } from './download-manifest.interface';
 
-declare var SQL: any;
+declare let SQL: any;
 
 /** This Injectable manages the data layer for Destiny Character Stats*/
 @Injectable()
@@ -19,7 +19,7 @@ export class ManifestService {
     }
 
     public getManifestEntry(table: string, hash: number) {
-        var tableMap = this.manifestMap.get(table);
+        let tableMap = this.manifestMap.get(table);
         return tableMap == null ? null : tableMap.get(hash);
     }
 
@@ -28,7 +28,7 @@ export class ManifestService {
     }
 
     public loadManifest(): Promise<any> {
-        var loadingId = Date.now();
+        let loadingId = Date.now();
         this.sharedApp.showLoading(loadingId);
         return new Promise((resolve, reject) => {
             //Download latest local manifest zip file
@@ -38,10 +38,10 @@ export class ManifestService {
                     //Unzip it
                     FileUtils.unzipArrayBuffer(arrayBuffer, "destiny-manifest_0.1.83.json").then((unzippedManifest: Uint8Array) => {
                         //Convert bytearray to JSON string
-                        var stringifiedDB = FileUtils.utf8ByteArrayToString(unzippedManifest);
+                        let stringifiedDB = FileUtils.utf8ByteArrayToString(unzippedManifest);
 
                         //Parse JSON string
-                        var manifestData = JSON.parse(stringifiedDB);
+                        let manifestData = JSON.parse(stringifiedDB);
 
                         //Cleanup
                         stringifiedDB = null;
@@ -49,10 +49,10 @@ export class ManifestService {
                         //Convert array of data in to ES6 map for quick lookups
                         this.manifestMap = new Map<string, Map<number, any>>();
                         manifestData.forEach((manifestEntry) => {
-                            var tableName: string = manifestEntry[0];
-                            var rows: Array<any> = manifestEntry[1];
+                            let tableName: string = manifestEntry[0];
+                            let rows: Array<any> = manifestEntry[1];
 
-                            var tableMap = new Map<number, any>();
+                            let tableMap = new Map<number, any>();
 
                             rows.forEach((row) => {
                                 tableMap.set(row[0], row[1]);

@@ -17,7 +17,7 @@ export class AboutComponent {
   constructor(public sharedApp: SharedApp) { }
 
   ngOnInit() {
-    var total = 0, keySize, key;
+    let total = 0, keySize, key;
     for (key in localStorage) {
       keySize = ((localStorage[key].length + key.length) * 2);
       total += keySize;

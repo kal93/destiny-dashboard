@@ -54,7 +54,7 @@ export class Swipeable {
 
     handleEndEvent(touchEndClientX: number, touchEndClientY: number, event: TouchEvent | MouseEvent) {
         //If the user has not dragged far enough in the X direction, don't consider it a swipe
-        var movedDeltaX = touchEndClientX - this.touchStartClientX;
+        let movedDeltaX = touchEndClientX - this.touchStartClientX;
         if (Math.abs(movedDeltaX) < this.minimumDeltaX)
             return;
 

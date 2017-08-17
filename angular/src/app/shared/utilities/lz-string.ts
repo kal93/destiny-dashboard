@@ -20,7 +20,7 @@ export class LZString {
 
     private static _compress(uncompressed, bitsPerChar, getCharFromInt) {
         if (uncompressed == null) return "";
-        var i, value,
+        let i, value,
             context_dictionary = {},
             context_dictionaryToCreate = {},
             context_c = "",
@@ -236,7 +236,7 @@ export class LZString {
     }
 
     private static _decompress(length, resetValue, getNextValue) {
-        var dictionary = [],
+        let dictionary = [],
             next,
             enlargeIn = 4,
             dictSize = 4,

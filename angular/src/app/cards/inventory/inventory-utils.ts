@@ -26,7 +26,7 @@ export class InventoryUtils {
     public static populateBucketMapFromResponse(manifestService: ManifestService, bucketItemsResponse: Array<InventoryItem>, bucketsMap: Map<number, InventoryBucket>) {
         // Loop each vault item and place in to proper bucket
         bucketItemsResponse.forEach((inventoryItem) => {
-            var inventoryBucket: InventoryBucket = bucketsMap.get(inventoryItem.bucketHash);
+            let inventoryBucket: InventoryBucket = bucketsMap.get(inventoryItem.bucketHash);
 
             // If the bucket for this vault item doesn't exist yet, create it
             if (inventoryBucket == null) {

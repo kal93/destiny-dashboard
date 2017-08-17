@@ -58,12 +58,12 @@ export class BungieNewsComponent extends CardComponent {
     this.bungieNewsService.getBungieNews(NewsTypes.ALL, this.currentPage, 2).then((bungieNews: INews) => {
       bungieNews.results.forEach((result: INewsResult) => {
         //result.properties.Content = result.properties.Content.replace(/\[\[.*\]/, '');
-        var start = result.properties.Content.indexOf("[[");
+        let start = result.properties.Content.indexOf("[[");
         while (start != -1) {
-          var end = result.properties.Content.indexOf("]]");
+          let end = result.properties.Content.indexOf("]]");
           if (end == -1)
             break;
-          var parsed = result.properties.Content.substr(0, start);
+          let parsed = result.properties.Content.substr(0, start);
           result.properties.Content = parsed + result.properties.Content.substr(end + 2);
           start = result.properties.Content.indexOf("[[");
         }

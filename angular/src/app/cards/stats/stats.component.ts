@@ -114,7 +114,7 @@ export class StatsComponent extends CardComponent {
       });
     }
     else {
-      var characterId: string = this.accountSummary.characters[this.selectedTabIndex - 1].characterBase.characterId;
+      let characterId: string = this.accountSummary.characters[this.selectedTabIndex - 1].characterBase.characterId;
       this.characterStatsService.getCharacterStats(this.selectedMembership, characterId, [GroupTypes.GENERAL], [ModeTypes.ALLPVE, ModeTypes.ALLPVP], PeriodTypes.ALLTIME).then((characterStats: ICharacterStats) => {
         this.characterStats = characterStats;
       });
@@ -127,11 +127,11 @@ export class StatsComponent extends CardComponent {
     // 0 Should never happen, can't select rep if you're on the account summary
     if (this.selectedTabIndex == 0) { }
     else {
-      var characterId: string = this.accountSummary.characters[this.selectedTabIndex - 1].characterBase.characterId;
+      let characterId: string = this.accountSummary.characters[this.selectedTabIndex - 1].characterBase.characterId;
 
       //Create a map for the relationship from DestinyFactionDefinition to DestinyProgressDefinition
-      var progressionHashFactionMap = new Map<number, any>();
-      var factionMap = this.manifestService.getTableMap("DestinyFactionDefinition");
+      let progressionHashFactionMap = new Map<number, any>();
+      let factionMap = this.manifestService.getTableMap("DestinyFactionDefinition");
       factionMap.forEach((value, key) => {
         if (value.progressionHash != 0)
           progressionHashFactionMap.set(value.progressionHash, value);
@@ -143,7 +143,7 @@ export class StatsComponent extends CardComponent {
 
         // Set the manifest value for the given progression hash
         this.characterProgressions.forEach((progression) => {
-          var factionValue = progressionHashFactionMap.get(progression.progressionHash);
+          let factionValue = progressionHashFactionMap.get(progression.progressionHash);
 
           // Set the faction if it exists
           if (factionValue != null) {
@@ -172,7 +172,7 @@ export class StatsComponent extends CardComponent {
     this.accountStatsWeapons = new Array<{ displayName: string, value: string }>();
 
     // Create an alias for this long nammed variable
-    var PvEAllTime = this.accountStats.mergedAllCharacters.results.allPvE.allTime;
+    let PvEAllTime = this.accountStats.mergedAllCharacters.results.allPvE.allTime;
     this.accountStatsWeapons.push({ displayName: "Auto Rifle Kills", value: PvEAllTime.weaponKillsAutoRifle.basic.displayValue });
     this.accountStatsWeapons.push({ displayName: "Fusion Rifle Kills", value: PvEAllTime.weaponKillsFusionRifle.basic.displayValue });
     this.accountStatsWeapons.push({ displayName: "Grenade Kills", value: PvEAllTime.weaponKillsGrenade.basic.displayValue });
@@ -189,8 +189,8 @@ export class StatsComponent extends CardComponent {
     this.accountStatsWeapons.push({ displayName: "Super Kills", value: PvEAllTime.weaponKillsSuper.basic.displayValue });
     this.accountStatsWeapons.push({ displayName: "Sword Kills", value: PvEAllTime.weaponKillsSword.basic.displayValue });
     this.accountStatsWeapons.sort((a, b) => {
-      var aNum = parseInt(a.value);
-      var bNum = parseInt(b.value);
+      let aNum = parseInt(a.value);
+      let bNum = parseInt(b.value);
       if (isNaN(aNum)) aNum = 0;
       if (isNaN(bNum)) bNum = 0;
       return bNum - aNum;

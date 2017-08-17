@@ -54,7 +54,7 @@ export class RedditComponent extends CardComponent {
 
   getHotPosts() {
     //Get the last object in loaded posts if one exists
-    var afterQueryParm: string;
+    let afterQueryParm: string;
     if (this.redditResults.length > 0)
       afterQueryParm = "&after=" + this.redditResults[this.redditResults.length - 1].postId;
 
@@ -68,7 +68,7 @@ export class RedditComponent extends CardComponent {
 
   getNewPosts() {
     //Get the last object in loaded posts if one exists
-    var afterQueryParm: string;
+    let afterQueryParm: string;
     if (this.redditResults.length > 0)
       afterQueryParm = "&after=" + this.redditResults[this.redditResults.length - 1].postId;
     this.redditService.getNewPosts(afterQueryParm).then((response) => {
@@ -80,7 +80,7 @@ export class RedditComponent extends CardComponent {
 
   parseRedditResponse(response: any) {
     response.data.children.forEach(element => {
-      var post = element.data;
+      let post = element.data;
       this.redditResults.push({
         postId: post.name,
         title: post.title,
