@@ -1,8 +1,9 @@
-<div class="icon" ddMouseEvents (longPress)="longPress.emit()" (click)="click()" [class.equipped]="equipped" [class.selected]="selected"
-  [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + inventoryItem.itemValue.icon  +')')">
-  <span *ngIf="inventoryItem.quantity > 1" class="quantity">{{inventoryItem.quantity}}</span>
+<div ddMouseEvents (longPress)="longPress.emit()" (mouseUp)="click()">
+  <div class="icon" [class.equipped]="equipped" [class.selected]="selected" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + inventoryItem.itemValue.icon  +')')">
+    <span *ngIf="inventoryItem.quantity > 1" class="quantity">{{inventoryItem.quantity}}</span>
+  </div>
+  <div class="name"> {{inventoryItem.itemValue.itemName}} </div>
 </div>
-<div class="name"> {{inventoryItem.itemValue.itemName}} </div>
 
 
 <!-- 

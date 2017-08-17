@@ -8,6 +8,48 @@
     color: $app-text-light;
     padding: 10px 0;
 
+    .filter-wrap {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+
+        .search-text-wrap {
+            flex: 2;
+            display: flex;
+            justify-content: center;
+
+            .search-text {
+                margin-top: 5px;
+
+                &.mat-input-container {
+                    ::ng-deep .mat-input-placeholder {
+                        color: $app-text-light;
+                        opacity: 1;
+                    }
+
+                    &.mat-focused {
+                        ::ng-deep .mat-input-placeholder {
+                            opacity: .7;
+                        }
+                    }
+                }
+
+                ::ng-deep .mat-input-underline {
+                    background-color: $app-text-light;
+                }
+
+                ::ng-deep .mat-input-ripple {
+                    background-color: rgba(mat-color($app-secondary), .5);
+                }
+            }
+        }
+
+        .non-transferrable {
+            margin: 0 5px;
+            flex: 1;
+        }
+    }
+
     .character-wrap {
         &:not(:first-of-type) {
             .character-header {
@@ -27,6 +69,11 @@
                     height: 81px;
                     background-size: contain;
                 }
+
+                .top-left {
+                    top: 13px;
+                    left: 100px;
+                }
             }
 
             .background {
@@ -41,7 +88,7 @@
                 width: 81px;
                 height: 81px;
                 top: 0;
-                left: 0;
+                left: 3px;
                 background-repeat: no-repeat;
                 background-size: contain;
             }
@@ -69,13 +116,13 @@
                 position: absolute;
                 font-size: 2.2em;
                 top: 6px;
-                right: 8px;
+                right: 9px;
             }
 
             .bottom-right {
                 pointer-events: none;
                 position: absolute;
-                font-size: 1.1em;
+                font-size: 1.2em;
                 bottom: 5px;
                 right: 11px;
                 color: #FFEB3B;
@@ -95,19 +142,19 @@
                 cursor: pointer;
 
                 md-icon {
-                    height: 28px;
-                    width: 28px;
-                    font-size: 28px;
+                    height: 26px;
+                    width: 26px;
+                    font-size: 26px;
                 }
 
                 &.refresh {
-                    top: 3px;
-                    right: -41px;
+                    top: 4px;
+                    right: -40px;
                 }
 
                 &.carrot {
                     bottom: -1px;
-                    right: -41px;
+                    right: -40px;
 
                     &.collapsed {
                         transform: rotate(-180deg);
@@ -124,7 +171,6 @@
             justify-content: space-around;
             justify-content: space-evenly;
             overflow-y: hidden;
-            margin-top: 20px;
 
             .bucket-group {
                 flex-basis: calc(100vw - 25px);
@@ -208,17 +254,43 @@
                         width: 345px;
                         height: 70px;
                     }
+
+                    .top-left {
+                        top: 13px;
+                        left: 85px;
+                    }
                 }
 
                 .icon {
-                    width: 70px;
-                    height: 70px;
+                    width: 69px;
+                    width: 69px;
                 }
 
                 .option {
                     &.refresh {
                         top: 0;
                     }
+                }
+
+                .top-left {
+                    font-size: 1.9em;
+                    top: 4px;
+                    left: 80px;
+                }
+
+                .bottom-left {
+                    bottom: 4px;
+                    left: 83px;
+                }
+
+                .top-right {
+                    font-size: 1.8em;
+                    top: 6px;
+                }
+
+                .bottom-right {
+                    font-size: 1.1em;
+                    bottom: 3px;
                 }
             }
 
@@ -229,8 +301,6 @@
                 }
 
                 .bucket-wrap {
-                    margin-left: 0;
-
                     .bucket-header {
                         font-size: 1.3em;
                         margin: 8px 2px 3px;
