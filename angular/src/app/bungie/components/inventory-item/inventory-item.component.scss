@@ -5,35 +5,46 @@
     color: $app-text-light;
 
     .icon {
-        width: 68px;
-        height: 68px;
+        width: 72px;
+        height: 72px;
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
         border: 1px solid #90A4AE;
         position: relative;
+        font-size: .85em;
 
         &:hover {
             cursor: pointer;
         }
 
-        .quantity {
-            font-size: 1em;
-            margin-left: 4px;
-            position: absolute;
-            bottom: 0;
-        }
-
         &.equipped {
-            border: 3px double #F44336;
-            width: 64px;
-            height: 64px;
+            border: 4px double #F44336;
+            width: 66px;
+            height: 66px;
         }
 
         &.selected {
             border: 2px solid #FFEB3B;
-            width: 66px;
-            height: 66px;
+            width: 70px;
+            height: 70px;
+        }
+
+        .quantity {
+            color: #2A333E;
+            background-color: rgba(#fff, .7);
+            position: absolute;
+            top: 0;
+            padding: 0 3px 0 2px;
+            border-bottom-right-radius: 3px;
+        }
+
+        .level {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            padding: 0 3px 0 4px;
+            border-top-left-radius: 4px;
         }
     }
 
@@ -43,7 +54,7 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        width: 70px;
+        width: 74px;
         text-align: center;
         opacity: .8;
     }
@@ -53,27 +64,9 @@
 @media(max-width: 600px) {
     :host {
         .icon {
-            width: 60px;
-            height: 60px;
-
             .quantity {
-                font-size: .9em;
+                //font-size: .9em;
             }
-
-            &.equipped {
-                width: 56px;
-                height: 56px;
-            }
-
-            &.selected {
-                width: 58px;
-                height: 58px;
-            }
-        }
-
-        .name {
-            font-size: .7em;
-            width: 62px;
         }
     }
 }

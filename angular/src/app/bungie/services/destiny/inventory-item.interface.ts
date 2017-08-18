@@ -1,10 +1,13 @@
 import { Stat3 } from "./_shared.interface";
-import { DestinyInventoryItemDefinition } from "../../manifest/interfaces";
+import { DestinyDamageTypeDefinition, DestinyInventoryBucketDefinition, DestinyInventoryItemDefinition } from "../../manifest/interfaces";
 
 export interface InventoryBucket {
-  bucketValue: any;
+  bucketValue: DestinyInventoryBucketDefinition;
   hash: number;
   items: Array<InventoryItem>;
+
+  // Runtime variables
+  filteredOut: boolean;
 }
 
 export interface InventoryItem {
@@ -21,7 +24,8 @@ export interface InventoryItem {
   transferStatus: number;
 
   // Runtime variables
-  damageTypeValue: any;
+  damageTypeValue: DestinyDamageTypeDefinition;
+  filteredOut: boolean;
   itemValue: DestinyInventoryItemDefinition;
   selected: boolean;
 }

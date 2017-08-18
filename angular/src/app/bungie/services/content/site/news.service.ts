@@ -14,7 +14,7 @@ export class BungieSiteNewsService {
     constructor(private http: HttpService, private sharedApp: SharedApp, private sharedBungie: SharedBungie) { }
 
     getBungieNews(newsType: NewsTypes, page: number, count: number): Promise<INews> {
-        var requestUrl = "https://www.bungie.net/Platform/Content/Site/News/" + newsType + "/" + this.sharedApp.languageKey + "/?currentpage=" + page + "&itemsperpage=" + count;
+        let requestUrl = "https://www.bungie.net/Platform/Content/Site/News/" + newsType + "/" + this.sharedApp.languageKey + "/?currentpage=" + page + "&itemsperpage=" + count;
 
         //Get the response, or return the cached result
         return this.http.getWithCache(requestUrl, HttpRequestType.BUNGIE_BASIC, this.cacheTimeMs);

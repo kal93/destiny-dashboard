@@ -67,7 +67,7 @@ export class SharedApp {
     }
 
     onResize() {
-        var viewport = document.querySelector("meta[name=viewport]");
+        let viewport = document.querySelector("meta[name=viewport]");
         if (screen.width < 410)
             viewport.setAttribute('content', 'width=410, initial-scale=' + screen.width / 410);
         else
@@ -128,11 +128,11 @@ export class SharedApp {
 
     getLocalStorage(key: string, defaultValue?: any): any {
         if (this.localStorageDisabled) return defaultValue;
-        var localStorageValue = localStorage.getItem(key);
+        let localStorageValue = localStorage.getItem(key);
         if (environment.production)
             localStorageValue = LZString.decompressFromUTF16(localStorageValue);
         if (typeof defaultValue === "number") {
-            var parsed = Number.parseInt(localStorageValue);
+            let parsed = Number.parseInt(localStorageValue);
             if (isNaN(parsed))
                 return defaultValue;
             return parsed;
@@ -158,12 +158,12 @@ export class SharedApp {
 
     getLocalStorageMap(key: string, defaultValue?: Map<any, any>) {
         if (this.localStorageDisabled) return defaultValue;
-        var localStorageValue = this.getLocalStorage(key);
+        let localStorageValue = this.getLocalStorage(key);
         if (localStorageValue == null)
             return defaultValue;
         try {
-            var storedMap = new Map<any, any>();
-            var storedArray: Array<any> = JSON.parse(localStorageValue);
+            let storedMap = new Map<any, any>();
+            let storedArray: Array<any> = JSON.parse(localStorageValue);
             storedArray.forEach(cacheEntry => {
                 storedMap.set(cacheEntry[0], cacheEntry[1]);
             });
@@ -176,7 +176,7 @@ export class SharedApp {
 
     getLocalStorageAsJsonObject(key: string, defaultValue?: any): any {
         if (this.localStorageDisabled) return defaultValue;
-        var localStorageValue = this.getLocalStorage(key, null);
+        let localStorageValue = this.getLocalStorage(key, null);
 
         // If local storage value doesn't exist, return the default value
         if (localStorageValue == null) return defaultValue;
@@ -202,7 +202,7 @@ export class SharedApp {
     getSessionStorage(key: string, defaultValue?: any) {
         if (this.localStorageDisabled) return defaultValue;
 
-        var sessionStorageValue = sessionStorage.getItem(key);
+        let sessionStorageValue = sessionStorage.getItem(key);
         if (sessionStorageValue == null)
             return defaultValue;
         return sessionStorageValue

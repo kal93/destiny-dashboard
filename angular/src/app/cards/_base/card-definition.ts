@@ -8,7 +8,7 @@ export interface ICardDefinition {
     route: string; //Fullscreen internal route, or external href
     isExternalRoute: boolean; //Is the route internal or external
     lastUpdated: number; //epoch time (Ex new Date().getTime()) when the card was last updated
-    layouts: Array<{ rows: number, cols: number }>; //Supported layouts (1x1, 2x1, 3x3, etc)
+    layouts: Array<{ rows: number, cols: number }>; //Supported layouts (1x1, 2x1, 3x3, etc) Max Columns is 3
     requiresLogin: boolean; //User must be logged in to Bungie API in order to use this card
     previewImageClass: string; //Image for preview, used in AddCardComponent
 }
@@ -159,11 +159,11 @@ export class CardDefinitions {
     }];
 
     static initDashboardsFromAPI(userDashboards: Array<IUserDashboard>) {
-        for (var i = 0; i < userDashboards.length; i++) {
-            var userDashboard = userDashboards[i];
+        for (let i = 0; i < userDashboards.length; i++) {
+            let userDashboard = userDashboards[i];
             //Validate user cards
-            for (var j = 0; j < userDashboard.cards.length; j++) {
-                var dashboardCard: ICard = userDashboard.cards[j];
+            for (let j = 0; j < userDashboard.cards.length; j++) {
+                let dashboardCard: ICard = userDashboard.cards[j];
 
                 //Set a unique value for each card so we can reference it in the future
                 dashboardCard.id = j;

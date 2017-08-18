@@ -14,7 +14,7 @@ export class CharacterInventoryService {
 
     getCharacterInventory(membership: DestinyMembership, characterId: string): Promise<ICharacterInventory> {
         // Build the request URL
-        var requestUrl = "https://www.bungie.net/Platform/Destiny/" + membership.membershipType + "/Account/" + membership.membershipId + "/Character/" + characterId +
+        let requestUrl = "https://www.bungie.net/Platform/Destiny/" + membership.membershipType + "/Account/" + membership.membershipId + "/Character/" + characterId +
             "/Inventory/";
 
         //Get the response, or return the cached result

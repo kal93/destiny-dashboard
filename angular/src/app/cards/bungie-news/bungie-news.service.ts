@@ -14,7 +14,7 @@ export class BungieNewsService {
 
     getBungieTwitter(): Promise<ITwitterReponse> {
         //Cache for 5 min
-        return this.http.getWithCache("api/twitter?type=bungie", HttpRequestType.BASIC_JSON, 300000);
+        return this.http.getWithCache("api/twitter?type=bungie", HttpRequestType.DASHBOARD, 300000);
     }
 
     getBungieNews(newsType: NewsTypes, page: number, count: number): Promise<INews> {

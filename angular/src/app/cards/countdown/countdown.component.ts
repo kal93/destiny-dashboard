@@ -36,14 +36,14 @@ export class CountdownComponent extends CardComponent {
   }
 
   calculateCountdown() {
-    var now = new Date().getTime();
+    let now = new Date().getTime();
 
-    var distance = this.countDownDate - now;
+    let distance = this.countDownDate - now;
 
-    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    let seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
     this.countdownValue = days + "d " + hours + "h " + minutes + "m " + seconds + "s";
   }

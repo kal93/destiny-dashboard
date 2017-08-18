@@ -109,7 +109,7 @@ export class DashboardComponent {
             this.sharedApp.subNavItems.forEach(subNavItem => subNavItem.selectedStyle = false);
 
             // Create new dashboard object with no cards and add it to the user's cards
-            var newDashboard: IUserDashboard = { id: -1, name: dialogRef.componentInstance.inputValue, cards: [] };
+            let newDashboard: IUserDashboard = { id: -1, name: dialogRef.componentInstance.inputValue, cards: [] };
             this.sharedDashboard.userDashboards.push(newDashboard);
 
             // Set this as the newly selected dashboard and send to database
@@ -232,15 +232,15 @@ export class DashboardComponent {
     this.sharedDashboard.editMode = false;
 
     // Create alias since we'll be using this a lot
-    var selectedDashboard = this.sharedDashboard.selectedDashboard;
+    let selectedDashboard = this.sharedDashboard.selectedDashboard;
 
     // Reset dashboard name
     selectedDashboard.name = this.dashboardNameBeforeEdit;
 
     // Reset dashboard cards
-    for (var i = 0; i < selectedDashboard.cards.length; i++) {
-      var card = selectedDashboard.cards[i];
-      var cardBeforeEdit = this.layoutBeforeEdit.get(card.id);
+    for (let i = 0; i < selectedDashboard.cards.length; i++) {
+      let card = selectedDashboard.cards[i];
+      let cardBeforeEdit = this.layoutBeforeEdit.get(card.id);
 
       // If cardBeforeEdit is null, remove it from the layout as it was not in the original layout
       if (cardBeforeEdit == null || card.id == -1) {
@@ -270,9 +270,9 @@ export class DashboardComponent {
   }
 
   removeCard(cardToRemove: ICard) {
-    var selectedDashboard = this.sharedDashboard.selectedDashboard;
+    let selectedDashboard = this.sharedDashboard.selectedDashboard;
     // Remove card from user cards
-    for (var i = 0; i < selectedDashboard.cards.length; i++) {
+    for (let i = 0; i < selectedDashboard.cards.length; i++) {
       if (selectedDashboard.cards[i] == cardToRemove) {
         selectedDashboard.cards.splice(i, 1);
         break;
@@ -280,7 +280,7 @@ export class DashboardComponent {
     }
 
     // Set sequence for remaining cards
-    for (var i = 0; i < selectedDashboard.cards.length; i++)
+    for (let i = 0; i < selectedDashboard.cards.length; i++)
       selectedDashboard.cards[i].sequence = i;
   }
 
@@ -290,7 +290,7 @@ export class DashboardComponent {
   }
 
   setCardPosition(card: ICard, byValue: number) {
-    var neighborCardIndex = card.sequence + byValue;
+    let neighborCardIndex = card.sequence + byValue;
     if (neighborCardIndex < 0 || neighborCardIndex >= this.sharedDashboard.selectedDashboard.cards.length)
       return;
 
@@ -313,7 +313,7 @@ export class DashboardComponent {
       this.sharedDashboard.selectedDashboard.cards.unshift(cardToAdd);
 
       // Set sequence for remaining cards
-      for (var i = 0; i < this.sharedDashboard.selectedDashboard.cards.length; i++)
+      for (let i = 0; i < this.sharedDashboard.selectedDashboard.cards.length; i++)
         this.sharedDashboard.selectedDashboard.cards[i].sequence = i;
     }
     this.modalDirective.closeModal();

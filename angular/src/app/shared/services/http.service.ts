@@ -57,12 +57,8 @@ export class HttpService {
     }
 
     private getDashboardHeaders(): HttpHeaders {
-        if (this.sharedApp.accessToken == null) {
-            console.error("AccessToken was null when getting dashboard headers.");
-            return;
-        }
-
-        return new HttpHeaders().set('Authorization', this.sharedApp.accessToken);
+        if (this.sharedApp.accessToken != null)
+            return new HttpHeaders().set('Authorization', this.sharedApp.accessToken);
     }
 
     //Dashboard specific calls
@@ -175,9 +171,7 @@ export class HttpService {
 
     private checkBungieRefreshToken(): Promise<any> {
         if (this.sharedApp.accessToken != null && this.sharedApp.accessTokenExpires <= Date.now())
-            return this.getBungieTokenResponse().catch((error) => {
-                console.log("There was an error when trying to Refresh Token.");
-            });
+            return this.getBungieTokenResponse();
         else
             return Promise.resolve();
     }
@@ -189,7 +183,7 @@ export class HttpService {
         return new Promise((resolve, reject) => {
             //If the token needs to be refreshed, do it before making the call
             this.checkBungieRefreshToken().then(() => {
-                var headers = privileged ? this.getBungiePrivilegedAuthHeaders() : this.getBungieBasicAuthHeaders();
+                let headers = privileged ? this.getBungiePrivilegedAuthHeaders() : this.getBungieBasicAuthHeaders();
                 this.httpGet(url, headers).then((response) => {
                     this.sharedApp.hideLoading(loadingId);
                     if (response.ErrorCode != 1)
@@ -242,7 +236,7 @@ export class HttpService {
 
     public getWithCache(requestUrl: string, requestType: HttpRequestType, cacheTimeMs: number): Promise<any> {
         //Fetch cache based on unique URL
-        var customCache = this.customCaches.get(requestUrl);
+        let customCache = this.customCaches.get(requestUrl);
 
         //Clear cache if it's stale or hasn't been set yet
         if (!customCache || (customCache.cacheExpires && customCache.cacheExpires < Date.now())) {
@@ -325,7 +319,7 @@ export class HttpService {
                 this.customCaches.delete(id);
         });
 
-        var cacheString = JSON.stringify(Array.from(this.customCaches));
+        let cacheString = JSON.stringify(Array.from(this.customCaches));
 
         //Make sure cache doesn't grow too big (Shouldn't happen, but just be safe)     
         //JavaScript strings are stored as UTF-16, so double the size and verify we're under the target MB   
@@ -341,7 +335,7 @@ export class HttpService {
 
     // Basic HTTP
     public httpGet(url: string, headers?: HttpHeaders): Promise<any> {
-        var loadingId = Date.now();
+        let loadingId = Date.now();
         this.sharedApp.showLoading(loadingId);
         return this.http.get(url, { headers }).toPromise().then((response) => {
             this.sharedApp.hideLoading(loadingId);
@@ -353,7 +347,7 @@ export class HttpService {
     }
 
     public httpGetBinary(url: string): Promise<any> {
-        var loadingId = Date.now();
+        let loadingId = Date.now();
         this.sharedApp.showLoading(loadingId);
         return this.http.get(url, { responseType: 'blob' }).toPromise().then((response) => {
             this.sharedApp.hideLoading(loadingId);
@@ -365,7 +359,7 @@ export class HttpService {
     }
 
     public httpPost(url: string, body: any, headers?: HttpHeaders): Promise<any> {
-        var loadingId = Date.now();
+        let loadingId = Date.now();
         this.sharedApp.showLoading(loadingId);
         return this.http.post(url, body, { headers }).toPromise().then((response) => {
             this.sharedApp.hideLoading(loadingId);
@@ -377,7 +371,7 @@ export class HttpService {
     }
 
     public httpDelete(url: string, headers?: HttpHeaders): Promise<any> {
-        var loadingId = Date.now();
+        let loadingId = Date.now();
         this.sharedApp.showLoading(loadingId);
         return this.http.delete(url, { headers }).toPromise().then((response) => {
             this.sharedApp.hideLoading(loadingId);

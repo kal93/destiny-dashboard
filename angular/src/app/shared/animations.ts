@@ -6,14 +6,14 @@ export function routerTransition() {
         //Do transition when we are going from dashboard to anything else
         transition('dashboard => card', [
             query('div', [
-                style({ transform: 'translateX(100%)' }),
-                animate('500ms ease-out', style({ transform: 'translateX(0)' }))
+                style({ transform: 'translateX(50%)' }),
+                animate(150, style({ transform: 'translateX(0)' }))
             ])
         ]),
         transition('card => dashboard', [
             query('div', [
-                style({ transform: 'translateX(-100%)' }),
-                animate('500ms ease-in', style({ transform: 'translateX(0)' }))
+                style({ transform: 'translateX(-50%)' }),
+                animate(150, style({ transform: 'translateX(0)' }))
             ])
         ])
     ]);
@@ -51,12 +51,12 @@ export function fadeIn() {
 export function bounceChildrenFromLeft(delayByMs: number = 0) {
     return trigger('bounceChildrenFromLeft', [
         transition('* => *', [
-            query(':enter', style({ opacity: 0 }), { optional: true }),
+            query(':enter', style({ transform: 'translate(-100%)' }), { optional: true }),
             query(':enter', stagger('150ms', [
                 animate('400ms ' + delayByMs + 'ms  ease-in', keyframes([
-                    style({ opacity: 0, transform: 'translate(-100%)', offset: 0 }),
-                    style({ opacity: .5, transform: 'translate(30px)', offset: 0.5 }),
-                    style({ opacity: 1, transform: 'translateY(0)', offset: 1.0 }),
+                    style({ transform: 'translate(-100%)', offset: 0 }),
+                    style({ transform: 'translate(30px)', offset: 0.5 }),
+                    style({ transform: 'translateY(0)', offset: 1.0 }),
                 ]))]), { optional: true })
         ])
     ]);
@@ -78,12 +78,12 @@ export function fadeInChildren() {
 export function slideChildrenFromBottom() {
     return trigger('slideChildrenFromBottom', [
         transition('* => *', [
-            query(':enter', style({ opacity: 0 }), { optional: true }),
+            query(':enter', style({ transform: 'translateY(100%)' }), { optional: true }),
             query(':enter', stagger('150ms', [
                 animate('300ms ease-in', keyframes([
-                    style({ opacity: 0, transform: 'translateY(100%)', offset: 0 }),
-                    style({ opacity: .5, transform: 'translateY(-20px)', offset: .5 }),
-                    style({ opacity: 1, transform: 'translateY(0)', offset: 1.0 }),
+                    style({ transform: 'translateY(100%)', offset: 0 }),
+                    style({ transform: 'translateY(-20px)', offset: .5 }),
+                    style({ transform: 'translateY(0)', offset: 1.0 }),
                 ]))]), { optional: true })
         ])
     ]);

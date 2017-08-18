@@ -41,9 +41,9 @@ export class TwitchComponent extends CardComponent {
 
   parseTwitchResponse(response: ITwitchResponse) {
     this.hiddenTwitchStreams = new Array<ITwitchData>();
-    for (var i = 0; i < response.streams.length; i++) {
+    for (let i = 0; i < response.streams.length; i++) {
       let streamData = response.streams[i];
-      var parsedTwitchStream = {
+      let parsedTwitchStream = {
         followers: streamData.channel.followers,
         previewImageUrl: streamData.preview.medium,
         streamTitle: streamData.channel.status,
@@ -61,7 +61,7 @@ export class TwitchComponent extends CardComponent {
   }
 
   loadMore() {
-    for (var i = 0; this.hiddenTwitchStreams.length > 0 && i < 6; i++) {
+    for (let i = 0; this.hiddenTwitchStreams.length > 0 && i < 6; i++) {
       this.displayedTwitchStreams.push(this.hiddenTwitchStreams.shift());
     }
   }

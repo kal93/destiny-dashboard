@@ -29,13 +29,13 @@ export class ScrollWithElementDirective {
 
     if (this.scrollContainer.scrollHeight > this.scrollContainer.clientHeight) {
       //Shortcut for variables
-      var targetElement = this.elementRef.nativeElement;
+      let targetElement = this.elementRef.nativeElement;
 
       //Set container and target element positions
-      var gridItemTop = targetElement.offsetTop;
-      var gridItemBottom = gridItemTop + targetElement.clientHeight + 5;
-      var containerTop = this.scrollContainer.scrollTop;
-      var containerBottom = containerTop + this.scrollContainer.clientHeight;
+      let gridItemTop = targetElement.offsetTop;
+      let gridItemBottom = gridItemTop + targetElement.clientHeight + 5;
+      let containerTop = this.scrollContainer.scrollTop;
+      let containerBottom = containerTop + this.scrollContainer.clientHeight;
 
       //If the position of the target element is past the bottom of the continer, scroll down (And vice versa)
       if (gridItemBottom > containerBottom) {

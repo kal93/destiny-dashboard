@@ -1,15 +1,15 @@
 export function debounceBy(milliseconds: number) {
-  var lastExecuteTime: number = 0;
-  var lastExecutionTimeoutId: NodeJS.Timer;
+  let lastExecuteTime: number = 0;
+  let lastExecutionTimeoutId: NodeJS.Timer;
 
   return function (target, key, descriptor) {
-    var originalMethod = descriptor.value;
+    let originalMethod = descriptor.value;
 
     descriptor.value = function (...args) {
       clearTimeout(lastExecutionTimeoutId);
 
       // If this has not been called within the debounce time, call original function
-      var lastTimeDifference = (lastExecuteTime + milliseconds) - Date.now();
+      let lastTimeDifference = (lastExecuteTime + milliseconds) - Date.now();
       if (lastTimeDifference < 0) {
         lastExecuteTime = Date.now();
         originalMethod.apply(this, args);

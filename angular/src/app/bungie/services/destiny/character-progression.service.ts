@@ -14,7 +14,7 @@ export class CharacterProgressionService {
 
     getCharacterProgression(membership: DestinyMembership, characterId: string): Promise<ICharacterProgression> {
         // Build the request URL
-        var requestUrl = "https://www.bungie.net/d1/Platform/Destiny/" + membership.membershipType + "/Account/" + membership.membershipId + "/Character/" + characterId +
+        let requestUrl = "https://www.bungie.net/d1/Platform/Destiny/" + membership.membershipType + "/Account/" + membership.membershipId + "/Character/" + characterId +
             "/Progression/";
 
         //Get the response, or return the cached result

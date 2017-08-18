@@ -48,7 +48,7 @@ export class AppComponent {
   initApp() {
     if (this.sharedApp.accessToken == null) {
       // Use regular local storage for bungieAuthCode since we use it in index.html before we've loaded sharedApp
-      var bungieAuthCode = localStorage.getItem("bungieAuthCode");
+      let bungieAuthCode = localStorage.getItem("bungieAuthCode");
       if (bungieAuthCode == null)
         this.welcomeUser();
       else {
@@ -72,6 +72,8 @@ export class AppComponent {
     this.sharedDashboard.userDashboards = CardDefinitions.defaultDashboards;
 
     if (!this.sharedApp.localStorageDisabled && this.sharedApp.getSessionStorage("LimitedFeaturesDialog") == null) {
+      this.sharedApp.showInfoOnce("This is an Alpha build of DestinyDashboard.net. Beta will release before Destiny 2.");
+
       let dialogRef = this.mdDialog.open(ConfirmDialog, { height: '230px', width: '290px', });
       dialogRef.componentInstance.title = "Limited Features";
       dialogRef.componentInstance.message = "Welcome! Since you are not logged in, you will have limited access to certain features.";

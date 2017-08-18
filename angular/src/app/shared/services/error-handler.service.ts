@@ -26,7 +26,7 @@ export class GlobalErrorHandler implements ErrorHandler {
     }
 
     private logToStackdriver(error) {
-        var payload: any = {};
+        let payload: any = {};
         payload.serviceContext = { service: 'web' };
         payload.context = {
             httpRequest: {
@@ -39,7 +39,7 @@ export class GlobalErrorHandler implements ErrorHandler {
         try {
             StackTrace.fromError(error).then((stack) => {
                 payload.message = error.toString();
-                for (var s = 0; s < stack.length; s++) {
+                for (let s = 0; s < stack.length; s++) {
                     payload.message += '\n';
                     payload.message += ['    at ', stack[s].getFunctionName(), ' (', stack[s].getFileName(), ':', stack[s].getLineNumber(), ':', stack[s].getColumnNumber(), ')'].join('');
                 }
@@ -53,7 +53,7 @@ export class GlobalErrorHandler implements ErrorHandler {
 
     private sendErrorPayload(payload) {
         console.error(payload);
-        var url = this.stackdriverUrl + this.projectId + "/events:report?key=" + this.apiKey;
+        let url = this.stackdriverUrl + this.projectId + "/events:report?key=" + this.apiKey;
 
         return this.http.post(url, JSON.stringify(payload)).toPromise().then((response) => {
             return response;
