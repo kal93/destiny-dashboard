@@ -128,7 +128,7 @@ export class CardDefinitions {
     {
         id: 7,
         title: "Clan Leaderboards",
-        description: "Basic clan leaderboards.",
+        description: "View clan leaderboards",
         rating: 5,
         route: "clanleaderboards",
         layouts: [
@@ -138,7 +138,7 @@ export class CardDefinitions {
         ],
         requiresLogin: false,
         isExternalRoute: false,
-        lastUpdated: 1502670272976,
+        lastUpdated: 1503092830522,
         previewImageClass: "dd-clanleaderboards-preview"
     }];
 

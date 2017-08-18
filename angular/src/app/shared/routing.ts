@@ -101,7 +101,7 @@ const routes: Routes = [
     {
         path: 'clanleaderboards', component: ClanLeaderboardsComponent, data: {
             animation: 'card',
-            title: "Basic Clan Leaderboards"
+            title: "Clan Leaderboards"
         }
     }
 ];

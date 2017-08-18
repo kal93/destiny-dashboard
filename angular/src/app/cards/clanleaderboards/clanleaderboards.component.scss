@@ -1,8 +1,15 @@
 @import '../../../styles/theme.scss';
 
-//These styles apply to both dashboard and fullscreen
+
+// Card Theme Notes:
+// Using Material color palette "Light Blue"
+//   with 900 as #01579B and 700 as #0288D1
+// The shading in the stat grid is done with a background-color: rgba(0,0,0,.1)
+//   and is not a separate color
+
+// These styles apply to both dashboard and fullscreen
 .dd-clanleaderboards {
-    background-color: #43A047;
+    background-color: #0288D1;
     color: $app-text-light;
 
     .gamertag-wrap {
@@ -12,96 +19,106 @@
         padding-top: 5px;
     }
 
-    //Wrapper for entire tab
-    .mat-tab-group {
-        height: 100%;
+    .md-toolbar {
+        background-color: #01579B;
+        color: $app-text-light;
+        display: flex;
+        align-items: center;
 
-        ::ng-deep .mat-tab-label-active {
-            opacity: 1;
+        .icon {
+            left: 7px;
+            top: 16px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-repeat: no-repeat;
+            background-size: contain;
+            display: inline-block;
         }
 
-        ::ng-deep .mat-tab-body-wrapper {
-            height: calc(100% - 115px);
+        .clan-name {
+            margin-left: 1em;
+            font-size: .8em;
+        }
 
-            .mat-tab-body {
-                height: 100%;
+        .toolbar-menu {
+            margin-right: auto;
+        }
 
-                .mat-tab-body-content {
-                    overflow: auto;
+    }
 
-                    .sub-tab-wrap {
-                        overflow-y: auto;
-                        display: flex;
-                        flex-flow: wrap;
-                        align-content: flex-start;
-                        align-items: flex-start;
-                        padding: 0 5px;
+    .example-spacer {
+        flex: 1 1 auto;
+    }
 
-                        .stat-section {
-                            flex: 1 0 240px;
-                            margin: 8px 5px;
-                            box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
+    .stat-group {
+        overflow: auto;
+        height: calc(100% - 135px);
 
-                            .header {
-                                background-color: #1B5E20;
-                                padding: 8px;
-                                font-size: .95em;
-                                letter-spacing: 1px;
-                                margin: 0;
-                                text-align: center;
-                                display: block;
-                            }
+        .stat-container {
+            overflow-y: auto;
+            display: flex;
+            flex-flow: wrap;
+            align-content: flex-start;
+            align-items: flex-start;
+            padding: 0 5px;
 
-                            div {
-                                color: $app-text-light;
-                                padding: 6px 4px;
-                                display: flex;
-                                font-size: .9em;
-                                letter-spacing: .5px;
+            .stat-section {
+                flex: 1 0 240px;
+                margin: 8px 5px;
+                box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
 
-                                span {
-                                    &:first-of-type {
-                                        flex: 1;
-                                        margin-right: auto;
-                                    }
+                .header {
+                    background-color: #01579B;
+                    padding: 8px;
+                    font-size: .95em;
+                    letter-spacing: 1px;
+                    margin: 0;
+                    text-align: center;
+                    display: block;
+                }
 
-                                    &:nth-child(2) {
-                                        flex: 5;
-                                        margin-right: auto;
-                                        margin-left: auto;
-                                    }
+                div {
+                    color: $app-text-light;
+                    padding: 6px 4px;
+                    display: flex;
+                    font-size: .9em;
+                    letter-spacing: .5px;
 
-                                    &:last-of-type {
-                                        flex: 2;
-                                        opacity: .8;
-                                        margin-left: auto;
-                                    }
-                                }
-
-                                &:nth-child(even) {
-                                    background-color: rgba(0,0,0,.1);
-                                }
-                            }
+                    span {
+                        &:first-of-type {
+                            flex: 1;
+                            margin-right: auto;
                         }
+
+                        &:nth-child(2) {
+                            flex: 5;
+                            margin-right: auto;
+                            margin-left: auto;
+                        }
+
+                        &:last-of-type {
+                            flex: 2;
+                            opacity: .8;
+                            margin-left: auto;
+                        }
+                    }
+
+                    &:nth-child(even) {
+                        background-color: rgba(0,0,0,.1);
                     }
                 }
             }
         }
     }
-
-    nav.dd-nav {
-        button {
-            line-height: 26px;
-        }
-    }
 }
 
-//These styles only applies to dashboard cards
+// These styles only applies to dashboard card modes
 .dd-card-content.dd-clanleaderboards {
     height: calc(100% - 40px);
 }
 
-//These styles only apply to fullscreen mode
+// These styles only apply to fullscreen mode
 .dd-fullscreen.dd-clanleaderboards {
     height: 100%;
 }

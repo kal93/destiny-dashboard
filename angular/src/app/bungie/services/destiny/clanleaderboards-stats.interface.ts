@@ -44,7 +44,7 @@ export interface IClanLeaderboardsStats {
         lbLongestSingleLife: LbStats;
     }
     // ModeType = 18
-    allstrikes: {
+    allStrikes: {
         lbSingleGameKills: LbStats;
         lbSingleGameScore: LbStats;
         lbMostPrecisionKills: LbStats;
@@ -53,7 +53,7 @@ export interface IClanLeaderboardsStats {
     }
 }
 
-interface LbStats {
+export interface LbStats {
     statId: string;
     entries: LbEntries[];
 }
