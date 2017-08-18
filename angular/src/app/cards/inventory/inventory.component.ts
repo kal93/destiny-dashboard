@@ -62,6 +62,8 @@ export class ItemManagerComponent extends CardComponent {
     // Filtering
     searchText: string = '';
     showMissionsBountiesQuests: boolean;
+    showVehiclesShipsOrnaments: boolean;
+    showShadersEmblemsEmotes: boolean;
 
     constructor(private accountSummaryService: AccountSummaryService, private activatedRoute: ActivatedRoute, public domSanitizer: DomSanitizer,
         private inventoryService: inventoryService, private manifestService: ManifestService, private sharedBungie: SharedBungie, public sharedApp: SharedApp) {
@@ -124,6 +126,7 @@ export class ItemManagerComponent extends CardComponent {
                     this.groupCharactersBuckets(this.charactersBucketsArray[i], i);
                 }
 
+                this.applyFilter();
             }).catch((error) => {
                 this.sharedApp.showError("There was an error getting the inventory.", error);
             });
@@ -188,8 +191,18 @@ export class ItemManagerComponent extends CardComponent {
         this.applyFilter(characterAddedToEnd);
     }
 
-    setMissionsBountiesQuests(slideToggle: MdSlideToggleChange) {
+    setMissionBountiesQuests(slideToggle: MdSlideToggleChange) {
         this.showMissionsBountiesQuests = slideToggle.checked;
+        this.applyFilter();
+    }
+
+    setMissionVehiclesShipsOrnaments(slideToggle: MdSlideToggleChange) {
+        this.showVehiclesShipsOrnaments = slideToggle.checked;
+        this.applyFilter();
+    }
+
+    setShadersEmblemsEmotes(slideToggle: MdSlideToggleChange) {
+        this.showShadersEmblemsEmotes = slideToggle.checked;
         this.applyFilter();
     }
 
@@ -217,26 +230,31 @@ export class ItemManagerComponent extends CardComponent {
      * @param {boolean} skipAlreadyFiltered - Do not check items that have been filtered out since they'll definitely be filtered out again
      */
     applyFilterToBucket(bucket: InventoryBucket, skipAlreadyFiltered: boolean) {
-        if (!this.showMissionsBountiesQuests) {
-            if (bucket.bucketValue.bucketName == "Mission" || bucket.bucketValue.bucketName == "Bounties" || bucket.bucketValue.bucketName == "Quests") {
-                bucket.filteredOut = true;
-                return;
-            }
-        }
-        let searchTextLower = this.searchText.toLowerCase().trim();
-        let bucketHasItem = false;
-        for (let i = 0; i < bucket.items.length; i++) {
-            let inventoryItem = bucket.items[i];
-            if (inventoryItem.filteredOut && skipAlreadyFiltered)
-                continue;
+        if (!this.showMissionsBountiesQuests &&
+            (bucket.bucketValue.bucketName == "Mission" || bucket.bucketValue.bucketName == "Bounties" || bucket.bucketValue.bucketName == "Quests"))
+            bucket.filteredOut = true;
+        else if (!this.showVehiclesShipsOrnaments &&
+            (bucket.bucketValue.bucketName == "Vehicle" || bucket.bucketValue.bucketName == "Sparrow Horn" || bucket.bucketValue.bucketName == "Ships" || bucket.bucketValue.bucketName == "Ornaments"))
+            bucket.filteredOut = true;
+        else if (!this.showShadersEmblemsEmotes &&
+            (bucket.bucketValue.bucketName == "Shaders" || bucket.bucketValue.bucketName == "Emblems" || bucket.bucketValue.bucketName == "Emotes"))
+            bucket.filteredOut = true;
+        else {
+            let searchTextLower = this.searchText.toLowerCase().trim();
+            let bucketHasItem = false;
+            for (let i = 0; i < bucket.items.length; i++) {
+                let inventoryItem = bucket.items[i];
+                if (inventoryItem.filteredOut && skipAlreadyFiltered)
+                    continue;
 
-            inventoryItem.filteredOut = false;
-            if (inventoryItem.itemValue.itemName.toLowerCase().indexOf(searchTextLower) == -1)
-                inventoryItem.filteredOut = true;
-            else
-                bucketHasItem = true;
+                inventoryItem.filteredOut = false;
+                if (inventoryItem.itemValue.itemName.toLowerCase().indexOf(searchTextLower) == -1)
+                    inventoryItem.filteredOut = true;
+                else
+                    bucketHasItem = true;
+            }
+            bucket.filteredOut = !bucketHasItem;
         }
-        bucket.filteredOut = !bucketHasItem;
     }
 
     collapseSection(sectionIndex: number) {
@@ -273,19 +291,19 @@ export class ItemManagerComponent extends CardComponent {
     setSubNavItems() {
         this.sharedApp.subNavItems = new Array<ISubNavItem>();
 
-        // Create dashboard subNavItem
         this.sharedApp.subNavItems.push({
             title: 'Manage Loadouts', materialIcon: 'library_add',
             selectedCallback: (subNavItem: ISubNavItem) => {
-                if (this.sharedApp.accessToken == null) {
-                    this.sharedApp.showWarning("Please log in to create dashboards.");
-                    return;
-                }
             }
         });
 
-        // Add spacer to subNav
         this.sharedApp.subNavItems.push({ title: '_spacer', materialIcon: '' });
+
+        this.sharedApp.subNavItems.push({
+            title: 'Filters', materialIcon: 'filter_list',
+            selectedCallback: (subNavItem: ISubNavItem) => {
+            }
+        });
 
         // Show list of loadouts
 

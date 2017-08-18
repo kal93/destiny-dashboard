@@ -45,15 +45,19 @@
         }
 
         .non-transferrable {
-            margin: 0 5px;
+            margin: 0 5px 10px;
             flex: 1;
+
+            md-slide-toggle {
+                margin: 5px 0;
+            }
         }
     }
 
     .character-wrap {
         &:not(:first-of-type) {
             .character-header {
-                margin-top: 20px;
+                margin-top: 40px;
             }
         }
 
@@ -61,7 +65,7 @@
             position: relative;
             max-width: 400px;
             font-family: destiny;
-            margin: 0 auto;
+            margin-left: 10px;
 
             &.vault-header {
                 .background {
@@ -231,6 +235,10 @@
                     max-width: 45%;
                 }
             }
+
+            .character-header {
+                margin: 0 3%;
+            }
         }
     }
 }
@@ -247,7 +255,6 @@
         .character-wrap {
             .character-header {
                 max-width: 345px;
-                margin: 0 12px;
 
                 &.vault-header {
                     .background {

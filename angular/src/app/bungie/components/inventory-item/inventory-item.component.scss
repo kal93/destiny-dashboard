@@ -12,16 +12,10 @@
         background-position: center;
         border: 1px solid #90A4AE;
         position: relative;
+        font-size: .85em;
 
         &:hover {
             cursor: pointer;
-        }
-
-        .quantity {
-            font-size: 1em;
-            margin-left: 4px;
-            position: absolute;
-            bottom: 0;
         }
 
         &.equipped {
@@ -34,6 +28,23 @@
             border: 2px solid #FFEB3B;
             width: 70px;
             height: 70px;
+        }
+
+        .quantity {
+            color: #2A333E;
+            background-color: rgba(#fff, .7);
+            position: absolute;
+            top: 0;
+            padding: 0 3px 0 2px;
+            border-bottom-right-radius: 3px;
+        }
+
+        .level {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            padding: 0 3px 0 4px;
+            border-top-left-radius: 4px;
         }
     }
 

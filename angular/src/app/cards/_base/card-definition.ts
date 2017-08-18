@@ -8,7 +8,7 @@ export interface ICardDefinition {
     route: string; //Fullscreen internal route, or external href
     isExternalRoute: boolean; //Is the route internal or external
     lastUpdated: number; //epoch time (Ex new Date().getTime()) when the card was last updated
-    layouts: Array<{ rows: number, cols: number }>; //Supported layouts (1x1, 2x1, 3x3, etc)
+    layouts: Array<{ rows: number, cols: number }>; //Supported layouts (1x1, 2x1, 3x3, etc) Max Columns is 3
     requiresLogin: boolean; //User must be logged in to Bungie API in order to use this card
     previewImageClass: string; //Image for preview, used in AddCardComponent
 }

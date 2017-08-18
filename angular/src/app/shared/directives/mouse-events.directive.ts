@@ -1,11 +1,13 @@
 import { Directive, EventEmitter, HostListener, Input, Output } from '@angular/core';
 
+import { debounceBy } from '../../shared/decorators';
+
 @Directive({
   selector: '[ddMouseEvents]'
 })
 export class MouseEventsDirective {
   @Input()
-  duration: number = 400;
+  duration: number = 500;
 
   @Output()
   mouseDown = new EventEmitter<void>();
@@ -20,6 +22,10 @@ export class MouseEventsDirective {
 
   private longPressTimeoutId: NodeJS.Timer;
   private longPressHappened: boolean = false;
+
+  private touchStartY: number;
+  private touchDelta: number = 10;
+  private cancelTouchAndPress: boolean = false;
 
   constructor() { }
 
@@ -40,8 +46,23 @@ export class MouseEventsDirective {
   // Listen for mobile events too
   @HostListener('touchstart', ['$event'])
   touchStart(event: TouchEvent) {
+    this.touchStartY = event.touches[0].clientY;
     this.supportsTouch = true;
     this.down();
+  }
+
+  @HostListener('touchmove', ['$event'])
+  @debounceBy(50)
+  touchMove(event: TouchEvent) {
+    // If we already know we're going to cancel events, return
+    if (this.cancelTouchAndPress) return;
+
+    // If user has dragged over the acceptable delta, cancel the long press handler
+    var dif = Math.abs(this.touchStartY - event.touches[0].clientY);
+    if (dif > this.touchDelta) {
+      this.cancelTouchAndPress = true;
+      clearTimeout(this.longPressTimeoutId);
+    }
   }
 
   @HostListener('touchend', ['$event'])
@@ -53,6 +74,7 @@ export class MouseEventsDirective {
   down() {
     this.mouseDown.emit();
     this.longPressHappened = false;
+    this.cancelTouchAndPress = false;
     this.longPressTimeoutId = setTimeout(() => {
       this.longPress.emit();
       this.longPressHappened = true;
@@ -60,7 +82,7 @@ export class MouseEventsDirective {
   }
 
   up() {
-    if (!this.longPressHappened)
+    if (!this.longPressHappened && !this.cancelTouchAndPress)
       this.mouseUp.emit();
     clearTimeout(this.longPressTimeoutId);
   }

@@ -1,11 +1,13 @@
 <div ddMouseEvents (longPress)="longPress.emit()" (mouseUp)="click()">
   <div class="icon" [class.equipped]="equipped" [class.selected]="selected" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + inventoryItem.itemValue.icon  +')')">
     <span *ngIf="inventoryItem.quantity > 1" class="quantity">{{inventoryItem.quantity}}</span>
+    <div *ngIf="inventoryItem.primaryStat!= null" class="level" [style.background-color]="inventoryItem.damageType!=null ? damageTypeColors[inventoryItem.damageType]:''">
+      {{inventoryItem.primaryStat.value}}
+    </div>
   </div>
-  <div class="name"> {{inventoryItem.itemValue.itemName}} </div>
+  <div class="name">{{inventoryItem.itemValue.itemName}}</div>
 </div>
 
-
-<!-- 
-<span> {{inventoryItem.itemValue.tierType}} </span>
+<!--
+   <div *ngIf="inventoryItem.damageTypeValue!= null" class="damage-type" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + inventoryItem.damageTypeValue.iconPath  +')')"></div>
 -->

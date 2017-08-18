@@ -1,5 +1,5 @@
 import { Stat3 } from "./_shared.interface";
-import { DestinyInventoryBucketDefinition, DestinyInventoryItemDefinition } from "../../manifest/interfaces";
+import { DestinyDamageTypeDefinition, DestinyInventoryBucketDefinition, DestinyInventoryItemDefinition } from "../../manifest/interfaces";
 
 export interface InventoryBucket {
   bucketValue: DestinyInventoryBucketDefinition;
@@ -24,7 +24,7 @@ export interface InventoryItem {
   transferStatus: number;
 
   // Runtime variables
-  damageTypeValue: any;
+  damageTypeValue: DestinyDamageTypeDefinition;
   filteredOut: boolean;
   itemValue: DestinyInventoryItemDefinition;
   selected: boolean;
