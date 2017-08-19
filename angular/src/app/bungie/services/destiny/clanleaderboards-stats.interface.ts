@@ -1,11 +1,14 @@
 import { Basic } from "./_shared.interface";
 import { DestinyMembership } from "../user/user.interface";
 
+// These are the six game modes needed for the clan-leaderboards card
+//   but there are more modes available - see ModeTypes enum
+
 export interface IClanLeaderboardsStats {
     // ModeType = 4 
     raid: {
         lbSingleGameKills: LbStats;
-        lbSingleGameScore: LbStats;
+        lbSingleGameScore?: LbStats;
         lbMostPrecisionKills: LbStats;
         lbLongestKillSpree: LbStats;
         lbLongestSingleLife: LbStats;
@@ -14,7 +17,7 @@ export interface IClanLeaderboardsStats {
     // ModeType = 5
     allPvP: {
         lbSingleGameKills: LbStats;
-        lbSingleGameScore: LbStats;
+        lbSingleGameScore?: LbStats;
         lbMostPrecisionKills: LbStats;
         lbLongestKillSpree: LbStats;
         lbLongestSingleLife: LbStats;
@@ -22,7 +25,7 @@ export interface IClanLeaderboardsStats {
     // ModeType = 7
     allPvE: {
         lbSingleGameKills: LbStats;
-        lbSingleGameScore: LbStats;
+        lbSingleGameScore?: LbStats;
         lbMostPrecisionKills: LbStats;
         lbLongestKillSpree: LbStats;
         lbLongestSingleLife: LbStats;
@@ -30,7 +33,7 @@ export interface IClanLeaderboardsStats {
     // ModeType = 14
     trialsofosiris: {
         lbSingleGameKills: LbStats;
-        lbSingleGameScore: LbStats;
+        lbSingleGameScore?: LbStats;
         lbMostPrecisionKills: LbStats;
         lbLongestKillSpree: LbStats;
         lbLongestSingleLife: LbStats;
@@ -38,7 +41,7 @@ export interface IClanLeaderboardsStats {
     // ModeType = 16
     nightfall: {
         lbSingleGameKills: LbStats;
-        lbSingleGameScore: LbStats;
+        lbSingleGameScore?: LbStats;
         lbMostPrecisionKills: LbStats;
         lbLongestKillSpree: LbStats;
         lbLongestSingleLife: LbStats;
@@ -46,7 +49,7 @@ export interface IClanLeaderboardsStats {
     // ModeType = 18
     allStrikes: {
         lbSingleGameKills: LbStats;
-        lbSingleGameScore: LbStats;
+        lbSingleGameScore?: LbStats;
         lbMostPrecisionKills: LbStats;
         lbLongestKillSpree: LbStats;
         lbLongestSingleLife: LbStats;

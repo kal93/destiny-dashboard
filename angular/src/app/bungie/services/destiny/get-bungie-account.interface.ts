@@ -81,12 +81,6 @@ export interface BungieAccountClan {
     platformType: number;
 }
 
-/* Removing for test
-export interface BungieGroupMap {
-    [groupId: string]: BungieGroupInfo;
-}
-*/
-
 export interface BungieGroupInfo {
     groupId: string;
     name: string;
