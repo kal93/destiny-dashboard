@@ -82,7 +82,8 @@ export class ItemManagerComponent extends CardComponent {
         // Set our membership (XBL, PSN, Blizzard)
         this.selectedMembership = this.sharedBungie.destinyMemberships[this.sharedApp.userPreferences.membershipIndex];
 
-        this.setSubNavItems();
+        if (this.isFullscreen)
+            this.setSubNavItems();
 
         this.getFullInventory();
 
