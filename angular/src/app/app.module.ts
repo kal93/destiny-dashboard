@@ -58,6 +58,7 @@ import { PublicEventsComponent } from './cards/public-events/public-events.compo
 import { RedditComponent } from './cards/reddit/reddit.component';
 import { StatsComponent } from './cards/stats/stats.component';
 import { TwitchComponent } from './cards/twitch/twitch.component';
+import { ClanLeaderboardsComponent } from './cards/clanleaderboards/clanleaderboards.component';
 
 //Directives
 import { ModalDirective } from './shared/directives/modal.directive';
@@ -87,7 +88,7 @@ import { NumberFormatLocalePipe, RoundToDecimalPlacePipe } from './shared/pipes/
     AboutComponent, DownloadManifestComponent, GamertagAutocompleteComponent, InventoryItemComponent, MdTabCharacterHeadingComponent,
 
     //Cards
-    BungieNewsComponent, CountdownComponent, ItemManagerComponent, PublicEventsComponent, RedditComponent, StatsComponent, TwitchComponent,
+    BungieNewsComponent, CountdownComponent, ItemManagerComponent, PublicEventsComponent, RedditComponent, StatsComponent, TwitchComponent, ClanLeaderboardsComponent,
 
     //Directives
     ModalDirective, MouseEventsDirective, ScrollWithElementDirective, Swipeable,

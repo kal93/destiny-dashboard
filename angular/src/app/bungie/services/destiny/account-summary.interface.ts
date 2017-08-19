@@ -48,7 +48,7 @@ interface CharacterBase {
     raceValue: any;
 }
 
-interface LevelProgression {
+export interface LevelProgression {
     dailyProgress: number;
     weeklyProgress: number;
     currentProgress: number;

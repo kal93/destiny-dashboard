@@ -1,0 +1,84 @@
+<div>
+  <div [class.dd-card-wrap]="!isFullscreen">
+    <dd-card-header *ngIf="!isFullscreen" [dashboardCard]="dashboardCard"></dd-card-header>
+    <div class="dd-clanleaderboards" [class.dd-fullscreen]="isFullscreen" [class.dd-card-content]="!isFullscreen">
+
+      <div class="gamertag-wrap">
+        <dd-gamertag-autocomplete [autocompleteId]="'clanleaderboards'" (membershipSelected)="membershipSelected($event)" (initialMembership)="membershipSelected($event)"></dd-gamertag-autocomplete>
+      </div>
+
+      <md-toolbar class="md-toolbar">
+          <div *ngIf="isFullscreen || dashboardCard.layout.cols > 2" class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + selectedMembership.iconPath +')')"></div>
+          <div class="clan-name">{{bungieClanName}} </div>
+          <div *ngIf="isFullscreen || dashboardCard.layout.cols > 2" class="example-spacer"></div>
+        <button md-button class="toolbar-menu" [mdMenuTriggerFor]="appMenu"><md-icon>menu</md-icon> Stats </button> 
+      </md-toolbar>
+
+      <md-menu #appMenu="mdMenu">
+        <button md-menu-item class="md-menu-item" (click)="statsChanged(4)"> Raid </button>
+        <button md-menu-item class="md-menu-item" (click)="statsChanged(5)"> All PvP </button>
+        <button md-menu-item class="md-menu-item" (click)="statsChanged(7)"> All PvE </button>
+        <button md-menu-item class="md-menu-item" (click)="statsChanged(14)"> Trials of Osiris </button>
+        <button md-menu-item class="md-menu-item" (click)="statsChanged(16)"> Nightfall </button>
+        <button md-menu-item class="md-menu-item" (click)="statsChanged(18)"> All Strikes </button>
+      </md-menu>
+
+      <div class="stat-group" #statGroup *ngIf="selectedMembership != undefined" (membershipSelected)="membershipSelected($event)">
+
+          <div *ngIf="clanLeaderboardsStats != undefined" class="stat-container">
+
+            <div *ngIf="lbSingleGameKills != undefined" class="stat-section">
+              <div class="header">{{statDisplayName}}: Single Game Kills</div>
+              <div *ngFor="let entry of lbSingleGameKills.entries; let i=index;">
+                <span>{{lbSingleGameKills.entries[i]?.rank}}</span>
+                <span>{{lbSingleGameKills.entries[i].player?.destinyUserInfo.displayName}}</span>
+                <span>{{lbSingleGameKills.entries[i].value?.basic.value | pNumberFormatLocale}}</span>
+              </div>
+            </div>
+            
+
+            <div *ngIf="lbMostPrecisionKills != undefined" class="stat-section">
+              <div class="header">{{statDisplayName}}: Most Precision Kills</div>
+              <div *ngFor="let entry of lbMostPrecisionKills.entries; let i=index;">
+                <span>{{lbMostPrecisionKills.entries[i]?.rank}}</span>
+                <span>{{lbMostPrecisionKills.entries[i].player?.destinyUserInfo.displayName}}</span>
+                <span>{{lbMostPrecisionKills.entries[i].value?.basic.value | pNumberFormatLocale}}</span>
+              </div>
+            </div>
+          
+
+            <div *ngIf="lbLongestKillSpree != undefined" class="stat-section">
+              <div class="header">{{statDisplayName}}: Longest Kill Spree</div>
+              <div *ngFor="let entry of lbLongestKillSpree.entries; let i=index;">
+                <span>{{lbLongestKillSpree.entries[i]?.rank}}</span>
+                <span>{{lbLongestKillSpree.entries[i].player?.destinyUserInfo.displayName}}</span>
+                <span>{{lbLongestKillSpree.entries[i].value?.basic.value | pNumberFormatLocale}}</span>
+              </div>
+            </div>
+        
+
+            <div *ngIf="lbLongestSingleLife != undefined" class="stat-section">
+              <div class="header">{{statDisplayName}}: Longest Single Life</div>
+              <div *ngFor="let entry of lbLongestSingleLife.entries; let i=index;">
+                <span>{{lbLongestSingleLife.entries[i]?.rank}}</span>
+                <span>{{lbLongestSingleLife.entries[i].player?.destinyUserInfo.displayName}}</span>
+                <span>{{lbLongestSingleLife.entries[i].value?.basic.displayValue}}</span>
+              </div>
+            </div>
+
+            <div *ngIf="lbSingleGameScore != undefined" class="stat-section">
+              <div class="header">{{statDisplayName}}: Single Game Score</div>
+              <div *ngFor="let entry of lbSingleGameScore.entries; let i=index;">
+                <span>{{lbSingleGameScore.entries[i]?.rank}}</span>
+                <span>{{lbSingleGameScore.entries[i].player?.destinyUserInfo.displayName}}</span>
+                <span>{{lbSingleGameScore.entries[i].value?.basic.value | pNumberFormatLocale}}</span>
+              </div>
+            </div>
+
+          </div>
+
+      <div>
+
+    </div>
+  </div>
+</div>
