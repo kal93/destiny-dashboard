@@ -91,13 +91,7 @@ export class ClanLeaderboardsComponent extends CardComponent {
     });
   }
 
-
   getLbStats(mode: number) {
-    // Service accepts an array of modes so put our mode into an array
-    let modes = [];
-    modes = [mode];
-
-
     // Clear stats since some stats are optional for some modes
     //   and we don't want garbage data to be kept by accident
     this.clanLeaderboardsStats = null;
@@ -108,7 +102,7 @@ export class ClanLeaderboardsComponent extends CardComponent {
     this.lbSingleGameScore = null;
 
     // Get clan leaderboard stats
-    this.clanLeaderboardsStatsService.getClanleaderboardStats(this.bungieAccount.clans[0], modes).then((clanLeaderboardsStats: IClanLeaderboardsStats) => {
+    this.clanLeaderboardsStatsService.getClanleaderboardStats(this.bungieAccount.clans[0], [mode]).then((clanLeaderboardsStats: IClanLeaderboardsStats) => {
       this.clanLeaderboardsStats = clanLeaderboardsStats;
 
       if (this.clanLeaderboardsStats != null) {
@@ -116,16 +110,11 @@ export class ClanLeaderboardsComponent extends CardComponent {
         // Make a simple variable to help with readability in this next block
         let statName = this.clanLeaderboardsStats[this.statName];
         if (statName != null) {
-          if (statName.lbSingleGameKills != null)
-            this.lbSingleGameKills = statName.lbSingleGameKills;
-          if (statName.lbMostPrecisionKills != null)
-            this.lbMostPrecisionKills = statName.lbMostPrecisionKills;
-          if (statName.lbLongestKillSpree != null)
-            this.lbLongestKillSpree = statName.lbLongestKillSpree;
-          if (statName.lbLongestSingleLife != null)
-            this.lbLongestSingleLife = statName.lbLongestSingleLife;
-          if (statName.lbSingleGameScore != null)
-            this.lbSingleGameScore = statName.lbSingleGameScore;
+          this.lbSingleGameKills = statName.lbSingleGameKills;
+          this.lbMostPrecisionKills = statName.lbMostPrecisionKills;
+          this.lbLongestKillSpree = statName.lbLongestKillSpree;
+          this.lbLongestSingleLife = statName.lbLongestSingleLife;
+          this.lbSingleGameScore = statName.lbSingleGameScore;
         }
       }
     });
