@@ -82,6 +82,10 @@
                     font-size: .9em;
                     letter-spacing: .5px;
 
+                    &.highlight-row {
+                        background-color: rgba(#fff,.4);
+                    }
+
                     span {
                         &:first-of-type {
                             margin: 0 20px 0 10px;

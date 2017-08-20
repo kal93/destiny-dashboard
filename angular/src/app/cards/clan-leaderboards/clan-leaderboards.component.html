@@ -31,7 +31,7 @@
         <div *ngIf="clanLeaderboardsStats != null" class="stat-container" [@slideFromBottom]="statName">
           <div *ngIf="lbSingleGameKills != null" class="stat-section">
             <div class="header">{{statDisplayName}}: Single Game Kills</div>
-            <div *ngFor="let singleGameKillEntry of lbSingleGameKills.entries">
+            <div *ngFor="let singleGameKillEntry of lbSingleGameKills.entries" [class.highlight-row]="singleGameKillEntry.player?.destinyUserInfo.displayName == selectedMembership.displayName">
               <span>{{singleGameKillEntry?.rank}}</span>
               <span>{{singleGameKillEntry.player?.destinyUserInfo.displayName}}</span>
               <span>{{singleGameKillEntry.value?.basic.value | pNumberFormatLocale}}</span>
@@ -40,7 +40,7 @@
 
           <div *ngIf="lbMostPrecisionKills != null" class="stat-section">
             <div class="header">{{statDisplayName}}: Most Precision Kills</div>
-            <div *ngFor="let mostPrecisionKillsEntry of lbMostPrecisionKills.entries">
+            <div *ngFor="let mostPrecisionKillsEntry of lbMostPrecisionKills.entries" [class.highlight-row]="mostPrecisionKillsEntry.player?.destinyUserInfo.displayName == selectedMembership.displayName">
               <span>{{mostPrecisionKillsEntry?.rank}}</span>
               <span>{{mostPrecisionKillsEntry.player?.destinyUserInfo.displayName}}</span>
               <span>{{mostPrecisionKillsEntry.value?.basic.value | pNumberFormatLocale}}</span>
@@ -49,7 +49,7 @@
 
           <div *ngIf="lbLongestKillSpree != null" class="stat-section">
             <div class="header">{{statDisplayName}}: Longest Kill Spree</div>
-            <div *ngFor="let longestKillSpreeEntry of lbLongestKillSpree.entries">
+            <div *ngFor="let longestKillSpreeEntry of lbLongestKillSpree.entries" [class.highlight-row]="longestKillSpreeEntry.player?.destinyUserInfo.displayName == selectedMembership.displayName">
               <span>{{longestKillSpreeEntry?.rank}}</span>
               <span>{{longestKillSpreeEntry.player?.destinyUserInfo.displayName}}</span>
               <span>{{longestKillSpreeEntry.value?.basic.value | pNumberFormatLocale}}</span>
@@ -58,7 +58,7 @@
 
           <div *ngIf="lbLongestSingleLife != null" class="stat-section">
             <div class="header">{{statDisplayName}}: Longest Single Life</div>
-            <div *ngFor="let longestSingleLifeEntry of lbLongestSingleLife.entries">
+            <div *ngFor="let longestSingleLifeEntry of lbLongestSingleLife.entries" [class.highlight-row]="longestSingleLifeEntry.player?.destinyUserInfo.displayName == selectedMembership.displayName">
               <span>{{longestSingleLifeEntry?.rank}}</span>
               <span>{{longestSingleLifeEntry.player?.destinyUserInfo.displayName}}</span>
               <span>{{longestSingleLifeEntry.value?.basic.displayValue}}</span>
@@ -67,7 +67,7 @@
 
           <div *ngIf="lbSingleGameScore != null" class="stat-section">
             <div class="header">{{statDisplayName}}: Single Game Score</div>
-            <div *ngFor="let singleGameScoreEntry of lbSingleGameScore.entries">
+            <div *ngFor="let singleGameScoreEntry of lbSingleGameScore.entries" [class.highlight-row]="singleGameScoreEntry.player?.destinyUserInfo.displayName == selectedMembership.displayName">
               <span>{{singleGameScoreEntry?.rank}}</span>
               <span>{{singleGameScoreEntry.player?.destinyUserInfo.displayName}}</span>
               <span>{{singleGameScoreEntry.value?.basic.value | pNumberFormatLocale}}</span>
