@@ -7,13 +7,13 @@ import { SharedApp } from 'app/shared/services/shared-app.service';
 import { ClanLeaderboardsStatsService, GetBungieAccountService } from 'app/bungie/services/service.barrel';
 import { BungieGroupInfo, DestinyMembership, IClanLeaderboardsStats, IGetBungieAccount, LbStats } from 'app/bungie/services/interface.barrel';
 
-import { fadeIn } from 'app/shared/animations';
+import { slideFromBottom } from 'app/shared/animations';
 
 @Component({
   selector: 'dd-clan-leaderboards',
   templateUrl: './clan-leaderboards.component.html',
   styleUrls: ['../_base/card.component.scss', './clan-leaderboards.component.scss'],
-  animations: [fadeIn()]
+  animations: [slideFromBottom()]
 })
 
 export class ClanLeaderboardsComponent extends CardComponent {

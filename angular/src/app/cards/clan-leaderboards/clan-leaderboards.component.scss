@@ -16,41 +16,40 @@
         padding-top: 5px;
     }
 
-    .md-toolbar {
+    .toolbar {
         background-color: #01579B;
         color: $app-text-light;
         display: flex;
         align-items: center;
-
-        .icon {
-            left: 7px;
-            top: 16px;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background-repeat: no-repeat;
-            background-size: contain;
-            display: inline-block;
-        }
+        justify-content: space-around;
+        padding: 10px 4%;
 
         .clan-name {
-            margin-left: 1em;
-            font-size: .8em;
+            display: flex;
+            align-items: center;
+
+            .icon {
+                left: 7px;
+                top: 16px;
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+                background-repeat: no-repeat;
+                background-size: contain;
+                margin-right: 10px;
+            }
         }
 
         .toolbar-menu {
-            margin-right: auto;
+            .title {
+                margin-left: 5px;
+            }
         }
 
-    }
-
-    .spacer {
-        flex: 1 1 auto;
     }
 
     .stat-group {
         overflow: auto;
-        height: calc(100% - 135px);
 
         .stat-container {
             overflow-y: auto;
@@ -84,20 +83,16 @@
 
                     span {
                         &:first-of-type {
-                            flex: 1;
-                            margin-right: auto;
+                            margin: 0 20px 0 10px;
                         }
 
                         &:nth-child(2) {
-                            flex: 5;
-                            margin-right: auto;
-                            margin-left: auto;
+                            flex: 1;
                         }
 
                         &:last-of-type {
-                            flex: 2;
                             opacity: .8;
-                            margin-left: auto;
+                            margin: 0 10px;
                         }
                     }
 

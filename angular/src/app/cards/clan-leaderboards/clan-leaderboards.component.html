@@ -7,12 +7,15 @@
         <dd-gamertag-autocomplete [autocompleteId]="'clan-leaderboards'" (membershipSelected)="membershipSelected($event)" (initialMembership)="membershipSelected($event)"></dd-gamertag-autocomplete>
       </div>
 
-      <md-toolbar class="md-toolbar">
-        <div *ngIf="isFullscreen || dashboardCard.layout.cols > 2" class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + selectedMembership.iconPath +')')"></div>
-        <div class="clan-name">{{bungieClanName}} </div>
-        <div *ngIf="isFullscreen || dashboardCard.layout.cols > 2" class="spacer"></div>
-        <button md-button class="toolbar-menu" [mdMenuTriggerFor]="appMenu"><md-icon>menu</md-icon> Stats </button>
-      </md-toolbar>
+      <div class="toolbar">
+        <div class="clan-name">
+          <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + selectedMembership.iconPath +')')"></div> {{bungieClanName}}
+        </div>
+        <button md-button class="toolbar-menu" [mdMenuTriggerFor]="appMenu">
+            <md-icon>menu</md-icon> 
+            <span class="title">Stats</span>
+          </button>
+      </div>
 
       <md-menu #appMenu="mdMenu">
         <button md-menu-item class="md-menu-item" (click)="statsChanged(4)"> Raid </button>
@@ -23,9 +26,9 @@
         <button md-menu-item class="md-menu-item" (click)="statsChanged(18)"> All Strikes </button>
       </md-menu>
 
-      <div class="stat-group" *ngIf="selectedMembership != null" (membershipSelected)="membershipSelected($event)">
+      <div class="stat-group" *ngIf="selectedMembership != null">
 
-        <div *ngIf="clanLeaderboardsStats != null" class="stat-container">
+        <div *ngIf="clanLeaderboardsStats != null" class="stat-container" [@slideFromBottom]="statName">
           <div *ngIf="lbSingleGameKills != null" class="stat-section">
             <div class="header">{{statDisplayName}}: Single Game Kills</div>
             <div *ngFor="let singleGameKillEntry of lbSingleGameKills.entries">
