@@ -28,15 +28,12 @@ export class ClanLeaderboardsStatsService {
     constructor(private http: HttpService, private sharedApp: SharedApp, private sharedBungie: SharedBungie) {
     }
 
-    getClanleaderboardStats(clan: BungieAccountClan, modes: Array<ModeTypes>, maxtop = 4, statid?: string): Promise<IClanLeaderboardsStats> {
-        
-        if ( statid == undefined ) {
-            var requestUrl = "https://www.bungie.net/D1/Platform/Destiny/Stats/ClanLeaderboards/" + clan.groupId + "/?maxtop=" + maxtop +
-            "&modes=" + modes.join();
-        } else {
-            var requestUrl = "https://www.bungie.net/D1/Platform/Destiny/Stats/ClanLeaderboards/" + clan.groupId + "/?maxtop=" + maxtop +
-            "&modes=" + modes.join() + "&statid=" + statid;
-        }
+    getClanleaderboardStats(clan: BungieAccountClan, modes: Array<ModeTypes>, maxTop = 4, statId?: string): Promise<IClanLeaderboardsStats> {
+        var statIdParam = (statId == null) ? "" : "&statid=" + statId;
+
+        var requestUrl = "https://www.bungie.net/D1/Platform/Destiny/Stats/ClanLeaderboards/" + clan.groupId + "/?maxtop=" + maxTop +
+            "&modes=" + modes.join() + statIdParam;
+
         //Get the response, or return the cached result
         return this.http.getWithCache(requestUrl, HttpRequestType.BUNGIE_BASIC, this.cacheTimeMs);
     }

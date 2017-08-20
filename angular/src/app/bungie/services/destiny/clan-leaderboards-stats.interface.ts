@@ -79,19 +79,3 @@ interface LbPlayer {
 interface LbValue {
     basic: Basic;
 }
-
-/* For reference:
-
-export interface DestinyMembership {
-    iconPath: string;
-    membershipType: number;
-    membershipId: string;
-    displayName: string;
-}
-
-export interface Basic {
-    displayValue: string;
-    value: number;
-}
-
-*/

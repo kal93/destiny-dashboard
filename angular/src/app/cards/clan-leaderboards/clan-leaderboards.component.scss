@@ -1,11 +1,8 @@
 @import '../../../styles/theme.scss';
 
-
 // Card Theme Notes:
-// Using Material color palette "Light Blue"
-//   with 900 as #01579B and 700 as #0288D1
-// The shading in the stat grid is done with a background-color: rgba(0,0,0,.1)
-//   and is not a separate color
+// Using Material color palette "Light Blue" with 900 as #01579B and 700 as #0288D1
+// The shading in the stat grid is done with a background-color: rgba(0,0,0,.1) and is not a separate color
 
 // These styles apply to both dashboard and fullscreen
 .dd-clan-leaderboards {
@@ -47,7 +44,7 @@
 
     }
 
-    .example-spacer {
+    .spacer {
         flex: 1 1 auto;
     }
 

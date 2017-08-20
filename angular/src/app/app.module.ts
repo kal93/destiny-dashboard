@@ -54,12 +54,12 @@ import { MdTabCharacterHeadingComponent } from './bungie/components/md-tab-chara
 //Cards
 import { BungieNewsComponent } from './cards/bungie-news/bungie-news.component';
 import { CountdownComponent } from './cards/countdown/countdown.component';
+import { ClanLeaderboardsComponent } from './cards/clan-leaderboards/clan-leaderboards.component';
 import { ItemManagerComponent } from './cards/inventory/inventory.component';
 import { PublicEventsComponent } from './cards/public-events/public-events.component';
 import { RedditComponent } from './cards/reddit/reddit.component';
 import { StatsComponent } from './cards/stats/stats.component';
 import { TwitchComponent } from './cards/twitch/twitch.component';
-import { ClanLeaderboardsComponent } from './cards/clanleaderboards/clanleaderboards.component';
 
 //Directives
 import { ModalDirective } from './shared/directives/modal.directive';
@@ -89,7 +89,7 @@ import { NumberFormatLocalePipe, RoundToDecimalPlacePipe } from './shared/pipes/
     AboutComponent, DownloadManifestComponent, GamertagAutocompleteComponent, InventoryItemComponent, MdTabCharacterHeadingComponent,
 
     //Cards
-    BungieNewsComponent, CountdownComponent, ItemManagerComponent, PublicEventsComponent, RedditComponent, StatsComponent, TwitchComponent, ClanLeaderboardsComponent,
+    BungieNewsComponent, ClanLeaderboardsComponent, CountdownComponent, ItemManagerComponent, PublicEventsComponent, RedditComponent, StatsComponent, TwitchComponent,
 
     //Directives
     ModalDirective, MouseEventsDirective, ScrollWithElementDirective, Swipeable,
