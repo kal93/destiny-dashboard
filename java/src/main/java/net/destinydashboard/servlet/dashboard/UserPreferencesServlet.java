@@ -15,10 +15,10 @@ import com.google.gson.GsonBuilder;
 import net.destinydashboard.core.DBCore;
 import net.destinydashboard.model.dashboard.IUserPreferences;
 import net.destinydashboard.repository.bungie.TokenRepository;
-import net.destinydashboard.repository.dashboard.PreferenceRepository;
+import net.destinydashboard.repository.dashboard.UserPreferenceRepository;
 import net.destinydashboard.servlet.BaseServlet;
 
-public class PreferencesServlet extends BaseServlet
+public class UserPreferencesServlet extends BaseServlet
 {
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
@@ -32,7 +32,7 @@ public class PreferencesServlet extends BaseServlet
             try (Connection conn = DBCore.getDBConnection()) {
                 long membershipId = TokenRepository.getMembershipIdByAccessToken(accessToken, conn);
 
-                IUserPreferences userPreferences = PreferenceRepository.loadUserPreferences(membershipId, conn);
+                IUserPreferences userPreferences = UserPreferenceRepository.loadUserPreferences(membershipId, conn);
 
                 resp.getWriter().write(new Gson().toJson(userPreferences));
             }
@@ -69,7 +69,7 @@ public class PreferencesServlet extends BaseServlet
                     IUserPreferences userPreferences = gson.fromJson(requestBody.toString(), IUserPreferences.class);
 
                     // Save to database
-                    PreferenceRepository.saveUserPreferences(membershipId, userPreferences, conn);
+                    UserPreferenceRepository.saveUserPreferences(membershipId, userPreferences, conn);
                     resp.setStatus(HttpURLConnection.HTTP_OK);
                 }
             }

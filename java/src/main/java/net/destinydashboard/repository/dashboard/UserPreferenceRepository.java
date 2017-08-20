@@ -8,11 +8,11 @@ import java.sql.Statement;
 
 import net.destinydashboard.model.dashboard.IUserPreferences;
 
-public class PreferenceRepository
+public class UserPreferenceRepository
 {
     public static IUserPreferences loadUserPreferences(long membershipId, Connection conn) throws SQLException {
 
-        PreparedStatement preparedStatement = conn.prepareStatement("SELECT membership_index FROM preferences WHERE membership_id = ?");
+        PreparedStatement preparedStatement = conn.prepareStatement("SELECT membership_index FROM user_preferences WHERE membership_id = ?");
         preparedStatement.setLong(1, membershipId);
 
         IUserPreferences userPreferences = null;
@@ -31,12 +31,12 @@ public class PreferenceRepository
     public static void saveUserPreferences(long membershipId, IUserPreferences userPreferences, Connection conn) throws SQLException {
         // Remove existing preference
         Statement statement = conn.createStatement();
-        statement.execute("DELETE FROM preferences WHERE membership_id = " + membershipId);
+        statement.execute("DELETE FROM user_preferences WHERE membership_id = " + membershipId);
         statement.close();
 
         // Insert new preference
         PreparedStatement preparedStatement = conn
-                .prepareStatement("INSERT INTO preferences (membership_id, membership_index) VALUES(?, ?)");
+                .prepareStatement("INSERT INTO user_preferences (membership_id, membership_index) VALUES(?, ?)");
 
         preparedStatement.setLong(1, membershipId);
         preparedStatement.setShort(2, userPreferences.membershipIndex);

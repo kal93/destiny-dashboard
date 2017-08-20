@@ -48,12 +48,12 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>DashboardPreferences</servlet-name>
-		<servlet-class>net.destinydashboard.servlet.dashboard.PreferencesServlet</servlet-class>
+		<servlet-name>DashboardUserPreferences</servlet-name>
+		<servlet-class>net.destinydashboard.servlet.dashboard.UserPreferencesServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>DashboardPreferences</servlet-name>
-		<url-pattern>/api/dashboard/preferences/*</url-pattern>
+		<servlet-name>DashboardUserPreferences</servlet-name>
+		<url-pattern>/api/dashboard/userPreferences/*</url-pattern>
 	</servlet-mapping>
 
 	<!-- Twitter -->
