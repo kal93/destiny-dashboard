@@ -13,9 +13,9 @@ export class GetBungieAccountService {
     constructor(private http: HttpService, private sharedApp: SharedApp, private sharedBungie: SharedBungie) {
     }
 
-    getGetBungieAccount(membership: DestinyMembership): Promise<IGetBungieAccount> {
+    getBungieAccount(membership: DestinyMembership): Promise<IGetBungieAccount> {
         var requestUrl = "https://www.bungie.net/Platform/User/GetBungieAccount/" + membership.membershipId + "/" + membership.membershipType + "/";
         //Get the response, or return the cached result
-        return this.http.getWithCache(requestUrl, HttpRequestType.BUNGIE_PRIVILEGED, this.cacheTimeMs);
+        return this.http.getWithCache(requestUrl, HttpRequestType.BUNGIE_BASIC, this.cacheTimeMs);
     }
 }
