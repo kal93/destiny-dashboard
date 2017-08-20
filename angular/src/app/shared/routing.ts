@@ -13,7 +13,7 @@ import { DownloadManifestComponent } from '../bungie/manifest/download-manifest.
 import { RedditComponent } from '../cards/reddit/reddit.component';
 import { StatsComponent } from '../cards/stats/stats.component';
 import { TwitchComponent } from '../cards/twitch/twitch.component';
-import { ClanLeaderboardsComponent } from '../cards/clanleaderboards/clanleaderboards.component'
+import { ClanLeaderboardsComponent } from '../cards/clan-leaderboards/clan-leaderboards.component'
 
 import { AuthGuard } from './guards/auth.guard';
 
@@ -99,7 +99,7 @@ const routes: Routes = [
         }
     },
     {
-        path: 'clanleaderboards', component: ClanLeaderboardsComponent, data: {
+        path: 'clan-leaderboards', component: ClanLeaderboardsComponent, data: {
             animation: 'card',
             title: "Clan Leaderboards"
         }

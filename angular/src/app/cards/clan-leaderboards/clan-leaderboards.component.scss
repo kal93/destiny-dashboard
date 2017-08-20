@@ -8,7 +8,7 @@
 //   and is not a separate color
 
 // These styles apply to both dashboard and fullscreen
-.dd-clanleaderboards {
+.dd-clan-leaderboards {
     background-color: #0288D1;
     color: $app-text-light;
 
@@ -114,11 +114,11 @@
 }
 
 // These styles only applies to dashboard card modes
-.dd-card-content.dd-clanleaderboards {
+.dd-card-content.dd-clan-leaderboards {
     height: calc(100% - 40px);
 }
 
 // These styles only apply to fullscreen mode
-.dd-fullscreen.dd-clanleaderboards {
+.dd-fullscreen.dd-clan-leaderboards {
     height: 100%;
 }

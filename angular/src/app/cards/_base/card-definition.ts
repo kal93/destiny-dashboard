@@ -130,7 +130,7 @@ export class CardDefinitions {
         title: "Clan Leaderboards",
         description: "View clan leaderboards",
         rating: 5,
-        route: "clanleaderboards",
+        route: "clan-leaderboards",
         layouts: [
             { rows: 2, cols: 2 },
             { rows: 2, cols: 3 },
@@ -139,7 +139,7 @@ export class CardDefinitions {
         requiresLogin: false,
         isExternalRoute: false,
         lastUpdated: 1503092830522,
-        previewImageClass: "dd-clanleaderboards-preview"
+        previewImageClass: "dd-clan-leaderboards-preview"
     }];
 
     static defaultDashboards: Array<IUserDashboard> = [{

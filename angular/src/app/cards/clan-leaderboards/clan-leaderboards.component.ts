@@ -1,19 +1,18 @@
 import { Component, ViewChild } from '@angular/core';
-import { MdToolbarModule, MdMenuModule } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CardComponent } from '../_base/card.component';
 import { SharedBungie } from 'app/bungie/shared-bungie.service';
 import { SharedApp } from 'app/shared/services/shared-app.service';
 
 import { GetBungieAccountService, ClanLeaderboardsStatsService } from 'app/bungie/services/service.barrel';
-import { DestinyMembership, IClanLeaderboardsStats, LbStats, IGetBungieAccount, BungieAccountClan, BungieGroupInfo } from 'app/bungie/services/interface.barrel';
+import { DestinyMembership, IClanLeaderboardsStats, LbStats, IGetBungieAccount, BungieGroupInfo } from 'app/bungie/services/interface.barrel';
 
 import { fadeIn } from 'app/shared/animations';
 
 @Component({
-  selector: 'dd-clanleaderboards',
-  templateUrl: './clanleaderboards.component.html',
-  styleUrls: ['../_base/card.component.scss', './clanleaderboards.component.scss'],
+  selector: 'dd-clan-leaderboards',
+  templateUrl: './clan-leaderboards.component.html',
+  styleUrls: ['../_base/card.component.scss', './clan-leaderboards.component.scss'],
   animations: [fadeIn()]
 })
 
