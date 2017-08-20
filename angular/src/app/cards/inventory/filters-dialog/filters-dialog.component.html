@@ -1,0 +1,43 @@
+<md-card>
+  <md-card-header>
+    Show Inventory Groups
+  </md-card-header>
+
+  <md-card-content class="inventory-group-wrap">
+    <md-slide-toggle class="inventory-group" (change)="setInventoryGroupVisibile(0, $event)" [checked]="showInventoryGroups[0]">
+      Bounties
+    </md-slide-toggle>
+    <md-slide-toggle class="inventory-group" (change)="setInventoryGroupVisibile(1, $event)" [checked]="showInventoryGroups[1]">
+      Emblems
+    </md-slide-toggle>
+    <md-slide-toggle class="inventory-group" (change)="setInventoryGroupVisibile(2, $event)" [checked]="showInventoryGroups[2]">
+      Emotes
+    </md-slide-toggle>
+    <md-slide-toggle class="inventory-group" (change)="setInventoryGroupVisibile(3, $event)" [checked]="showInventoryGroups[3]">
+      Missions
+    </md-slide-toggle>
+    <md-slide-toggle class="inventory-group" (change)="setInventoryGroupVisibile(4, $event)" [checked]="showInventoryGroups[4]">
+      Ornaments
+    </md-slide-toggle>
+    <md-slide-toggle class="inventory-group" (change)="setInventoryGroupVisibile(5, $event)" [checked]="showInventoryGroups[5]">
+      Shaders
+    </md-slide-toggle>
+    <md-slide-toggle class="inventory-group" (change)="setInventoryGroupVisibile(6, $event)" [checked]="showInventoryGroups[6]">
+      Ships
+    </md-slide-toggle>
+    <md-slide-toggle class="inventory-group" (change)="setInventoryGroupVisibile(7, $event)" [checked]="showInventoryGroups[7]">
+      Sparrow Horn
+    </md-slide-toggle>
+    <md-slide-toggle class="inventory-group" (change)="setInventoryGroupVisibile(8, $event)" [checked]="showInventoryGroups[8]">
+      Quests
+    </md-slide-toggle>
+    <md-slide-toggle class="inventory-group" (change)="setInventoryGroupVisibile(9, $event)" [checked]="showInventoryGroups[9]">
+      Vehicles
+    </md-slide-toggle>
+  </md-card-content>
+
+  <md-card-actions class="card-actions">
+    <button md-button md-button md-dialog-close="Close" class="close">Close</button>
+  </md-card-actions>
+
+</md-card>

@@ -8,49 +8,43 @@
     color: $app-text-light;
     padding: 10px 0;
 
-    .filter-wrap {
+    .search-text-wrap {
+        flex: 2;
         display: flex;
-        justify-content: space-evenly;
-        align-items: center;
+        justify-content: center;
 
-        .search-text-wrap {
-            flex: 2;
-            display: flex;
-            justify-content: center;
+        .search-text {
+            margin-top: 5px;
 
-            .search-text {
-                margin-top: 5px;
+            &.mat-input-container {
+                ::ng-deep .mat-input-placeholder {
+                    color: $app-text-light;
+                    opacity: 1;
+                }
 
-                &.mat-input-container {
+                &.mat-focused {
                     ::ng-deep .mat-input-placeholder {
-                        color: $app-text-light;
-                        opacity: 1;
-                    }
-
-                    &.mat-focused {
-                        ::ng-deep .mat-input-placeholder {
-                            opacity: .7;
-                        }
+                        opacity: .7;
                     }
                 }
+            }
 
-                ::ng-deep .mat-input-underline {
-                    background-color: $app-text-light;
-                }
+            ::ng-deep .mat-input-underline {
+                background-color: $app-text-light;
+            }
 
-                ::ng-deep .mat-input-ripple {
-                    background-color: rgba(mat-color($app-secondary), .5);
-                }
+            ::ng-deep .mat-input-ripple {
+                background-color: rgba(mat-color($app-secondary), .5);
             }
         }
+    }
 
-        .non-transferrable {
-            margin: 0 5px 10px;
-            flex: 1;
+    .non-transferrable {
+        margin: 0 5px 10px;
+        flex: 1;
 
-            md-slide-toggle {
-                margin: 5px 0;
-            }
+        md-slide-toggle {
+            margin: 5px 0;
         }
     }
 

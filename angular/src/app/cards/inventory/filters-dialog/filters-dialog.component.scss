@@ -1,0 +1,22 @@
+@import '../../../../styles/theme.scss';
+
+.inventory-group-wrap {
+    display: flex;
+    flex-flow: wrap;
+    max-width: 500px;
+    margin-top: 15px;
+
+    .inventory-group {
+        margin: 5px 0;
+        flex: 1 0 130px;
+    }
+}
+
+.card-actions {
+    display: flex;
+    justify-content: flex-end;
+
+    .close {
+        color: $app-text-link;
+    }
+}

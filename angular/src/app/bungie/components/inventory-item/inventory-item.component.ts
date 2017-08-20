@@ -30,7 +30,6 @@ export class InventoryItemComponent {
   constructor(public domSanitizer: DomSanitizer) { }
 
   click() {
-    console.log(this.inventoryItem);
     // If a parent component is listening to the click event
     this.clicked.emit();
 

@@ -35,6 +35,7 @@ import { CustomReuseStrategy, Routing } from './shared/routing';
 //Dialogs
 import { AlertDialog } from './shared/dialogs/alert.component';
 import { ConfirmDialog } from './shared/dialogs/confirm.component';
+import { FiltersDialog } from './cards/inventory/filters-dialog/filters-dialog.component';
 import { SimpleInputDialog } from './shared/dialogs/simple-input.component';
 
 //Base Components
@@ -79,7 +80,7 @@ import { NumberFormatLocalePipe, RoundToDecimalPlacePipe } from './shared/pipes/
     AppComponent, NavComponent,
 
     //Dialogs
-    AlertDialog, ConfirmDialog, SimpleInputDialog,
+    AlertDialog, ConfirmDialog, FiltersDialog, SimpleInputDialog,
 
     //Base Components
     AddCardComponent, CardHeaderComponent, CardLoaderComponent, DashboardComponent,
@@ -98,7 +99,7 @@ import { NumberFormatLocalePipe, RoundToDecimalPlacePipe } from './shared/pipes/
   ],
 
   entryComponents: [
-    AlertDialog, ConfirmDialog, SimpleInputDialog
+    AlertDialog, ConfirmDialog, FiltersDialog, SimpleInputDialog
   ],
   imports: [
     Angulartics2Module.forRoot([Angulartics2GoogleAnalytics]),

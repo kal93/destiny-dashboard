@@ -2,23 +2,10 @@
   <dd-card-header *ngIf="!isFullscreen" [dashboardCard]="dashboardCard"></dd-card-header>
   <div class="dd-inventory" [class.dd-fullscreen]="isFullscreen" [class.dd-card-content]="!isFullscreen">
 
-    <div class="filter-wrap">
-      <div class="search-text-wrap">
-        <md-input-container class="search-text">
-          <input mdInput [ngModel]="searchText" (ngModelChange)="searchTextChanged($event)" placeholder="Filter">
-        </md-input-container>
-      </div>
-      <div class="non-transferrable">
-        <md-slide-toggle (change)="setMissionBountiesQuests($event)" [checked]="showMissionsBountiesQuests">
-          Missions, Bounties, Quests
-        </md-slide-toggle>
-        <md-slide-toggle (change)="setMissionVehiclesShipsOrnaments($event)" [checked]="showVehiclesShipsOrnaments">
-          Vehicles, Ships, Ornaments
-        </md-slide-toggle>
-        <md-slide-toggle (change)="setShadersEmblemsEmotes($event)" [checked]="showShadersEmblemsEmotes">
-          Shaders, Emblems, Emotes
-        </md-slide-toggle>
-      </div>
+    <div class="search-text-wrap">
+      <md-input-container class="search-text">
+        <input mdInput [ngModel]="searchText" (ngModelChange)="searchTextChanged($event)" placeholder="Filter">
+      </md-input-container>
     </div>
 
     <!-- Wait until everything is loaded. charactersBucketsGroupsArray is the last thing to be loaded  -->

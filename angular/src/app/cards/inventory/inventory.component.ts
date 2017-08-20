@@ -1,12 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MdSlideToggleChange, MdTabGroup } from '@angular/material';
+import { MdDialog } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CardComponent } from '../_base/card.component';
 import { inventoryService } from './inventory.service';
 import { ManifestService } from '../../bungie/manifest/manifest.service';
 import { SharedBungie } from '../../bungie/shared-bungie.service';
 import { SharedApp } from '../../shared/services/shared-app.service';
+import { FiltersDialog } from './filters-dialog/filters-dialog.component';
 
 import { ISubNavItem, IToolbarItem } from '../../nav/nav.interface';
 import { AccountSummaryService } from 'app/bungie/services/service.barrel';
@@ -61,12 +62,11 @@ export class ItemManagerComponent extends CardComponent {
 
     // Filtering
     searchText: string = '';
-    showMissionsBountiesQuests: boolean;
-    showVehiclesShipsOrnaments: boolean;
-    showShadersEmblemsEmotes: boolean;
+    showInventoryGroups: Array<boolean> = new Array<boolean>(9);
 
     constructor(private accountSummaryService: AccountSummaryService, private activatedRoute: ActivatedRoute, public domSanitizer: DomSanitizer,
-        private inventoryService: inventoryService, private manifestService: ManifestService, private sharedBungie: SharedBungie, public sharedApp: SharedApp) {
+        private inventoryService: inventoryService, private mdDialog: MdDialog, private manifestService: ManifestService,
+        private sharedBungie: SharedBungie, public sharedApp: SharedApp) {
         super(sharedApp);
     }
 
@@ -192,21 +192,6 @@ export class ItemManagerComponent extends CardComponent {
         this.applyFilter(characterAddedToEnd);
     }
 
-    setMissionBountiesQuests(slideToggle: MdSlideToggleChange) {
-        this.showMissionsBountiesQuests = slideToggle.checked;
-        this.applyFilter();
-    }
-
-    setMissionVehiclesShipsOrnaments(slideToggle: MdSlideToggleChange) {
-        this.showVehiclesShipsOrnaments = slideToggle.checked;
-        this.applyFilter();
-    }
-
-    setShadersEmblemsEmotes(slideToggle: MdSlideToggleChange) {
-        this.showShadersEmblemsEmotes = slideToggle.checked;
-        this.applyFilter();
-    }
-
     @debounceBy(400)
     applyFilter(skipAlreadyFiltered: boolean = false) {
         // Apply filter to vault bucket
@@ -231,31 +216,30 @@ export class ItemManagerComponent extends CardComponent {
      * @param {boolean} skipAlreadyFiltered - Do not check items that have been filtered out since they'll definitely be filtered out again
      */
     applyFilterToBucket(bucket: InventoryBucket, skipAlreadyFiltered: boolean) {
-        if (!this.showMissionsBountiesQuests &&
-            (bucket.bucketValue.bucketName == "Mission" || bucket.bucketValue.bucketName == "Bounties" || bucket.bucketValue.bucketName == "Quests"))
+        var bucketName: string = bucket.bucketValue.bucketName;
+        if ((!this.showInventoryGroups[0] && bucketName == "Bounties") || (!this.showInventoryGroups[1] && bucketName == "Emblems") ||
+            (!this.showInventoryGroups[2] && bucketName == "Emotes") || (!this.showInventoryGroups[3] && bucketName == "Mission") ||
+            (!this.showInventoryGroups[4] && bucketName == "Ornaments") || (!this.showInventoryGroups[5] && bucketName == "Shaders") ||
+            (!this.showInventoryGroups[6] && bucketName == "Ships") || (!this.showInventoryGroups[7] && bucketName == "Sparrow Horn") ||
+            (!this.showInventoryGroups[8] && bucketName == "Quests") || (!this.showInventoryGroups[9] && bucketName == "Vehicle")) {
             bucket.filteredOut = true;
-        else if (!this.showVehiclesShipsOrnaments &&
-            (bucket.bucketValue.bucketName == "Vehicle" || bucket.bucketValue.bucketName == "Sparrow Horn" || bucket.bucketValue.bucketName == "Ships" || bucket.bucketValue.bucketName == "Ornaments"))
-            bucket.filteredOut = true;
-        else if (!this.showShadersEmblemsEmotes &&
-            (bucket.bucketValue.bucketName == "Shaders" || bucket.bucketValue.bucketName == "Emblems" || bucket.bucketValue.bucketName == "Emotes"))
-            bucket.filteredOut = true;
-        else {
-            let searchTextLower = this.searchText.toLowerCase().trim();
-            let bucketHasItem = false;
-            for (let i = 0; i < bucket.items.length; i++) {
-                let inventoryItem = bucket.items[i];
-                if (inventoryItem.filteredOut && skipAlreadyFiltered)
-                    continue;
-
-                inventoryItem.filteredOut = false;
-                if (inventoryItem.itemValue.itemName.toLowerCase().indexOf(searchTextLower) == -1)
-                    inventoryItem.filteredOut = true;
-                else
-                    bucketHasItem = true;
-            }
-            bucket.filteredOut = !bucketHasItem;
+            return;
         }
+
+        let searchTextLower = this.searchText.toLowerCase().trim();
+        let bucketHasItem = false;
+        for (let i = 0; i < bucket.items.length; i++) {
+            let inventoryItem = bucket.items[i];
+            if (inventoryItem.filteredOut && skipAlreadyFiltered)
+                continue;
+
+            inventoryItem.filteredOut = false;
+            if (inventoryItem.itemValue.itemName.toLowerCase().indexOf(searchTextLower) == -1)
+                inventoryItem.filteredOut = true;
+            else
+                bucketHasItem = true;
+        }
+        bucket.filteredOut = !bucketHasItem;
     }
 
     collapseSection(sectionIndex: number) {
@@ -273,7 +257,16 @@ export class ItemManagerComponent extends CardComponent {
     inventoryItemClicked(inventoryItem: InventoryItem) {
         if (this.editMode) {
             inventoryItem.selected = !inventoryItem.selected;
-            this.selectedInventoryItems.push(inventoryItem);
+            if (inventoryItem.selected)
+                this.selectedInventoryItems.push(inventoryItem);
+            else {
+                // If deselected, remove from selected array
+                this.selectedInventoryItems.splice(this.selectedInventoryItems.indexOf(inventoryItem), 1);
+
+                // If deselecting last item, turn off edit mode
+                if (this.selectedInventoryItems.length == 0)
+                    this.setEditMode(false);
+            }
         }
     }
 
@@ -303,6 +296,9 @@ export class ItemManagerComponent extends CardComponent {
         this.sharedApp.subNavItems.push({
             title: 'Filters', materialIcon: 'filter_list',
             selectedCallback: (subNavItem: ISubNavItem) => {
+                let dialogRef = this.mdDialog.open(FiltersDialog);
+                dialogRef.componentInstance.showInventoryGroups = this.showInventoryGroups;
+                dialogRef.afterClosed().subscribe((result: string) => { this.applyFilter(); });
             }
         });
 
