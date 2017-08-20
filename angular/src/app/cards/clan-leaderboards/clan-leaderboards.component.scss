@@ -50,6 +50,7 @@
 
     .stat-group {
         overflow: auto;
+        height: calc(100% - 125px);
 
         .stat-container {
             overflow-y: auto;
