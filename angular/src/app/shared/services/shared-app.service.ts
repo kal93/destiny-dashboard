@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { GlobalErrorHandler } from './error-handler.service';
 import { LZString } from '../utilities/lz-string';
 import { environment } from '../../../environments/environment';
-import { AlertDialog } from '../../dialog/alert.component';
+import { AlertDialog } from '../../shared/dialogs/alert.component';
 
 import { ISubNavItem, IToolbarItem } from '../../nav/nav.interface';
 import { delayBy } from '../decorators';

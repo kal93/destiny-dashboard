@@ -33,9 +33,9 @@ import { HttpService } from './shared/services/http.service';
 import { CustomReuseStrategy, Routing } from './shared/routing';
 
 //Dialogs
-import { AlertDialog } from './dialog/alert.component';
-import { ConfirmDialog } from './dialog/confirm.component';
-import { SimpleInputDialog } from './dialog/simple-input.component';
+import { AlertDialog } from './shared/dialogs/alert.component';
+import { ConfirmDialog } from './shared/dialogs/confirm.component';
+import { SimpleInputDialog } from './shared/dialogs/simple-input.component';
 
 //Base Components
 import { AddCardComponent } from './dashboard/add-card/add-card.component';

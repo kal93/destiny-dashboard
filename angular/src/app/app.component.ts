@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, HostListener } from '@angular/core';
 import { MdDialog } from '@angular/material';
-import { ConfirmDialog } from './dialog/confirm.component';
+import { ConfirmDialog } from './shared/dialogs/confirm.component';
 import { HttpService } from './shared/services/http.service';
 import { ManifestService } from './bungie/manifest/manifest.service';
 import { SharedApp } from './shared/services/shared-app.service';

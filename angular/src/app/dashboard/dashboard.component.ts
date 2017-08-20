@@ -4,8 +4,8 @@ import { NavigationEnd, Router } from '@angular/router';
 import { ModalDirective } from '../shared/directives/modal.directive';
 import { SharedApp } from '../shared/services/shared-app.service';
 import { SharedDashboard } from './shared-dashboard.service';
-import { ConfirmDialog } from '../dialog/confirm.component';
-import { SimpleInputDialog } from '../dialog/simple-input.component';
+import { ConfirmDialog } from '../shared/dialogs/confirm.component';
+import { SimpleInputDialog } from '../shared/dialogs/simple-input.component';
 
 import { debounceBy } from '../shared/decorators';
 import { fadeInChildren, fadeInOut } from '../shared/animations';
