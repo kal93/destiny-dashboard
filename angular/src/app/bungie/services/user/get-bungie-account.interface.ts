@@ -1,5 +1,5 @@
 import { DestinyMembership, BungieNetUser } from "../user/user.interface";
-import { LevelProgression } from "./account-summary.interface";
+import { LevelProgression } from "../interface.barrel";
 
 export interface IGetBungieAccount {
     destinyAccounts: DestinyAccount[];
