@@ -14,4 +14,4 @@ export class AlertDialog {
     public message: string;
     public confirmText: string = "Ok";
     constructor(public dialogRef: MdDialogRef<AlertDialog>) { }
-}
+} 

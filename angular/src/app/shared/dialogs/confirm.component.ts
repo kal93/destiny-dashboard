@@ -16,4 +16,4 @@ export class ConfirmDialog {
     public optionLeft: string = "Cancel";
     public optionRight: string = "Yes";
     constructor(public dialogRef: MdDialogRef<ConfirmDialog>) { }
-}
+} 

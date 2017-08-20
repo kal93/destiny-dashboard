@@ -20,4 +20,4 @@ export class SimpleInputDialog {
     public inputValue: string;
 
     constructor(public dialogRef: MdDialogRef<SimpleInputDialog>) { }
-}
+} 
