@@ -1,11 +1,11 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CardComponent } from '../_base/card.component';
 import { SharedBungie } from 'app/bungie/shared-bungie.service';
 import { SharedApp } from 'app/shared/services/shared-app.service';
 
-import { GetBungieAccountService, ClanLeaderboardsStatsService } from 'app/bungie/services/service.barrel';
-import { DestinyMembership, IClanLeaderboardsStats, LbStats, IGetBungieAccount, BungieGroupInfo } from 'app/bungie/services/interface.barrel';
+import { ClanLeaderboardsStatsService, GetBungieAccountService } from 'app/bungie/services/service.barrel';
+import { BungieGroupInfo, DestinyMembership, IClanLeaderboardsStats, IGetBungieAccount, LbStats } from 'app/bungie/services/interface.barrel';
 
 import { fadeIn } from 'app/shared/animations';
 
@@ -18,8 +18,6 @@ import { fadeIn } from 'app/shared/animations';
 
 export class ClanLeaderboardsComponent extends CardComponent {
   CARD_DEFINITION_ID = 7;
-
-  @ViewChild("statGroup")
 
   // Don't know why this is needed but removing it breaks the platform icon in the view toolbar
   selectedTabIndex: number = 0;
@@ -46,8 +44,7 @@ export class ClanLeaderboardsComponent extends CardComponent {
   lbLongestKillSpree: LbStats;
   lbLongestSingleLife: LbStats;
 
-
-  constructor(private getBungieAccountService: GetBungieAccountService, private clanLeaderboardsStatsService: ClanLeaderboardsStatsService, public domSanitizer: DomSanitizer,
+  constructor(private clanLeaderboardsStatsService: ClanLeaderboardsStatsService, public domSanitizer: DomSanitizer, private getBungieAccountService: GetBungieAccountService,
     private sharedBungie: SharedBungie, public sharedApp: SharedApp) {
     super(sharedApp);
   }

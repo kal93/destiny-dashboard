@@ -23,7 +23,7 @@
         <button md-menu-item class="md-menu-item" (click)="statsChanged(18)"> All Strikes </button>
       </md-menu>
 
-      <div class="stat-group" #statGroup *ngIf="selectedMembership != null" (membershipSelected)="membershipSelected($event)">
+      <div class="stat-group" *ngIf="selectedMembership != null" (membershipSelected)="membershipSelected($event)">
 
         <div *ngIf="clanLeaderboardsStats != null" class="stat-container">
           <div *ngIf="lbSingleGameKills != null" class="stat-section">
