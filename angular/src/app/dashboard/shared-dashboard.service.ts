@@ -26,7 +26,7 @@ export class SharedDashboard {
         this._userDashboards = userDashboards;
 
         let lastDashboardIndex = this.sharedApp.getLocalStorage("selectedDashboardId", 0);
-        if (lastDashboardIndex > this.userDashboards.length) lastDashboardIndex = 0;
+        if (lastDashboardIndex >= this.userDashboards.length) lastDashboardIndex = 0;
         this._selectedDashboard = this.userDashboards[lastDashboardIndex];
 
         this.userDashboardsChangedSubject.next();
