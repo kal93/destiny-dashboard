@@ -16,6 +16,6 @@ export class GetBungieAccountService {
     getGetBungieAccount(membership: DestinyMembership): Promise<IGetBungieAccount> {
         var requestUrl = "https://www.bungie.net/Platform/User/GetBungieAccount/" + membership.membershipId + "/" + membership.membershipType + "/";
         //Get the response, or return the cached result
-        return this.http.getWithCache(requestUrl, HttpRequestType.BUNGIE_BASIC, this.cacheTimeMs);
+        return this.http.getWithCache(requestUrl, HttpRequestType.BUNGIE_PRIVILEGED, this.cacheTimeMs);
     }
 }
