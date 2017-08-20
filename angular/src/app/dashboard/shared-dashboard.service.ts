@@ -138,13 +138,13 @@ export class SharedDashboard {
 
     //Dashboard network calls
     getUserPreferences(): Promise<any> {
-        return this.http.getWithCache("api/dashboard/preferences", HttpRequestType.DASHBOARD, 30000);
+        return this.http.getWithCache("api/dashboard/userPreferences", HttpRequestType.DASHBOARD, 30000);
     }
 
     saveUserPreferences() {
         //When we save, invalidate the cache
-        this.http.invalidateCache("api/dashboard/preferences");
-        return this.http.postDashboard("api/dashboard/preferences", this.sharedApp.userPreferences);
+        this.http.invalidateCache("api/dashboard/userPreferences");
+        return this.http.postDashboard("api/dashboard/userPreferences", this.sharedApp.userPreferences);
     }
 
     generateDashboardName() {
