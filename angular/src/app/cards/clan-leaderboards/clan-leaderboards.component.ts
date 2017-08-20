@@ -61,7 +61,7 @@ export class ClanLeaderboardsComponent extends CardComponent {
     this.selectedMembership = selectedMembership;
 
     // Get Bungie account info to retrieve clan groupId
-    this.getBungieAccountService.getGetBungieAccount(this.selectedMembership).then((bungieAccount: IGetBungieAccount) => {
+    this.getBungieAccountService.getBungieAccount(this.selectedMembership).then((bungieAccount: IGetBungieAccount) => {
       this.bungieAccount = bungieAccount;
 
       if (this.bungieAccount.clans.length == 0 || this.bungieAccount.clans[0] == null) {
