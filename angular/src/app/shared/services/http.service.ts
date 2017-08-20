@@ -239,7 +239,7 @@ export class HttpService {
         let customCache = this.customCaches.get(requestUrl);
 
         //Clear cache if it's stale or hasn't been set yet
-        if (!customCache || (customCache.cacheExpires && customCache.cacheExpires < Date.now())) {
+        if (!customCache || (customCache.cacheExpires && customCache.cacheExpires < Date.now()) || environment.disableHttpCache) {
             this.customCaches.delete(requestUrl);
 
             customCache = {
