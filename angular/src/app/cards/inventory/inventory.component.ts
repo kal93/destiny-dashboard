@@ -13,7 +13,7 @@ import { ISubNavItem, IToolbarItem } from '../../nav/nav.interface';
 import { AccountSummaryService } from 'app/bungie/services/service.barrel';
 import { DestinyMembership, InventoryBucket, InventoryItem, IAccountSummary, IVaultSummary, SummaryCharacter } from 'app/bungie/services/interface.barrel';
 
-import { expandInShrinkOut } from '../../shared/animations';
+import { expandInShrinkOut, fadeInFromBottom } from '../../shared/animations';
 import { debounceBy, delayBy } from '../../shared/decorators';
 import { InventoryUtils } from './inventory-utils';
 
@@ -21,7 +21,7 @@ import { InventoryUtils } from './inventory-utils';
     selector: 'dd-inventory',
     templateUrl: './inventory.component.html',
     styleUrls: ['../_base/card.component.scss', './inventory.component.scss'],
-    animations: [expandInShrinkOut()],
+    animations: [expandInShrinkOut(), fadeInFromBottom()],
     providers: [inventoryService]
 })
 
@@ -62,7 +62,7 @@ export class ItemManagerComponent extends CardComponent {
 
     // Filtering
     searchText: string = '';
-    showInventoryGroups: Array<boolean> = new Array<boolean>(9);
+    showInventoryGroups: Array<boolean>;
 
     constructor(private accountSummaryService: AccountSummaryService, private activatedRoute: ActivatedRoute, public domSanitizer: DomSanitizer,
         private inventoryService: inventoryService, private mdDialog: MdDialog, private manifestService: ManifestService,
@@ -73,8 +73,9 @@ export class ItemManagerComponent extends CardComponent {
     ngOnInit() {
         super.ngOnInit();
 
-        // Set collapsed sections
+        // Get localStorage variables
         this.collapsedSections = this.getCardLocalStorageAsJsonObject("collapsedSections", [false, false, false, false]);
+        this.showInventoryGroups = this.getCardLocalStorageAsJsonObject("showInventoryGroups", [false, true, true, false, true, true, true, false, false, true]);
 
         // Get tower definition so we can show the tower emblem
         this.towerDefinition = this.manifestService.getManifestEntry("DestinyActivityDefinition", 1522220810);
@@ -82,12 +83,12 @@ export class ItemManagerComponent extends CardComponent {
         // Set our membership (XBL, PSN, Blizzard)
         this.selectedMembership = this.sharedBungie.destinyMemberships[this.sharedApp.userPreferences.membershipIndex];
 
-        if (this.isFullscreen)
-            this.setSubNavItems();
-
         this.getFullInventory();
 
-        this.sharedApp.showInfoOnce("Press and hold an item to enter edit mode.");
+        if (this.isFullscreen) {
+            this.setSubNavItems();
+            this.sharedApp.showInfoOnce("Press and hold an item to enter edit mode.");
+        }
     }
 
     private getFullInventory() {
@@ -109,7 +110,7 @@ export class ItemManagerComponent extends CardComponent {
                 // Populate vault buckets
                 this.vaultBucketsMap = new Map<number, InventoryBucket>();
                 this.vaultBucketsArray = new Array<InventoryBucket>();
-                InventoryUtils.populateBucketMapFromResponse(this.manifestService, vaultSummaryResponse.items, this.vaultBucketsMap);
+                InventoryUtils.populateBucketMapFromResponse(-1, this.manifestService, vaultSummaryResponse.items, this.vaultBucketsMap);
                 InventoryUtils.flattenInventoryBuckets(this.vaultBucketsMap, this.vaultBucketsArray);
 
                 // Init the array for the character buckets map and bucketsGroupArray. Should be the same size as the number of characters we have.
@@ -120,11 +121,11 @@ export class ItemManagerComponent extends CardComponent {
                 for (let i = 0; i < inventoryResponses.length; i++) {
                     this.charactersBucketsMap[i] = new Map<number, InventoryBucket>();
                     this.charactersBucketsArray[i] = new Array<InventoryBucket>();
-                    InventoryUtils.populateBucketMapFromResponse(this.manifestService, inventoryResponses[i].items, this.charactersBucketsMap[i]);
+                    InventoryUtils.populateBucketMapFromResponse(i, this.manifestService, inventoryResponses[i].items, this.charactersBucketsMap[i]);
                     InventoryUtils.flattenInventoryBuckets(this.charactersBucketsMap[i], this.charactersBucketsArray[i]);
 
                     // Group character buckets in to separate arrays based on their category id
-                    this.groupCharactersBuckets(this.charactersBucketsArray[i], i);
+                    InventoryUtils.groupCharactersBuckets(this.charactersBucketsGroupsArray, this.charactersBucketsArray[i], i);
                 }
 
                 this.applyFilter();
@@ -137,26 +138,6 @@ export class ItemManagerComponent extends CardComponent {
         });
     }
 
-    private groupCharactersBuckets(characterBuckets: Array<InventoryBucket>, characterIndex: number) {
-        // Create array for the character             [BucketGroup[Buckets]]
-        this.charactersBucketsGroupsArray[characterIndex] = new Array<Array<InventoryBucket>>();
-        this.charactersBucketsGroupsArray[characterIndex][0] = new Array<InventoryBucket>();
-
-        let groupIndex: number = 0;
-        for (let j = 0; j < characterBuckets.length; j++) {
-            let characterBucket = characterBuckets[j];
-
-            //If we're changing to a specific bucket type, let's break it in to a new group
-            let bucketName = characterBuckets[j].bucketValue.bucketName;
-            if (bucketName == "Helmet" || bucketName == "Vehicle" || bucketName == "Shaders" || bucketName == "Materials" || bucketName == "Mission") {
-                groupIndex++;
-                this.charactersBucketsGroupsArray[characterIndex][groupIndex] = new Array<InventoryBucket>();
-            }
-
-            this.charactersBucketsGroupsArray[characterIndex][groupIndex].push(characterBucket);
-        }
-    }
-
     refreshCharacter(characterIndex: number) {
         let character: SummaryCharacter = this.accountSummary.characters[characterIndex];
 
@@ -164,9 +145,9 @@ export class ItemManagerComponent extends CardComponent {
         this.inventoryService.getCharacterInventory(this.selectedMembership, character.characterBase.characterId).then((inventoryResponse) => {
             this.charactersBucketsMap[characterIndex] = new Map<number, InventoryBucket>();
             this.charactersBucketsArray[characterIndex] = new Array<InventoryBucket>();
-            InventoryUtils.populateBucketMapFromResponse(this.manifestService, inventoryResponse.items, this.charactersBucketsMap[characterIndex]);
+            InventoryUtils.populateBucketMapFromResponse(characterIndex, this.manifestService, inventoryResponse.items, this.charactersBucketsMap[characterIndex]);
             InventoryUtils.flattenInventoryBuckets(this.charactersBucketsMap[characterIndex], this.charactersBucketsArray[characterIndex]);
-            this.groupCharactersBuckets(this.charactersBucketsArray[characterIndex], characterIndex);
+            InventoryUtils.groupCharactersBuckets(this.charactersBucketsGroupsArray, this.charactersBucketsArray[characterIndex], characterIndex);
             this.applyFilter();
         });
     }
@@ -177,7 +158,7 @@ export class ItemManagerComponent extends CardComponent {
             // Populate vault buckets
             this.vaultBucketsMap = new Map<number, InventoryBucket>();
             this.vaultBucketsArray = new Array<InventoryBucket>();
-            InventoryUtils.populateBucketMapFromResponse(this.manifestService, vaultSummaryResponse.items, this.vaultBucketsMap);
+            InventoryUtils.populateBucketMapFromResponse(-1, this.manifestService, vaultSummaryResponse.items, this.vaultBucketsMap);
             InventoryUtils.flattenInventoryBuckets(this.vaultBucketsMap, this.vaultBucketsArray);
             this.applyFilter();
         });
@@ -196,7 +177,7 @@ export class ItemManagerComponent extends CardComponent {
     applyFilter(skipAlreadyFiltered: boolean = false) {
         // Apply filter to vault bucket
         for (let i = 0; i < this.vaultBucketsArray.length; i++)
-            this.applyFilterToBucket(this.vaultBucketsArray[i], skipAlreadyFiltered);
+            InventoryUtils.applyFilterToBucket(this.searchText, this.showInventoryGroups, this.vaultBucketsArray[i], skipAlreadyFiltered);
 
         // Apply filter to each characters bucket groups
         for (let characterIndex = 0; characterIndex < this.charactersBucketsGroupsArray.length; characterIndex++) {
@@ -207,39 +188,9 @@ export class ItemManagerComponent extends CardComponent {
                 let buckets = this.charactersBucketsGroupsArray[characterIndex][groupIndex];
 
                 for (let i = 0; i < buckets.length; i++)
-                    this.applyFilterToBucket(buckets[i], skipAlreadyFiltered);
+                    InventoryUtils.applyFilterToBucket(this.searchText, this.showInventoryGroups, buckets[i], skipAlreadyFiltered);
             }
         }
-    }
-
-    /**
-     * @param {boolean} skipAlreadyFiltered - Do not check items that have been filtered out since they'll definitely be filtered out again
-     */
-    applyFilterToBucket(bucket: InventoryBucket, skipAlreadyFiltered: boolean) {
-        var bucketName: string = bucket.bucketValue.bucketName;
-        if ((!this.showInventoryGroups[0] && bucketName == "Bounties") || (!this.showInventoryGroups[1] && bucketName == "Emblems") ||
-            (!this.showInventoryGroups[2] && bucketName == "Emotes") || (!this.showInventoryGroups[3] && bucketName == "Mission") ||
-            (!this.showInventoryGroups[4] && bucketName == "Ornaments") || (!this.showInventoryGroups[5] && bucketName == "Shaders") ||
-            (!this.showInventoryGroups[6] && bucketName == "Ships") || (!this.showInventoryGroups[7] && bucketName == "Sparrow Horn") ||
-            (!this.showInventoryGroups[8] && bucketName == "Quests") || (!this.showInventoryGroups[9] && bucketName == "Vehicle")) {
-            bucket.filteredOut = true;
-            return;
-        }
-
-        let searchTextLower = this.searchText.toLowerCase().trim();
-        let bucketHasItem = false;
-        for (let i = 0; i < bucket.items.length; i++) {
-            let inventoryItem = bucket.items[i];
-            if (inventoryItem.filteredOut && skipAlreadyFiltered)
-                continue;
-
-            inventoryItem.filteredOut = false;
-            if (inventoryItem.itemValue.itemName.toLowerCase().indexOf(searchTextLower) == -1)
-                inventoryItem.filteredOut = true;
-            else
-                bucketHasItem = true;
-        }
-        bucket.filteredOut = !bucketHasItem;
     }
 
     collapseSection(sectionIndex: number) {
@@ -255,6 +206,9 @@ export class ItemManagerComponent extends CardComponent {
     }
 
     inventoryItemClicked(inventoryItem: InventoryItem) {
+        if (inventoryItem.transferStatus == 2 || inventoryItem.transferStatus == 3)
+            return;
+
         if (this.editMode) {
             inventoryItem.selected = !inventoryItem.selected;
             if (inventoryItem.selected)
@@ -272,13 +226,12 @@ export class ItemManagerComponent extends CardComponent {
 
     setEditMode(editOn: boolean) {
         this.editMode = editOn;
-        this.setToolbarItems();
-        if (this.editMode) {
-            this.sharedApp.pageTitle = "";
-            this.selectedInventoryItems = new Array<InventoryItem>();
-        }
-        else
-            this.sharedApp.pageTitle = this.activatedRoute.root.firstChild.snapshot.data['title'];
+
+        // Deselect all inventory items if we're coming out of edit mode
+        if (!this.editMode)
+            this.selectedInventoryItems.forEach(selectedInventoryItem => { selectedInventoryItem.selected = false; });
+
+        this.selectedInventoryItems = new Array<InventoryItem>();
     }
 
     @delayBy(100)
@@ -298,7 +251,10 @@ export class ItemManagerComponent extends CardComponent {
             selectedCallback: (subNavItem: ISubNavItem) => {
                 let dialogRef = this.mdDialog.open(FiltersDialog);
                 dialogRef.componentInstance.showInventoryGroups = this.showInventoryGroups;
-                dialogRef.afterClosed().subscribe((result: string) => { this.applyFilter(); });
+                dialogRef.afterClosed().subscribe((result: string) => {
+                    this.setCardLocalStorage("showInventoryGroups", JSON.stringify(this.showInventoryGroups));
+                    this.applyFilter();
+                });
             }
         });
 
@@ -306,43 +262,22 @@ export class ItemManagerComponent extends CardComponent {
 
     }
 
-    setToolbarItems() {
-        this.sharedApp.toolbarItems = new Array<IToolbarItem>();
+    transferSelectedItemsToCharacterIndex(destCharacterIndex: number) {
+        var shouldRefreshDestCharacter: boolean = false;
+        for (let i = 0; i < this.selectedInventoryItems.length; i++) {
+            let inventoryItem = this.selectedInventoryItems[i];
+            // Don't transfer things that already exist in their destination
+            if (inventoryItem.characterIndex == destCharacterIndex)
+                continue;
 
-        //If we're not in edit mode, do not set toolbar items
-        if (!this.editMode)
-            return;
+            // Insert the item in to the destinationArray
+            if (!InventoryUtils.transferItemToCharacter(this.charactersBucketsMap, this.manifestService, inventoryItem, destCharacterIndex))
+                shouldRefreshDestCharacter = true;
+        }
 
-        // Move toolbar item
-        this.sharedApp.toolbarItems.push({
-            title: "Move", materialIcon: "forward",
-            selectedCallback: (subNavItem: IToolbarItem) => {
-            }
-        });
+        if (shouldRefreshDestCharacter)
+            this.refreshCharacter(destCharacterIndex);
 
-        this.sharedApp.toolbarItems.push({
-            title: "Equip", materialIcon: "swap_vert",
-            selectedCallback: (subNavItem: IToolbarItem) => {
-            }
-        });
-
-        // Cancel toolbar item
-        this.sharedApp.toolbarItems.push({
-            title: "Done", materialIcon: "done",
-            selectedCallback: (subNavItem: IToolbarItem) => {
-                this.setEditMode(false);
-
-                // Deselect all inventory items
-                this.selectedInventoryItems.forEach((selectedInventoryItem: InventoryItem) => {
-                    selectedInventoryItem.selected = false;
-                });
-
-                // Reset selected inventory items
-                this.selectedInventoryItems = new Array<InventoryItem>();
-
-                // Reset toolbars items
-                this.sharedApp.toolbarItems = new Array<IToolbarItem>();
-            }
-        });
+        this.setEditMode(false);
     }
 }

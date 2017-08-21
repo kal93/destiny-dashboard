@@ -20,3 +20,13 @@ $app-warn: mat-palette($mat-deep-orange);
 
 $app-theme: mat-light-theme($app-primary, $app-secondary, $app-warn); //$app-theme: mat-dark-theme($app-primary, $app-secondary, $app-warn);
 @include angular-material-theme($app-theme);
+
+/*
+* Global mixins
+*/
+@mixin md-icon-size($size: 24px) {
+    font-size: $size;
+    height: $size;
+    width: $size;
+    line-height: $size;
+}

@@ -2,9 +2,21 @@
   <dd-card-header *ngIf="!isFullscreen" [dashboardCard]="dashboardCard"></dd-card-header>
   <div class="dd-inventory" [class.dd-fullscreen]="isFullscreen" [class.dd-card-content]="!isFullscreen">
 
+    <div *ngIf="editMode" class="edit-menu-wrap" [@fadeInFromBottom]="editMode">
+      <div class="menu-option" *ngFor="let character of accountSummary?.characters; let i = index" (click)="transferSelectedItemsToCharacterIndex(i)">
+        <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemPath +')')"></div>
+      </div>
+      <div class="menu-option">
+        <div class="icon vault" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + towerDefinition.icon +')')"></div>
+      </div>
+      <div class="menu-option" (click)="setEditMode(false)">
+        <button class="close" md-icon-button><md-icon>close</md-icon></button>
+      </div>
+    </div>
+
     <div class="search-text-wrap">
       <md-input-container class="search-text">
-        <input mdInput [ngModel]="searchText" (ngModelChange)="searchTextChanged($event)" placeholder="Filter">
+        <input mdInput [ngModel]="searchText" (ngModelChange)="searchTextChanged($event)" placeholder="Search Inventory">
       </md-input-container>
     </div>
 
@@ -32,8 +44,8 @@
                 <div class="bucket-header">{{characterBucket.bucketValue.bucketName}}</div>
                 <div class="bucket">
                   <ng-container *ngFor="let inventoryItem of characterBucket.items">
-                    <dd-inventory-item *ngIf="!inventoryItem.filteredOut" [class.edit-mode]="editMode" [class.selected]="inventoryItem.selected"
-                      [inventoryItem]="inventoryItem" [disablePopup]="editMode" [equipped]="inventoryItem.transferStatus % 2 == 1"
+                    <dd-inventory-item *ngIf="!inventoryItem.filteredOut" [class.edit-mode]="editMode" [class.transfer-disabled]="editMode && (inventoryItem.transferStatus == 2 || inventoryItem.transferStatus == 3)"
+                      [class.selected]="inventoryItem.selected" [inventoryItem]="inventoryItem" [disablePopup]="editMode" [equipped]="inventoryItem.transferStatus % 2 == 1"
                       [selected]="editMode && inventoryItem.selected" (clicked)="inventoryItemClicked(inventoryItem)" (longPress)="inventoryItemLongPress(inventoryItem)"></dd-inventory-item>
                   </ng-container>
                 </div>
@@ -55,7 +67,7 @@
         </div>
 
         <div *ngIf="collapsedSections[3] == false" class="inventory-wrap" [@expandInShrinkOut]>
-          <div class="bucket-group">
+          <div class="bucket-group vault-bucket-group">
             <div class="bucket-wrap vault-bucket-wrap">
               <ng-container *ngFor="let vaultBucket of vaultBucketsArray">
                 <ng-container *ngIf="!vaultBucket.filteredOut">

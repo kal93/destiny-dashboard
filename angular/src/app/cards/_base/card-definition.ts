@@ -116,8 +116,7 @@ export class CardDefinitions {
         rating: 5,
         route: "inventory",
         layouts: [
-            { rows: 2, cols: 2 }, { rows: 3, cols: 2 },
-            { rows: 2, cols: 3 }, { rows: 3, cols: 3 }, { rows: 4, cols: 3 }
+            { rows: 3, cols: 3 }, { rows: 4, cols: 3 }
         ],
         requiresLogin: true,
         isExternalRoute: false,

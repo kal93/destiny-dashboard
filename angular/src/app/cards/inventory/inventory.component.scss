@@ -8,6 +8,42 @@
     color: $app-text-light;
     padding: 10px 0;
 
+    .edit-menu-wrap {
+        position: absolute;
+        top: 0;
+        left: calc(50% - 155px);
+        z-index: 1;
+        display: flex;
+        background-color: rgba(0,0,0,.7);
+        padding: 5px;
+
+        .menu-option {
+            padding: 6px;
+            cursor: pointer;
+
+            .icon {
+                box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+                pointer-events: none;
+                width: 50px;
+                height: 50px;
+                background-size: contain;
+
+                &.vault {
+                    background-color: #607D8B;
+                }
+            }
+
+            .close {
+                width: 50px;
+                height: 50px;
+
+                md-icon {
+                    @include md-icon-size(36px);
+                }
+            }
+        }
+    }
+
     .search-text-wrap {
         flex: 2;
         display: flex;
@@ -193,12 +229,32 @@
                     justify-content: left;
 
                     dd-inventory-item {
+                        cursor: pointer;
+
                         &.edit-mode {
-                            opacity: .6;
+                            opacity: .65;
                         }
 
                         &.selected {
                             opacity: 1;
+                        }
+
+                        &.transfer-disabled {
+                            cursor: not-allowed;
+
+                            ::ng-deep .icon {
+                                opacity: .4;
+
+                                &::after {
+                                    content: 'X';
+                                    background-color: #f00;
+                                    height: 100%;
+                                    display: flex;
+                                    align-items: center;
+                                    font-size: 3em;
+                                    justify-content: center;
+                                }
+                            }
                         }
                     }
                 }
@@ -206,10 +262,110 @@
         }
     }
 }
+@mixin smallScreenSize {
+    padding: 7px 0;
+
+    .separator {
+        height: 0;
+    }
+
+    .character-wrap {
+        .character-header {
+            max-width: 345px;
+
+            &.vault-header {
+                .background {
+                    width: 345px;
+                    height: 70px;
+                }
+
+                .top-left {
+                    top: 13px;
+                    left: 85px;
+                }
+            }
+
+            .icon {
+                width: 69px;
+                width: 69px;
+            }
+
+            .option {
+                &.refresh {
+                    top: 0;
+                }
+            }
+
+            .top-left {
+                font-size: 1.9em;
+                top: 4px;
+                left: 80px;
+            }
+
+            .bottom-left {
+                bottom: 4px;
+                left: 83px;
+            }
+
+            .top-right {
+                font-size: 1.8em;
+                top: 6px;
+            }
+
+            .bottom-right {
+                font-size: 1.1em;
+                bottom: 3px;
+            }
+        }
+
+        .inventory-wrap {
+            justify-content: flex-start;
+
+            .bucket-group {
+                flex: unset;
+                margin: 0 4px;
+            }
+
+            .bucket-wrap {
+                .bucket-header {
+                    font-size: 1.3em;
+                    margin: 8px 2px 3px;
+                }
+            }
+        }
+    }
+}
+@mixin largeScreenSize {
+    .character-wrap {
+        .inventory-wrap {
+            .bucket-group {
+                flex-basis: calc(50vw - 10px);
+                max-width: 45%;
+
+                &.vault-bucket-group {
+                    flex-basis: unset;
+                    max-width: 90%;
+                }
+            }
+        }
+
+        .character-header {
+            margin-left: 3%;
+            margin-right: 3%;
+        }
+    }
+}
 
 //These styles only applies to dashboard cards
 .dd-card-content.dd-inventory {
     height: calc(100% - 40px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    @include smallScreenSize();
+
+    .edit-menu-wrap {
+        top: 40px;
+    }
 }
 
 //These styles only apply to fullscreen mode
@@ -219,100 +375,17 @@
     overflow-y: auto;
 }
 
-// Apply XL styles
+// Apply XL styles, only when in fullscreen mode
 @media(min-width: 850px) {
-    .dd-inventory {
-        .character-wrap {
-            .inventory-wrap {
-                .bucket-group {
-                    flex-basis: calc(50vw - 10px);
-                    max-width: 45%;
-                }
-            }
-
-            .character-header {
-                margin: 0 3%;
-            }
-        }
+    .dd-fullscreen.dd-inventory {
+        @include largeScreenSize();
     }
 }
-
 // Apply phone styles
 @media(max-width: 600px) {
-    .dd-inventory {
-        padding: 7px 0;
-
-        .separator {
-            height: 0;
-        }
-
-        .character-wrap {
-            .character-header {
-                max-width: 345px;
-
-                &.vault-header {
-                    .background {
-                        width: 345px;
-                        height: 70px;
-                    }
-
-                    .top-left {
-                        top: 13px;
-                        left: 85px;
-                    }
-                }
-
-                .icon {
-                    width: 69px;
-                    width: 69px;
-                }
-
-                .option {
-                    &.refresh {
-                        top: 0;
-                    }
-                }
-
-                .top-left {
-                    font-size: 1.9em;
-                    top: 4px;
-                    left: 80px;
-                }
-
-                .bottom-left {
-                    bottom: 4px;
-                    left: 83px;
-                }
-
-                .top-right {
-                    font-size: 1.8em;
-                    top: 6px;
-                }
-
-                .bottom-right {
-                    font-size: 1.1em;
-                    bottom: 3px;
-                }
-            }
-
-            .inventory-wrap {
-                .bucket-group {
-                    flex: 1 0 calc(100vw - 15px);
-                    margin: 0 4px;
-                }
-
-                .bucket-wrap {
-                    .bucket-header {
-                        font-size: 1.3em;
-                        margin: 8px 2px 3px;
-                    }
-                }
-            }
-        }
-    }
-
     .dd-fullscreen.dd-inventory {
         // Header bar changes height at 600px
         height: calc(100vh - 56px);
+        @include smallScreenSize();
     }
 }

@@ -14,10 +14,6 @@
         position: relative;
         font-size: .85em;
 
-        &:hover {
-            cursor: pointer;
-        }
-
         &.equipped {
             border: 4px double #F44336;
             width: 66px;

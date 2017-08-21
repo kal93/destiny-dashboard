@@ -48,7 +48,7 @@ export function fadeIn() {
     ]);
 }
 
-export function slideFromBottom(delayByMs: number = 0) {
+export function slideFromBottom() {
     return trigger('slideFromBottom', [
         transition(
             ':enter', [
@@ -60,6 +60,22 @@ export function slideFromBottom(delayByMs: number = 0) {
             ':leave', [
                 style({ transform: 'translateY(0)' }),
                 animate('300ms ease-in', style({ transform: 'translateY(100%)' }))
+            ])
+    ]);
+}
+
+export function fadeInFromBottom() {
+    return trigger('fadeInFromBottom', [
+        transition(
+            ':enter', [
+                style({ transform: 'translateY(-100%)', opacity: .1 }),
+                animate('250ms ease-out', style({ transform: 'translateY(0)', opacity: 1 }))
+            ]
+        ),
+        transition(
+            ':leave', [
+                style({ transform: 'translateY(0)', opacity: 1 }),
+                animate('250ms ease-in', style({ transform: 'translateY(-100%)', opacity: .1 }))
             ])
     ]);
 }

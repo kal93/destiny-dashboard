@@ -12,7 +12,6 @@ export interface InventoryBucket {
 
 export interface InventoryItem {
   bucketHash: number;
-  characterIndex: number;
   damageType: number;
   damageTypeHash: number;
   isGridComplete: boolean;
@@ -24,6 +23,7 @@ export interface InventoryItem {
   transferStatus: number;
 
   // Runtime variables
+  characterIndex: number;
   damageTypeValue: DestinyDamageTypeDefinition;
   filteredOut: boolean;
   itemValue: DestinyInventoryItemDefinition;

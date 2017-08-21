@@ -7,7 +7,7 @@ import { debounceBy } from '../../shared/decorators';
 })
 export class MouseEventsDirective {
   @Input()
-  duration: number = 500;
+  duration: number = 450;
 
   @Output()
   mouseDown = new EventEmitter<void>();
