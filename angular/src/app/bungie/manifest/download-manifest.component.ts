@@ -133,13 +133,15 @@ export class DownloadManifestComponent {
 
         // Delete certain fields that we don't care about
         if (tableName == "DestinyInventoryItemDefinition") {
-          delete rowObj.hasIcon; delete rowObj.secondaryIcon; delete rowObj.actionName; delete rowObj.hasAction; delete rowObj.deleteOnAction;
-          delete rowObj.specialItemType; delete rowObj.equippingBlock; delete rowObj.hasGeometry; delete rowObj.statGroupHash; delete rowObj.instanced;
-          delete rowObj.rewardItemHash; delete rowObj.values; delete rowObj.itemType; delete rowObj.itemSubType; delete rowObj.classType;
-          delete rowObj.itemCategoryHashes; delete rowObj.sourceHashes; delete rowObj.values; delete rowObj.nonTransferrable; delete rowObj.exclusive; delete rowObj.maxStackSize;
-          delete rowObj.itemIndex; delete rowObj.setItemHashes; delete rowObj.tooltipStyle; delete rowObj.needsFullCompletion; delete rowObj.objectiveHashes;
-          delete rowObj.allowActions; delete rowObj.questTrackingUnlockValueHash; delete rowObj.bountyResetUnlockHash; delete rowObj.uniquenessHash;
-          delete rowObj.showActiveNodesInTooltip; delete rowObj.hash; delete rowObj.index; delete rowObj.redacted;
+
+          delete rowObj.hasIcon; delete rowObj.secondaryIcon; delete rowObj.hasGeometry;
+          delete rowObj.actionName; delete rowObj.hasAction; delete rowObj.deleteOnAction;
+          delete rowObj.specialItemType; delete rowObj.equippingBlock; delete rowObj.instanced;
+          delete rowObj.rewardItemHash; delete rowObj.values;
+          delete rowObj.values; delete rowObj.exclusive;
+          delete rowObj.itemIndex; delete rowObj.setItemHashes; delete rowObj.tooltipStyle; delete rowObj.needsFullCompletion;
+          delete rowObj.allowActions; delete rowObj.uniquenessHash;
+          delete rowObj.showActiveNodesInTooltip; delete rowObj.index; delete rowObj.redacted; delete rowObj.bountyResetUnlockHash;
         }
 
         rowMap.set(hash, rowObj);

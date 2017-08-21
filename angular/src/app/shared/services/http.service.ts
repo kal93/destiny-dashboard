@@ -171,7 +171,9 @@ export class HttpService {
 
     private checkBungieRefreshToken(): Promise<any> {
         if (this.sharedApp.accessToken != null && this.sharedApp.accessTokenExpires <= Date.now())
-            return this.getBungieTokenResponse();
+            return this.getBungieTokenResponse().catch((error) => {
+                console.log("There was an error when trying to Refresh Token.");
+            });
         else
             return Promise.resolve();
     }
