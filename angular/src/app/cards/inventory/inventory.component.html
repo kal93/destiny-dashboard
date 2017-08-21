@@ -44,7 +44,7 @@
                 <div class="bucket-header">{{characterBucket.bucketValue.bucketName}}</div>
                 <div class="bucket">
                   <ng-container *ngFor="let inventoryItem of characterBucket.items">
-                    <dd-inventory-item *ngIf="!inventoryItem.filteredOut" [class.edit-mode]="editMode" [class.transfer-disabled]="editMode && (inventoryItem.transferStatus == 2 || inventoryItem.transferStatus == 3)"
+                    <dd-inventory-item *ngIf="!inventoryItem.filteredOut" [class.edit-mode]="editMode" [class.transfer-disabled]="editMode && inventoryItem.itemValue.nonTransferrable"
                       [class.selected]="inventoryItem.selected" [inventoryItem]="inventoryItem" [disablePopup]="editMode" [equipped]="inventoryItem.transferStatus % 2 == 1"
                       [selected]="editMode && inventoryItem.selected" (clicked)="inventoryItemClicked(inventoryItem)" (longPress)="inventoryItemLongPress(inventoryItem)"></dd-inventory-item>
                   </ng-container>

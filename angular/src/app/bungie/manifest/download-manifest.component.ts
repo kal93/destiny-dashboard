@@ -142,6 +142,7 @@ export class DownloadManifestComponent {
           delete rowObj.itemIndex; delete rowObj.setItemHashes; delete rowObj.tooltipStyle; delete rowObj.needsFullCompletion;
           delete rowObj.allowActions; delete rowObj.uniquenessHash;
           delete rowObj.showActiveNodesInTooltip; delete rowObj.index; delete rowObj.redacted; delete rowObj.bountyResetUnlockHash;
+          delete rowObj.itemCategoryHashes;
         }
 
         rowMap.set(hash, rowObj);

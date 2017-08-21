@@ -110,17 +110,16 @@ export class InventoryUtils {
         var srcBucket: InventoryBucket = bucketsMap[inventoryItem.characterIndex].get(inventoryItem.bucketHash);
         var sourceBucketItems: Array<InventoryItem> = srcBucket.items;
 
-        // Update inventory item with new characterIndex
-        inventoryItem.characterIndex = toIndex;
-
         // Remove this item from the sourceArray
         sourceBucketItems.splice(sourceBucketItems.indexOf(inventoryItem), 1);
 
-
-        var destBucket: InventoryBucket = bucketsMap[toIndex].get(inventoryItem.bucketHash);
+        var destBucket: InventoryBucket = bucketsMap[toIndex].get(inventoryItem.itemValue.bucketTypeHash);
         // If this bucket doesn't exist yet, let the callee know so we can refresh the inventory from network request
         if (destBucket == null)
             return false;
+
+        // Update inventory item with new characterIndex
+        inventoryItem.characterIndex = toIndex;
 
         destBucket.items.push(inventoryItem);
 

@@ -204,7 +204,7 @@ export class ItemManagerComponent extends CardComponent {
     }
 
     inventoryItemClicked(inventoryItem: InventoryItem) {
-        if (inventoryItem.transferStatus == 2 || inventoryItem.transferStatus == 3)
+        if (inventoryItem.itemValue.nonTransferrable)
             return;
 
         if (this.editMode) {
@@ -273,7 +273,7 @@ export class ItemManagerComponent extends CardComponent {
         }
 
         if (shouldRefreshDestCharacter)
-            this.refreshCharacter(destCharacterIndex);
+            destCharacterIndex == 3 ? this.refreshVault() : this.refreshCharacter(destCharacterIndex);
 
         this.setEditMode(false);
     }
