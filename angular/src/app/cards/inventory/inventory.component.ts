@@ -34,20 +34,14 @@ export class ItemManagerComponent extends CardComponent {
     // Account summary so we can get the characters associated to this account
     accountSummary: IAccountSummary;
 
-    // Map of vault bucket data <bucketHash, bucket>
-    private vaultBucketsMap: Map<number, InventoryBucket>;
-
-    // Array of vault buckets for display in .html
-    vaultBucketsArray: Array<InventoryBucket> = new Array<InventoryBucket>();
-
-    // Array of Map of <bucketHash, bucket>. Array position matches caracter position in this.accountSummary.characters
-    private charactersBucketsMap: Array<Map<number, InventoryBucket>>;
+    // Array of Map of <bucketHash, bucket>. Array position matches caracter position in this.accountSummary.characters. Vault is always [3]
+    private bucketsMap: Array<Map<number, InventoryBucket>> = new Array<Map<number, InventoryBucket>>(4);
 
     // Array of character buckets for display in .html. Array position matches caracter position in this.accountSummary.characters. Character[Buckets]
-    charactersBucketsArray: Array<Array<InventoryBucket>> = new Array<Array<InventoryBucket>>();
+    bucketsArray: Array<Array<InventoryBucket>> = new Array<Array<InventoryBucket>>(4);
 
-    // Inception level 4. Character[BucketGroup[Buckets]]
-    charactersBucketsGroupsArray: Array<Array<Array<InventoryBucket>>>;
+    // Only character buckets get grouped. Character[BucketGroup[Buckets]]
+    charactersBucketsGroupsArray: Array<Array<Array<InventoryBucket>>> = new Array<Array<Array<InventoryBucket>>>(3);
 
     // Tower definition from the manifest so we can have the icon
     towerDefinition: any;
@@ -58,6 +52,7 @@ export class ItemManagerComponent extends CardComponent {
     // If user has long pressed an inventory item, we are in edit mode
     editMode: boolean = false;
 
+    // Array of selected inventory items
     selectedInventoryItems: Array<InventoryItem>;
 
     // Filtering
@@ -104,29 +99,32 @@ export class ItemManagerComponent extends CardComponent {
 
             // Fetch the inventory
             this.inventoryService.getFullInventory(this.selectedMembership, this.accountSummary).then((inventoryResponses) => {
+                // Init the array for the character buckets map and bucketsGroupArray. Should be the same size as the number of characters + vault.
+                this.bucketsMap = new Array<Map<number, InventoryBucket>>(inventoryResponses.length);
+
                 // Vault is the first response
                 let vaultSummaryResponse: IVaultSummary = inventoryResponses.shift();
 
-                // Populate vault buckets
-                this.vaultBucketsMap = new Map<number, InventoryBucket>();
-                this.vaultBucketsArray = new Array<InventoryBucket>();
-                InventoryUtils.populateBucketMapFromResponse(-1, this.manifestService, vaultSummaryResponse.items, this.vaultBucketsMap);
-                InventoryUtils.flattenInventoryBuckets(this.vaultBucketsMap, this.vaultBucketsArray);
-
-                // Init the array for the character buckets map and bucketsGroupArray. Should be the same size as the number of characters we have.
-                this.charactersBucketsMap = new Array<Map<number, InventoryBucket>>(inventoryResponses.length);
-
+                // Populate buckets for characters
                 this.charactersBucketsGroupsArray = new Array<Array<Array<InventoryBucket>>>(inventoryResponses.length);
                 // All remaining responses should be characters
                 for (let i = 0; i < inventoryResponses.length; i++) {
-                    this.charactersBucketsMap[i] = new Map<number, InventoryBucket>();
-                    this.charactersBucketsArray[i] = new Array<InventoryBucket>();
-                    InventoryUtils.populateBucketMapFromResponse(i, this.manifestService, inventoryResponses[i].items, this.charactersBucketsMap[i]);
-                    InventoryUtils.flattenInventoryBuckets(this.charactersBucketsMap[i], this.charactersBucketsArray[i]);
+                    this.bucketsMap[i] = new Map<number, InventoryBucket>();
+                    this.bucketsArray[i] = new Array<InventoryBucket>();
+                    InventoryUtils.populateBucketMapFromResponse(i, this.manifestService, inventoryResponses[i].items, this.bucketsMap[i]);
+                    InventoryUtils.populateBucketArrayFromMap(this.bucketsMap[i], this.bucketsArray[i]);
 
                     // Group character buckets in to separate arrays based on their category id
-                    InventoryUtils.groupCharactersBuckets(this.charactersBucketsGroupsArray, this.charactersBucketsArray[i], i);
+                    InventoryUtils.groupCharactersBuckets(this.charactersBucketsGroupsArray, this.bucketsArray[i], i);
                 }
+
+
+                // Populate vault buckets. Always [3] position
+                this.bucketsMap[3] = new Map<number, InventoryBucket>();
+                this.bucketsArray[3] = new Array<InventoryBucket>();
+                InventoryUtils.populateBucketMapFromResponse(3, this.manifestService, vaultSummaryResponse.items, this.bucketsMap[3]);
+                InventoryUtils.populateBucketArrayFromMap(this.bucketsMap[3], this.bucketsArray[3]);
+
 
                 this.applyFilter();
             }).catch((error) => {
@@ -143,11 +141,11 @@ export class ItemManagerComponent extends CardComponent {
 
         this.inventoryService.clearCharacterInventoryCache(this.selectedMembership, character.characterBase.characterId);
         this.inventoryService.getCharacterInventory(this.selectedMembership, character.characterBase.characterId).then((inventoryResponse) => {
-            this.charactersBucketsMap[characterIndex] = new Map<number, InventoryBucket>();
-            this.charactersBucketsArray[characterIndex] = new Array<InventoryBucket>();
-            InventoryUtils.populateBucketMapFromResponse(characterIndex, this.manifestService, inventoryResponse.items, this.charactersBucketsMap[characterIndex]);
-            InventoryUtils.flattenInventoryBuckets(this.charactersBucketsMap[characterIndex], this.charactersBucketsArray[characterIndex]);
-            InventoryUtils.groupCharactersBuckets(this.charactersBucketsGroupsArray, this.charactersBucketsArray[characterIndex], characterIndex);
+            this.bucketsMap[characterIndex] = new Map<number, InventoryBucket>();
+            this.bucketsArray[characterIndex] = new Array<InventoryBucket>();
+            InventoryUtils.populateBucketMapFromResponse(characterIndex, this.manifestService, inventoryResponse.items, this.bucketsMap[characterIndex]);
+            InventoryUtils.populateBucketArrayFromMap(this.bucketsMap[characterIndex], this.bucketsArray[characterIndex]);
+            InventoryUtils.groupCharactersBuckets(this.charactersBucketsGroupsArray, this.bucketsArray[characterIndex], characterIndex);
             this.applyFilter();
         });
     }
@@ -156,10 +154,9 @@ export class ItemManagerComponent extends CardComponent {
         this.inventoryService.clearVaultInventoryCache(this.selectedMembership);
         this.inventoryService.getVaultInventory(this.selectedMembership).then((vaultSummaryResponse: IVaultSummary) => {
             // Populate vault buckets
-            this.vaultBucketsMap = new Map<number, InventoryBucket>();
-            this.vaultBucketsArray = new Array<InventoryBucket>();
-            InventoryUtils.populateBucketMapFromResponse(-1, this.manifestService, vaultSummaryResponse.items, this.vaultBucketsMap);
-            InventoryUtils.flattenInventoryBuckets(this.vaultBucketsMap, this.vaultBucketsArray);
+            this.bucketsArray[3] = new Array<InventoryBucket>();
+            InventoryUtils.populateBucketMapFromResponse(3, this.manifestService, vaultSummaryResponse.items, this.bucketsMap[3]);
+            InventoryUtils.populateBucketArrayFromMap(this.bucketsMap[3], this.bucketsArray[3]);
             this.applyFilter();
         });
     }
@@ -175,9 +172,10 @@ export class ItemManagerComponent extends CardComponent {
 
     @debounceBy(400)
     applyFilter(skipAlreadyFiltered: boolean = false) {
-        // Apply filter to vault bucket
-        for (let i = 0; i < this.vaultBucketsArray.length; i++)
-            InventoryUtils.applyFilterToBucket(this.searchText, this.showInventoryGroups, this.vaultBucketsArray[i], skipAlreadyFiltered);
+        // Apply filter to vault buckets
+        let vaultBuckets = this.bucketsArray[3];
+        for (let i = 0; i < vaultBuckets.length; i++)
+            InventoryUtils.applyFilterToBucket(this.searchText, this.showInventoryGroups, vaultBuckets[i], skipAlreadyFiltered);
 
         // Apply filter to each characters bucket groups
         for (let characterIndex = 0; characterIndex < this.charactersBucketsGroupsArray.length; characterIndex++) {
@@ -239,14 +237,6 @@ export class ItemManagerComponent extends CardComponent {
         this.sharedApp.subNavItems = new Array<ISubNavItem>();
 
         this.sharedApp.subNavItems.push({
-            title: 'Manage Loadouts', materialIcon: 'library_add',
-            selectedCallback: (subNavItem: ISubNavItem) => {
-            }
-        });
-
-        this.sharedApp.subNavItems.push({ title: '_spacer', materialIcon: '' });
-
-        this.sharedApp.subNavItems.push({
             title: 'Filters', materialIcon: 'filter_list',
             selectedCallback: (subNavItem: ISubNavItem) => {
                 let dialogRef = this.mdDialog.open(FiltersDialog);
@@ -258,11 +248,18 @@ export class ItemManagerComponent extends CardComponent {
             }
         });
 
-        // Show list of loadouts
+        this.sharedApp.subNavItems.push({ title: '_spacer', materialIcon: '' });
 
+        this.sharedApp.subNavItems.push({
+            title: 'Manage Loadouts', materialIcon: 'library_add',
+            selectedCallback: (subNavItem: ISubNavItem) => {
+            }
+        });
+
+        // Show list of loadouts
     }
 
-    transferSelectedItemsToCharacterIndex(destCharacterIndex: number) {
+    transferSelectedItemsToIndex(destCharacterIndex: number) {
         var shouldRefreshDestCharacter: boolean = false;
         for (let i = 0; i < this.selectedInventoryItems.length; i++) {
             let inventoryItem = this.selectedInventoryItems[i];
@@ -271,7 +268,7 @@ export class ItemManagerComponent extends CardComponent {
                 continue;
 
             // Insert the item in to the destinationArray
-            if (!InventoryUtils.transferItemToCharacter(this.charactersBucketsMap, this.manifestService, inventoryItem, destCharacterIndex))
+            if (!InventoryUtils.transferItem(this.bucketsMap, this.manifestService, inventoryItem, destCharacterIndex))
                 shouldRefreshDestCharacter = true;
         }
 

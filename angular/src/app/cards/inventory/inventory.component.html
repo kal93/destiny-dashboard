@@ -3,10 +3,10 @@
   <div class="dd-inventory" [class.dd-fullscreen]="isFullscreen" [class.dd-card-content]="!isFullscreen">
 
     <div *ngIf="editMode" class="edit-menu-wrap" [@fadeInFromBottom]="editMode">
-      <div class="menu-option" *ngFor="let character of accountSummary?.characters; let i = index" (click)="transferSelectedItemsToCharacterIndex(i)">
+      <div class="menu-option" *ngFor="let character of accountSummary?.characters; let i = index" (click)="transferSelectedItemsToIndex(i)">
         <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemPath +')')"></div>
       </div>
-      <div class="menu-option">
+      <div class="menu-option" (click)="transferSelectedItemsToIndex(3)">
         <div class="icon vault" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + towerDefinition.icon +')')"></div>
       </div>
       <div class="menu-option" (click)="setEditMode(false)">
@@ -37,7 +37,7 @@
           <button md-icon-button (click)="collapseSection(i)" class="option carrot" [class.collapsed]="collapsedSections[i]"><md-icon>keyboard_arrow_down</md-icon></button>
         </div>
 
-        <div *ngIf="collapsedSections[i] == false && charactersBucketsArray[i] != null" class="inventory-wrap" [@expandInShrinkOut]="collapsedSections != null">
+        <div *ngIf="collapsedSections[i] == false && bucketsArray[i] != null" class="inventory-wrap" [@expandInShrinkOut]="collapsedSections != null">
           <div class="bucket-group" *ngFor="let characterBucketGroup of charactersBucketsGroupsArray[i]">
             <ng-container *ngFor="let characterBucket of characterBucketGroup">
               <div *ngIf="!characterBucket.filteredOut && characterBucket.items.length > 0" class="bucket-wrap">
@@ -69,7 +69,7 @@
         <div *ngIf="collapsedSections[3] == false" class="inventory-wrap" [@expandInShrinkOut]>
           <div class="bucket-group vault-bucket-group">
             <div class="bucket-wrap vault-bucket-wrap">
-              <ng-container *ngFor="let vaultBucket of vaultBucketsArray">
+              <ng-container *ngFor="let vaultBucket of bucketsArray[3]">
                 <ng-container *ngIf="!vaultBucket.filteredOut">
                   <div class="bucket-header">{{vaultBucket.bucketValue.bucketName}}</div>
                   <div class="bucket">

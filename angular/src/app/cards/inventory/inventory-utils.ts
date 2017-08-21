@@ -2,29 +2,6 @@ import { ManifestService } from '../../bungie/manifest/manifest.service';
 import { InventoryBucket, InventoryItem } from 'app/bungie/services/interface.barrel';
 
 export class InventoryUtils {
-    // Flattens a bucket map in to an array so it can be handled efficiently in .html
-    public static flattenInventoryBuckets(bucketsMap: Map<number, InventoryBucket>, bucketsArray: Array<InventoryBucket>) {
-        // Add it to the flattened array
-        bucketsMap.forEach((bucket, bucketHash) => {
-            this.sortBucketItems(bucket);
-            bucketsArray.push(bucket);
-        });
-
-        // Sort buckets by category, then bucketOrder
-        bucketsArray.sort((a, b) => {
-            if (a.bucketValue.category == b.bucketValue.category)
-                return a.bucketValue.bucketOrder - b.bucketValue.bucketOrder;
-            return b.bucketValue.category - a.bucketValue.category
-        });
-    }
-
-    public static sortBucketItems(bucket: InventoryBucket) {
-        // Sort items in bucket. transferStatus == 1 means it's selected
-        bucket.items.sort((a: InventoryItem, b: InventoryItem) => {
-            return (b.transferStatus % 2) - (a.transferStatus % 2);
-        });
-    }
-
     // Converts an API response to a workable bucketMap, and populates the hashes for bucket and items
     public static populateBucketMapFromResponse(characterIndex: number, manifestService: ManifestService, bucketItemsResponse: Array<InventoryItem>, bucketsMap: Map<number, InventoryBucket>) {
         // Loop each vault item and place in to proper bucket
@@ -53,6 +30,29 @@ export class InventoryUtils {
                 inventoryItem.damageTypeValue = manifestService.getManifestEntry("DestinyDamageTypeDefinition", inventoryItem.damageTypeHash);
 
             inventoryBucket.items.push(inventoryItem);
+        });
+    }
+
+    // Flattens a bucket map in to an array so it can be handled efficiently in .html
+    public static populateBucketArrayFromMap(bucketsMap: Map<number, InventoryBucket>, bucketsArray: Array<InventoryBucket>) {
+        // Add it to the flattened array
+        bucketsMap.forEach((bucket, bucketHash) => {
+            this.sortBucketItems(bucket);
+            bucketsArray.push(bucket);
+        });
+
+        // Sort buckets by category, then bucketOrder
+        bucketsArray.sort((a, b) => {
+            if (a.bucketValue.category == b.bucketValue.category)
+                return a.bucketValue.bucketOrder - b.bucketValue.bucketOrder;
+            return b.bucketValue.category - a.bucketValue.category
+        });
+    }
+
+    private static sortBucketItems(bucket: InventoryBucket) {
+        // Sort items in bucket. transferStatus == 1 means it's selected
+        bucket.items.sort((a: InventoryItem, b: InventoryItem) => {
+            return (b.transferStatus % 2) - (a.transferStatus % 2);
         });
     }
 
@@ -106,18 +106,18 @@ export class InventoryUtils {
         bucket.filteredOut = !bucketHasItem;
     }
 
-    public static transferItemToCharacter(charactersBucketsMap: Array<Map<number, InventoryBucket>>, manifestService: ManifestService, inventoryItem: InventoryItem, toCharacterIndex: number): boolean {
-        var srcBucket: InventoryBucket = charactersBucketsMap[inventoryItem.characterIndex].get(inventoryItem.bucketHash);
+    public static transferItem(bucketsMap: Array<Map<number, InventoryBucket>>, manifestService: ManifestService, inventoryItem: InventoryItem, toIndex: number): boolean {
+        var srcBucket: InventoryBucket = bucketsMap[inventoryItem.characterIndex].get(inventoryItem.bucketHash);
         var sourceBucketItems: Array<InventoryItem> = srcBucket.items;
 
         // Update inventory item with new characterIndex
-        inventoryItem.characterIndex = toCharacterIndex;
+        inventoryItem.characterIndex = toIndex;
 
         // Remove this item from the sourceArray
         sourceBucketItems.splice(sourceBucketItems.indexOf(inventoryItem), 1);
 
 
-        var destBucket: InventoryBucket = charactersBucketsMap[toCharacterIndex].get(inventoryItem.bucketHash);
+        var destBucket: InventoryBucket = bucketsMap[toIndex].get(inventoryItem.bucketHash);
         // If this bucket doesn't exist yet, let the callee know so we can refresh the inventory from network request
         if (destBucket == null)
             return false;
