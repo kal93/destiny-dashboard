@@ -1,3 +1,7 @@
+/**
+ * Delays a function call by provided ms
+ * @param {number} milliseconds
+ */
 export function delayBy(milliseconds: number) {
   return function (target, key, descriptor) {
 

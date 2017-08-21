@@ -1,3 +1,7 @@
+/**
+ * Calls the function once, and waits the provided time betwen runs
+ * @param {number} milliseconds
+ */
 export function debounceBy(milliseconds: number) {
   let lastExecuteTime: number = 0;
   let lastExecutionTimeoutId: NodeJS.Timer;
