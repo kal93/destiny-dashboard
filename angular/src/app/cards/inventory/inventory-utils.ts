@@ -75,6 +75,16 @@ export class InventoryUtils {
         }
     }
 
+    public static applyFilterToBucketGroups(searchText: string, showInventoryGroups: Array<boolean>, bucketGroups: Array<Array<InventoryBucket>>, skipAlreadyFiltered: boolean) {
+        // For each bucketGroup in this character or vault
+        for (let i = 0; i < bucketGroups.length; i++) {
+            let bucketGroup = bucketGroups[i];
+            // For each bucket in the current group
+            for (let j = 0; j < bucketGroup.length; j++)
+                InventoryUtils.applyFilterToBucket(searchText, showInventoryGroups, bucketGroup[j], skipAlreadyFiltered);
+        }
+    }
+
     /**
      * @param {boolean} skipAlreadyFiltered - Do not check items that have been filtered out since they'll definitely be filtered out again
      */

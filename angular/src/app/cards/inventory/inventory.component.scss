@@ -95,7 +95,7 @@
             position: relative;
             max-width: 400px;
             font-family: destiny;
-            margin-left: 10px;
+            margin-left: 2%;
 
             &.vault-header {
                 .background {
@@ -203,16 +203,14 @@
             align-content: flex-start;
             align-items: flex-start;
             overflow-y: hidden;
-            margin-left: 3%;
 
             .bucket-group {
+                margin-left: 2%;
                 flex-basis: calc(100vw - 25px);
                 margin-bottom: 10px;
             }
 
             .bucket-wrap {
-                margin-left: 4px;
-
                 .bucket-header {
                     margin: 12px 0 5px;
                     font-family: destiny;
@@ -271,6 +269,7 @@
     .character-wrap {
         .character-header {
             max-width: 345px;
+            margin-left: 1%;
 
             &.vault-header {
                 .background {
@@ -321,6 +320,7 @@
             margin-left: 0;
 
             .bucket-group {
+                margin-left: 1%;
                 flex: unset;
                 margin: 0 4px;
             }
@@ -341,11 +341,6 @@
                 flex-basis: calc(50vw - 10px);
                 max-width: 45%;
             }
-        }
-
-        .character-header {
-            margin-left: 3%;
-            margin-right: 3%;
         }
     }
 }

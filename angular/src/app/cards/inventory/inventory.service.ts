@@ -8,21 +8,6 @@ export class inventoryService {
 
     constructor(private characterInventorySummaryService: CharacterInventorySummaryService, private vaultSummaryService: VaultSummaryService) { }
 
-    getFullInventory(selectedMembership: DestinyMembership, accountSummary: IAccountSummary): Promise<any> {
-        // Set an array of promises so we can use Promise.All later
-        let inventoryDataPromises = new Array<Promise<any>>();
-
-        // Add the vault request to the promises we're about to fire 
-        inventoryDataPromises.push(this.getVaultInventory(selectedMembership));
-
-        // Now add character promises
-        accountSummary.characters.forEach((character: SummaryCharacter) => {
-            inventoryDataPromises.push(this.getCharacterInventory(selectedMembership, character.characterBase.characterId));
-        });
-
-        return Promise.all(inventoryDataPromises);
-    }
-
     getVaultInventory(selectedMembership: DestinyMembership): Promise<any> {
         return this.vaultSummaryService.getVaultSummary(selectedMembership);
     }

@@ -14,7 +14,7 @@ import { AccountSummaryService } from 'app/bungie/services/service.barrel';
 import { DestinyMembership, InventoryBucket, InventoryItem, IAccountSummary, IVaultSummary, SummaryCharacter } from 'app/bungie/services/interface.barrel';
 
 import { expandInShrinkOut, fadeInFromBottom } from '../../shared/animations';
-import { debounceBy, delayBy } from '../../shared/decorators';
+import { runOnceAfter, delayBy } from '../../shared/decorators';
 import { InventoryUtils } from './inventory-utils';
 
 @Component({
@@ -97,27 +97,20 @@ export class ItemManagerComponent extends CardComponent {
                 character.characterBase.raceValue = this.manifestService.getManifestEntry("DestinyRaceDefinition", character.characterBase.raceHash);
             });
 
-            // Fetch the inventory
-            this.inventoryService.getFullInventory(this.selectedMembership, this.accountSummary).then((inventoryResponses) => {
-                // Populate buckets
-                this.bucketGroupsArray = new Array<Array<Array<InventoryBucket>>>(4);
 
-                // Init the array for the character buckets map and bucketsGroupArray. Should be the same size as the number of characters + vault.
-                this.bucketsMap = new Array<Map<number, InventoryBucket>>(inventoryResponses.length);
+            // Init buckets
+            this.bucketGroupsArray = new Array<Array<Array<InventoryBucket>>>(4);
+            this.bucketsMap = new Array<Map<number, InventoryBucket>>(4);
 
-                // Vault is the first response
-                let vaultSummaryResponse: IVaultSummary = inventoryResponses.shift();
+            // Load character data
+            var inventoryPromises = new Array<Promise<any>>();
+            for (let i = 0; i < this.accountSummary.characters.length; i++)
+                inventoryPromises.push(this.loadCharacterInventory(i));
 
-                // All remaining responses should be characters
-                for (let i = 0; i < inventoryResponses.length; i++)
-                    this.populateBuckets(i, inventoryResponses[i].items);
+            inventoryPromises.push(this.loadVaultInventory());
 
-                // Populate vault buckets. Always [3] position                
-                this.populateBuckets(3, vaultSummaryResponse.items);
-
+            Promise.all(inventoryPromises).then(() => {
                 this.applyFilter();
-            }).catch((error) => {
-                this.sharedApp.showError("There was an error getting the inventory.", error);
             });
 
         }).catch(error => {
@@ -125,20 +118,32 @@ export class ItemManagerComponent extends CardComponent {
         });
     }
 
-    refreshCharacter(characterIndex: number) {
-        let character: SummaryCharacter = this.accountSummary.characters[characterIndex];
-        this.inventoryService.clearCharacterInventoryCache(this.selectedMembership, character.characterBase.characterId);
-        this.inventoryService.getCharacterInventory(this.selectedMembership, character.characterBase.characterId).then((inventoryResponse) => {
-            this.populateBuckets(characterIndex, inventoryResponse.items);
-            this.applyFilter();
+    refreshCharacterInventory(characterIndex: number) {
+        this.loadCharacterInventory(characterIndex).then(() => {
+            let bucketGroups = this.bucketGroupsArray[characterIndex];
+            InventoryUtils.applyFilterToBucketGroups(this.searchText, this.showInventoryGroups, bucketGroups, false);
         });
     }
 
-    refreshVault() {
+    refreshVaultInventory(characterIndex: number) {
+        this.loadVaultInventory().then(() => {
+            let bucketGroups = this.bucketGroupsArray[3];
+            InventoryUtils.applyFilterToBucketGroups(this.searchText, this.showInventoryGroups, bucketGroups, false);
+        });
+    }
+
+    loadCharacterInventory(characterIndex: number): Promise<any> {
+        let character: SummaryCharacter = this.accountSummary.characters[characterIndex];
+        this.inventoryService.clearCharacterInventoryCache(this.selectedMembership, character.characterBase.characterId);
+        return this.inventoryService.getCharacterInventory(this.selectedMembership, character.characterBase.characterId).then((inventoryResponse) => {
+            this.populateBuckets(characterIndex, inventoryResponse.items);
+        });
+    }
+
+    loadVaultInventory(): Promise<any> {
         this.inventoryService.clearVaultInventoryCache(this.selectedMembership);
-        this.inventoryService.getVaultInventory(this.selectedMembership).then((vaultSummaryResponse: IVaultSummary) => {
+        return this.inventoryService.getVaultInventory(this.selectedMembership).then((vaultSummaryResponse: IVaultSummary) => {
             this.populateBuckets(3, vaultSummaryResponse.items);
-            this.applyFilter();
         });
     }
 
@@ -150,34 +155,26 @@ export class ItemManagerComponent extends CardComponent {
         InventoryUtils.groupBuckets(this.bucketGroupsArray, this.bucketsArray[bucketIndex], bucketIndex);
     }
 
-    @debounceBy(400)
     searchTextChanged(newSearchText: string) {
-        let characterAddedToEnd: boolean = false;
+        let charAddedToEnd: boolean = false;
         if (newSearchText.length - 1 == this.searchText.length && newSearchText.startsWith(this.searchText))
-            characterAddedToEnd = true;
+            charAddedToEnd = true;
 
         this.searchText = newSearchText;
-        this.applyFilter(characterAddedToEnd);
+        this.applyFilter(charAddedToEnd);
     }
 
+    @runOnceAfter(400)
     applyFilter(skipAlreadyFiltered: boolean = false) {
-        // Apply filter to vault buckets
-        let vaultBuckets = this.bucketsArray[3];
-        for (let i = 0; i < vaultBuckets.length; i++)
-            InventoryUtils.applyFilterToBucket(this.searchText, this.showInventoryGroups, vaultBuckets[i], skipAlreadyFiltered);
-
         // Apply filter to each characters bucket groups
         for (let characterIndex = 0; characterIndex < this.accountSummary.characters.length; characterIndex++) {
             // Bucket groups for character
             let bucketGroups = this.bucketGroupsArray[characterIndex];
-
-            for (let groupIndex = 0; groupIndex < bucketGroups.length; groupIndex++) {
-                let buckets = this.bucketGroupsArray[characterIndex][groupIndex];
-
-                for (let i = 0; i < buckets.length; i++)
-                    InventoryUtils.applyFilterToBucket(this.searchText, this.showInventoryGroups, buckets[i], skipAlreadyFiltered);
-            }
+            InventoryUtils.applyFilterToBucketGroups(this.searchText, this.showInventoryGroups, bucketGroups, skipAlreadyFiltered);
         }
+
+        // Apply filter to vault buckets
+        InventoryUtils.applyFilterToBucketGroups(this.searchText, this.showInventoryGroups, this.bucketGroupsArray[3], skipAlreadyFiltered);
     }
 
     collapseSection(sectionIndex: number) {
@@ -261,8 +258,16 @@ export class ItemManagerComponent extends CardComponent {
                 shouldRefreshDestCharacter = true;
         }
 
-        if (shouldRefreshDestCharacter)
-            destCharacterIndex == 3 ? this.refreshVault() : this.refreshCharacter(destCharacterIndex);
+        // If the destination bucket doesn't exist, just reload the destination character (or vault), then filter
+        if (shouldRefreshDestCharacter) {
+            var refreshPromise = destCharacterIndex == 3 ? this.loadVaultInventory() : this.loadCharacterInventory(destCharacterIndex);
+            refreshPromise.then(() => {
+                InventoryUtils.applyFilterToBucketGroups(this.searchText, this.showInventoryGroups, this.bucketGroupsArray[destCharacterIndex], false);
+            });
+        }
+        else
+            // Otherwise, just filter the destination bucket group
+            InventoryUtils.applyFilterToBucketGroups(this.searchText, this.showInventoryGroups, this.bucketGroupsArray[destCharacterIndex], false);
 
         this.setEditMode(false);
     }
