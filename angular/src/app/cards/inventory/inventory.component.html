@@ -20,8 +20,8 @@
       </md-input-container>
     </div>
 
-    <!-- Wait until everything is loaded. charactersBucketsGroupsArray is the last thing to be loaded  -->
-    <div *ngIf="charactersBucketsGroupsArray != null">
+    <!-- Wait until everything is loaded. bucketGroupsArray is the last thing to be loaded  -->
+    <div *ngIf="bucketGroupsArray != null">
       <!-- Characters -->
       <div class="character-wrap" *ngFor="let character of accountSummary?.characters; let i = index">
         <div class="character-header">
@@ -38,12 +38,12 @@
         </div>
 
         <div *ngIf="collapsedSections[i] == false && bucketsArray[i] != null" class="inventory-wrap" [@expandInShrinkOut]="collapsedSections != null">
-          <div class="bucket-group" *ngFor="let characterBucketGroup of charactersBucketsGroupsArray[i]">
-            <ng-container *ngFor="let characterBucket of characterBucketGroup">
-              <div *ngIf="!characterBucket.filteredOut && characterBucket.items.length > 0" class="bucket-wrap">
-                <div class="bucket-header">{{characterBucket.bucketValue.bucketName}}</div>
+          <div class="bucket-group" *ngFor="let bucketGroup of bucketGroupsArray[i]">
+            <ng-container *ngFor="let bucket of bucketGroup">
+              <div *ngIf="!bucket.filteredOut && bucket.items.length > 0" class="bucket-wrap">
+                <div class="bucket-header">{{bucket.bucketValue.bucketName}}</div>
                 <div class="bucket">
-                  <ng-container *ngFor="let inventoryItem of characterBucket.items">
+                  <ng-container *ngFor="let inventoryItem of bucket.items">
                     <dd-inventory-item *ngIf="!inventoryItem.filteredOut" [class.edit-mode]="editMode" [class.transfer-disabled]="editMode && inventoryItem.itemValue.nonTransferrable"
                       [class.selected]="inventoryItem.selected" [inventoryItem]="inventoryItem" [disablePopup]="editMode" [equipped]="inventoryItem.transferStatus % 2 == 1"
                       [selected]="editMode && inventoryItem.selected" (clicked)="inventoryItemClicked(inventoryItem)" (longPress)="inventoryItemLongPress(inventoryItem)"></dd-inventory-item>
@@ -67,21 +67,19 @@
         </div>
 
         <div *ngIf="collapsedSections[3] == false" class="inventory-wrap" [@expandInShrinkOut]>
-          <div class="bucket-group vault-bucket-group">
-            <div class="bucket-wrap vault-bucket-wrap">
-              <ng-container *ngFor="let vaultBucket of bucketsArray[3]">
-                <ng-container *ngIf="!vaultBucket.filteredOut">
-                  <div class="bucket-header">{{vaultBucket.bucketValue.bucketName}}</div>
-                  <div class="bucket">
-                    <ng-container *ngFor="let inventoryItem of vaultBucket.items">
-                      <dd-inventory-item *ngIf="!inventoryItem.filteredOut" [class.edit-mode]="editMode" [class.selected]="inventoryItem.selected"
-                        [inventoryItem]="inventoryItem" [disablePopup]="editMode" [equipped]="inventoryItem.transferStatus % 2 == 1"
-                        [selected]="editMode && inventoryItem.selected" (clicked)="inventoryItemClicked(inventoryItem)" (longPress)="inventoryItemLongPress(inventoryItem)"></dd-inventory-item>
-                    </ng-container>
-                  </div>
-                </ng-container>
-              </ng-container>
-            </div>
+          <div class="bucket-group" *ngFor="let bucketGroup of bucketGroupsArray[3]">
+            <ng-container *ngFor="let bucket of bucketGroup">
+              <div *ngIf="!bucket.filteredOut && bucket.items.length > 0" class="bucket-wrap">
+                <div class="bucket-header">{{bucket.bucketValue.bucketName}}</div>
+                <div class="bucket">
+                  <ng-container *ngFor="let inventoryItem of bucket.items">
+                    <dd-inventory-item *ngIf="!inventoryItem.filteredOut" [class.edit-mode]="editMode" [class.selected]="inventoryItem.selected"
+                      [inventoryItem]="inventoryItem" [disablePopup]="editMode" [equipped]="inventoryItem.transferStatus % 2 == 1"
+                      [selected]="editMode && inventoryItem.selected" (clicked)="inventoryItemClicked(inventoryItem)" (longPress)="inventoryItemLongPress(inventoryItem)"></dd-inventory-item>
+                  </ng-container>
+                </div>
+              </div>
+            </ng-container>
           </div>
         </div>
       </div>

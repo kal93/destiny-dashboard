@@ -6,25 +6,24 @@ export class InventoryUtils {
     public static populateBucketMapFromResponse(characterIndex: number, manifestService: ManifestService, bucketItemsResponse: Array<InventoryItem>, bucketsMap: Map<number, InventoryBucket>) {
         // Loop each vault item and place in to proper bucket
         bucketItemsResponse.forEach((inventoryItem) => {
-            let inventoryBucket: InventoryBucket = bucketsMap.get(inventoryItem.bucketHash);
-
-            // If the bucket for this vault item doesn't exist yet, create it
-            if (inventoryBucket == null) {
-                inventoryBucket = {
-                    hash: inventoryItem.bucketHash,
-                    bucketValue: manifestService.getManifestEntry("DestinyInventoryBucketDefinition", inventoryItem.bucketHash),
-                    items: new Array<InventoryItem>(),
-                    filteredOut: false
-                }
-                bucketsMap.set(inventoryItem.bucketHash, inventoryBucket);
-            }
+            // Get the vault item definition 
+            inventoryItem.itemValue = manifestService.getManifestEntry("DestinyInventoryItemDefinition", inventoryItem.itemHash);
 
             // Set the character index so we can reference it later
             inventoryItem.characterIndex = characterIndex;
 
-            // Get the vault item definition 
-            inventoryItem.itemValue = manifestService.getManifestEntry("DestinyInventoryItemDefinition", inventoryItem.itemHash);
+            let inventoryBucket: InventoryBucket = bucketsMap.get(inventoryItem.itemValue.bucketTypeHash);
 
+            // If the bucket for this vault item doesn't exist yet, create it
+            if (inventoryBucket == null) {
+                inventoryBucket = {
+                    hash: inventoryItem.itemValue.bucketTypeHash,
+                    bucketValue: manifestService.getManifestEntry("DestinyInventoryBucketDefinition", inventoryItem.itemValue.bucketTypeHash),
+                    items: new Array<InventoryItem>(),
+                    filteredOut: false
+                }
+                bucketsMap.set(inventoryItem.itemValue.bucketTypeHash, inventoryBucket);
+            }
             // Get the damage type definition, if exists
             if (inventoryItem.damageTypeHash != 0)
                 inventoryItem.damageTypeValue = manifestService.getManifestEntry("DestinyDamageTypeDefinition", inventoryItem.damageTypeHash);
@@ -56,23 +55,23 @@ export class InventoryUtils {
         });
     }
 
-    public static groupCharactersBuckets(charactersBucketsGroupsArray: Array<Array<Array<InventoryBucket>>>, characterBuckets: Array<InventoryBucket>, characterIndex: number) {
-        // Create array for the character             [BucketGroup[Buckets]]
-        charactersBucketsGroupsArray[characterIndex] = new Array<Array<InventoryBucket>>();
-        charactersBucketsGroupsArray[characterIndex][0] = new Array<InventoryBucket>();
+    public static groupBuckets(bucketGroupsArray: Array<Array<Array<InventoryBucket>>>, buckets: Array<InventoryBucket>, characterIndex: number) {
+        // Create array for the character   [BucketGroup[Buckets]]
+        bucketGroupsArray[characterIndex] = new Array<Array<InventoryBucket>>();
+        bucketGroupsArray[characterIndex][0] = new Array<InventoryBucket>();
 
         let groupIndex: number = 0;
-        for (let j = 0; j < characterBuckets.length; j++) {
-            let characterBucket = characterBuckets[j];
+        for (let j = 0; j < buckets.length; j++) {
+            let characterBucket = buckets[j];
 
             //If we're changing to a specific bucket type, let's break it in to a new group
-            let bucketName = characterBuckets[j].bucketValue.bucketName;
+            let bucketName = buckets[j].bucketValue.bucketName;
             if (bucketName == "Helmet" || bucketName == "Vehicle" || bucketName == "Shaders" || bucketName == "Materials" || bucketName == "Mission") {
                 groupIndex++;
-                charactersBucketsGroupsArray[characterIndex][groupIndex] = new Array<InventoryBucket>();
+                bucketGroupsArray[characterIndex][groupIndex] = new Array<InventoryBucket>();
             }
 
-            charactersBucketsGroupsArray[characterIndex][groupIndex].push(characterBucket);
+            bucketGroupsArray[characterIndex][groupIndex].push(characterBucket);
         }
     }
 
@@ -107,7 +106,7 @@ export class InventoryUtils {
     }
 
     public static transferItem(bucketsMap: Array<Map<number, InventoryBucket>>, manifestService: ManifestService, inventoryItem: InventoryItem, toIndex: number): boolean {
-        var srcBucket: InventoryBucket = bucketsMap[inventoryItem.characterIndex].get(inventoryItem.bucketHash);
+        var srcBucket: InventoryBucket = bucketsMap[inventoryItem.characterIndex].get(inventoryItem.itemValue.bucketTypeHash);
         var sourceBucketItems: Array<InventoryItem> = srcBucket.items;
 
         // Remove this item from the sourceArray

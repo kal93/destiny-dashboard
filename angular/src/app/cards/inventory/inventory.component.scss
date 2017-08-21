@@ -202,9 +202,8 @@
             flex-flow: wrap;
             align-content: flex-start;
             align-items: flex-start;
-            justify-content: space-around;
-            justify-content: space-evenly;
             overflow-y: hidden;
+            margin-left: 3%;
 
             .bucket-group {
                 flex-basis: calc(100vw - 25px);
@@ -319,7 +318,7 @@
         }
 
         .inventory-wrap {
-            justify-content: flex-start;
+            margin-left: 0;
 
             .bucket-group {
                 flex: unset;
@@ -341,11 +340,6 @@
             .bucket-group {
                 flex-basis: calc(50vw - 10px);
                 max-width: 45%;
-
-                &.vault-bucket-group {
-                    flex-basis: unset;
-                    max-width: 90%;
-                }
             }
         }
 
