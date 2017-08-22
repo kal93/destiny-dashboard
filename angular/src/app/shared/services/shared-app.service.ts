@@ -68,8 +68,8 @@ export class SharedApp {
 
     onResize() {
         let viewport = document.querySelector("meta[name=viewport]");
-        if (screen.width < 410)
-            viewport.setAttribute('content', 'width=410, initial-scale=' + screen.width / 410);
+        if (screen.width < 420)
+            viewport.setAttribute('content', 'width=420, initial-scale=' + screen.width / 420);
         else
             viewport.setAttribute('content', 'width=device-width, initial-scale=1');
 
