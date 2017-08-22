@@ -194,46 +194,74 @@ export class HttpService {
                         resolve(response);
                 }).catch((error) => {
                     this.sharedApp.hideLoading(loadingId);
-
-                    //Bungie specific error we can handle probably
-                    if (error.ErrorCode) {
-                        switch (error.ErrorCode) {
-                            case 1601:
-                                this.sharedApp.showError("Could not find Destiny information for this Bungie account. Have you played with this account?");
-                                break;
-
-                            case 1618:
-                                this.sharedApp.showError("An error has occurred while trying to get Destiny information. It's probably an issue with Bungie's API, please try again later.", error);
-                                break;
-
-                            default:
-                                this.sharedApp.showError("An error has occurred while trying to get Destiny information. It's probably an issue with Bungie's API, please try again later.", error);
-                                reject(error);
-                                break;
-                        }
-                    }
-
-                    //Actual HTTP error 
-                    else if (error.status)
-                        //Give more detail for errors we have some info about
-                        switch (error.status) {
-                            case 401:
-                                this.sharedApp.showError("Authentication error when trying to connect to Bungie. Please try to log in again.", error);
-                                this.sharedApp.logOutSubject.next();
-                                reject(error);
-                                break;
-
-                            default:
-                                console.log(error);
-                                reject(error);
-                                break;
-                        }
+                    this.handleBungieError(error, reject);
                 });
             }).catch((error) => {
                 this.sharedApp.hideLoading(loadingId);
                 reject(error);
             });
         });
+    }
+
+    public postBungie(url: string, body: any, privileged: boolean = true): Promise<any> {
+        let loadingId = Date.now();
+        this.sharedApp.showLoading(loadingId);
+
+        return new Promise((resolve, reject) => {
+            //If the token needs to be refreshed, do it before making the call
+            this.checkBungieRefreshToken().then(() => {
+                let headers = privileged ? this.getBungiePrivilegedAuthHeaders() : this.getBungieBasicAuthHeaders();
+                this.httpPost(url, body, headers).then((response) => {
+                    this.sharedApp.hideLoading(loadingId);
+                    if (response.ErrorCode != 1)
+                        throw (response);
+                    else
+                        resolve(response);
+                }).catch((error) => {
+                    this.sharedApp.hideLoading(loadingId);
+                    this.handleBungieError(error, reject);
+                });
+            }).catch((error) => {
+                this.sharedApp.hideLoading(loadingId);
+                reject(error);
+            });
+        });
+    }
+
+    private handleBungieError(error: any, reject: any) {
+        //Bungie specific error we can handle probably
+        if (error.ErrorCode) {
+            switch (error.ErrorCode) {
+                case 1601:
+                    this.sharedApp.showError("Could not find Destiny information for this Bungie account. Have you played with this account?");
+                    break;
+
+                case 1618:
+                    this.sharedApp.showError("An error has occurred while trying to get Destiny information. It's probably an issue with Bungie's API, please try again later.", error);
+                    break;
+
+                default:
+                    this.sharedApp.showError("An error has occurred while trying to get Destiny information. It's probably an issue with Bungie's API, please try again later.", error);
+                    reject(error);
+                    break;
+            }
+        }
+
+        //Actual HTTP error 
+        else if (error.status)
+            //Give more detail for errors we have some info about
+            switch (error.status) {
+                case 401:
+                    this.sharedApp.showError("Authentication error when trying to connect to Bungie. Please try to log in again.", error);
+                    this.sharedApp.logOutSubject.next();
+                    reject(error);
+                    break;
+
+                default:
+                    console.log(error);
+                    reject(error);
+                    break;
+            }
     }
 
     public getWithCache(requestUrl: string, requestType: HttpRequestType, cacheTimeMs: number): Promise<any> {

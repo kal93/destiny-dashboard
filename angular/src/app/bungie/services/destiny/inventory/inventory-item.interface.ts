@@ -1,6 +1,15 @@
 import { Stat3 } from "../shared.interface";
 import { DestinyDamageTypeDefinition, DestinyInventoryBucketDefinition, DestinyInventoryItemDefinition } from "app/bungie/manifest/interfaces";
 
+export interface InventoryTransferResult {
+  Response: number;
+  ErrorCode: number;
+  ThrottleSeconds: number;
+  ErrorStatus: string;
+  Message: string;
+  MessageData: any;
+}
+
 export interface InventoryBucket {
   bucketValue: DestinyInventoryBucketDefinition;
   hash: number;
