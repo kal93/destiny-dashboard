@@ -1,4 +1,4 @@
-import { Stat3 } from "./_shared.interface";
+import { Stat3 } from "../shared.interface";
 import { InventoryItem } from "./inventory-item.interface";
 
 export interface IVaultSummary {

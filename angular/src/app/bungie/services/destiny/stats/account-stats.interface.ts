@@ -1,4 +1,4 @@
-import { Basic, Stat1, Stat2, PvEStats, PvPStats } from "./_shared.interface";
+import { Basic, Stat1, Stat2, PvEStats, PvPStats } from "../shared.interface";
 
 export interface IAccountStats {
     mergedDeletedCharacters: MergedCharacterData;

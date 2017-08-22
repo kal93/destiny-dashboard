@@ -1,4 +1,4 @@
-import { Stat1, Stat2, PvEStats, PvPStats } from "./_shared.interface";
+import { Stat1, Stat2, PvEStats, PvPStats } from "../shared.interface";
 
 export interface ICharacterStats {
     allPvE: {

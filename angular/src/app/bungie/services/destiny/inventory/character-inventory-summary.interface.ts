@@ -1,4 +1,4 @@
-import { Currency } from "./_shared.interface";
+import { Currency } from "../shared.interface";
 import { InventoryItem } from "./inventory-item.interface";
 
 export interface ICharacterInventorySummary {

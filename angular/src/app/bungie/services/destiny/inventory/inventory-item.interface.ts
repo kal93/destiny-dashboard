@@ -1,5 +1,5 @@
-import { Stat3 } from "./_shared.interface";
-import { DestinyDamageTypeDefinition, DestinyInventoryBucketDefinition, DestinyInventoryItemDefinition } from "../../manifest/interfaces";
+import { Stat3 } from "../shared.interface";
+import { DestinyDamageTypeDefinition, DestinyInventoryBucketDefinition, DestinyInventoryItemDefinition } from "app/bungie/manifest/interfaces";
 
 export interface InventoryBucket {
   bucketValue: DestinyInventoryBucketDefinition;

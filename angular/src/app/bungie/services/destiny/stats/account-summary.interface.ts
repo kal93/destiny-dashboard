@@ -1,4 +1,4 @@
-import { Currency } from "./_shared.interface";
+import { Currency } from "../shared.interface";
 
 export interface IAccountSummary {
     membershipId: string;

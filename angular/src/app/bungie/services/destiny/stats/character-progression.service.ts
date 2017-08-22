@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpRequestType, HttpService } from '../../../shared/services/http.service';
-import { SharedApp } from '../../../shared/services/shared-app.service';
-import { SharedBungie } from '../../shared-bungie.service';
+import { HttpRequestType, HttpService } from 'app/shared/services/http.service';
+import { SharedApp } from 'app/shared/services/shared-app.service';
+import { SharedBungie } from 'app/bungie/shared-bungie.service';
 
-import { DestinyMembership, ICharacterProgression } from '../interface.barrel'
+import { DestinyMembership, ICharacterProgression } from '../../interface.barrel'
 
 /** This Injectable manages the data layer for Destiny Character Stats*/
 @Injectable()

@@ -1,4 +1,4 @@
-import { Stat4 } from "../../services/destiny/_shared.interface";
+import { Stat4 } from "../../services/destiny/shared.interface";
 
 export interface DestinyInventoryItemDefinition {
     actionName: string;
