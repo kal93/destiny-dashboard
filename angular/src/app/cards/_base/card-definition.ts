@@ -39,8 +39,8 @@ export class CardDefinitions {
         rating: 5,
         route: "/stats",
         layouts: [
-            { rows: 2, cols: 2 }, { rows: 3, cols: 2 },
-            { rows: 2, cols: 3 }, { rows: 3, cols: 3 }
+            { rows: 2, cols: 2 }, { rows: 3, cols: 2 }, { rows: 4, cols: 2 },
+            { rows: 2, cols: 3 }, { rows: 3, cols: 3 }, { rows: 4, cols: 3 }
         ],
         requiresLogin: false,
         isExternalRoute: false,
@@ -130,7 +130,7 @@ export class CardDefinitions {
         rating: 5,
         route: "clan-leaderboards",
         layouts: [
-            { rows: 2, cols: 2 }, { rows: 3, cols: 2 },
+            { rows: 2, cols: 2 }, { rows: 3, cols: 2 }, { rows: 4, cols: 2 },
             { rows: 2, cols: 3 }, { rows: 3, cols: 3 }
         ],
         requiresLogin: false,
@@ -141,11 +141,12 @@ export class CardDefinitions {
 
     static defaultDashboards: Array<IUserDashboard> = [{
         id: -1, name: "Default Dashboard", cards: [
-            { id: -1, sequence: 1, definitionId: 1, layoutId: 1, definition: CardDefinitions.definitions[1], layout: CardDefinitions.definitions[1].layouts[1] },
-            { id: -2, sequence: 2, definitionId: 4, layoutId: 2, definition: CardDefinitions.definitions[4], layout: CardDefinitions.definitions[4].layouts[2] },
-            { id: -4, sequence: 3, definitionId: 0, layoutId: 0, definition: CardDefinitions.definitions[0], layout: CardDefinitions.definitions[0].layouts[0] },
-            { id: -3, sequence: 4, definitionId: 2, layoutId: 1, definition: CardDefinitions.definitions[2], layout: CardDefinitions.definitions[2].layouts[1] },
-            { id: -5, sequence: 5, definitionId: 5, layoutId: 0, definition: CardDefinitions.definitions[5], layout: CardDefinitions.definitions[5].layouts[0] }
+            { id: -1, sequence: 0, definitionId: 1, layoutId: 3, definition: CardDefinitions.definitions[1], layout: CardDefinitions.definitions[1].layouts[3] },
+            { id: -3, sequence: 1, definitionId: 2, layoutId: 1, definition: CardDefinitions.definitions[2], layout: CardDefinitions.definitions[2].layouts[1] },
+            { id: -5, sequence: 2, definitionId: 7, layoutId: 4, definition: CardDefinitions.definitions[7], layout: CardDefinitions.definitions[7].layouts[4] },
+            { id: -4, sequence: 3, definitionId: 5, layoutId: 0, definition: CardDefinitions.definitions[5], layout: CardDefinitions.definitions[5].layouts[0] },
+            { id: -2, sequence: 4, definitionId: 4, layoutId: 2, definition: CardDefinitions.definitions[4], layout: CardDefinitions.definitions[4].layouts[2] },
+            { id: -6, sequence: 5, definitionId: 0, layoutId: 0, definition: CardDefinitions.definitions[0], layout: CardDefinitions.definitions[0].layouts[0] }
         ]
     }, {
         id: -2, name: "News", cards: [
