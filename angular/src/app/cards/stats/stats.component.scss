@@ -16,8 +16,12 @@
     .mat-tab-group {
         height: 100%;
 
-        ::ng-deep .mat-tab-label-active {
-            opacity: 1;
+        ::ng-deep .mat-tab-labels {
+            justify-content: center;
+
+            .mat-tab-label-active {
+                opacity: 1;
+            }
         }
 
         ::ng-deep .mat-tab-body-wrapper {
