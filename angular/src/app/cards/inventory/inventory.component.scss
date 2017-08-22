@@ -11,15 +11,20 @@
     .edit-menu-wrap {
         position: absolute;
         top: 0;
-        left: calc(50% - 155px);
+        right: 10px;
         z-index: 1;
         display: flex;
         background-color: rgba(0,0,0,.7);
-        padding: 5px;
+        padding: 3px 0 3px 5px;
 
         .menu-option {
             padding: 6px;
             cursor: pointer;
+
+            &:last-of-type {
+                padding-left: 0;
+                padding-right: 0;
+            }
 
             .icon {
                 box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
@@ -45,9 +50,9 @@
     }
 
     .search-text-wrap {
-        flex: 2;
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
+        margin-left: 2%;
 
         .search-text {
             margin-top: 5px;
@@ -260,10 +265,20 @@
     }
 }
 @mixin smallScreenSize {
-    padding: 7px 0;
+    padding: 2px 0 2px 4px;
 
-    .separator {
-        height: 0;
+    .edit-menu-wrap {
+        right: 6px;
+
+        .menu-option {
+            padding: 3px;
+
+            .icon {
+                width: 46px;
+                height: 46px;
+            }
+        }
+
     }
 
     .character-wrap {
