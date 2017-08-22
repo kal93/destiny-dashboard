@@ -1,24 +1,5 @@
 import { animate, keyframes, stagger, trigger, query, style, transition } from '@angular/animations';
 
-export function routerTransition() {
-    //Trigger when route is changed
-    return trigger('routerTransition', [
-        //Do transition when we are going from dashboard to anything else
-        transition('dashboard => card', [
-            query('div', [
-                style({ transform: 'translateX(50%)' }),
-                animate(150, style({ transform: 'translateX(0)' }))
-            ])
-        ]),
-        transition('card => dashboard', [
-            query('div', [
-                style({ transform: 'translateX(-50%)' }),
-                animate(150, style({ transform: 'translateX(0)' }))
-            ])
-        ])
-    ]);
-}
-
 export function fadeInOut() {
     //Trigger when route is changed
     return trigger('fadeInOut', [

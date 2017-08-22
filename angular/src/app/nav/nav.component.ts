@@ -4,7 +4,7 @@ import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular
 import { SharedBungie } from '../bungie/shared-bungie.service';
 import { SharedDashboard } from '../dashboard/shared-dashboard.service';
 import { SharedApp } from '../shared/services/shared-app.service';
-import { fadeIn, routerTransition } from '../shared/animations';
+import { fadeIn } from '../shared/animations';
 
 import { environment } from '../../environments/environment';
 import { CardDefinitions } from '../cards/_base/card-definition';
@@ -18,7 +18,7 @@ import { Subscription } from 'rxjs/Subscription';
   selector: 'dd-nav',
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.scss'],
-  animations: [fadeIn(), routerTransition()],
+  animations: [fadeIn()],
 })
 export class NavComponent {
   @ViewChild("mainNav")
@@ -96,10 +96,6 @@ export class NavComponent {
     this.sharedDashboard.userDashboards = CardDefinitions.defaultDashboards;
     this.sharedApp.invalidateCachesSubject.next();
     this.backToDashboard();
-  }
-
-  prepareRouteAnimation(routerOutlet) {
-    return routerOutlet.activatedRouteData['animation'] || 'dashboard';
   }
 
   //Main Nav

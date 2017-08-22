@@ -95,7 +95,8 @@
       Dashboards
       <md-icon class="carrot" [class.collapsed]="dashboardsCollapsed">keyboard_arrow_down</md-icon>
     </div>
-    <md-nav-list *ngFor="let dashboard of sharedDashboard.userDashboards" [style.max-height]="dashboardsCollapsed ? '0':'500px'" [style.overflow-y]="dashboardsCollapsed ? 'hidden' : 'auto'">
+    <md-nav-list *ngFor="let dashboard of sharedDashboard.userDashboards" [style.max-height]="dashboardsCollapsed ? '0':'500px'"
+      [style.overflow-y]="dashboardsCollapsed ? 'hidden' : 'auto'">
       <md-list-item [style.color]="dashboard == sharedDashboard.selectedDashboard ? '#03A9F4':''" (click)="selectDashboard(dashboard)">{{dashboard.name}}</md-list-item>
     </md-nav-list>
 
@@ -127,8 +128,8 @@
   </md-sidenav>
 
   <!-- Only load the router if the app has been initialized -->
-  <div *ngIf="sharedApp.appInitialized" [@routerTransition]="prepareRouteAnimation(routerOutlet)" class="router-wrap dd-dashboard-background">
-    <router-outlet #routerOutlet="outlet"></router-outlet>
+  <div *ngIf="sharedApp.appInitialized" class="router-wrap dd-dashboard-background">
+    <router-outlet></router-outlet>
   </div>
 
 </md-sidenav-container>
