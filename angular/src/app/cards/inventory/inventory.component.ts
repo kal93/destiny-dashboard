@@ -46,7 +46,7 @@ export class ItemManagerComponent extends CardComponent {
     towerDefinition: any;
 
     // Keep track if a user has collapsed a section
-    collapsedSections: Array<boolean> = [true, true, true, true];
+    expandedSections: Array<boolean>;
 
     // If user has long pressed an inventory item, we are in edit mode
     editMode: boolean = false;
@@ -62,8 +62,10 @@ export class ItemManagerComponent extends CardComponent {
         private inventoryService: inventoryService, private mdDialog: MdDialog, private manifestService: ManifestService,
         private sharedBungie: SharedBungie, public sharedApp: SharedApp) {
         super(sharedApp);
-        if (this.isFullscreen)
+        if (this.isFullscreen) {
             this.setSubNavItems();
+            this.sharedApp.showInfoOnce("Press and hold an item to enter edit mode.");
+        }
     }
 
     ngOnInit() {
@@ -71,7 +73,7 @@ export class ItemManagerComponent extends CardComponent {
 
         // Get localStorage variables
         if (this.isFullscreen)
-            this.collapsedSections = this.getCardLocalStorageAsJsonObject("collapsedSections", [true, true, true, true]);
+            this.expandedSections = this.getCardLocalStorageAsJsonObject("expandedSections", [false, false, false, false]);
         this.showInventoryGroups = this.getCardLocalStorageAsJsonObject("showInventoryGroups", [false, true, true, false, true, true, true, false, false, true]);
 
         // Get tower definition so we can show the tower emblem
@@ -81,9 +83,6 @@ export class ItemManagerComponent extends CardComponent {
         this.selectedMembership = this.sharedBungie.destinyMemberships[this.sharedApp.userPreferences.membershipIndex];
 
         this.getFullInventory();
-
-        if (this.isFullscreen)
-            this.sharedApp.showInfoOnce("Press and hold an item to enter edit mode.");
     }
 
     private getFullInventory() {
@@ -179,14 +178,14 @@ export class ItemManagerComponent extends CardComponent {
     collapseSection(sectionIndex: number) {
         // If we're in card mode, treat expandable sections as accordions
         if (!this.isFullscreen)
-            for (let i = 0; i < this.collapsedSections.length; i++) {
+            for (let i = 0; i < this.expandedSections.length; i++) {
                 if (i == sectionIndex) continue;
-                this.collapsedSections[i] = true;
+                this.expandedSections[i] = false;
             }
 
-        this.collapsedSections[sectionIndex] = !this.collapsedSections[sectionIndex];
+        this.expandedSections[sectionIndex] = !this.expandedSections[sectionIndex];
         if (this.isFullscreen)
-            this.setCardLocalStorage("collapsedSections", JSON.stringify(this.collapsedSections));
+            this.setCardLocalStorage("expandedSections", JSON.stringify(this.expandedSections));
     }
 
     inventoryItemLongPress(inventoryItem: InventoryItem) {

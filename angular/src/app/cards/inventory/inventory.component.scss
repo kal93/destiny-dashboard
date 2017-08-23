@@ -177,7 +177,8 @@
                 position: absolute;
                 width: 32px;
                 height: 32px;
-                transition: all 400ms ease-in-out;
+                transition: all 300ms ease-in-out;
+                transition-property: transform, bottom;
                 cursor: pointer;
 
                 md-icon {
@@ -195,8 +196,9 @@
                     bottom: -1px;
                     right: -40px;
 
-                    &.collapsed {
-                        transform: rotate(-180deg);
+                    &.expanded {
+                        bottom: -8px;
+                        transform: scaleY(-1);
                     }
                 }
             }

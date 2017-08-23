@@ -34,9 +34,9 @@
           <div class="bottom-right"><span class="star">&#10022;</span>{{character.characterBase.stats.STAT_LIGHT.value}}</div>
 
           <button md-icon-button (click)="refreshCharacterInventory(i)" class="option refresh"><md-icon>refresh</md-icon></button>
-          <button md-icon-button (click)="collapseSection(i)" class="option carrot" [class.collapsed]="collapsedSections[i]"><md-icon>keyboard_arrow_down</md-icon></button>
+          <button md-icon-button (click)="collapseSection(i)" class="option carrot" [class.expanded]="expandedSections[i]"><md-icon>keyboard_arrow_up</md-icon></button>
         </div>
-        <div *ngIf="collapsedSections[i] === false" class="inventory-wrap" [@expandInShrinkOut]="collapsedSections != null">
+        <div *ngIf="expandedSections[i] == true" class="inventory-wrap" [@expandInShrinkOut]="expandedSections != null">
           <div class="bucket-group" *ngFor="let bucketGroup of bucketGroupsArray[i]">
             <ng-container *ngFor="let bucket of bucketGroup">
               <div *ngIf="!bucket.filteredOut && bucket.items.length > 0" class="bucket-wrap">
@@ -62,10 +62,10 @@
           <div class="top-left">Vault</div>
 
           <button md-icon-button class="option refresh" (click)="refreshVaultInventory()"><md-icon>refresh</md-icon></button>
-          <button md-icon-button class="option carrot" (click)="collapseSection(3)" [class.collapsed]="collapsedSections[3]"><md-icon>keyboard_arrow_down</md-icon></button>
+          <button md-icon-button class="option carrot" (click)="collapseSection(3)" [class.expanded]="expandedSections[3]"><md-icon>keyboard_arrow_up</md-icon></button>
         </div>
 
-        <div *ngIf="collapsedSections[3] === false" class="inventory-wrap" [@expandInShrinkOut]>
+        <div *ngIf="expandedSections[3] == true" class="inventory-wrap" [@expandInShrinkOut]>
           <div class="bucket-group" *ngFor="let bucketGroup of bucketGroupsArray[3]">
             <ng-container *ngFor="let bucket of bucketGroup">
               <div *ngIf="!bucket.filteredOut && bucket.items.length > 0" class="bucket-wrap">
