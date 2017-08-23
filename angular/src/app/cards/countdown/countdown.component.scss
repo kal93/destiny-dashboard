@@ -13,29 +13,33 @@
 .dd-card-content.dd-countdown {
     .dd-countdown-image {
         width: 100%;
-        height: 100%;
+        //height: 100%;
 
         //This style only applies to the .dd-countdown-image class has a 1x1 layout
         &.rows1-cols1 {
             background-position: center 15px;
+            min-height: 120px;
         }
 
         &.rows1-cols2 {
             background-position: 0 center;
+            min-height: 160px;
         }
 
         &.rows1-cols3 {
             background-position: 40px center;
+            min-height: 160px;
         }
 
         &.rows2-cols2 {
-            background-position: center 35px;
+            background-position: center 25px;
+            min-height: 285px;
         }
 
         &.rows2-cols3 {
             width: 90%;
-            height: 90%;
-            margin-left: 5%;
+            min-height: 290px;
+            background-position: 55px center;
         }
     }
 
@@ -69,7 +73,7 @@
             line-height: 45px;
         }
 
-        &.rows2-cols2 {    
+        &.rows2-cols2 {
             font-size: 2.5em;
             word-spacing: 9px;
             margin-bottom: 25px;
