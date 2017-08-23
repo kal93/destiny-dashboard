@@ -6,16 +6,16 @@
 .dd-inventory {
     background-color: #37474F;
     color: $app-text-light;
-    padding: 10px 0;
+    padding: 10px 0 80px;
 
     .edit-menu-wrap {
         position: absolute;
-        top: 0;
-        right: 10px;
+        bottom: 0;
+        left: calc(50% - 150px);
         z-index: 1;
         display: flex;
         background-color: rgba(0,0,0,.7);
-        padding: 3px 0 3px 5px;
+        padding: 0 3px;
 
         .menu-option {
             padding: 6px;
@@ -265,21 +265,7 @@
     }
 }
 @mixin smallScreenSize {
-    padding: 2px 0 2px 4px;
-
-    .edit-menu-wrap {
-        right: 6px;
-
-        .menu-option {
-            padding: 3px;
-
-            .icon {
-                width: 46px;
-                height: 46px;
-            }
-        }
-
-    }
+    padding: 2px 0 80px 4px;
 
     .character-wrap {
         .character-header {
@@ -366,10 +352,6 @@
     overflow-x: hidden;
     overflow-y: auto;
     @include smallScreenSize();
-
-    .edit-menu-wrap {
-        top: 40px;
-    }
 }
 
 //These styles only apply to fullscreen mode

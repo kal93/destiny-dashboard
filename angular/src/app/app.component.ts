@@ -100,6 +100,7 @@ export class AppComponent {
         this.setAppInitialized();
       });
     }).catch((error) => {
+      this.sharedApp.showError("Could not load membership for the current user. This is probably an error with Bungie's servers, please try again later.");
       this.setAppInitialized();
     });
   }

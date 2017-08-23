@@ -36,8 +36,7 @@
           <button md-icon-button (click)="refreshCharacterInventory(i)" class="option refresh"><md-icon>refresh</md-icon></button>
           <button md-icon-button (click)="collapseSection(i)" class="option carrot" [class.collapsed]="collapsedSections[i]"><md-icon>keyboard_arrow_down</md-icon></button>
         </div>
-
-        <div *ngIf="collapsedSections[i] == false && bucketGroupsArray[i] != null" class="inventory-wrap" [@expandInShrinkOut]="collapsedSections != null">
+        <div *ngIf="collapsedSections[i] === false" class="inventory-wrap" [@expandInShrinkOut]="collapsedSections != null">
           <div class="bucket-group" *ngFor="let bucketGroup of bucketGroupsArray[i]">
             <ng-container *ngFor="let bucket of bucketGroup">
               <div *ngIf="!bucket.filteredOut && bucket.items.length > 0" class="bucket-wrap">
@@ -66,7 +65,7 @@
           <button md-icon-button class="option carrot" (click)="collapseSection(3)" [class.collapsed]="collapsedSections[3]"><md-icon>keyboard_arrow_down</md-icon></button>
         </div>
 
-        <div *ngIf="collapsedSections[3] == false" class="inventory-wrap" [@expandInShrinkOut]>
+        <div *ngIf="collapsedSections[3] === false" class="inventory-wrap" [@expandInShrinkOut]>
           <div class="bucket-group" *ngFor="let bucketGroup of bucketGroupsArray[3]">
             <ng-container *ngFor="let bucket of bucketGroup">
               <div *ngIf="!bucket.filteredOut && bucket.items.length > 0" class="bucket-wrap">

@@ -47,7 +47,7 @@ export class ItemManagerComponent extends CardComponent {
     towerDefinition: any;
 
     // Keep track if a user has collapsed a section
-    collapsedSections: Array<boolean>;
+    collapsedSections: Array<boolean> = [true, true, true, true];
 
     // If user has long pressed an inventory item, we are in edit mode
     editMode: boolean = false;
@@ -69,7 +69,6 @@ export class ItemManagerComponent extends CardComponent {
         super.ngOnInit();
 
         // Get localStorage variables
-        this.collapsedSections = this.getCardLocalStorageAsJsonObject("collapsedSections", [false, false, false, false]);
         this.showInventoryGroups = this.getCardLocalStorageAsJsonObject("showInventoryGroups", [false, true, true, false, true, true, true, false, false, true]);
 
         // Get tower definition so we can show the tower emblem
@@ -178,11 +177,21 @@ export class ItemManagerComponent extends CardComponent {
     }
 
     collapseSection(sectionIndex: number) {
+        // If we're in card mode, treat expandable sections as accordions
+        for (let i = 0; i < this.collapsedSections.length; i++) {
+            if (i == sectionIndex) continue;
+            this.collapsedSections[i] = true;
+        }
+
         this.collapsedSections[sectionIndex] = !this.collapsedSections[sectionIndex];
-        this.setCardLocalStorage("collapsedSections", JSON.stringify(this.collapsedSections));
     }
 
     inventoryItemLongPress(inventoryItem: InventoryItem) {
+        if (inventoryItem.itemValue.nonTransferrable) {
+            this.sharedApp.showWarning("This item is not transferrable.", { timeOut: 1500, progressBar: false });
+            return;
+        }
+
         if (!this.editMode)
             this.setEditMode(true);
 
@@ -190,8 +199,10 @@ export class ItemManagerComponent extends CardComponent {
     }
 
     inventoryItemClicked(inventoryItem: InventoryItem) {
-        if (inventoryItem.itemValue.nonTransferrable)
+        if (inventoryItem.itemValue.nonTransferrable) {
+            this.sharedApp.showWarning("This item is not transferrable.", { timeOut: 1500, progressBar: false });
             return;
+        }
 
         if (this.editMode) {
             inventoryItem.selected = !inventoryItem.selected;

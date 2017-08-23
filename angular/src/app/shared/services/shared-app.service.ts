@@ -247,8 +247,8 @@ export class SharedApp {
     }
 
     @delayBy(1)
-    showWarning(warnMessage: string) {
-        this.toastrService.warning(warnMessage);
+    showWarning(warnMessage: string, options?: any) {
+        this.toastrService.warning(warnMessage, null, options);
     }
 
     @delayBy(1)
