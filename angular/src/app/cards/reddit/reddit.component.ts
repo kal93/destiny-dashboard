@@ -14,7 +14,7 @@ import { IRedditData } from './reddit.interface';
   animations: [bounceChildrenFromLeft(100)]
 })
 export class RedditComponent extends CardComponent {
-  CARD_DEFINITION_ID  = 2;
+  CARD_DEFINITION_ID = 2;
 
   //All currently loaded results
   public redditResults = new Array<IRedditData>();
@@ -32,6 +32,10 @@ export class RedditComponent extends CardComponent {
 
   ngOnDestroy() {
     super.ngOnDestroy();
+  }
+
+  ngDoCheck() {
+    console.log("doCheck");
   }
 
   initializeTab(tabType: string) {

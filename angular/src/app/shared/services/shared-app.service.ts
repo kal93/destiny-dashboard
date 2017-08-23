@@ -225,20 +225,16 @@ export class SharedApp {
         window.open(url, "_blank");
     }
 
-    //Set Timeout to make sure this runs on the next free tick to let Angular finish whatever it was doing
-    @delayBy(1)
     showError(errorMessage: string, error?: any) {
         this.toastrService.error(errorMessage, null, { progressBar: true, closeButton: true, timeOut: 5000, messageClass: 'toast-message' });
 
         this.globalErrorHandler.handleError(error);
     }
 
-    @delayBy(1)
     showInfo(infoMessage: string) {
         this.toastrService.info(infoMessage);
     }
 
-    @delayBy(1)
     showInfoOnce(infoMessage: string) {
         if (sessionStorage.getItem(infoMessage))
             return;
@@ -246,12 +242,10 @@ export class SharedApp {
         sessionStorage.setItem(infoMessage, "1");
     }
 
-    @delayBy(1)
     showWarning(warnMessage: string, options?: any) {
         this.toastrService.warning(warnMessage, null, options);
     }
 
-    @delayBy(1)
     showSuccess(successMessage: string) {
         this.toastrService.success(successMessage);
     }

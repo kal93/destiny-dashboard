@@ -14,7 +14,6 @@ import { AccountSummaryService } from 'app/bungie/services/service.barrel';
 import { DestinyMembership, InventoryBucket, InventoryItem, IAccountSummary, IVaultSummary, SummaryCharacter } from 'app/bungie/services/interface.barrel';
 
 import { expandInShrinkOut, fadeInFromBottom } from '../../shared/animations';
-import { runOnceAfter, delayBy } from '../../shared/decorators';
 import { InventoryUtils } from './inventory-utils';
 
 @Component({
@@ -63,12 +62,16 @@ export class ItemManagerComponent extends CardComponent {
         private inventoryService: inventoryService, private mdDialog: MdDialog, private manifestService: ManifestService,
         private sharedBungie: SharedBungie, public sharedApp: SharedApp) {
         super(sharedApp);
+        if (this.isFullscreen)
+            this.setSubNavItems();
     }
 
     ngOnInit() {
         super.ngOnInit();
 
         // Get localStorage variables
+        if (this.isFullscreen)
+            this.collapsedSections = this.getCardLocalStorageAsJsonObject("collapsedSections", [true, true, true, true]);
         this.showInventoryGroups = this.getCardLocalStorageAsJsonObject("showInventoryGroups", [false, true, true, false, true, true, true, false, false, true]);
 
         // Get tower definition so we can show the tower emblem
@@ -79,10 +82,8 @@ export class ItemManagerComponent extends CardComponent {
 
         this.getFullInventory();
 
-        if (this.isFullscreen) {
-            this.setSubNavItems();
+        if (this.isFullscreen)
             this.sharedApp.showInfoOnce("Press and hold an item to enter edit mode.");
-        }
     }
 
     private getFullInventory() {
@@ -163,7 +164,6 @@ export class ItemManagerComponent extends CardComponent {
         this.applyFilter(charAddedToEnd);
     }
 
-    @runOnceAfter(400)
     applyFilter(skipAlreadyFiltered: boolean = false) {
         // Apply filter to each characters bucket groups
         for (let characterIndex = 0; characterIndex < this.accountSummary.characters.length; characterIndex++) {
@@ -178,12 +178,15 @@ export class ItemManagerComponent extends CardComponent {
 
     collapseSection(sectionIndex: number) {
         // If we're in card mode, treat expandable sections as accordions
-        for (let i = 0; i < this.collapsedSections.length; i++) {
-            if (i == sectionIndex) continue;
-            this.collapsedSections[i] = true;
-        }
+        if (!this.isFullscreen)
+            for (let i = 0; i < this.collapsedSections.length; i++) {
+                if (i == sectionIndex) continue;
+                this.collapsedSections[i] = true;
+            }
 
         this.collapsedSections[sectionIndex] = !this.collapsedSections[sectionIndex];
+        if (this.isFullscreen)
+            this.setCardLocalStorage("collapsedSections", JSON.stringify(this.collapsedSections));
     }
 
     inventoryItemLongPress(inventoryItem: InventoryItem) {
@@ -229,7 +232,6 @@ export class ItemManagerComponent extends CardComponent {
         this.selectedInventoryItems = new Array<InventoryItem>();
     }
 
-    @delayBy(100)
     setSubNavItems() {
         this.sharedApp.subNavItems = new Array<ISubNavItem>();
 
