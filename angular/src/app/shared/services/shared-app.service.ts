@@ -86,7 +86,6 @@ export class SharedApp {
         this.tutorialStep1();
     }
 
-    @delayBy(500)
     private tutorialStep1() {
         this.toggleMainNavSubject.next(true);
         this.snackBar.open("The main menu allows you to log in or quickly jump to one of your dashboards. Logging in will save your dashboards to your Bungie account.", "Next").afterDismissed().subscribe(() => {
@@ -208,17 +207,15 @@ export class SharedApp {
         return sessionStorageValue
     }
 
-    @delayBy(25)
+    @delayBy(10)
     showLoading(loadingId: any) {
         this.showLoadingIds.set(loadingId, true);
     }
 
     @delayBy(50)
     hideLoading(loadingId: any) {
-        setTimeout(() => {
-            if (this.showLoadingIds.has(loadingId))
-                this.showLoadingIds.delete(loadingId);
-        }, 50);
+        if (this.showLoadingIds.has(loadingId))
+            this.showLoadingIds.delete(loadingId);
     }
 
     openExternalLink(url: string) {
