@@ -13,7 +13,6 @@ import { ISubNavItem, IToolbarItem } from '../nav/nav.interface';
 import { ICard, IUserDashboard } from '../cards/_base/card.interface';
 
 import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/operator/skip';
 
 @Component({
   selector: 'dd-dashboard',

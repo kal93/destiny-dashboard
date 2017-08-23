@@ -1,8 +1,3 @@
-
-import { Subscription } from 'rxjs/Subscription';
-
-// Implemented by components that have a sub nav
-
 export interface ISubNavItem {
     title: string;
     materialIcon: string;

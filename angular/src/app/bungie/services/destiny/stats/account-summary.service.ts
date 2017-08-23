@@ -5,8 +5,6 @@ import { SharedBungie } from 'app/bungie/shared-bungie.service';
 
 import { DestinyMembership, IAccountSummary, INews } from '../../interface.barrel'
 
-import 'rxjs/add/operator/map';
-
 /** This Injectable manages the data layer for Destiny. This handles caching automatically.*/
 @Injectable()
 export class AccountSummaryService {

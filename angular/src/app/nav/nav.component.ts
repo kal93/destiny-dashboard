@@ -11,7 +11,6 @@ import { CardDefinitions } from '../cards/_base/card-definition';
 import { IUserDashboard } from '../cards/_base/card.interface';
 import { ISubNavItem, IToolbarItem } from '../nav/nav.interface';
 
-import 'rxjs/add/operator/filter';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
