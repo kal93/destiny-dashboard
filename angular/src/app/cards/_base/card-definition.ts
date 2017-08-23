@@ -14,6 +14,7 @@ export interface ICardDefinition {
 }
 
 export class CardDefinitions {
+    // When removing cards, replace the card definition with null
     static definitions: Array<ICardDefinition> =
     [{
         id: 0,
@@ -142,11 +143,9 @@ export class CardDefinitions {
     static defaultDashboards: Array<IUserDashboard> = [{
         id: -1, name: "Default Dashboard", cards: [
             { id: -1, sequence: 0, definitionId: 1, layoutId: 3, definition: CardDefinitions.definitions[1], layout: CardDefinitions.definitions[1].layouts[3] },
-            { id: -3, sequence: 1, definitionId: 2, layoutId: 1, definition: CardDefinitions.definitions[2], layout: CardDefinitions.definitions[2].layouts[1] },
-            { id: -5, sequence: 2, definitionId: 7, layoutId: 4, definition: CardDefinitions.definitions[7], layout: CardDefinitions.definitions[7].layouts[4] },
-            { id: -4, sequence: 3, definitionId: 5, layoutId: 0, definition: CardDefinitions.definitions[5], layout: CardDefinitions.definitions[5].layouts[0] },
-            { id: -2, sequence: 4, definitionId: 4, layoutId: 2, definition: CardDefinitions.definitions[4], layout: CardDefinitions.definitions[4].layouts[2] },
-            { id: -6, sequence: 5, definitionId: 0, layoutId: 0, definition: CardDefinitions.definitions[0], layout: CardDefinitions.definitions[0].layouts[0] }
+            { id: -2, sequence: 1, definitionId: 2, layoutId: 0, definition: CardDefinitions.definitions[2], layout: CardDefinitions.definitions[2].layouts[0] },
+            { id: -3, sequence: 2, definitionId: 5, layoutId: 0, definition: CardDefinitions.definitions[5], layout: CardDefinitions.definitions[5].layouts[0] },
+            { id: -4, sequence: 3, definitionId: 0, layoutId: 3, definition: CardDefinitions.definitions[0], layout: CardDefinitions.definitions[0].layouts[3] }
         ]
     }, {
         id: -2, name: "News", cards: [
@@ -156,8 +155,8 @@ export class CardDefinitions {
         ]
     }, {
         id: -3, name: "Stats", cards: [
-            { id: -1, sequence: 1, definitionId: 1, layoutId: 1, definition: CardDefinitions.definitions[1], layout: CardDefinitions.definitions[1].layouts[1] },
-            { id: -2, sequence: 2, definitionId: 7, layoutId: 1, definition: CardDefinitions.definitions[7], layout: CardDefinitions.definitions[7].layouts[1] }
+            { id: -1, sequence: 1, definitionId: 1, layoutId: 3, definition: CardDefinitions.definitions[1], layout: CardDefinitions.definitions[1].layouts[3] },
+            { id: -2, sequence: 2, definitionId: 7, layoutId: 4, definition: CardDefinitions.definitions[7], layout: CardDefinitions.definitions[7].layouts[4] }
         ]
     }];
 
