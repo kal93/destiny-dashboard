@@ -8,9 +8,8 @@
       </div>
 
       <div class="toolbar">
-        <div class="clan-name">
-          <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + selectedMembership.iconPath +')')"></div> {{bungieClanName}}
-        </div>
+        <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + selectedMembership.iconPath +')')"></div>
+        <div class="clan-name"> {{bungieClanName}} </div>
         <button md-button class="toolbar-menu" [mdMenuTriggerFor]="appMenu">
             <md-icon>menu</md-icon> 
             <span class="title">Stats</span>

@@ -24,20 +24,22 @@
         justify-content: space-around;
         padding: 10px 4%;
 
-        .clan-name {
-            display: flex;
-            align-items: center;
+        .icon {
+            left: 7px;
+            top: 16px;
+            min-width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background-repeat: no-repeat;
+            background-size: contain;
+            margin-right: 8px;
+        }
 
-            .icon {
-                left: 7px;
-                top: 16px;
-                width: 24px;
-                height: 24px;
-                border-radius: 50%;
-                background-repeat: no-repeat;
-                background-size: contain;
-                margin-right: 10px;
-            }
+        .clan-name {
+            min-width: 160px;
+            overflow-x: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
 
         .toolbar-menu {
