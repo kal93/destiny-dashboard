@@ -52,27 +52,27 @@
 
         //This style only applies to the .dd-countdown-timer class has a 1x1 layout
         &.rows1-cols1 {
-            font-size: 1em;
-            margin-bottom: 7px;
+            font-size: 1.4em;
+            margin-bottom: 3px;
             word-spacing: 4px;
         }
 
         &.rows1-cols2,
         &.rows1-cols3 {
-            font-size: 1.5em;
+            font-size: 2.2em;
             word-spacing: 9px;
             text-align: right;
             bottom: auto;
             left: 75%;
             top: 48px;
             width: 50px;
-            line-height: 35px;
+            line-height: 45px;
         }
 
-        &.rows2-cols2 {
-            font-size: 2em;
+        &.rows2-cols2 {    
+            font-size: 2.5em;
             word-spacing: 9px;
-            margin-bottom: 40px;
+            margin-bottom: 25px;
         }
 
         &.rows2-cols3 {
