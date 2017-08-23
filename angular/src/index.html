@@ -42,9 +42,9 @@
     }
     var viewport = document.querySelector("meta[name=viewport]");
     if (screen.width < 420)
-      viewport.setAttribute('content', 'width=420, initial-scale=' + screen.width / 420);
+      viewport.setAttribute('content', 'width=420, user-scalable=no, initial-scale=' + screen.width / 420);
     else
-      viewport.setAttribute('content', 'width=device-width, initial-scale=1');
+      viewport.setAttribute('content', 'width=device-width, user-scalable=no, initial-scale=1');
   </script>
 </head>
 
