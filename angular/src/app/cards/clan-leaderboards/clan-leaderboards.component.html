@@ -10,24 +10,33 @@
       <div class="toolbar">
         <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + selectedMembership.iconPath +')')"></div>
         <div class="clan-name"> {{bungieClanName}} </div>
-        <button md-button class="toolbar-menu" [mdMenuTriggerFor]="appMenu">
+
+        <ng-container *ngIf="bungieAccount?.clans[0] != null">
+          <button md-button class="toolbar-menu" [mdMenuTriggerFor]="appMenu">
             <md-icon>menu</md-icon> 
             <span class="title">Stats</span>
           </button>
+
+          <md-menu #appMenu="mdMenu">
+            <button md-menu-item class="md-menu-item" (click)="statsChanged(4)"> Raid </button>
+            <button md-menu-item class="md-menu-item" (click)="statsChanged(5)"> All PvP </button>
+            <button md-menu-item class="md-menu-item" (click)="statsChanged(7)"> All PvE </button>
+            <button md-menu-item class="md-menu-item" (click)="statsChanged(14)"> Trials of Osiris </button>
+            <button md-menu-item class="md-menu-item" (click)="statsChanged(16)"> Nightfall </button>
+            <button md-menu-item class="md-menu-item" (click)="statsChanged(18)"> All Strikes </button>
+          </md-menu>
+        </ng-container>
       </div>
 
-      <md-menu #appMenu="mdMenu">
-        <button md-menu-item class="md-menu-item" (click)="statsChanged(4)"> Raid </button>
-        <button md-menu-item class="md-menu-item" (click)="statsChanged(5)"> All PvP </button>
-        <button md-menu-item class="md-menu-item" (click)="statsChanged(7)"> All PvE </button>
-        <button md-menu-item class="md-menu-item" (click)="statsChanged(14)"> Trials of Osiris </button>
-        <button md-menu-item class="md-menu-item" (click)="statsChanged(16)"> Nightfall </button>
-        <button md-menu-item class="md-menu-item" (click)="statsChanged(18)"> All Strikes </button>
-      </md-menu>
 
-      <div class="stat-group" *ngIf="selectedMembership != null">
+      <div class="no-clan-text" *ngIf="bungieAccount?.clans[0] == null">
+        This user does not exist in a clan, or their privacy settings do not share clan information publicly.
+        <br/><br/> To update privacy settings, log in to Bungie.net -> Profile -> Settings -> Accounts and Linking -> Check
+        'Display on public profile'.
+      </div>
 
-        <div *ngIf="clanLeaderboardsStats != null" class="stat-container" [@slideFromBottom]="statName">
+      <div class="stat-group" *ngIf="selectedMembership != null && clanLeaderboardsStats != null">
+        <div class="stat-container" [@slideFromBottom]="statName">
           <div *ngIf="lbSingleGameKills != null" class="stat-section">
             <div class="header">{{statDisplayName}}: Single Game Kills</div>
             <div *ngFor="let singleGameKillEntry of lbSingleGameKills.entries" [class.highlight-row]="singleGameKillEntry.player?.destinyUserInfo.displayName == selectedMembership.displayName">

@@ -67,7 +67,6 @@ export class ClanLeaderboardsComponent extends CardComponent {
       if (this.bungieAccount.clans.length == 0 || this.bungieAccount.clans[0] == null) {
         this.bungieClanName = "No Clan found!";
         this.clanLeaderboardsStats = null;
-        console.log("Clans array not found!");
         return;
       }
 
