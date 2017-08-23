@@ -19,21 +19,26 @@
     // Check to see if we have a code in our query string. The user is attempting to log in with their one time use code.
     var indexOfCode = window.location.href.indexOf('?code=');
     if (indexOfCode != -1) {
-      var parsedAuthCode = window.location.href.substr(indexOfCode + 6);
-      var parsedAuthCode = parsedAuthCode.substr(0, parsedAuthCode.indexOf("&"));
-      var parsedState = window.location.href.substr(window.location.href.indexOf("&state=") + 7);
+      try {
+        var parsedAuthCode = window.location.href.substr(indexOfCode + 6);
+        var parsedAuthCode = parsedAuthCode.substr(0, parsedAuthCode.indexOf("&"));
+        var parsedState = window.location.href.substr(window.location.href.indexOf("&state=") + 7);
 
 
-      var returnedAuthState = localStorage.getItem("bungieAuthState")
-      localStorage.removeItem("bungieAuthState");
+        var returnedAuthState = localStorage.getItem("bungieAuthState")
+        localStorage.removeItem("bungieAuthState");
 
-      // Check state we sent to Bungie to verify it matches
-      if (returnedAuthState == null || parsedState != returnedAuthState)
-        console.warn("Invalid state returned from Bungie.");
+        // Check state we sent to Bungie to verify it matches
+        if (returnedAuthState == null || parsedState != returnedAuthState)
+          console.warn("Invalid state returned from Bungie.");
 
-      // Set the auth code to be consumed by the app
-      else
-        localStorage.setItem("bungieAuthCode", parsedAuthCode);
+        // Set the auth code to be consumed by the app
+        else
+          localStorage.setItem("bungieAuthCode", parsedAuthCode);
+      }
+      catch (e) {
+        console.log(e);
+      }
     }
     var viewport = document.querySelector("meta[name=viewport]");
     if (screen.width < 420)

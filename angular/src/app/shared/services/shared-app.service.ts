@@ -222,16 +222,19 @@ export class SharedApp {
         window.open(url, "_blank");
     }
 
+    @delayBy(10)
     showError(errorMessage: string, error?: any) {
         this.toastrService.error(errorMessage, null, { progressBar: true, closeButton: true, timeOut: 5000, messageClass: 'toast-message' });
 
         this.globalErrorHandler.handleError(error);
     }
 
+    @delayBy(10)
     showInfo(infoMessage: string) {
         this.toastrService.info(infoMessage);
     }
 
+    @delayBy(10)
     showInfoOnce(infoMessage: string) {
         if (sessionStorage.getItem(infoMessage))
             return;
@@ -239,10 +242,12 @@ export class SharedApp {
         sessionStorage.setItem(infoMessage, "1");
     }
 
+    @delayBy(10)
     showWarning(warnMessage: string, options?: any) {
         this.toastrService.warning(warnMessage, null, options);
     }
 
+    @delayBy(10)
     showSuccess(successMessage: string) {
         this.toastrService.success(successMessage);
     }

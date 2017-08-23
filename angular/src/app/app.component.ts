@@ -71,8 +71,6 @@ export class AppComponent {
     this.sharedDashboard.userDashboards = CardDefinitions.defaultDashboards;
 
     if (!this.sharedApp.localStorageDisabled && this.sharedApp.getSessionStorage("LimitedFeaturesDialog") == null) {
-      this.sharedApp.showInfoOnce("This is an Alpha build of DestinyDashboard.net. Beta will release before Destiny 2.");
-
       let dialogRef = this.mdDialog.open(ConfirmDialog, { height: '230px', width: '290px', });
       dialogRef.componentInstance.title = "Limited Features";
       dialogRef.componentInstance.message = "Welcome! Since you are not logged in, you will have limited access to certain features.";
