@@ -17,7 +17,6 @@ import { ICard, IUserDashboard } from './cards/_base/card.interface';
 import { Angulartics2GoogleAnalytics } from 'angulartics2';
 
 import { CardDefinitions } from './cards/_base/card-definition';
-import { delayBy } from './shared/decorators';
 import { fadeInOut } from './shared/animations';
 
 @Component({

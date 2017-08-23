@@ -13,10 +13,8 @@ export class FileUtils {
             a.download = filename;
             document.body.appendChild(a);
             a.click();
-            setTimeout(() => {
-                document.body.removeChild(a);
-                window.URL.revokeObjectURL(url);
-            }, 0);
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
         }
     }
 

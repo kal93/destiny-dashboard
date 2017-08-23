@@ -7,7 +7,7 @@ import { debounceBy } from '../../shared/decorators';
 })
 export class MouseEventsDirective {
   @Input()
-  duration: number = 450;
+  longPressDuration: number = 450;
 
   @Output()
   mouseDown = new EventEmitter<void>();
@@ -78,7 +78,7 @@ export class MouseEventsDirective {
     this.longPressTimeoutId = setTimeout(() => {
       this.longPress.emit();
       this.longPressHappened = true;
-    }, this.duration);
+    }, this.longPressDuration);
   }
 
   up() {

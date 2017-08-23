@@ -96,7 +96,10 @@ export class GamertagAutocompleteComponent {
   }
 
   search() {
-    if (this.ignoreNextSearch) return;
+    if (this.ignoreNextSearch) {
+      this.ignoreNextSearch = false;
+      return;
+    }
 
     if (this.selectedText.length < 3) {
       this.sharedApp.showWarning("Please enter a valid gamertag.");
@@ -144,7 +147,6 @@ export class GamertagAutocompleteComponent {
 
       //Hack to not trigger search
       this.ignoreNextSearch = true;
-      setTimeout(() => { this.ignoreNextSearch = false }, 250);
     }
   }
 
