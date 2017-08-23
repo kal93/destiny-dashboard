@@ -45,18 +45,18 @@ export function slideFromBottom() {
     ]);
 }
 
-export function fadeInFromBottom() {
-    return trigger('fadeInFromBottom', [
+export function fadeInFromTop() {
+    return trigger('fadeInFromTop', [
         transition(
             ':enter', [
-                style({ transform: 'translateY(100%)', opacity: .1 }),
+                style({ transform: 'translateY(-100%)', opacity: .1 }),
                 animate('250ms ease-out', style({ transform: 'translateY(0)', opacity: 1 }))
             ]
         ),
         transition(
             ':leave', [
                 style({ transform: 'translateY(0)', opacity: 1 }),
-                animate('250ms ease-in', style({ transform: 'translateY(100%)', opacity: .1 }))
+                animate('250ms ease-in', style({ transform: 'translateY(-100%)', opacity: .1 }))
             ])
     ]);
 }

@@ -13,14 +13,15 @@ import { ISubNavItem, IToolbarItem } from '../../nav/nav.interface';
 import { AccountSummaryService } from 'app/bungie/services/service.barrel';
 import { DestinyMembership, InventoryBucket, InventoryItem, IAccountSummary, IVaultSummary, SummaryCharacter } from 'app/bungie/services/interface.barrel';
 
-import { expandInShrinkOut, fadeInFromBottom } from '../../shared/animations';
+import { expandInShrinkOut, fadeInFromTop } from '../../shared/animations';
 import { InventoryUtils } from './inventory-utils';
+import { delayBy } from 'app/shared/decorators';
 
 @Component({
     selector: 'dd-inventory',
     templateUrl: './inventory.component.html',
     styleUrls: ['../_base/card.component.scss', './inventory.component.scss'],
-    animations: [expandInShrinkOut(), fadeInFromBottom()],
+    animations: [expandInShrinkOut(), fadeInFromTop()],
     providers: [inventoryService]
 })
 
@@ -64,10 +65,6 @@ export class ItemManagerComponent extends CardComponent {
         private inventoryService: inventoryService, private mdDialog: MdDialog, private manifestService: ManifestService,
         private sharedBungie: SharedBungie, public sharedApp: SharedApp) {
         super(sharedApp);
-        if (this.isFullscreen) {
-            this.setSubNavItems();
-            this.sharedApp.showInfoOnce("Press and hold an item to enter edit mode.");
-        }
     }
 
     ngOnInit() {
@@ -76,6 +73,9 @@ export class ItemManagerComponent extends CardComponent {
         // Get localStorage variables
         if (this.isFullscreen)
             this.expandedSections = this.getCardLocalStorageAsJsonObject("expandedSections", [false, false, false, false]);
+        else
+            this.expandedSections = [false, false, false, false];
+
         this.showInventoryGroups = this.getCardLocalStorageAsJsonObject("showInventoryGroups", [false, true, true, false, true, true, true, false, false, true]);
 
         // Get tower definition so we can show the tower emblem
@@ -85,6 +85,11 @@ export class ItemManagerComponent extends CardComponent {
         this.selectedMembership = this.sharedBungie.destinyMemberships[this.sharedApp.userPreferences.membershipIndex];
 
         this.getFullInventory();
+
+        if (this.isFullscreen) {
+            this.setSubNavItems();
+            this.sharedApp.showInfoOnce("Press and hold an item to enter edit mode.");
+        }
     }
 
     private getFullInventory() {
@@ -235,6 +240,7 @@ export class ItemManagerComponent extends CardComponent {
         this.selectedInventoryItems = new Array<InventoryItem>();
     }
 
+    @delayBy(50)
     setSubNavItems() {
         this.sharedApp.subNavItems = new Array<ISubNavItem>();
 

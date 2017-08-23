@@ -9,9 +9,9 @@
     padding: 10px 0 80px;
 
     .edit-menu-wrap {
-        position: fixed;
-        bottom: 0;
-        left: calc(50% - 150px);
+        position: absolute;
+        top: 0;
+        right: 15%;
         z-index: 1;
         display: flex;
         background-color: rgba(0,0,0,.7);
@@ -26,11 +26,14 @@
                 padding-right: 0;
             }
 
+            $iconHeight: 55px;
+            $iconWidth: 55px;
+
             .icon {
                 box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
                 pointer-events: none;
-                width: 50px;
-                height: 50px;
+                width: $iconWidth;
+                height: $iconHeight;
                 background-size: contain;
 
                 &.vault {
@@ -39,8 +42,8 @@
             }
 
             .close {
-                width: 50px;
-                height: 50px;
+                width: $iconWidth;
+                height: $iconHeight;
 
                 md-icon {
                     @include md-icon-size(36px);
@@ -90,17 +93,12 @@
     }
 
     .character-wrap {
-        &:not(:first-of-type) {
-            .character-header {
-                margin-top: 40px;
-            }
-        }
-
         .character-header {
             position: relative;
             max-width: 400px;
             font-family: destiny;
             margin-left: 2%;
+            margin-top: 40px;
 
             &.vault-header {
                 .background {
@@ -269,6 +267,10 @@
 @mixin smallScreenSize {
     padding: 2px 0 80px 4px;
 
+    .edit-menu-wrap {
+        right: 10px;
+    }
+
     .character-wrap {
         .character-header {
             max-width: 345px;
@@ -354,6 +356,10 @@
     overflow-x: hidden;
     overflow-y: auto;
     @include smallScreenSize();
+
+    .edit-menu-wrap {
+        top: 40px;
+    }
 }
 
 //These styles only apply to fullscreen mode
