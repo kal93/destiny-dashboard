@@ -2,26 +2,27 @@
   <dd-card-header *ngIf="!isFullscreen" [dashboardCard]="dashboardCard"></dd-card-header>
   <div class="dd-inventory" [class.dd-fullscreen]="isFullscreen" [class.dd-card-content]="!isFullscreen">
 
-    <div *ngIf="editMode" class="edit-menu-wrap" [@fadeInFromBottom]="editMode">
-      <div class="menu-option" *ngFor="let character of accountSummary?.characters; let i = index" (click)="transferSelectedItemsToIndex(i)">
-        <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemPath +')')"></div>
+    <ng-container *ngIf="isInitialized == true">
+      <!-- Edit Menu -->
+      <div *ngIf="editMode" class="edit-menu-wrap" [@fadeInFromBottom]="editMode">
+        <div class="menu-option" *ngFor="let character of accountSummary?.characters; let i = index" (click)="transferSelectedItemsToIndex(i)">
+          <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemPath +')')"></div>
+        </div>
+        <div class="menu-option" (click)="transferSelectedItemsToIndex(3)">
+          <div class="icon vault" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + towerDefinition.icon +')')"></div>
+        </div>
+        <div class="menu-option close-option" (click)="setEditMode(false)">
+          <button class="icon" md-icon-button><md-icon>close</md-icon></button>
+        </div>
       </div>
-      <div class="menu-option" (click)="transferSelectedItemsToIndex(3)">
-        <div class="icon vault" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + towerDefinition.icon +')')"></div>
-      </div>
-      <div class="menu-option close-option" (click)="setEditMode(false)">
-        <button class="icon" md-icon-button><md-icon>close</md-icon></button>
-      </div>
-    </div>
 
-    <div class="search-text-wrap">
-      <md-input-container class="search-text">
-        <input mdInput [ngModel]="searchText" (ngModelChange)="searchTextChanged($event)" placeholder="Search Inventory">
-      </md-input-container>
-    </div>
+      <!-- Search Inventory -->
+      <div class="search-text-wrap">
+        <md-input-container class="search-text">
+          <input mdInput [ngModel]="searchText" (ngModelChange)="searchTextChanged($event)" placeholder="Search Inventory">
+        </md-input-container>
+      </div>
 
-    <!-- Wait until everything is loaded. bucketGroupsArray is the last thing to be loaded  -->
-    <div *ngIf="bucketGroupsArray != null">
       <!-- Characters -->
       <div class="character-wrap" *ngFor="let character of accountSummary?.characters; let i = index">
         <div class="character-header">
@@ -54,8 +55,8 @@
         </div>
       </div>
 
+      <!-- Vault -->
       <div class="character-wrap">
-        <!-- Vault -->
         <div class="character-header vault-header">
           <div class="background dd-tower-background" (click)="collapseSection(3)"></div>
           <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + towerDefinition.icon +')')"></div>
@@ -82,7 +83,6 @@
           </div>
         </div>
       </div>
-
-    </div>
+    </ng-container>
   </div>
 </div>

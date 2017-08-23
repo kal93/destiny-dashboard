@@ -9,7 +9,7 @@
     padding: 10px 0 80px;
 
     .edit-menu-wrap {
-        position: absolute;
+        position: fixed;
         bottom: 0;
         left: calc(50% - 150px);
         z-index: 1;

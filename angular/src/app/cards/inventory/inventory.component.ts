@@ -27,6 +27,8 @@ import { InventoryUtils } from './inventory-utils';
 export class ItemManagerComponent extends CardComponent {
     CARD_DEFINITION_ID = 6;
 
+    isInitialized: boolean = false;
+
     // Get the selected membership (Xbox, PSN, Blizzard)
     private selectedMembership: DestinyMembership;
 
@@ -110,6 +112,7 @@ export class ItemManagerComponent extends CardComponent {
 
             Promise.all(inventoryPromises).then(() => {
                 this.applyFilter();
+                this.isInitialized = true;
             });
 
         }).catch(error => {
@@ -201,23 +204,24 @@ export class ItemManagerComponent extends CardComponent {
     }
 
     inventoryItemClicked(inventoryItem: InventoryItem) {
+        if (!this.editMode)
+            return;
+
         if (inventoryItem.itemValue.nonTransferrable) {
             this.sharedApp.showWarning("This item is not transferrable.", { timeOut: 1500, progressBar: false });
             return;
         }
 
-        if (this.editMode) {
-            inventoryItem.selected = !inventoryItem.selected;
-            if (inventoryItem.selected)
-                this.selectedInventoryItems.push(inventoryItem);
-            else {
-                // If deselected, remove from selected array
-                this.selectedInventoryItems.splice(this.selectedInventoryItems.indexOf(inventoryItem), 1);
+        inventoryItem.selected = !inventoryItem.selected;
+        if (inventoryItem.selected)
+            this.selectedInventoryItems.push(inventoryItem);
+        else {
+            // If deselected, remove from selected array
+            this.selectedInventoryItems.splice(this.selectedInventoryItems.indexOf(inventoryItem), 1);
 
-                // If deselecting last item, turn off edit mode
-                if (this.selectedInventoryItems.length == 0)
-                    this.setEditMode(false);
-            }
+            // If deselecting last item, turn off edit mode
+            if (this.selectedInventoryItems.length == 0)
+                this.setEditMode(false);
         }
     }
 
