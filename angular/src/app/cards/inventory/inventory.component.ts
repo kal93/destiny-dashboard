@@ -59,9 +59,6 @@ export class ItemManagerComponent extends CardComponent {
     searchText: string = '';
     showInventoryGroups: Array<boolean>;
 
-    // Helper utility file to facilitate transferring
-    inventoryUtils: InventoryUtils;
-
     constructor(private accountSummaryService: AccountSummaryService, private activatedRoute: ActivatedRoute, private characterInventorySummaryService: CharacterInventorySummaryService,
         public domSanitizer: DomSanitizer, private inventoryItemService: InventoryItemService, private mdDialog: MdDialog, private manifestService: ManifestService,
         private sharedBungie: SharedBungie, public sharedApp: SharedApp, private vaultSummaryService: VaultSummaryService) {
@@ -87,9 +84,6 @@ export class ItemManagerComponent extends CardComponent {
             this.setSubNavItems();
             this.sharedApp.showInfoOnce("Press and hold an item to enter edit mode.");
         }
-
-        // Create our Transfer helper class and give it the services it needs
-        this.inventoryUtils = new InventoryUtils(this.inventoryItemService, this.sharedBungie, this.sharedApp);
     }
 
     getFullInventory() {
@@ -107,9 +101,6 @@ export class ItemManagerComponent extends CardComponent {
             // Init buckets
             this.bucketGroupsArray = new Array<Array<Array<InventoryBucket>>>(4);
             this.bucketsMap = new Array<Map<number, InventoryBucket>>(4);
-
-            // Set helper data since we've created a new bucketGroupArray reference
-            this.inventoryUtils.setData(this.bucketGroupsArray, this.bucketsMap, this.selectedMembership);
 
             // Load character data
             let inventoryPromises = new Array<Promise<any>>();
@@ -270,7 +261,7 @@ export class ItemManagerComponent extends CardComponent {
 
     transferSelectedItemsToIndex(destCharacterIndex: number) {
 
-        this.inventoryUtils.transferItems(this.accountSummary, this.selectedInventoryItems, destCharacterIndex, 1)
+        this.inventoryItemService.transferItems(this.selectedMembership, this.accountSummary, this.selectedInventoryItems, destCharacterIndex, 1)
             .then((transferResult: Array<Array<InventoryTransferResult>>) => {
                 let transferSuccess = transferResult[0];
                 let transferFailure = transferResult[1];
