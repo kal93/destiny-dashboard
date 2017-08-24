@@ -10,43 +10,43 @@ export class InventoryItemService {
     constructor(protected http: HttpService, private sharedBungie: SharedBungie) { }
 
     equipItem(membership: DestinyMembership, characterId: string, itemId: number): Promise<InventoryTransferResult> {
-        let requestUrl = "https://www.bungie.net/Platform/Destiny/EquipItem/";
+        let requestUrl = "https://www.bungie.net/d1/Platform/Destiny/EquipItem/";
 
-        var body = {
+        let body = {
             membershipType: membership.membershipType,
             itemId: itemId,
             characterId: characterId
         };
 
-        return this.http.postBungie(requestUrl, body).then(response => response.data);
+        return this.http.postBungie(requestUrl, body);
     }
 
     equipItems(membership: DestinyMembership, characterId: string, itemIds: Array<number>): Promise<InventoryTransferResult> {
-        let requestUrl = "https://www.bungie.net/Platform/Destiny/EquipItem/";
+        let requestUrl = "https://www.bungie.net/d1/Platform/Destiny/EquipItem/";
 
-        var body = {
+        let body = {
             characterId: characterId,
             membershipType: membership.membershipType,
             itemIds: itemIds
         };
 
-        return this.http.postBungie(requestUrl, body).then(response => response.data);
+        return this.http.postBungie(requestUrl, body);
     }
 
     transferItem(membership: DestinyMembership, targetCharacterId: string, inventoryItem: InventoryItem, count: number, toVault: boolean): Promise<InventoryTransferResult> {
         // Build the request URL
-        let requestUrl = "https://www.bungie.net/Platform/Destiny/TransferItem/";
+        let requestUrl = "https://www.bungie.net/d1/Platform/Destiny/TransferItem/";
 
-        var body = {
+        let body = {
+            characterId: targetCharacterId,
             membershipType: membership.membershipType,
-            itemReferenceHash: inventoryItem.itemHash,
             itemId: inventoryItem.itemId,
+            itemReferenceHash: inventoryItem.itemHash,
             stackSize: count,
             transferToVault: toVault,
-            characterId: targetCharacterId
         };
 
         //Get the response, or return the cached result
-        return this.http.postBungie(requestUrl, body).then(response => response.data);
+        return this.http.postBungie(requestUrl, body);
     }
 } 

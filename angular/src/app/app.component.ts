@@ -8,8 +8,8 @@ import { SharedBungie } from './bungie/shared-bungie.service';
 import { SharedDashboard } from './dashboard/shared-dashboard.service';
 
 import {
-  AccountStatsService, AccountSummaryService, BungieSiteNewsService, CharacterInventorySummaryService, CharacterProgressionService,
-  CharacterStatsService, VaultSummaryService, GetBungieAccountService, ClanLeaderboardsStatsService
+  AccountStatsService, AccountSummaryService, BungieSiteNewsService, CharacterInventorySummaryService, CharacterStatsService, CharacterProgressionService,
+  ClanLeaderboardsStatsService, GetBungieAccountService, InventoryItemService, VaultSummaryService
 } from './bungie/services/service.barrel';
 
 import { ICard, IUserDashboard } from './cards/_base/card.interface';
@@ -30,8 +30,8 @@ import { fadeInOut } from './shared/animations';
     </div>
   </div>
   `,
-  providers: [AccountStatsService, AccountSummaryService, BungieSiteNewsService, CharacterInventorySummaryService, CharacterProgressionService, CharacterStatsService, HttpService,
-    ManifestService, SharedBungie, SharedDashboard, VaultSummaryService, GetBungieAccountService, ClanLeaderboardsStatsService],
+  providers: [AccountStatsService, AccountSummaryService, BungieSiteNewsService, ClanLeaderboardsStatsService, CharacterInventorySummaryService, CharacterProgressionService, CharacterStatsService,
+    GetBungieAccountService, InventoryItemService, HttpService, ManifestService, SharedBungie, SharedDashboard, VaultSummaryService],
   animations: [fadeInOut()]
 })
 export class AppComponent {

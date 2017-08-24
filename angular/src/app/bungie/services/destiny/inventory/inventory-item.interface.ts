@@ -8,6 +8,9 @@ export interface InventoryTransferResult {
   ErrorStatus: string;
   Message: string;
   MessageData: any;
+
+  // Runtime variables
+  inventoryItem: InventoryItem;
 }
 
 export interface InventoryBucket {

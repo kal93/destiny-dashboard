@@ -190,10 +190,10 @@ export class HttpService {
                 let headers = privileged ? this.getBungiePrivilegedAuthHeaders() : this.getBungieBasicAuthHeaders();
                 this.httpGet(url, headers).then((response) => {
                     this.sharedApp.hideLoading(loadingId);
-                    if (response.ErrorCode != 1)
-                        this.handleBungieError(response, reject);
-                    else
+                    if (response.ErrorCode == 1)
                         resolve(response);
+                    else
+                        this.handleBungieError(response, reject);
                 }).catch((error) => {
                     this.sharedApp.hideLoading(loadingId);
                     this.handleBungieError(error, reject);
@@ -215,10 +215,10 @@ export class HttpService {
                 let headers = privileged ? this.getBungiePrivilegedAuthHeaders() : this.getBungieBasicAuthHeaders();
                 this.httpPost(url, body, headers).then((response) => {
                     this.sharedApp.hideLoading(loadingId);
-                    if (response.ErrorCode != 1)
-                        this.handleBungieError(response, reject);
-                    else
+                    if (response.ErrorCode == 1)
                         resolve(response);
+                    else
+                        this.handleBungieError(response, reject);
                 }).catch((error) => {
                     this.sharedApp.hideLoading(loadingId);
                     this.handleBungieError(error, reject);

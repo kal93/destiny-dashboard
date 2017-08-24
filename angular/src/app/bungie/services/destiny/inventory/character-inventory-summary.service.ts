@@ -8,7 +8,7 @@ import { DestinyMembership, ICharacterInventorySummary } from '../../interface.b
 @Injectable()
 export class CharacterInventorySummaryService {
     //Very low inventory cache... Don't really want to cache this but if multiple cards are requesting this endpoint at the same time let's cache it
-    private cacheTimeMs: number = 60000;
+    private cacheTimeMs: number = 100;
 
     constructor(protected http: HttpService, private sharedApp: SharedApp, private sharedBungie: SharedBungie) { }
 
@@ -16,10 +16,5 @@ export class CharacterInventorySummaryService {
         //Get the response, or return the cached result
         return this.http.getWithCache("https://www.bungie.net/d1/Platform/Destiny/" + membership.membershipType + "/Account/" + membership.membershipId + "/Character/" + characterId +
             "/Inventory/Summary/", HttpRequestType.BUNGIE_PRIVILEGED, this.cacheTimeMs).then(response => response.data);
-    }
-
-    clearCharacterInventorySummaryCache(membership: DestinyMembership, characterId: string) {
-        this.http.invalidateCache("https://www.bungie.net/d1/Platform/Destiny/" + membership.membershipType + "/Account/" + membership.membershipId + "/Character/" + characterId +
-            "/Inventory/Summary/");
     }
 } 

@@ -268,7 +268,25 @@
     padding: 2px 0 80px 4px;
 
     .edit-menu-wrap {
-        right: 10px;
+        right: 8px;
+        padding-right: 0;
+
+        .menu-option {
+            padding: 4px 2px;
+
+            $iconHeight: 48px;
+            $iconWidth: 48px;
+
+            .icon {
+                width: $iconWidth;
+                height: $iconHeight;
+            }
+
+            .close {
+                width: $iconWidth - 5;
+                height: $iconHeight;
+            }
+        }
     }
 
     .character-wrap {

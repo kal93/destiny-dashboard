@@ -2,7 +2,7 @@
   <dd-card-header *ngIf="!isFullscreen" [dashboardCard]="dashboardCard"></dd-card-header>
   <div class="dd-inventory" [class.dd-fullscreen]="isFullscreen" [class.dd-card-content]="!isFullscreen">
 
-    <ng-container *ngIf="isInitialized == true">
+    <ng-container *ngIf="isInitialized === true">
       <!-- Edit Menu -->
       <div *ngIf="editMode" class="edit-menu-wrap" [@fadeInFromTop]="editMode">
         <div class="menu-option" *ngFor="let character of accountSummary?.characters; let i = index" (click)="transferSelectedItemsToIndex(i)">

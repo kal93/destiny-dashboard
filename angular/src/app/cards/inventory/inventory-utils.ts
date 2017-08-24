@@ -1,7 +1,27 @@
+import { HttpService } from 'app/shared/services/http.service';
+import { SharedBungie } from 'app/bungie/shared-bungie.service';
 import { ManifestService } from '../../bungie/manifest/manifest.service';
-import { InventoryBucket, InventoryItem } from 'app/bungie/services/interface.barrel';
+import { SharedApp } from '../../shared/services/shared-app.service';
+
+import { InventoryItemService } from 'app/bungie/services/service.barrel';
+import { DestinyMembership, IAccountSummary, InventoryBucket, InventoryItem, InventoryTransferResult, SummaryCharacter } from 'app/bungie/services/interface.barrel';
 
 export class InventoryUtils {
+
+    private _bucketGroupsArray: Array<Array<Array<InventoryBucket>>>;
+    private _bucketsMap: Array<Map<number, InventoryBucket>>
+    private _selectedMembership: DestinyMembership;
+
+    constructor(private inventoryItemService: InventoryItemService, private sharedBungie: SharedBungie, public sharedApp: SharedApp) {
+
+    }
+
+    setData(bucketGroupsArray: Array<Array<Array<InventoryBucket>>>, bucketsMap: Array<Map<number, InventoryBucket>>, selectedMembership: DestinyMembership) {
+        this._bucketGroupsArray = bucketGroupsArray;
+        this._bucketsMap = bucketsMap;
+        this._selectedMembership = selectedMembership;
+    }
+
     // Converts an API response to a workable bucketMap, and populates the hashes for bucket and items
     public static populateBucketMapFromResponse(characterIndex: number, manifestService: ManifestService, bucketItemsResponse: Array<InventoryItem>, bucketsMap: Map<number, InventoryBucket>) {
         // Loop each vault item and place in to proper bucket
@@ -48,10 +68,30 @@ export class InventoryUtils {
         });
     }
 
-    private static sortBucketItems(bucket: InventoryBucket) {
+    public static sortBucketItems(bucket: InventoryBucket) {
         // Sort items in bucket. transferStatus == 1 means it's selected
         bucket.items.sort((a: InventoryItem, b: InventoryItem) => {
-            return (b.transferStatus % 2) - (a.transferStatus % 2);
+            // Sort by whether if its in a transferrable status
+            let statusA = (a.transferStatus % 2);
+            let statusB = (b.transferStatus % 2);
+            if (statusA == statusB) {
+                // Sort by light level                
+                let primaryStatA = a.primaryStat != null ? a.primaryStat.value : Number.MIN_SAFE_INTEGER;
+                let primaryStatB = b.primaryStat != null ? b.primaryStat.value : Number.MIN_SAFE_INTEGER;
+
+                if (primaryStatA == primaryStatB) {
+                    // Light is same, sort by quantity
+                    if (a.quantity != null && b.quantity != null) {
+                        // Quantity is same, sort by name
+                        if (a.quantity == b.quantity)
+                            return b.itemValue.itemName > a.itemValue.itemName ? -1 : 1;
+                        return b.quantity - a.quantity;
+                    }
+                }
+
+                return primaryStatB - primaryStatA;
+            }
+            return statusB - statusA;
         });
     }
 
@@ -89,7 +129,7 @@ export class InventoryUtils {
      * @param {boolean} skipAlreadyFiltered - Do not check items that have been filtered out since they'll definitely be filtered out again
      */
     public static applyFilterToBucket(searchText: string, showInventoryGroups: Array<boolean>, bucket: InventoryBucket, skipAlreadyFiltered: boolean) {
-        var bucketName: string = bucket.bucketValue.bucketName;
+        let bucketName: string = bucket.bucketValue.bucketName;
         if ((!showInventoryGroups[0] && bucketName == "Bounties") || (!showInventoryGroups[1] && bucketName == "Emblems") ||
             (!showInventoryGroups[2] && bucketName == "Emotes") || (!showInventoryGroups[3] && bucketName == "Mission") ||
             (!showInventoryGroups[4] && bucketName == "Ornaments") || (!showInventoryGroups[5] && bucketName == "Shaders") ||
@@ -115,27 +155,67 @@ export class InventoryUtils {
         bucket.filteredOut = !bucketHasItem;
     }
 
-    public static transferItem(bucketsMap: Array<Map<number, InventoryBucket>>, manifestService: ManifestService, inventoryItem: InventoryItem, toIndex: number): boolean {
-        var srcBucket: InventoryBucket = bucketsMap[inventoryItem.characterIndex].get(inventoryItem.itemValue.bucketTypeHash);
-        var sourceBucketItems: Array<InventoryItem> = srcBucket.items;
+    transferItems(accountSummary: IAccountSummary, selectedInventoryItems: Array<InventoryItem>, destCharacterIndex: number, count: number): Promise<Array<Array<InventoryTransferResult>>> {
+        return new Promise<Array<Array<InventoryTransferResult>>>((resolve, reject) => {
+            let transferSuccesses = new Array<InventoryTransferResult>();
+            let transferFailures = new Array<InventoryTransferResult>();
+            let transferPromises = Array<Promise<any>>();
 
-        // Remove this item from the sourceArray
-        sourceBucketItems.splice(sourceBucketItems.indexOf(inventoryItem), 1);
+            for (let i = 0; i < selectedInventoryItems.length; i++) {
+                let inventoryItem = selectedInventoryItems[i];
 
-        var destBucket: InventoryBucket = bucketsMap[toIndex].get(inventoryItem.itemValue.bucketTypeHash);
-        // If this bucket doesn't exist yet, let the callee know so we can refresh the inventory from network request
-        if (destBucket == null)
-            return false;
+                // Don't transfer things that already exist in their destination
+                if (inventoryItem.characterIndex == destCharacterIndex)
+                    continue;
 
-        // Update inventory item with new characterIndex
-        inventoryItem.characterIndex = toIndex;
+                let transferPromise;
+                if (destCharacterIndex < 3 && inventoryItem.characterIndex < 3)
+                    // Character to character transfer
+                    transferPromise = this.transferItemCharacterToCharacter(inventoryItem, accountSummary.characters[inventoryItem.characterIndex],
+                        accountSummary.characters[destCharacterIndex], count);
+                else if (destCharacterIndex == 3)
+                    // Character to vault
+                    transferPromise = this.transferItemCharacterToVault(inventoryItem, accountSummary.characters[inventoryItem.characterIndex], count);
+                else if (inventoryItem.characterIndex == 3)
+                    // Vault to character
+                    transferPromise = this.transferItemVaultToCharacter(inventoryItem, accountSummary.characters[destCharacterIndex], count);
+                else
+                    console.error("Unknown index for transfer");
 
-        destBucket.items.push(inventoryItem);
+                transferPromises.push(transferPromise.then((tranferResult: InventoryTransferResult) => {
+                    tranferResult.inventoryItem = inventoryItem;
+                    transferSuccesses.push(tranferResult);
+                }).catch((tranferResult: InventoryTransferResult) => {
+                    tranferResult.inventoryItem = inventoryItem;
+                    transferFailures.push(tranferResult);
+                }));
+            }
 
-        // Sort after we insert the new item
-        InventoryUtils.sortBucketItems(destBucket);
+            Promise.all(transferPromises).then(() => {
+                resolve([transferSuccesses, transferFailures]);
+            });
+        });
+    }
 
-        return true;
+    transferItemCharacterToCharacter(inventoryItem: InventoryItem, srcCharacter: SummaryCharacter, destCharacter: SummaryCharacter, count: number): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            this.transferItemCharacterToVault(inventoryItem, srcCharacter, count).then(() => {
+                this.transferItemVaultToCharacter(inventoryItem, destCharacter, count).then((response) => {
+                    resolve(response);
+                }).catch((error) => {
+                    reject(error);
+                });
+            }).catch((error) => {
+                reject(error);
+            });
+        });
+    }
+
+    transferItemCharacterToVault(inventoryItem: InventoryItem, srcCharacter: SummaryCharacter, count: number): Promise<any> {
+        return this.inventoryItemService.transferItem(this._selectedMembership, srcCharacter.characterBase.characterId, inventoryItem, count, true);
+    }
+    transferItemVaultToCharacter(inventoryItem: InventoryItem, destCharacter: SummaryCharacter, count: number): Promise<any> {
+        return this.inventoryItemService.transferItem(this._selectedMembership, destCharacter.characterBase.characterId, inventoryItem, count, false);
     }
 
 }

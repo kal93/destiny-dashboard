@@ -3,6 +3,7 @@ export * from './content/site/news.service';
 
 export * from './destiny/inventory/character-inventory.service';
 export * from './destiny/inventory/character-inventory-summary.service';
+export * from './destiny/inventory/inventory-item.service';
 export * from './destiny/inventory/vault-summary.service';
 
 export * from './destiny/stats/account-stats.service';

@@ -19,9 +19,4 @@ export class VaultSummaryService {
         //Get the response, or return the cached result
         return this.http.getWithCache(requestUrl, HttpRequestType.BUNGIE_PRIVILEGED, this.cacheTimeMs).then(response => response.data);
     }
-
-    clearVaultSummaryCache(membership: DestinyMembership) {
-        //Delete a specific cache entry        
-        this.http.invalidateCache("https://www.bungie.net/d1/Platform/Destiny/" + membership.membershipType + "/MyAccount/Vault/Summary/");
-    }
 } 

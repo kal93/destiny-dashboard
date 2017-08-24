@@ -3,15 +3,14 @@ import { ActivatedRoute } from '@angular/router';
 import { MdDialog } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CardComponent } from '../_base/card.component';
-import { inventoryService } from './inventory.service';
 import { ManifestService } from '../../bungie/manifest/manifest.service';
 import { SharedBungie } from '../../bungie/shared-bungie.service';
 import { SharedApp } from '../../shared/services/shared-app.service';
 import { FiltersDialog } from './filters-dialog/filters-dialog.component';
 
 import { ISubNavItem, IToolbarItem } from '../../nav/nav.interface';
-import { AccountSummaryService } from 'app/bungie/services/service.barrel';
-import { DestinyMembership, InventoryBucket, InventoryItem, IAccountSummary, IVaultSummary, SummaryCharacter } from 'app/bungie/services/interface.barrel';
+import { AccountSummaryService, CharacterInventorySummaryService, InventoryItemService, VaultSummaryService } from 'app/bungie/services/service.barrel';
+import { DestinyMembership, InventoryBucket, InventoryItem, IAccountSummary, IVaultSummary, SummaryCharacter, InventoryTransferResult } from 'app/bungie/services/interface.barrel';
 
 import { expandInShrinkOut, fadeInFromTop } from '../../shared/animations';
 import { InventoryUtils } from './inventory-utils';
@@ -21,8 +20,7 @@ import { delayBy } from 'app/shared/decorators';
     selector: 'dd-inventory',
     templateUrl: './inventory.component.html',
     styleUrls: ['../_base/card.component.scss', './inventory.component.scss'],
-    animations: [expandInShrinkOut(), fadeInFromTop()],
-    providers: [inventoryService]
+    animations: [expandInShrinkOut(), fadeInFromTop()]
 })
 
 export class ItemManagerComponent extends CardComponent {
@@ -61,21 +59,20 @@ export class ItemManagerComponent extends CardComponent {
     searchText: string = '';
     showInventoryGroups: Array<boolean>;
 
-    constructor(private accountSummaryService: AccountSummaryService, private activatedRoute: ActivatedRoute, public domSanitizer: DomSanitizer,
-        private inventoryService: inventoryService, private mdDialog: MdDialog, private manifestService: ManifestService,
-        private sharedBungie: SharedBungie, public sharedApp: SharedApp) {
+    // Helper utility file to facilitate transferring
+    inventoryUtils: InventoryUtils;
+
+    constructor(private accountSummaryService: AccountSummaryService, private activatedRoute: ActivatedRoute, private characterInventorySummaryService: CharacterInventorySummaryService,
+        public domSanitizer: DomSanitizer, private inventoryItemService: InventoryItemService, private mdDialog: MdDialog, private manifestService: ManifestService,
+        private sharedBungie: SharedBungie, public sharedApp: SharedApp, private vaultSummaryService: VaultSummaryService) {
         super(sharedApp);
     }
 
     ngOnInit() {
         super.ngOnInit();
 
-        // Get localStorage variables
-        if (this.isFullscreen)
-            this.expandedSections = this.getCardLocalStorageAsJsonObject("expandedSections", [false, false, false, false]);
-        else
-            this.expandedSections = [false, false, false, false];
-
+        // Get localStorage letiables
+        this.expandedSections = this.isFullscreen ? this.getCardLocalStorageAsJsonObject("expandedSections", [false, false, false, false]) : [false, false, false, false];
         this.showInventoryGroups = this.getCardLocalStorageAsJsonObject("showInventoryGroups", [false, true, true, false, true, true, true, false, false, true]);
 
         // Get tower definition so we can show the tower emblem
@@ -90,9 +87,12 @@ export class ItemManagerComponent extends CardComponent {
             this.setSubNavItems();
             this.sharedApp.showInfoOnce("Press and hold an item to enter edit mode.");
         }
+
+        // Create our Transfer helper class and give it the services it needs
+        this.inventoryUtils = new InventoryUtils(this.inventoryItemService, this.sharedBungie, this.sharedApp);
     }
 
-    private getFullInventory() {
+    getFullInventory() {
         // Get Account Summary to get the list of available characters
         this.accountSummaryService.getAccountSummary(this.selectedMembership).then((accountSummary: IAccountSummary) => {
             this.accountSummary = accountSummary;
@@ -108,8 +108,11 @@ export class ItemManagerComponent extends CardComponent {
             this.bucketGroupsArray = new Array<Array<Array<InventoryBucket>>>(4);
             this.bucketsMap = new Array<Map<number, InventoryBucket>>(4);
 
+            // Set helper data since we've created a new bucketGroupArray reference
+            this.inventoryUtils.setData(this.bucketGroupsArray, this.bucketsMap, this.selectedMembership);
+
             // Load character data
-            var inventoryPromises = new Array<Promise<any>>();
+            let inventoryPromises = new Array<Promise<any>>();
             for (let i = 0; i < this.accountSummary.characters.length; i++)
                 inventoryPromises.push(this.loadCharacterInventory(i));
 
@@ -141,15 +144,13 @@ export class ItemManagerComponent extends CardComponent {
 
     loadCharacterInventory(characterIndex: number): Promise<any> {
         let character: SummaryCharacter = this.accountSummary.characters[characterIndex];
-        this.inventoryService.clearCharacterInventoryCache(this.selectedMembership, character.characterBase.characterId);
-        return this.inventoryService.getCharacterInventory(this.selectedMembership, character.characterBase.characterId).then((inventoryResponse) => {
+        return this.characterInventorySummaryService.getCharacterInventorySummary(this.selectedMembership, character.characterBase.characterId).then((inventoryResponse) => {
             this.populateBuckets(characterIndex, inventoryResponse.items);
         });
     }
 
     loadVaultInventory(): Promise<any> {
-        this.inventoryService.clearVaultInventoryCache(this.selectedMembership);
-        return this.inventoryService.getVaultInventory(this.selectedMembership).then((vaultSummaryResponse: IVaultSummary) => {
+        return this.vaultSummaryService.getVaultSummary(this.selectedMembership).then((vaultSummaryResponse: IVaultSummary) => {
             this.populateBuckets(3, vaultSummaryResponse.items);
         });
     }
@@ -268,29 +269,60 @@ export class ItemManagerComponent extends CardComponent {
     }
 
     transferSelectedItemsToIndex(destCharacterIndex: number) {
-        var shouldRefreshDestCharacter: boolean = false;
-        for (let i = 0; i < this.selectedInventoryItems.length; i++) {
-            let inventoryItem = this.selectedInventoryItems[i];
-            // Don't transfer things that already exist in their destination
-            if (inventoryItem.characterIndex == destCharacterIndex)
-                continue;
 
-            // Insert the item in to the destinationArray
-            if (!InventoryUtils.transferItem(this.bucketsMap, this.manifestService, inventoryItem, destCharacterIndex))
-                shouldRefreshDestCharacter = true;
-        }
+        this.inventoryUtils.transferItems(this.accountSummary, this.selectedInventoryItems, destCharacterIndex, 1)
+            .then((transferResult: Array<Array<InventoryTransferResult>>) => {
+                let transferSuccess = transferResult[0];
+                let transferFailure = transferResult[1];
 
-        // If the destination bucket doesn't exist, just reload the destination character (or vault), then filter
-        if (shouldRefreshDestCharacter) {
-            var refreshPromise = destCharacterIndex == 3 ? this.loadVaultInventory() : this.loadCharacterInventory(destCharacterIndex);
-            refreshPromise.then(() => {
-                InventoryUtils.applyFilterToBucketGroups(this.searchText, this.showInventoryGroups, this.bucketGroupsArray[destCharacterIndex], false);
+                let shouldRefreshDestCharacter: boolean = false;
+                // Process transfer successes
+                transferSuccess.forEach((transferResult: InventoryTransferResult) => {
+                    let destinationBucketNotExists = this.transferItemUpdateUI(transferResult.inventoryItem, destCharacterIndex);
+                    if (!shouldRefreshDestCharacter && destinationBucketNotExists == true)
+                        shouldRefreshDestCharacter = true;
+                });
+
+                // Process transfer failures
+                // Notify user what failed and why
+
+                if (shouldRefreshDestCharacter) {
+                    let refreshPromise = destCharacterIndex == 3 ? this.loadVaultInventory() : this.loadCharacterInventory(destCharacterIndex);
+                    refreshPromise.then(() => {
+                        InventoryUtils.applyFilterToBucketGroups(this.searchText, this.showInventoryGroups, this.bucketGroupsArray[destCharacterIndex], false);
+                    });
+                }
+                else
+                    // Otherwise, just filter the destination bucket group
+                    InventoryUtils.applyFilterToBucketGroups(this.searchText, this.showInventoryGroups, this.bucketGroupsArray[destCharacterIndex], false);
+
+                this.setEditMode(false);
+            }).catch((error) => {
+                this.sharedApp.showError("There was an error transferring items!", error);
             });
-        }
-        else
-            // Otherwise, just filter the destination bucket group
-            InventoryUtils.applyFilterToBucketGroups(this.searchText, this.showInventoryGroups, this.bucketGroupsArray[destCharacterIndex], false);
+    }
 
-        this.setEditMode(false);
+    private transferItemUpdateUI(inventoryItem: InventoryItem, destCharacterIndex: number) {
+        // Insert the item in to the destinationArray
+        let srcBucket: InventoryBucket = this.bucketsMap[inventoryItem.characterIndex].get(inventoryItem.itemValue.bucketTypeHash);
+        let sourceBucketItems: Array<InventoryItem> = srcBucket.items;
+
+        // Remove this item from the sourceArray
+        sourceBucketItems.splice(sourceBucketItems.indexOf(inventoryItem), 1);
+
+        let destBucket: InventoryBucket = this.bucketsMap[destCharacterIndex].get(inventoryItem.itemValue.bucketTypeHash);
+        // If this bucket doesn't exist yet, let the callee know so we can refresh the inventory from network request
+        if (destBucket == null)
+            return true;
+
+        // Update inventory item with new characterIndex
+        inventoryItem.characterIndex = destCharacterIndex;
+
+        destBucket.items.push(inventoryItem);
+
+        // Sort after we insert the new item
+        InventoryUtils.sortBucketItems(destBucket);
+
+        return false;
     }
 }
