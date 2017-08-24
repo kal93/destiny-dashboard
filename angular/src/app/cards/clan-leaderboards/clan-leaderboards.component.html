@@ -2,7 +2,6 @@
   <div [class.dd-card-wrap]="!isFullscreen">
     <dd-card-header *ngIf="!isFullscreen" [dashboardCard]="dashboardCard"></dd-card-header>
     <div class="dd-clan-leaderboards" [class.dd-fullscreen]="isFullscreen" [class.dd-card-content]="!isFullscreen">
-
       <div class="gamertag-wrap">
         <dd-gamertag-autocomplete [autocompleteId]="'clan-leaderboards'" (membershipSelected)="membershipSelected($event)" (initialMembership)="membershipSelected($event)"></dd-gamertag-autocomplete>
       </div>
@@ -11,11 +10,11 @@
         <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + selectedMembership.iconPath +')')"></div>
         <div class="clan-name"> {{bungieClanName}} </div>
 
-        <ng-container *ngIf="bungieAccount?.clans[0] != null">
+        <ng-container *ngIf="!clanApiError && !userPrivacyError">
           <button md-button class="toolbar-menu" [mdMenuTriggerFor]="appMenu">
-            <md-icon>menu</md-icon> 
-            <span class="title">Stats</span>
-          </button>
+              <md-icon>menu</md-icon> 
+              <span class="title">Stats</span>
+            </button>
 
           <md-menu #appMenu="mdMenu">
             <button md-menu-item class="md-menu-item" (click)="statsChanged(4)"> Raid </button>
@@ -28,60 +27,66 @@
         </ng-container>
       </div>
 
-
-      <div class="no-clan-text" *ngIf="bungieAccount?.clans[0] == null">
-        This user does not exist in a clan, or their privacy settings do not share clan information publicly.
-        <br/><br/> To update privacy settings, log in to Bungie.net -> Settings -> Accounts and Linking -> Check
-        'Display on public profile'.
+      <div class="clan-error" *ngIf="clanApiError">
+        Whoa! There is an issue with Bungie's API for clans at the moment. Please check back another time.
       </div>
 
-      <div class="stat-group" *ngIf="selectedMembership != null && clanLeaderboardsStats != null">
-        <div class="stat-container" [@slideFromBottom]="statName">
-          <div *ngIf="lbSingleGameKills != null" class="stat-section">
-            <div class="header">{{statDisplayName}}: Single Game Kills</div>
-            <div *ngFor="let singleGameKillEntry of lbSingleGameKills.entries" [class.highlight-row]="singleGameKillEntry.player?.destinyUserInfo.displayName == selectedMembership.displayName">
-              <span>{{singleGameKillEntry?.rank}}</span>
-              <span>{{singleGameKillEntry.player?.destinyUserInfo.displayName}}</span>
-              <span>{{singleGameKillEntry.value?.basic.value | pNumberFormatLocale}}</span>
-            </div>
-          </div>
+      <div class="clan-error" *ngIf="userPrivacyError">
+        This user does not exist in a clan, or their privacy settings do not share clan information publicly.
+        <br/><br/> To update privacy settings, log in to Bungie.net -> Settings -> Accounts and Linking -> Check 'Display
+        on public profile'.
+      </div>
 
-          <div *ngIf="lbMostPrecisionKills != null" class="stat-section">
-            <div class="header">{{statDisplayName}}: Most Precision Kills</div>
-            <div *ngFor="let mostPrecisionKillsEntry of lbMostPrecisionKills.entries" [class.highlight-row]="mostPrecisionKillsEntry.player?.destinyUserInfo.displayName == selectedMembership.displayName">
-              <span>{{mostPrecisionKillsEntry?.rank}}</span>
-              <span>{{mostPrecisionKillsEntry.player?.destinyUserInfo.displayName}}</span>
-              <span>{{mostPrecisionKillsEntry.value?.basic.value | pNumberFormatLocale}}</span>
+      <ng-container *ngIf="bungieAccount != null">
+        <div class="stat-group" *ngIf="selectedMembership != null && clanLeaderboardsStats != null">
+          <div class="stat-container" [@slideFromBottom]="statName">
+            <div *ngIf="lbSingleGameKills != null" class="stat-section">
+              <div class="header">{{statDisplayName}}: Single Game Kills</div>
+              <div *ngFor="let singleGameKillEntry of lbSingleGameKills.entries" [class.highlight-row]="singleGameKillEntry.player?.destinyUserInfo.displayName == selectedMembership.displayName">
+                <span>{{singleGameKillEntry?.rank}}</span>
+                <span>{{singleGameKillEntry.player?.destinyUserInfo.displayName}}</span>
+                <span>{{singleGameKillEntry.value?.basic.value | pNumberFormatLocale}}</span>
+              </div>
             </div>
-          </div>
 
-          <div *ngIf="lbLongestKillSpree != null" class="stat-section">
-            <div class="header">{{statDisplayName}}: Longest Kill Spree</div>
-            <div *ngFor="let longestKillSpreeEntry of lbLongestKillSpree.entries" [class.highlight-row]="longestKillSpreeEntry.player?.destinyUserInfo.displayName == selectedMembership.displayName">
-              <span>{{longestKillSpreeEntry?.rank}}</span>
-              <span>{{longestKillSpreeEntry.player?.destinyUserInfo.displayName}}</span>
-              <span>{{longestKillSpreeEntry.value?.basic.value | pNumberFormatLocale}}</span>
+            <div *ngIf="lbMostPrecisionKills != null" class="stat-section">
+              <div class="header">{{statDisplayName}}: Most Precision Kills</div>
+              <div *ngFor="let mostPrecisionKillsEntry of lbMostPrecisionKills.entries" [class.highlight-row]="mostPrecisionKillsEntry.player?.destinyUserInfo.displayName == selectedMembership.displayName">
+                <span>{{mostPrecisionKillsEntry?.rank}}</span>
+                <span>{{mostPrecisionKillsEntry.player?.destinyUserInfo.displayName}}</span>
+                <span>{{mostPrecisionKillsEntry.value?.basic.value | pNumberFormatLocale}}</span>
+              </div>
             </div>
-          </div>
 
-          <div *ngIf="lbLongestSingleLife != null" class="stat-section">
-            <div class="header">{{statDisplayName}}: Longest Single Life</div>
-            <div *ngFor="let longestSingleLifeEntry of lbLongestSingleLife.entries" [class.highlight-row]="longestSingleLifeEntry.player?.destinyUserInfo.displayName == selectedMembership.displayName">
-              <span>{{longestSingleLifeEntry?.rank}}</span>
-              <span>{{longestSingleLifeEntry.player?.destinyUserInfo.displayName}}</span>
-              <span>{{longestSingleLifeEntry.value?.basic.displayValue}}</span>
+            <div *ngIf="lbLongestKillSpree != null" class="stat-section">
+              <div class="header">{{statDisplayName}}: Longest Kill Spree</div>
+              <div *ngFor="let longestKillSpreeEntry of lbLongestKillSpree.entries" [class.highlight-row]="longestKillSpreeEntry.player?.destinyUserInfo.displayName == selectedMembership.displayName">
+                <span>{{longestKillSpreeEntry?.rank}}</span>
+                <span>{{longestKillSpreeEntry.player?.destinyUserInfo.displayName}}</span>
+                <span>{{longestKillSpreeEntry.value?.basic.value | pNumberFormatLocale}}</span>
+              </div>
             </div>
-          </div>
 
-          <div *ngIf="lbSingleGameScore != null" class="stat-section">
-            <div class="header">{{statDisplayName}}: Single Game Score</div>
-            <div *ngFor="let singleGameScoreEntry of lbSingleGameScore.entries" [class.highlight-row]="singleGameScoreEntry.player?.destinyUserInfo.displayName == selectedMembership.displayName">
-              <span>{{singleGameScoreEntry?.rank}}</span>
-              <span>{{singleGameScoreEntry.player?.destinyUserInfo.displayName}}</span>
-              <span>{{singleGameScoreEntry.value?.basic.value | pNumberFormatLocale}}</span>
+            <div *ngIf="lbLongestSingleLife != null" class="stat-section">
+              <div class="header">{{statDisplayName}}: Longest Single Life</div>
+              <div *ngFor="let longestSingleLifeEntry of lbLongestSingleLife.entries" [class.highlight-row]="longestSingleLifeEntry.player?.destinyUserInfo.displayName == selectedMembership.displayName">
+                <span>{{longestSingleLifeEntry?.rank}}</span>
+                <span>{{longestSingleLifeEntry.player?.destinyUserInfo.displayName}}</span>
+                <span>{{longestSingleLifeEntry.value?.basic.displayValue}}</span>
+              </div>
+            </div>
+
+            <div *ngIf="lbSingleGameScore != null" class="stat-section">
+              <div class="header">{{statDisplayName}}: Single Game Score</div>
+              <div *ngFor="let singleGameScoreEntry of lbSingleGameScore.entries" [class.highlight-row]="singleGameScoreEntry.player?.destinyUserInfo.displayName == selectedMembership.displayName">
+                <span>{{singleGameScoreEntry?.rank}}</span>
+                <span>{{singleGameScoreEntry.player?.destinyUserInfo.displayName}}</span>
+                <span>{{singleGameScoreEntry.value?.basic.value | pNumberFormatLocale}}</span>
+              </div>
             </div>
           </div>
         </div>
-
-      </div>
+      </ng-container>
     </div>
+  </div>
+</div>

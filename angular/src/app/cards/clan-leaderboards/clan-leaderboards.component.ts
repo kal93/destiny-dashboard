@@ -30,7 +30,9 @@ export class ClanLeaderboardsComponent extends CardComponent {
   bungieAccountRelatedGroups: BungieGroupInfo;
 
   // Initialize this in case first membership provided has no clan
-  bungieClanName = "No Clan Found!";
+  bungieClanName: string;
+  clanApiError: boolean = false;
+  userPrivacyError: boolean = false;
 
   // Stat names for data and view Display
   statName: string;
@@ -60,13 +62,22 @@ export class ClanLeaderboardsComponent extends CardComponent {
   membershipSelected(selectedMembership: DestinyMembership) {
     this.selectedMembership = selectedMembership;
 
+    // Reset variables
+    this.clanApiError = this.userPrivacyError = false;
+    this.clanLeaderboardsStats = null;
+
     // Get Bungie account info to retrieve clan groupId
     this.getBungieAccountService.getBungieAccount(this.selectedMembership).then((bungieAccount: IGetBungieAccount) => {
       this.bungieAccount = bungieAccount;
 
-      if (this.bungieAccount.clans.length == 0 || this.bungieAccount.clans[0] == null) {
+      if (this.bungieAccount.clans == null) {
         this.bungieClanName = "No Clan found!";
-        this.clanLeaderboardsStats = null;
+        this.clanApiError = true;
+        return;
+      }
+      if (this.bungieAccount.clans[0] == null || this.bungieAccount.clans.length == 0) {
+        this.bungieClanName = "No Clan found!";
+        this.userPrivacyError = true;
         return;
       }
 
