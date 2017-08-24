@@ -8,7 +8,7 @@
 
     .inventory-group {
         margin: 5px 0;
-        flex: 1 0 130px;
+        flex: 1 0 140px;
     }
 }
 
@@ -18,5 +18,12 @@
 
     .close {
         color: $app-text-link;
+    }
+}
+@media(max-width: 600px) {
+    .inventory-group-wrap {
+        .inventory-group {
+            flex: 1 0 125px;
+        }
     }
 }

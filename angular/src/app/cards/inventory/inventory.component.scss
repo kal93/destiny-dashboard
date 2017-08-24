@@ -6,7 +6,7 @@
 .dd-inventory {
     background-color: #37474F;
     color: $app-text-light;
-    padding: 10px 0 80px;
+    padding: 10px 0 40px;
 
     .edit-menu-wrap {
         position: absolute;
@@ -265,7 +265,7 @@
     }
 }
 @mixin smallScreenSize {
-    padding: 2px 0 80px 4px;
+    padding: 2px 0 20px 4px;
 
     .edit-menu-wrap {
         right: 8px;
