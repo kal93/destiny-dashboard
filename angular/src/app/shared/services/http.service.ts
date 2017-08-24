@@ -5,6 +5,8 @@ import { SharedApp } from './shared-app.service';
 import { environment } from '../../../environments/environment';
 import { Subscription } from 'rxjs/Subscription';
 
+import { ErrorTypes } from 'app/bungie/services/errors.interface';
+
 export interface ICustomCache {
     cachedData: any;
     cachedPromise: Promise<any>;
@@ -189,7 +191,7 @@ export class HttpService {
                 this.httpGet(url, headers).then((response) => {
                     this.sharedApp.hideLoading(loadingId);
                     if (response.ErrorCode != 1)
-                        throw (response);
+                        this.handleBungieError(response, reject);
                     else
                         resolve(response);
                 }).catch((error) => {
@@ -214,7 +216,7 @@ export class HttpService {
                 this.httpPost(url, body, headers).then((response) => {
                     this.sharedApp.hideLoading(loadingId);
                     if (response.ErrorCode != 1)
-                        throw (response);
+                        this.handleBungieError(response, reject);
                     else
                         resolve(response);
                 }).catch((error) => {
@@ -232,16 +234,16 @@ export class HttpService {
         //Bungie specific error we can handle probably
         if (error.ErrorCode) {
             switch (error.ErrorCode) {
-                case 1601:
+                case ErrorTypes.DestinyAccountNotFound:
                     this.sharedApp.showError("Could not find Destiny information for this Bungie account. Have you played with this account?");
                     break;
 
-                case 1618:
+                case ErrorTypes.DestinyUnexpectedError:
                     this.sharedApp.showError("An error has occurred while trying to get Destiny information. It's probably an issue with Bungie's API, please try again later.", error);
                     break;
 
                 default:
-                    this.sharedApp.showError("An error has occurred while trying to get Destiny information. It's probably an issue with Bungie's API, please try again later.", error);
+                    // Let error bubble back up
                     reject(error);
                     break;
             }

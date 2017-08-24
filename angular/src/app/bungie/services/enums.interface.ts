@@ -66,8 +66,3 @@ export enum NewsTypes {
     DESTINY = "destiny",
     UPDATES = "updates"
 }
-
-export enum ErrorTypes {
-    DestinyItemNotFound = 1623,
-    DestinyItemUniqueEquipRestricted = 1641
-}

@@ -34,10 +34,6 @@ export class RedditComponent extends CardComponent {
     super.ngOnDestroy();
   }
 
-  ngDoCheck() {
-    console.log("doCheck");
-  }
-
   initializeTab(tabType: string) {
     //Reset results
     this.redditResults = new Array<IRedditData>();

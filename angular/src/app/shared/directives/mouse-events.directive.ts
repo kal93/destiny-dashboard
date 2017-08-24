@@ -58,7 +58,7 @@ export class MouseEventsDirective {
     if (this.cancelTouchAndPress) return;
 
     // If user has dragged over the acceptable delta, cancel the long press handler
-    var dif = Math.abs(this.touchStartY - event.touches[0].clientY);
+    let dif = Math.abs(this.touchStartY - event.touches[0].clientY);
     if (dif > this.touchDelta) {
       this.cancelTouchAndPress = true;
       clearTimeout(this.longPressTimeoutId);
