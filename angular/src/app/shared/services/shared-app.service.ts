@@ -230,8 +230,8 @@ export class SharedApp {
     }
 
     @delayBy(10)
-    showInfo(infoMessage: string) {
-        this.toastrService.info(infoMessage);
+    showInfo(infoMessage: string, options?: any) {
+        this.toastrService.info(infoMessage, null, options);
     }
 
     @delayBy(10)

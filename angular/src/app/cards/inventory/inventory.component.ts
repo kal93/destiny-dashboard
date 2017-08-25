@@ -3,16 +3,16 @@ import { ActivatedRoute } from '@angular/router';
 import { MdDialog } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CardComponent } from '../_base/card.component';
-import { ManifestService } from '../../bungie/manifest/manifest.service';
-import { SharedBungie } from '../../bungie/shared-bungie.service';
-import { SharedApp } from '../../shared/services/shared-app.service';
+import { ManifestService } from 'app/bungie/manifest/manifest.service';
+import { SharedBungie } from 'app/bungie/shared-bungie.service';
+import { SharedApp } from 'app/shared/services/shared-app.service';
 import { FiltersDialog } from './filters-dialog/filters-dialog.component';
 
-import { ISubNavItem, IToolbarItem } from '../../nav/nav.interface';
+import { ISubNavItem, IToolbarItem } from 'app/nav/nav.interface';
 import { AccountSummaryService, CharacterInventorySummaryService, InventoryItemService, VaultSummaryService } from 'app/bungie/services/service.barrel';
-import { DestinyMembership, InventoryBucket, InventoryItem, IAccountSummary, IVaultSummary, SummaryCharacter, InventoryTransferResult } from 'app/bungie/services/interface.barrel';
+import { DestinyMembership, InventoryBucket, InventoryItem, IAccountSummary, IVaultSummary, SummaryCharacter, InventoryItemTransferResult } from 'app/bungie/services/interface.barrel';
 
-import { expandInShrinkOut, fadeInFromTop } from '../../shared/animations';
+import { expandInShrinkOut, fadeInFromTop } from 'app/shared/animations';
 import { InventoryUtils } from './inventory-utils';
 import { delayBy } from 'app/shared/decorators';
 
@@ -259,37 +259,63 @@ export class ItemManagerComponent extends CardComponent {
         // Show list of loadouts
     }
 
-    transferSelectedItemsToIndex(destCharacterIndex: number) {
-
-        this.inventoryItemService.transferItems(this.selectedMembership, this.accountSummary, this.selectedInventoryItems, destCharacterIndex, 1)
-            .then((transferResult: Array<Array<InventoryTransferResult>>) => {
-                let transferSuccess = transferResult[0];
-                let transferFailure = transferResult[1];
+    transferItemsToIndex(inventoryItems: Array<InventoryItem>, destCharacterIndex: number, tryAgain: boolean = true) {
+        this.inventoryItemService.transferItems(this.bucketsMap, this.selectedMembership, this.accountSummary, inventoryItems, destCharacterIndex, 1)
+            .then((transferResult: Array<Array<InventoryItemTransferResult>>) => {
+                let transferSuccesses = transferResult[0];
+                let transferFailures = transferResult[1];
 
                 let shouldRefreshDestCharacter: boolean = false;
                 // Process transfer successes
-                transferSuccess.forEach((transferResult: InventoryTransferResult) => {
-                    let destinationBucketNotExists = this.transferItemUpdateUI(transferResult.inventoryItem, destCharacterIndex);
+                transferSuccesses.forEach((transferResult: InventoryItemTransferResult) => {
+                    let destinationBucketNotExists = this.transferItemUpdateUI(transferResult.inventoryItem, transferResult.destCharacterIndex);
                     if (!shouldRefreshDestCharacter && destinationBucketNotExists == true)
                         shouldRefreshDestCharacter = true;
                 });
 
-                // Process transfer failures
-                // Notify user what failed and why
+                if (transferFailures.length > 0) {
+                    if (tryAgain) {
+                        // If we have failed to transfer something, refresh all buckets and try again.
+                        let inventoryPromises = new Array<Promise<any>>();
+                        for (let i = 0; i < this.accountSummary.characters.length; i++)
+                            inventoryPromises.push(this.loadCharacterInventory(i));
 
-                if (shouldRefreshDestCharacter) {
-                    let refreshPromise = destCharacterIndex == 3 ? this.loadVaultInventory() : this.loadCharacterInventory(destCharacterIndex);
-                    refreshPromise.then(() => {
-                        InventoryUtils.applyFilterToBucketGroups(this.searchText, this.showInventoryGroups, this.bucketGroupsArray[destCharacterIndex], false);
-                    });
+                        inventoryPromises.push(this.loadVaultInventory());
+
+                        Promise.all(inventoryItems).then(() => {
+                            let failedInventoryItems = new Array<InventoryItem>();
+                            transferFailures.forEach((transferFailure) => { failedInventoryItems.push(transferFailure.inventoryItem) });
+                            this.transferItemsToIndex(failedInventoryItems, destCharacterIndex, false);
+                        }).catch((error) => {
+                            this.sharedApp.showError("There was an unexpected error refreshing the inventory after transfer!", error);
+                            this.setEditMode(false);
+                        });
+                    }
+                    else {
+                        // If we have already tried again, tell user something went wrong
+                        transferFailures.forEach((transferFailure) => {
+                            this.sharedApp.showWarning(transferFailure.inventoryItem.itemValue.itemName + "Transfer Failed! " + transferFailure.Message,
+                                { timeOut: 5000, progressBar: false });
+                        });
+                        this.setEditMode(false);
+                    }
                 }
-                else
-                    // Otherwise, just filter the destination bucket group
-                    InventoryUtils.applyFilterToBucketGroups(this.searchText, this.showInventoryGroups, this.bucketGroupsArray[destCharacterIndex], false);
+                else {
+                    if (shouldRefreshDestCharacter) {
+                        let refreshPromise = destCharacterIndex == 3 ? this.loadVaultInventory() : this.loadCharacterInventory(destCharacterIndex);
+                        refreshPromise.then(() => {
+                            InventoryUtils.applyFilterToBucketGroups(this.searchText, this.showInventoryGroups, this.bucketGroupsArray[destCharacterIndex], false);
+                        });
+                    }
+                    else
+                        // Otherwise, just filter the destination bucket group
+                        InventoryUtils.applyFilterToBucketGroups(this.searchText, this.showInventoryGroups, this.bucketGroupsArray[destCharacterIndex], false);
 
-                this.setEditMode(false);
+                    this.setEditMode(false);
+                }
             }).catch((error) => {
-                this.sharedApp.showError("There was an error transferring items!", error);
+                this.sharedApp.showError("There was an unexpected error transferring items!", error);
+                this.setEditMode(false);
             });
     }
 
