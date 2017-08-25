@@ -55,6 +55,8 @@ import { MdTabCharacterHeadingComponent } from './bungie/components/md-tab-chara
 import { BungieNewsComponent } from './cards/bungie-news/bungie-news.component';
 import { CountdownComponent } from './cards/countdown/countdown.component';
 import { ClanLeaderboardsComponent } from './cards/clan-leaderboards/clan-leaderboards.component';
+import { DashboardNewsComponent } from './cards/dashboard-news/dashboard-news.component';
+import { DashboardNewsArticle } from './cards/dashboard-news/dashboard-news-article.component';
 import { ItemManagerComponent } from './cards/inventory/inventory.component';
 import { PublicEventsComponent } from './cards/public-events/public-events.component';
 import { RedditComponent } from './cards/reddit/reddit.component';
@@ -89,7 +91,7 @@ import { NumberFormatLocalePipe, RoundToDecimalPlacePipe } from './shared/pipes/
     AboutComponent, DownloadManifestComponent, GamertagAutocompleteComponent, InventoryItemComponent, MdTabCharacterHeadingComponent,
 
     //Cards
-    BungieNewsComponent, ClanLeaderboardsComponent, CountdownComponent, ItemManagerComponent, PublicEventsComponent, RedditComponent, StatsComponent, TwitchComponent,
+    BungieNewsComponent, ClanLeaderboardsComponent, CountdownComponent, DashboardNewsComponent, DashboardNewsArticle, ItemManagerComponent, PublicEventsComponent, RedditComponent, StatsComponent, TwitchComponent,
 
     //Directives
     ModalDirective, MouseEventsDirective, ScrollWithElementDirective, Swipeable,

@@ -7,6 +7,7 @@ import { AboutComponent } from '../about/about.component';
 
 import { BungieNewsComponent } from '../cards/bungie-news/bungie-news.component';
 import { CountdownComponent } from '../cards/countdown/countdown.component';
+import { DashboardNewsComponent } from '../cards/dashboard-news/dashboard-news.component';
 import { ItemManagerComponent } from '../cards/inventory/inventory.component';
 import { PublicEventsComponent } from '../cards/public-events/public-events.component';
 import { DownloadManifestComponent } from '../bungie/manifest/download-manifest.component';
@@ -71,6 +72,12 @@ const routes: Routes = [
         path: 'countdown', component: CountdownComponent, data: {
             animation: 'card',
             title: "Countdown"
+        }
+    },
+    {
+        path: 'dashboard-news', component: DashboardNewsComponent, data: {
+            animation: 'card',
+            title: "Dashboard News"
         }
     },
     {

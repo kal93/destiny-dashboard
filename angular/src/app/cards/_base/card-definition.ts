@@ -138,6 +138,21 @@ export class CardDefinitions {
         isExternalRoute: false,
         lastUpdated: 1503092830522,
         previewImageClass: "dd-clan-leaderboards-preview"
+    },
+    {
+        id: 8,
+        title: "Dashboard News",
+        description: "DestinyDashboard site news",
+        rating: 5,
+        route: "dashboard-news",
+        layouts: [
+            { rows: 2, cols: 2 }, { rows: 3, cols: 2 }, { rows: 4, cols: 2 },
+            { rows: 2, cols: 3 }, { rows: 3, cols: 3 }
+        ],
+        requiresLogin: false,
+        isExternalRoute: false,
+        lastUpdated: 1503622407631,
+        previewImageClass: "dd-dashboard-news-preview"
     }];
 
     static defaultDashboards: Array<IUserDashboard> = [{

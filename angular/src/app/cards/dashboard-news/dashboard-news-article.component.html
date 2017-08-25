@@ -1,0 +1,13 @@
+<md-card class="card">
+  <md-card-subtitle class="category">{{article.articleCategory}}</md-card-subtitle>
+  <md-card-title class="title">{{article.articleTitle}}</md-card-title>   
+  <md-card-content class="body">
+    <div *ngIf="isCollapsed" [innerHTML]="article.articleBodyPreview"></div>
+    <div *ngIf="!isCollapsed" [innerHTML]="article.articleBody"></div>
+  </md-card-content>
+  <md-card-actions class="actions">
+    <div class="spacer"></div>
+    <button *ngIf="isCollapsed" (click)="onExpand()"><md-icon>expand_more</md-icon></button>
+    <button *ngIf="!isCollapsed" (click)="onCollapse()"><md-icon>expand_less</md-icon></button>
+  </md-card-actions>
+</md-card>

@@ -1,0 +1,25 @@
+@import '../../../styles/theme.scss';
+
+// Card Theme Notes:
+// Using Material color palette "Light Blue" with 900 as #01579B and 700 as #0288D1
+
+// These styles apply to both dashboard and fullscreen
+.dd-dashboard-news {
+    background-color: #0288D1;
+    color: $app-text-light;
+
+    .wrapper {
+        overflow: auto;
+        height: calc(100% - 1px);
+    }
+}
+
+// These styles only applies to dashboard card modes
+.dd-card-content.dd-dashboard-news {
+    height: calc(100% - 40px);
+}
+
+// These styles only apply to fullscreen mode
+.dd-fullscreen.dd-dashboard-news {
+    height: 100%;
+}
