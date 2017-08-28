@@ -5,18 +5,15 @@ import { CardComponent } from '../_base/card.component';
 import { SharedBungie } from 'app/bungie/shared-bungie.service';
 import { SharedApp } from 'app/shared/services/shared-app.service';
 import { ManifestService } from 'app/bungie/manifest/manifest.service';
-import { AccountStatsService, AccountSummaryService, CharacterProgressionService, CharacterStatsService } from 'app/bungie/services/service.barrel';
+import { AccountStatsService, AccountSummaryService, CharacterStatsService } from 'app/bungie/services/service.barrel';
 
 import { GroupTypes, ModeTypes, PeriodTypes } from 'app/bungie/services/enums.interface';
-import { DestinyMembership, IAccountStats, IAccountSummary, ICharacterStats, Progression, SummaryCharacter } from 'app/bungie/services/interface.barrel';
-
-import { fadeIn } from 'app/shared/animations';
+import { DestinyMembership, IAccountStats, IAccountSummary, ICharacterStats, SummaryCharacter } from 'app/bungie/services/interface.barrel';
 
 @Component({
   selector: 'dd-stats',
   templateUrl: './stats.component.html',
-  styleUrls: ['../_base/card.component.scss', './stats.component.scss'],
-  animations: [fadeIn()]
+  styleUrls: ['../_base/card.component.scss', './stats.component.scss']
 })
 export class StatsComponent extends CardComponent {
   CARD_DEFINITION_ID = 1;
@@ -25,9 +22,6 @@ export class StatsComponent extends CardComponent {
   tabGroup: MdTabGroup;
 
   selectedTabIndex: number = 0;
-
-  subTabItems: Array<string> = ["Stats", "Rep"];
-  selectedSubTab: string = "Stats";
 
   // Current membership
   selectedMembership: DestinyMembership;
@@ -42,11 +36,9 @@ export class StatsComponent extends CardComponent {
   // Stats for selected character
   characterStats: ICharacterStats;
 
-  // Progression (Reputation) for selected character
-  characterProgressions: Array<Progression>;
 
   constructor(private accountStatsService: AccountStatsService, private accountSummaryService: AccountSummaryService,
-    private characterProgressionService: CharacterProgressionService, private characterStatsService: CharacterStatsService, public domSanitizer: DomSanitizer,
+    private characterStatsService: CharacterStatsService, public domSanitizer: DomSanitizer,
     private manifestService: ManifestService, private sharedBungie: SharedBungie, public sharedApp: SharedApp) {
     super(sharedApp);
   }
@@ -56,7 +48,6 @@ export class StatsComponent extends CardComponent {
 
     //Load previously selected tab index
     this.selectedTabIndex = +this.getCardLocalStorage("selectedTabIndex", 0);
-    this.selectedSubTab = this.getCardLocalStorage("selectedSubTab", "Stats");
   }
 
   ngOnDestroy() {
@@ -88,20 +79,7 @@ export class StatsComponent extends CardComponent {
     this.setCardLocalStorage("selectedTabIndex", this.selectedTabIndex);
 
     //Get data for the newly selected character
-    if (this.selectedTabIndex == 0 || this.selectedSubTab == "Stats")
-      this.getSelectedStats();
-    else if (this.selectedSubTab == "Rep")
-      this.getSelectedRep();
-  }
-
-  selectedSubTabChanged(subTabItem) {
-    this.selectedSubTab = subTabItem;
-    this.setCardLocalStorage("selectedSubTab", this.selectedSubTab);
-
-    if (this.selectedSubTab == "Stats")
-      this.getSelectedStats();
-    else if (this.selectedSubTab == "Rep")
-      this.getSelectedRep();
+    this.getSelectedStats();
   }
 
   getSelectedStats() {
@@ -117,52 +95,6 @@ export class StatsComponent extends CardComponent {
       let characterId: string = this.accountSummary.characters[this.selectedTabIndex - 1].characterBase.characterId;
       this.characterStatsService.getCharacterStats(this.selectedMembership, characterId, [GroupTypes.GENERAL], [ModeTypes.ALLPVE, ModeTypes.ALLPVP], PeriodTypes.ALLTIME).then((characterStats: ICharacterStats) => {
         this.characterStats = characterStats;
-      });
-      if (this.selectedSubTab == "Rep")
-        this.getSelectedRep();
-    }
-  }
-
-  getSelectedRep() {
-    // 0 Should never happen, can't select rep if you're on the account summary
-    if (this.selectedTabIndex == 0) { }
-    else {
-      let characterId: string = this.accountSummary.characters[this.selectedTabIndex - 1].characterBase.characterId;
-
-      //Create a map for the relationship from DestinyFactionDefinition to DestinyProgressDefinition
-      let progressionHashFactionMap = new Map<number, any>();
-      let factionMap = this.manifestService.getTableMap("DestinyFactionDefinition");
-      factionMap.forEach((value, key) => {
-        if (value.progressionHash != 0)
-          progressionHashFactionMap.set(value.progressionHash, value);
-      });
-
-      this.characterProgressionService.getCharacterProgression(this.selectedMembership, characterId).then((characterProgressionResponse) => {
-        // Set progressions from API
-        this.characterProgressions = characterProgressionResponse.progressions;
-
-        // Set the manifest value for the given progression hash
-        this.characterProgressions.forEach((progression) => {
-          let factionValue = progressionHashFactionMap.get(progression.progressionHash);
-
-          // Set the faction if it exists
-          if (factionValue != null) {
-            progression.factionValue = factionValue;
-            progression.progressionValue = this.manifestService.getManifestEntry("DestinyProgressionDefinition", progression.progressionHash);
-          }
-        });
-
-        // Filter out progressions we don't have a faction entry for, or if it's a negative level (Test faction probably)
-        this.characterProgressions = this.characterProgressions.filter((progression) => {
-          return progression.factionValue != null && progression.level != -1;
-        });
-
-        // Sort progressions based on progress
-        this.characterProgressions.sort((a, b) => {
-          if (a.level != b.level)
-            return b.level - a.level;
-          return b.progressToNextLevel - a.progressToNextLevel;
-        });
       });
     }
   }
