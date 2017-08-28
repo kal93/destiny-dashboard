@@ -66,18 +66,18 @@ export class CardDefinitions {
     },
     {
         id: 3,
-        title: "Public Events",
-        description: "Public Event Timers from DestinyPublicEvents.com",
+        title: "Reputation",
+        description: "View character reputation",
         rating: 5,
-        route: "/public-events",
+        route: "/reputation",
         layouts: [
             { rows: 2, cols: 2 }, { rows: 3, cols: 2 },
             { rows: 2, cols: 3 }, { rows: 3, cols: 3 }
         ],
         requiresLogin: false,
         isExternalRoute: false,
-        lastUpdated: 1497057959790,
-        previewImageClass: "dd-public-events-preview"
+        lastUpdated: 1503951147138,
+        previewImageClass: "dd-reputation-preview"
     },
     {
         id: 4,
