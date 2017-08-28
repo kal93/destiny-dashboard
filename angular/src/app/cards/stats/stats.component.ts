@@ -1,8 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { MdTabGroup } from '@angular/material';
-import { DomSanitizer } from '@angular/platform-browser';
 import { CardComponent } from '../_base/card.component';
-import { SharedBungie } from 'app/bungie/shared-bungie.service';
 import { SharedApp } from 'app/shared/services/shared-app.service';
 import { ManifestService } from 'app/bungie/manifest/manifest.service';
 import { AccountStatsService, AccountSummaryService, CharacterStatsService } from 'app/bungie/services/service.barrel';
@@ -37,9 +35,8 @@ export class StatsComponent extends CardComponent {
   characterStats: ICharacterStats;
 
 
-  constructor(private accountStatsService: AccountStatsService, private accountSummaryService: AccountSummaryService,
-    private characterStatsService: CharacterStatsService, public domSanitizer: DomSanitizer,
-    private manifestService: ManifestService, private sharedBungie: SharedBungie, public sharedApp: SharedApp) {
+  constructor(private accountStatsService: AccountStatsService, private accountSummaryService: AccountSummaryService, private characterStatsService: CharacterStatsService,
+    private manifestService: ManifestService, public sharedApp: SharedApp) {
     super(sharedApp);
   }
 
