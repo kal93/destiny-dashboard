@@ -1,11 +1,11 @@
 <md-card class="card" (click)="isCollapsed ? isCollapsed = false : isCollapsed = true;">
   <md-card-title class="title-wrapper">
-    <div class="title">{{article.articleTitle}}</div>
+    <div class="title" [innerHTML]="article.articleTitle"></div>
     <div class="spacer"></div>
     <div class="category">{{article.articleCategory}}</div>
   </md-card-title>   
   <md-card-content class="content">
-    <div *ngIf="isCollapsed" [innerHTML]="article.articleBodyPreview"></div>
+    <div *ngIf="isCollapsed" class="preview" [innerHTML]="article.articleBodyPreview"></div>
     <div *ngIf="!isCollapsed" [innerHTML]="article.articleBody"></div>
   </md-card-content>
   <md-card-actions class="actions">

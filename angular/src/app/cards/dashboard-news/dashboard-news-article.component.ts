@@ -14,5 +14,3 @@ export class DashboardNewsArticle {
     isCollapsed: boolean = true;
     
 }
-
-

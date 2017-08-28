@@ -34,4 +34,3 @@ export class DashboardNewsComponent extends CardComponent {
   }
 
 }
-
