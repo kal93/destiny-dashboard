@@ -1,25 +1,66 @@
 @import '../../../styles/theme.scss';
 
+// This is a child component so see dashboard-news.component.scss for other pieces.
+
 .card {
     margin: .5em;
-}
+    padding: 1em;
+    background-color: #f5f5f6;
+    text-transform: none;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    border-radius: .25em;
 
-.category {
-    font-size: .7em;
-}
+    .title-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #2196f3;
+        padding: .25em;
+        border-radius: .25em;
 
-.title {
-    font-size: .9em;
-}
+        .title {
+            font-size: .8em;
+            font-weight: 400;
+            color: #fff;
+            flex: 2 1 auto;
+            padding-left: .125em;
+        }
 
-.content {
-    font-size: .8em;
-}
+        .spacer {
+            flex: 1 1 auto;
+        }
 
-.actions {
-    display: flex;
-}
+        .category {
+            font-size: .7em;
+            font-weight: 400;
+            color: #fafafa;
+            text-align: right;
+            padding-right: .125em;
+        }
+    }
 
-.spacer {
-    flex: 1 1 auto;
+    .content {
+        font-size: .8em;
+        font-weight: 400;
+        color: #000;
+    }
+
+    .actions {
+        display: flex;
+        padding-top: 0;
+
+        .spacer {
+            flex: 1 1 auto;
+        }
+    
+        .icon-button {
+            color: #2962ff;
+
+            :hover {
+            color: #82B1FF;
+            cursor: pointer;
+            }
+        }
+    }
 }

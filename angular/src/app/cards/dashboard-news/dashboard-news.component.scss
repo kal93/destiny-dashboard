@@ -1,11 +1,10 @@
 @import '../../../styles/theme.scss';
 
-// Card Theme Notes:
-// Using Material color palette "Light Blue" with 900 as #01579B and 700 as #0288D1
+// The material card style is in dashboard-news-article.component.scss
 
 // These styles apply to both dashboard and fullscreen
 .dd-dashboard-news {
-    background-color: #0288D1;
+    background-color: #e0e0e0;
     color: $app-text-light;
 
     .wrapper {

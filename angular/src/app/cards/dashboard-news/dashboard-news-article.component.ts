@@ -11,16 +11,8 @@ import { NewsArticle } from './dashboard-news-article.interface';
 export class DashboardNewsArticle {
     
     @Input() article: NewsArticle;
-
     isCollapsed: boolean = true;
     
-    onExpand() {
-        this.isCollapsed = false;
-    }
-    
-    onCollapse() {
-        this.isCollapsed = true;
-    }
 }
 
 
