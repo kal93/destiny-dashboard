@@ -48,6 +48,7 @@
     .actions {
         display: flex;
         padding-top: 0;
+        justify-content: flex-end;
 
         .spacer {
             flex: 1 1 auto;
