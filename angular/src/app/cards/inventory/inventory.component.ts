@@ -82,8 +82,12 @@ export class ItemManagerComponent extends CardComponent {
 
         if (this.isFullscreen) {
             this.setSubNavItems();
-            this.sharedApp.showInfoOnce("Press and hold an item to enter edit mode.");
+            this.sharedApp.showInfoOnce("Press and hold an item to enter multi-transfer mode.");
         }
+    }
+
+    logit(anything) {
+        console.log(anything);
     }
 
     getFullInventory() {

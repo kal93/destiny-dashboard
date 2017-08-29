@@ -219,10 +219,22 @@
                 .bucket-header {
                     margin: 12px 0 5px;
                     font-family: destiny;
-                    font-size: 1.4em;
-                    letter-spacing: 1.5px;
                     text-transform: uppercase;
                     color: $app-text-light;
+                    display: flex;
+                    align-items: center;
+
+                    .name {
+                        font-size: 1.4em;
+                        letter-spacing: 1.5px;
+                    }
+
+                    .count {
+                        font-size: .9em;
+                        margin-left: 10px;
+                        font-family: roboto;
+                        opacity: .7;
+                    }
                 }
 
                 .bucket {
@@ -350,7 +362,6 @@
 
             .bucket-wrap {
                 .bucket-header {
-                    font-size: 1.3em;
                     margin: 8px 2px 3px;
                 }
             }
