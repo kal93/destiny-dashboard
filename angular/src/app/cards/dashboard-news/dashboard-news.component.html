@@ -1,0 +1,12 @@
+<div>
+    <div [class.dd-card-wrap]="!isFullscreen">
+        <dd-card-header *ngIf="!isFullscreen" [dashboardCard]="dashboardCard"></dd-card-header>
+        <div class="dd-dashboard-news" [class.dd-fullscreen]="isFullscreen" [class.dd-card-content]="!isFullscreen">
+            <div class="wrapper">
+                <div *ngFor="let article of articles">
+                    <dashboard-news-article [article]="article"></dashboard-news-article>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

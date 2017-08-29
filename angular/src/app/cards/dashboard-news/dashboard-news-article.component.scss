@@ -1,0 +1,70 @@
+@import '../../../styles/theme.scss';
+
+// This is a child component so see dashboard-news.component.scss for other pieces.
+
+.card {
+    margin: .5em;
+    padding: 1em;
+    background-color: #f5f5f6;
+    text-transform: none;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    border-radius: .25em;
+
+    .title-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #2196f3;
+        padding: .25em;
+        border-radius: .25em;
+
+        .title {
+            font-size: .8em;
+            font-weight: 400;
+            color: rgba(256, 256, 256, 1.0);
+            flex: 2 1 auto;
+            padding-left: .125em;
+        }
+
+        .spacer {
+            flex: 1 1 auto;
+        }
+
+        .category {
+            font-size: .7em;
+            font-weight: 400;
+            color: rgba(256, 256, 256, .87);
+            text-align: right;
+            padding-right: .125em;
+        }
+    }
+
+    .content {
+        font-size: .8em;
+        font-weight: 400;
+        color: rgba(0, 0, 0, 1.0);
+
+        .preview {
+            color: rgba(0, 0, 0, .87);
+        }
+    }
+
+    .actions {
+        display: flex;
+        padding-top: 0;
+
+        .spacer {
+            flex: 1 1 auto;
+        }
+    
+        .icon-button {
+            color: #2962ff;
+
+            :hover {
+            color: #82B1FF;
+            cursor: pointer;
+            }
+        }
+    }
+}

@@ -1,0 +1,24 @@
+@import '../../../styles/theme.scss';
+
+// The material card style is in dashboard-news-article.component.scss
+
+// These styles apply to both dashboard and fullscreen
+.dd-dashboard-news {
+    background-color: #e0e0e0;
+    color: $app-text-light;
+
+    .wrapper {
+        overflow: auto;
+        height: calc(100% - 1px);
+    }
+}
+
+// These styles only applies to dashboard card modes
+.dd-card-content.dd-dashboard-news {
+    height: calc(100% - 40px);
+}
+
+// These styles only apply to fullscreen mode
+.dd-fullscreen.dd-dashboard-news {
+    height: 100%;
+}
