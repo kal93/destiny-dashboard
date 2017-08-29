@@ -9,6 +9,7 @@
     <div *ngIf="!isCollapsed" [innerHTML]="article.articleBody"></div>
   </md-card-content>
   <md-card-actions class="actions">
+    <div class="article-date">{{article.articleDate | pDateFormatLocaleNoSeconds}}</div>
     <div class="icon-button" *ngIf="isCollapsed" mdTooltip="Expand">
       <md-icon>expand_more</md-icon>
     </div>

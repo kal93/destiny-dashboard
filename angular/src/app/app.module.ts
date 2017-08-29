@@ -73,7 +73,7 @@ import { Swipeable } from './shared/directives/swipeable.directive';
 import { AuthGuard } from './shared/guards/auth.guard';
 
 //Pipes
-import { DateStringTimeAgoPipe, RedditParsePipe, SubstringPipe } from './shared/pipes/strings.pipe';
+import { DateFormatLocaleNoSeconds, DateStringTimeAgoPipe, RedditParsePipe, SubstringPipe } from './shared/pipes/strings.pipe';
 import { NumberFormatLocalePipe, RoundToDecimalPlacePipe } from './shared/pipes/numbers.pipe';
 
 @NgModule({
@@ -97,7 +97,7 @@ import { NumberFormatLocalePipe, RoundToDecimalPlacePipe } from './shared/pipes/
     ModalDirective, MouseEventsDirective, ScrollWithElementDirective, Swipeable,
 
     //Pipes
-    DateStringTimeAgoPipe, NumberFormatLocalePipe, RedditParsePipe, RoundToDecimalPlacePipe, SubstringPipe
+    DateFormatLocaleNoSeconds, DateStringTimeAgoPipe, NumberFormatLocalePipe, RedditParsePipe, RoundToDecimalPlacePipe, SubstringPipe
   ],
 
   entryComponents: [

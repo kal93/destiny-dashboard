@@ -48,18 +48,21 @@
     .actions {
         display: flex;
         padding-top: 0;
-        justify-content: flex-end;
 
-        .spacer {
-            flex: 1 1 auto;
+        .article-date {
+            flex: 1;
+            font-size: .75em;
+            opacity: .6;
+            margin-left: 20px;
+            line-height: 26px;
         }
-    
+
         .icon-button {
             color: #2962ff;
 
             :hover {
-            color: #82B1FF;
-            cursor: pointer;
+                color: #82B1FF;
+                cursor: pointer;
             }
         }
     }

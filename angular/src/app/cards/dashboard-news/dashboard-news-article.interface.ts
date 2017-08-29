@@ -8,4 +8,5 @@ export interface NewsArticle {
     articleCategory: ArticleCategory;
     articleBodyPreview: string;
     articleBody: string;
+    articleDate: Date;
 }

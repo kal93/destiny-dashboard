@@ -57,3 +57,13 @@ export class DateStringTimeAgoPipe implements PipeTransform {
     }
   }
 }
+
+@Pipe({
+  name: 'pDateFormatLocaleNoSeconds'
+})
+export class DateFormatLocaleNoSeconds implements PipeTransform {
+  transform(source: Date): any {
+    return source.toLocaleString().replace(":00 ", "");
+  }
+}
+
