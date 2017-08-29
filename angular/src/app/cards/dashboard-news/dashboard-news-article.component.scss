@@ -1,7 +1,12 @@
 @import '../../../styles/theme.scss';
 
-// This is a child component so see dashboard-news.component.scss for other pieces.
+// Set host style to flex so we can center cards in fullscreen mode
+:host {
+    display: flex;
+    justify-content: center;
+}
 
+// This is a child component so see dashboard-news.component.scss for other pieces.
 .news-card {
     margin: .5em;
     padding: 1em;
@@ -10,24 +15,27 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     border-radius: .25em;
+    cursor: pointer;
+    max-width: 500px;
 
     .title-wrapper {
         display: flex;
         align-items: center;
         justify-content: center;
         background-color: #2196f3;
-        padding: .25em;
-        border-radius: .25em;
+        padding: .2em;
+        border-radius: .2em;
 
         .title {
-            font-size: .8em;
+            font-size: .7em;
             font-weight: 400;
             color: rgba(256, 256, 256, 1.0);
             flex: 2 1 auto;
             padding-left: .125em;
         }
+
         .category {
-            font-size: .7em;
+            font-size: .6em;
             font-weight: 400;
             color: rgba(256, 256, 256, .87);
             text-align: right;
