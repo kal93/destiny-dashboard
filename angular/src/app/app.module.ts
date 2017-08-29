@@ -56,7 +56,7 @@ import { BungieNewsComponent } from './cards/bungie-news/bungie-news.component';
 import { CountdownComponent } from './cards/countdown/countdown.component';
 import { ClanLeaderboardsComponent } from './cards/clan-leaderboards/clan-leaderboards.component';
 import { DashboardNewsComponent } from './cards/dashboard-news/dashboard-news.component';
-import { DashboardNewsArticle } from './cards/dashboard-news/dashboard-news-article.component';
+import { DashboardNewsArticle } from './cards/dashboard-news/dashboard-news-article/dashboard-news-article.component';
 import { ItemManagerComponent } from './cards/inventory/inventory.component';
 import { ReputationComponent } from './cards/reputation/reputation.component';
 import { RedditComponent } from './cards/reddit/reddit.component';

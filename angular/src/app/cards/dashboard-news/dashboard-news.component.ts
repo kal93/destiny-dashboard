@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { CardComponent } from '../_base/card.component';
 import { SharedApp } from 'app/shared/services/shared-app.service';
 
-import { NewsArticle } from './dashboard-news-article.interface';
-import { NewsArticleService } from './dashboard-news-article.service';
+import { NewsArticle } from './dashboard-news-article/dashboard-news-article.interface';
+import { NewsArticleService } from './dashboard-news-article/dashboard-news-article.service';
 
 @Component({
   selector: 'dd-dashboard-news',
