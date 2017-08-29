@@ -4,7 +4,7 @@
 
 // These styles apply to both dashboard and fullscreen
 .dd-dashboard-news {
-    background-color: #e0e0e0;
+    background-color: mat-color($app-primary);
     color: $app-text-light;
 
     .wrapper {
