@@ -78,63 +78,6 @@
                                 }
                             }
                         }
-
-                        .reputation-section {
-                            flex: 1 0 200px;
-                            margin: 8px 5px;
-                            padding: 7px;
-                            box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
-                            min-height: 155px;
-
-                            .top-wrap {
-                                display: flex;
-                                align-items: center;
-                                justify-content: space-around;
-                                padding: 0 7px;
-
-                                .icon {
-                                    width: 60px;
-                                    height: 60px;
-                                    background-repeat: no-repeat;
-                                    background-size: contain;
-                                    display: inline-block;
-                                }
-
-                                .name {
-                                    flex: 2;
-                                    text-align: center;
-                                    font-size: 1.1em;
-                                    letter-spacing: 1px;
-                                    text-transform: uppercase;
-                                    font-family: destiny;
-                                    padding: 0 5px;
-                                }
-                            }
-
-                            .description {
-                                text-align: center;
-                                font-size: .8em;
-                                opacity: .7;
-                                margin-top: 10px;
-                                height: 54px;
-                            }
-
-                            .progress-wrap {
-                                margin: 10px 15px 0;
-                                display: flex;
-                                align-items: center;
-
-                                .progress-bar {
-                                    margin: 0 15px;
-                                }
-                            }
-
-                            .xp {
-                                text-align: center;
-                                font-size: .8em;
-                                opacity: .7;
-                            }
-                        }
                     }
                 }
             }

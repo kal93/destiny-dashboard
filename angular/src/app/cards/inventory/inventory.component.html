@@ -5,10 +5,10 @@
     <ng-container *ngIf="isInitialized === true">
       <!-- Edit Menu -->
       <div *ngIf="editMode" class="edit-menu-wrap" [@fadeInFromTop]="editMode">
-        <div class="menu-option" *ngFor="let character of accountSummary?.characters; let i = index" (click)="transferSelectedItemsToIndex(i)">
+        <div class="menu-option" *ngFor="let character of accountSummary?.characters; let i = index" (click)="transferItemsToIndex(selectedInventoryItems, i)">
           <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemPath +')')"></div>
         </div>
-        <div class="menu-option" (click)="transferSelectedItemsToIndex(3)">
+        <div class="menu-option" (click)="transferItemsToIndex(selectedInventoryItems, 3)">
           <div class="icon vault" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + towerDefinition.icon +')')"></div>
         </div>
         <div class="menu-option close-option" (click)="setEditMode(false)">

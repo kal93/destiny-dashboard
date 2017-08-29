@@ -9,7 +9,7 @@ import { BungieNewsComponent } from '../cards/bungie-news/bungie-news.component'
 import { CountdownComponent } from '../cards/countdown/countdown.component';
 import { DashboardNewsComponent } from '../cards/dashboard-news/dashboard-news.component';
 import { ItemManagerComponent } from '../cards/inventory/inventory.component';
-import { PublicEventsComponent } from '../cards/public-events/public-events.component';
+import { ReputationComponent } from '../cards/reputation/reputation.component';
 import { DownloadManifestComponent } from '../bungie/manifest/download-manifest.component';
 import { RedditComponent } from '../cards/reddit/reddit.component';
 import { StatsComponent } from '../cards/stats/stats.component';
@@ -94,9 +94,9 @@ const routes: Routes = [
         }
     },
     {
-        path: 'public-events', component: PublicEventsComponent, data: {
+        path: 'reputation', component: ReputationComponent, data: {
             animation: 'card',
-            title: "Public Events"
+            title: "Reputation"
         }
     },
     {

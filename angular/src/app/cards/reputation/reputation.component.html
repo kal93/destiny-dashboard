@@ -1,0 +1,39 @@
+<div>
+  <div [class.dd-card-wrap]="!isFullscreen">
+    <dd-card-header *ngIf="!isFullscreen" [dashboardCard]="dashboardCard"></dd-card-header>
+    <div class="dd-reputation" [class.dd-fullscreen]="isFullscreen" [class.dd-card-content]="!isFullscreen">
+
+      <div class="gamertag-wrap">
+        <dd-gamertag-autocomplete [autocompleteId]="'reputation'" (membershipSelected)="membershipSelected($event)" (initialMembership)="membershipSelected($event)"></dd-gamertag-autocomplete>
+      </div>
+
+      <md-tab-group #tabGroup *ngIf="selectedMembership != null" (selectedIndexChange)="selectedTabIndexChanged($event)">
+        <!-- Character Specific Rep -->
+        <md-tab *ngFor="let character of accountSummary?.characters; let i = index">
+          <ng-template md-tab-label>
+            <dd-md-tab-character-heading [character]="character"></dd-md-tab-character-heading>
+          </ng-template>
+
+          <!-- Character Rep -->
+          <div class="sub-tab-wrap" *ngIf="characterProgressions != null">
+            <div *ngFor="let progression of characterProgressions" class="reputation-section">
+              <div class="top-wrap">
+                <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + progression.factionValue.factionIcon  +')')"></div>
+                <div class="name" [mdTooltip]="progression.factionValue.factionDescription" [mdTooltipPosition]="'below'">{{progression.factionValue.factionName}}</div>
+              </div>
+
+              <div class="progress-wrap">
+                <div>{{progression.level}}</div>
+                <md-progress-bar class="progress-bar" [color]="'primary'" [mode]="'determinate'" [value]="(progression.progressToNextLevel / progression.nextLevelAt) * 100">
+                </md-progress-bar>
+                <div>{{progression.level + 1}}</div>
+              </div>
+
+              <div class="xp">{{progression.progressToNextLevel}} / {{progression.nextLevelAt}}</div>
+            </div>
+          </div>
+        </md-tab>
+      </md-tab-group>
+    </div>
+  </div>
+</div>

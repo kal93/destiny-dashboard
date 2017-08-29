@@ -1,7 +1,10 @@
 import { Stat3 } from "../shared.interface";
+
+import { DestinyMembership } from 'app/bungie/services/interface.barrel';
 import { DestinyDamageTypeDefinition, DestinyInventoryBucketDefinition, DestinyInventoryItemDefinition } from "app/bungie/manifest/interfaces";
 
-export interface InventoryTransferResult {
+
+export interface InventoryItemTransferResult {
   Response: number;
   ErrorCode: number;
   ThrottleSeconds: number;
@@ -11,6 +14,7 @@ export interface InventoryTransferResult {
 
   // Runtime variables
   inventoryItem: InventoryItem;
+  destCharacterIndex: number;
 }
 
 export interface InventoryBucket {

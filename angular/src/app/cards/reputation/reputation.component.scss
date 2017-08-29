@@ -1,0 +1,113 @@
+@import '../../../styles/theme.scss';
+
+//These styles apply to both dashboard and fullscreen
+.dd-reputation {
+    background-color: #FF9800;
+    color: $app-text-light;
+
+    .gamertag-wrap {
+        display: flex;
+        justify-content: center;
+        margin-bottom: -10px;
+        padding-top: 5px;
+    }
+
+    //Wrapper for entire tab
+    .mat-tab-group {
+        height: 100%;
+
+        ::ng-deep .mat-tab-labels {
+            justify-content: center;
+
+            .mat-tab-label-active {
+                opacity: 1;
+            }
+        }
+
+        ::ng-deep .mat-tab-body-wrapper {
+            height: calc(100% - 115px);
+
+            .mat-tab-body {
+                height: 100%;
+
+                .mat-tab-body-content {
+                    overflow: auto;
+
+                    .sub-tab-wrap {
+                        overflow-y: auto;
+                        display: flex;
+                        flex-flow: wrap;
+                        align-content: flex-start;
+                        align-items: flex-start;
+                        padding: 5px;
+
+                        .reputation-section {
+                            flex: 1 0 175px;
+                            margin: 5px;
+                            padding: 5px;
+                            box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
+                            min-height: 105px;
+
+                            .top-wrap {
+                                display: flex;
+                                align-items: center;
+                                justify-content: space-around;
+                                padding: 0 7px;
+
+                                .icon {
+                                    width: 56px;
+                                    height: 56px;
+                                    background-repeat: no-repeat;
+                                    background-size: contain;
+                                    display: inline-block;
+                                }
+
+                                .name {
+                                    flex: 2;
+                                    text-align: center;
+                                    font-size: 1em;
+                                    letter-spacing: .5px;
+                                    text-transform: uppercase;
+                                    font-family: destiny;
+                                    padding: 0 5px;
+                                }
+                            }
+
+                            .progress-wrap {
+                                margin: 5px 15px 0;
+                                display: flex;
+                                align-items: center;
+
+                                .progress-bar {
+                                    margin: 0 15px;
+                                }
+                            }
+
+                            .xp {
+                                text-align: center;
+                                font-size: .8em;
+                                opacity: .7;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    nav.dd-nav {
+        button {
+            line-height: 26px;
+        }
+    }
+}
+
+//These styles only applies to dashboard cards
+.dd-card-content.dd-reputation {
+    height: calc(100% - 40px);
+}
+
+//These styles only apply to fullscreen mode
+.dd-fullscreen.dd-reputation {
+    height: 100%;
+}

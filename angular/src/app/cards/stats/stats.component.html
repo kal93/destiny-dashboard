@@ -89,12 +89,8 @@
             <dd-md-tab-character-heading [character]="character"></dd-md-tab-character-heading>
           </ng-template>
 
-          <nav class="dd-nav">
-            <button md-button *ngFor="let subTabItem of subTabItems" (click)="selectedSubTabChanged(subTabItem)" [class.selected]="selectedSubTab == subTabItem">{{subTabItem}}</button>
-          </nav>
-
           <!-- Character Stats -->
-          <div *ngIf="characterStats != null && selectedSubTab == 'Stats'" class="sub-tab-wrap" [@fadeIn]="selectedSubTab">
+          <div *ngIf="characterStats != null" class="sub-tab-wrap">
             <div *ngIf="characterStats.allPvE.allTime!= null && characterStats.allPvP.allTime != null" class="stat-section">
               <div class="header">Summary</div>
               <div><span>Time Played</span> <span>{{characterStats.allPvE.allTime.secondsPlayed?.basic.displayValue}}</span></div>
@@ -153,29 +149,6 @@
               <div><span>Longest Distance Kill</span> <span>{{characterStats.allPvE.allTime.longestKillDistance?.basic.displayValue}}</span></div>
               <div><span>Precision Kills</span> <span>{{characterStats.allPvE.allTime.precisionKills?.basic.displayValue | pNumberFormatLocale}}</span></div>
               <div><span>Public Events Completed</span> <span>{{characterStats.allPvE.allTime.publicEventsCompleted?.basic.displayValue | pNumberFormatLocale}}</span></div>
-            </div>
-          </div>
-
-          <!-- Character Rep -->
-          <div *ngIf="selectedSubTab == 'Rep'" class="sub-tab-wrap" [@fadeIn]="true">
-            <div *ngFor="let progression of characterProgressions" class="reputation-section">
-              <div class="top-wrap">
-                <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + progression.factionValue.factionIcon  +')')"></div>
-                <div class="name">{{progression.factionValue.factionName}}</div>
-              </div>
-
-              <div [mdTooltip]="progression.factionValue.factionDescription" [mdTooltipPosition]="'after'">
-                <div class="description">{{progression.factionValue.factionDescription}}</div>
-              </div>
-
-              <div class="progress-wrap">
-                <div>{{progression.level}}</div>
-                <md-progress-bar class="progress-bar" [color]="'primary'" [mode]="'determinate'" [value]="(progression.progressToNextLevel / progression.nextLevelAt) * 100">
-                </md-progress-bar>
-                <div>{{progression.level + 1}}</div>
-              </div>
-
-              <div class="xp">{{progression.progressToNextLevel}} / {{progression.nextLevelAt}}</div>
             </div>
           </div>
         </md-tab>
