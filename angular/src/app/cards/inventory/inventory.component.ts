@@ -68,8 +68,8 @@ export class ItemManagerComponent extends CardComponent {
     ngOnInit() {
         super.ngOnInit();
 
-        // Get localStorage letiables
-        this.expandedSections = this.isFullscreen ? this.getCardLocalStorageAsJsonObject("expandedSections", [false, false, false, false]) : [false, false, false, false];
+        // Get localStorage variables
+        this.expandedSections = this.getCardLocalStorageAsJsonObject("expandedSections", [false, false, false, false]);
         this.showInventoryGroups = this.getCardLocalStorageAsJsonObject("showInventoryGroups", [false, true, true, false, true, true, true, false, false, true]);
 
         // Get tower definition so we can show the tower emblem
@@ -176,16 +176,8 @@ export class ItemManagerComponent extends CardComponent {
     }
 
     collapseSection(sectionIndex: number) {
-        // If we're in card mode, treat expandable sections as accordions
-        if (!this.isFullscreen)
-            for (let i = 0; i < this.expandedSections.length; i++) {
-                if (i == sectionIndex) continue;
-                this.expandedSections[i] = false;
-            }
-
         this.expandedSections[sectionIndex] = !this.expandedSections[sectionIndex];
-        if (this.isFullscreen)
-            this.setCardLocalStorage("expandedSections", JSON.stringify(this.expandedSections));
+        this.setCardLocalStorage("expandedSections", JSON.stringify(this.expandedSections));
     }
 
     inventoryItemLongPress(inventoryItem: InventoryItem) {
