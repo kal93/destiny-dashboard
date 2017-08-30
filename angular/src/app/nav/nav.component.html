@@ -42,9 +42,9 @@
 
   <ng-container *ngIf="sharedDashboard.editMode">
     <!-- Edit Dashboard Name -->
-    <md-input-container class="page-title page-title-edit">
+    <md-form-field class="page-title page-title-edit">
       <input mdInput [(ngModel)]="sharedDashboard.selectedDashboard.name" [@fadeIn] maxlength="24">
-    </md-input-container>
+    </md-form-field>
 
     <!-- Toolbar Items -->
     <button md-icon-button *ngFor="let toolbarItem of sharedApp.toolbarItems" [@fadeIn] (click)="toolbarItemClicked(toolbarItem)"
@@ -75,7 +75,7 @@
         <md-radio-button *ngIf="sharedBungie.destinyMemberships.length > 1" class="radio-button" [value]="i" [checked]="sharedApp.userPreferences.membershipIndex == i"
           (change)="membershipRadioChanged($event)">
         </md-radio-button>
-        <img alt="profile" class="picture" [src]="'https://www.bungie.net'+ membership.iconPath" />
+        <img alt="" class="picture" [src]="'https://www.bungie.net'+ membership.iconPath" />
         <div class="name">{{membership.displayName}}</div>
       </div>
     </ng-container>
@@ -115,7 +115,7 @@
   </md-sidenav>
 
   <!-- Sub Nav (right side) -->
-  <md-sidenav #subNav *ngIf="sharedApp.subNavItems != null" mode="over" align="end" class="sub-nav">
+  <md-drawer #subNav *ngIf="sharedApp.subNavItems != null" mode="over" align="end" class="sub-nav">
     <md-nav-list>
       <ng-container *ngFor="let subNavItem of sharedApp.subNavItems">
         <md-list-item *ngIf="subNavItem.title != '_spacer'" (click)="subNavItemClicked(subNavItem)" [class.sub-nav-item-selected]="subNavItem.selectedStyle">
@@ -125,7 +125,7 @@
         <div *ngIf="subNavItem.title == '_spacer'" class="sub-nav-spacer"></div>
       </ng-container>
     </md-nav-list>
-  </md-sidenav>
+  </md-drawer>
 
   <!-- Only load the router if the app has been initialized -->
   <div *ngIf="sharedApp.appInitialized" class="router-wrap dd-dashboard-background">

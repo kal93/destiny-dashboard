@@ -86,10 +86,6 @@ export class ItemManagerComponent extends CardComponent {
         }
     }
 
-    logit(anything) {
-        console.log(anything);
-    }
-
     getFullInventory() {
         // Get Account Summary to get the list of available characters
         this.accountSummaryService.getAccountSummary(this.selectedMembership).then((accountSummary: IAccountSummary) => {

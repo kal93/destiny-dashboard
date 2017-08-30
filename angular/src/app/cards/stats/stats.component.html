@@ -10,7 +10,7 @@
       <md-tab-group #tabGroup *ngIf="selectedMembership != null" (selectedIndexChange)="selectedTabIndexChanged($event)">
         <!-- Account Wide Stats -->
         <md-tab>
-          <ng-template md-tab-label>
+          <ng-template mdTabLabel>
             <dd-md-tab-character-heading [nonCharacterTitle]="selectedMembership.displayName" [nonCharacterSubtitle]="'Player Summary'"
               [nonCharacterIconPath]="'https://www.bungie.net' + selectedMembership.iconPath"></dd-md-tab-character-heading>
           </ng-template>
@@ -85,7 +85,7 @@
 
         <!-- Character Specific Data -->
         <md-tab *ngFor="let character of accountSummary?.characters; let i = index">
-          <ng-template md-tab-label>
+          <ng-template mdTabLabel>
             <dd-md-tab-character-heading [character]="character"></dd-md-tab-character-heading>
           </ng-template>
 

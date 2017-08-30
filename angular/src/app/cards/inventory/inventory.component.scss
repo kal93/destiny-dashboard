@@ -60,7 +60,7 @@
         .search-text {
             margin-top: 5px;
 
-            &.mat-input-container {
+            &.mat-form-field {
                 ::ng-deep .mat-input-placeholder {
                     color: $app-text-light;
                     opacity: 1;

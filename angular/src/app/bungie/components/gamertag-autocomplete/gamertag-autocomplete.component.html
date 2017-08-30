@@ -1,12 +1,12 @@
 <div class="dd-gamertag-autocomplete" [@fadeInChildren]="possibleMemberships.length">
   <ng-container *ngIf="possibleMemberships.length == 0">
-    <md-input-container>
+    <md-form-field>
       <input mdInput [ngModel]="selectedText" placeholder="Gamertag" [mdAutocomplete]="autocomplete" [formControl]="formControl"
         (keyup.enter)="search()">
       <div class="search-button" (click)="search()">
         <md-icon>search</md-icon>
       </div>
-    </md-input-container>
+    </md-form-field>
 
     <md-autocomplete #autocomplete="mdAutocomplete">
       <md-option *ngFor="let membership of filteredMemberships" (onSelectionChange)="autocompleteOptionSelected($event, membership)"
