@@ -248,8 +248,8 @@ export class SharedApp {
     }
 
     @delayBy(10)
-    showSuccess(successMessage: string) {
-        this.toastrService.success(successMessage);
+    showSuccess(successMessage: string, options?: any) {
+        this.toastrService.success(successMessage, null, options);
     }
 
     deepCopyObject(objToCopy: any) {

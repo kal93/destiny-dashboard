@@ -14,7 +14,7 @@ export interface InventoryItemTransferResult {
 
   // Runtime variables
   inventoryItem: InventoryItem;
-  destCharacterIndex: number;
+  refreshRequired: boolean;
 }
 
 export interface InventoryBucket {

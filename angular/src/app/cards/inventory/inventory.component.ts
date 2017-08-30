@@ -14,7 +14,7 @@ import { AccountSummaryService, CharacterInventorySummaryService, InventoryItemS
 import { DestinyMembership, InventoryBucket, InventoryItem, IAccountSummary, IVaultSummary, SummaryCharacter, InventoryItemTransferResult } from 'app/bungie/services/interface.barrel';
 
 import { expandInShrinkOut, fadeInFromTop } from 'app/shared/animations';
-import { InventoryUtils } from './inventory-utils';
+import { InventoryUtils } from 'app/bungie/services/destiny/inventory/inventory-utils';
 import { delayBy } from 'app/shared/decorators';
 
 import 'rxjs/add/operator/debounceTime';
@@ -132,7 +132,7 @@ export class ItemManagerComponent extends CardComponent {
         });
     }
 
-    refreshVaultInventory(characterIndex: number) {
+    refreshVaultInventory() {
         this.loadVaultInventory().then(() => {
             let bucketGroups = this.bucketGroupsArray[3];
             InventoryUtils.applyFilterToBucketGroups(this.searchText, this.showInventoryGroups, bucketGroups, false);
@@ -162,7 +162,6 @@ export class ItemManagerComponent extends CardComponent {
 
     initSearch() {
         this.searchTextForm.valueChanges.debounceTime(400).subscribe((newSearchText) => {
-            console.log(newSearchText);
             this.searchText = newSearchText;
 
             let charAddedToEnd: boolean = false;
@@ -193,7 +192,7 @@ export class ItemManagerComponent extends CardComponent {
 
     inventoryItemLongPress(inventoryItem: InventoryItem) {
         if (inventoryItem.itemValue.nonTransferrable) {
-            this.sharedApp.showWarning("This item is not transferrable.", { timeOut: 1500, progressBar: false });
+            this.sharedApp.showWarning("This item is not transferrable", { timeOut: 1500, progressBar: false });
             return;
         }
 
@@ -208,7 +207,7 @@ export class ItemManagerComponent extends CardComponent {
             return;
 
         if (inventoryItem.itemValue.nonTransferrable) {
-            this.sharedApp.showWarning("This item is not transferrable.", { timeOut: 1500, progressBar: false });
+            this.sharedApp.showWarning("This item is not transferrable", { timeOut: 1500, progressBar: false });
             return;
         }
 
@@ -262,87 +261,75 @@ export class ItemManagerComponent extends CardComponent {
         // Show list of loadouts
     }
 
-    transferItemsToIndex(inventoryItems: Array<InventoryItem>, destCharacterIndex: number, tryAgain: boolean = true) {
-        this.inventoryItemService.transferItems(this.bucketsMap, this.selectedMembership, this.accountSummary, inventoryItems, destCharacterIndex, 1)
-            .then((transferResult: Array<Array<InventoryItemTransferResult>>) => {
-                let transferSuccesses = transferResult[0];
-                let transferFailures = transferResult[1];
-
-                let shouldRefreshDestCharacter: boolean = false;
-                // Process transfer successes
-                transferSuccesses.forEach((transferResult: InventoryItemTransferResult) => {
-                    let destinationBucketNotExists = this.transferItemUpdateUI(transferResult.inventoryItem, transferResult.destCharacterIndex);
-                    if (!shouldRefreshDestCharacter && destinationBucketNotExists == true)
-                        shouldRefreshDestCharacter = true;
-                });
-
-                if (transferFailures.length > 0) {
-                    if (tryAgain) {
-                        // If we have failed to transfer something, refresh all buckets and try again.
-                        let inventoryPromises = new Array<Promise<any>>();
-                        for (let i = 0; i < this.accountSummary.characters.length; i++)
-                            inventoryPromises.push(this.loadCharacterInventory(i));
-
-                        inventoryPromises.push(this.loadVaultInventory());
-
-                        Promise.all(inventoryItems).then(() => {
-                            let failedInventoryItems = new Array<InventoryItem>();
-                            transferFailures.forEach((transferFailure) => { failedInventoryItems.push(transferFailure.inventoryItem) });
-                            this.transferItemsToIndex(failedInventoryItems, destCharacterIndex, false);
-                        }).catch((error) => {
-                            this.sharedApp.showError("There was an unexpected error refreshing the inventory after transfer!", error);
-                            this.setEditMode(false);
-                        });
-                    }
-                    else {
-                        // If we have already tried again, tell user something went wrong
-                        transferFailures.forEach((transferFailure) => {
-                            this.sharedApp.showWarning(transferFailure.inventoryItem.itemValue.itemName + "Transfer Failed! " + transferFailure.Message,
-                                { timeOut: 5000, progressBar: false });
-                        });
-                        this.setEditMode(false);
-                    }
-                }
-                else {
-                    if (shouldRefreshDestCharacter) {
-                        let refreshPromise = destCharacterIndex == 3 ? this.loadVaultInventory() : this.loadCharacterInventory(destCharacterIndex);
-                        refreshPromise.then(() => {
-                            InventoryUtils.applyFilterToBucketGroups(this.searchText, this.showInventoryGroups, this.bucketGroupsArray[destCharacterIndex], false);
-                        });
-                    }
-                    else
-                        // Otherwise, just filter the destination bucket group
-                        InventoryUtils.applyFilterToBucketGroups(this.searchText, this.showInventoryGroups, this.bucketGroupsArray[destCharacterIndex], false);
-
-                    this.setEditMode(false);
-                }
-            }).catch((error) => {
-                this.sharedApp.showError("There was an unexpected error transferring items!", error);
-                this.setEditMode(false);
+    private refreshIndexes: Array<boolean> = [false, false, false, false];
+    transferItemsToIndex(inventoryItems: Array<InventoryItem>, destCharacterIndex: number, firstRecursion: boolean = true) {
+        // First time recursive was called
+        if (firstRecursion) {
+            this.sharedApp.showLoading(-34515);
+        }
+        // Call this function again until there are no items left
+        //this.refreshIndexes[destCharacterIndex] = true;
+        if (inventoryItems.length > 0) {
+            // Transfer the item
+            let inventoryItem = inventoryItems.pop();
+            inventoryItem.selected = false;
+            this.transferSingleItemToIndex(inventoryItem, destCharacterIndex).then(() => {
+                // Wait some time between trying to transfer each item
+                setTimeout(() => { this.transferItemsToIndex(inventoryItems, destCharacterIndex, false); }, InventoryItemService.TRANSFER_DELAY);
+            }).catch(() => {
+                setTimeout(() => { this.transferItemsToIndex(inventoryItems, destCharacterIndex, false); }, InventoryItemService.TRANSFER_DELAY);
             });
+        }
+        else {
+            // Refresh required inventory locations
+            if (this.refreshIndexes[0]) this.refreshCharacterInventory(0);
+            if (this.refreshIndexes[1]) this.refreshCharacterInventory(1);
+            if (this.refreshIndexes[2]) this.refreshCharacterInventory(2);
+            if (this.refreshIndexes[3]) this.refreshVaultInventory();
+
+            this.refreshIndexes = [false, false, false, false];
+            this.setEditMode(false);
+            this.sharedApp.hideLoading(-34515);
+        }
     }
 
-    private transferItemUpdateUI(inventoryItem: InventoryItem, destCharacterIndex: number) {
-        // Insert the item in to the destinationArray
-        let srcBucket: InventoryBucket = this.bucketsMap[inventoryItem.characterIndex].get(inventoryItem.itemValue.bucketTypeHash);
-        let sourceBucketItems: Array<InventoryItem> = srcBucket.items;
+    transferSingleItemToIndex(inventoryItem: InventoryItem, destCharacterIndex: number): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            // Don't transfer things that already exist in their destination
+            if (inventoryItem.characterIndex == destCharacterIndex)
+                return resolve();
 
-        // Remove this item from the sourceArray
-        sourceBucketItems.splice(sourceBucketItems.indexOf(inventoryItem), 1);
+            // Don't attempt to transfer if destination bucket is full            
+            let destBucket: InventoryBucket = this.bucketsMap[destCharacterIndex].get(inventoryItem.itemValue.bucketTypeHash);
+            if (InventoryUtils.isBucketFull(destBucket)) {
+                this.sharedApp.showWarning(inventoryItem.itemValue.itemName + "Transfer Failed: Destination is full!",
+                    { timeOut: 5000, progressBar: false });
+                return resolve();
+            }
 
-        let destBucket: InventoryBucket = this.bucketsMap[destCharacterIndex].get(inventoryItem.itemValue.bucketTypeHash);
-        // If this bucket doesn't exist yet, let the callee know so we can refresh the inventory from network request
-        if (destBucket == null)
-            return true;
+            this.inventoryItemService.transferItemToIndex(this.bucketsMap, this.selectedMembership, this.accountSummary, inventoryItem, destCharacterIndex, 1)
+                .then((transferResult: Array<Array<InventoryItemTransferResult>>) => {
+                    let transferSuccesses = transferResult[0];
+                    let transferFailures = transferResult[1];
 
-        // Update inventory item with new characterIndex
-        inventoryItem.characterIndex = destCharacterIndex;
+                    // Mark this bucket for refresh if needed
+                    transferSuccesses.forEach((transferResult) => {
+                        if (transferResult.refreshRequired)
+                            this.refreshIndexes[inventoryItem.characterIndex] = true;
+                    });
 
-        destBucket.items.push(inventoryItem);
+                    //if (transferSuccesses.length > 0)
+                    //    this.sharedApp.showSuccess(inventoryItem.itemValue.itemName + " Transfered", { timeOut: 1000, progressBar: false });
 
-        // Sort after we insert the new item
-        InventoryUtils.sortBucketItems(destBucket);
-
-        return false;
+                    transferFailures.forEach((transferFailure) => {
+                        this.sharedApp.showWarning(transferFailure.inventoryItem.itemValue.itemName + "Transfer Failed: " + transferFailure.Message,
+                            { timeOut: 5000, progressBar: false });
+                    });
+                    resolve();
+                }).catch((error) => {
+                    this.sharedApp.showError("There was an unexpected error transferring items!", error);
+                    reject(error);
+                });
+        });
     }
 }

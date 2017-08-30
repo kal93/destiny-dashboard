@@ -1,6 +1,6 @@
-import { ManifestService } from '../../bungie/manifest/manifest.service';
+import { ManifestService } from '../../../manifest/manifest.service';
 
-import { InventoryBucket, InventoryItem} from 'app/bungie/services/interface.barrel';
+import { InventoryBucket, InventoryItem } from 'app/bungie/services/interface.barrel';
 
 export class InventoryUtils {
 
@@ -38,7 +38,7 @@ export class InventoryUtils {
     public static populateBucketArrayFromMap(bucketsMap: Map<number, InventoryBucket>, bucketsArray: Array<InventoryBucket>) {
         // Add it to the flattened array
         bucketsMap.forEach((bucket, bucketHash) => {
-            this.sortBucketItems(bucket);
+            InventoryUtils.sortBucketItems(bucket);
             bucketsArray.push(bucket);
         });
 
@@ -137,4 +137,69 @@ export class InventoryUtils {
         bucket.filteredOut = !bucketHasItem;
     }
 
+    public static isItemEquipped(inventoryItem: InventoryItem) {
+        return inventoryItem.transferStatus % 2 == 1;
+    }
+
+    public static isItemExotic(inventoryItem: InventoryItem) {
+        return inventoryItem.itemValue.tierType == 6;
+    }
+
+    public static isBucketFull(destBucket: InventoryBucket) {
+        return destBucket.bucketValue.itemCount == destBucket.items.length;
+    }
+
+    public static getUnequippedLowestValueItemFromBucket(destBucket: InventoryBucket): InventoryItem {
+        var lowestValueItem: InventoryItem;
+        for (let i = 0; i < destBucket.items.length; i++) {
+            let inventoryItem = destBucket.items[i];
+            if (InventoryUtils.isItemEquipped(inventoryItem))
+                continue;
+            if (!lowestValueItem) {
+                lowestValueItem = inventoryItem;
+                continue;
+            }
+            else {
+                if (inventoryItem.primaryStat != null) {
+                    // Weapon or armor being transferred
+                    if (inventoryItem.primaryStat.value < lowestValueItem.primaryStat.value)
+                        lowestValueItem = inventoryItem;
+                }
+                else {
+                    // Material or something else
+                    if (inventoryItem.quantity < lowestValueItem.quantity)
+                        lowestValueItem = inventoryItem;
+                }
+            }
+        }
+        return lowestValueItem;
+    }
+
+    public static getUnequippedHighestValueNonExoticItemFromBucket(destBucket: InventoryBucket): InventoryItem {
+        var highestValueItem: InventoryItem;
+        for (let i = 0; i < destBucket.items.length; i++) {
+            let inventoryItem = destBucket.items[i];
+            if (InventoryUtils.isItemEquipped(inventoryItem))
+                continue;
+            if (InventoryUtils.isItemExotic(inventoryItem))
+                continue;
+            if (!highestValueItem) {
+                highestValueItem = inventoryItem;
+                continue;
+            }
+            else {
+                if (inventoryItem.primaryStat != null) {
+                    // Weapon or armor being transferred
+                    if (inventoryItem.primaryStat.value > highestValueItem.primaryStat.value)
+                        highestValueItem = inventoryItem;
+                }
+                else {
+                    // Material or something else
+                    if (inventoryItem.quantity > highestValueItem.quantity)
+                        highestValueItem = inventoryItem;
+                }
+            }
+        }
+        return highestValueItem;
+    }
 }
