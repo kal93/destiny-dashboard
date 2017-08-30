@@ -19,7 +19,7 @@
       <!-- Search Inventory -->
       <div class="search-text-wrap">
         <md-form-field class="search-text">
-          <input mdInput [ngModel]="searchText" (ngModelChange)="searchTextChanged($event)" placeholder="Search Inventory">
+          <input mdInput placeholder="Search Inventory" [formControl]="searchTextForm">
         </md-form-field>
       </div>
 

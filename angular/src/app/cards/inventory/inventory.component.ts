@@ -1,7 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { FormControl } from '@angular/forms';
 import { MdDialog } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 import { CardComponent } from '../_base/card.component';
 import { ManifestService } from 'app/bungie/manifest/manifest.service';
 import { SharedBungie } from 'app/bungie/shared-bungie.service';
@@ -15,6 +16,8 @@ import { DestinyMembership, InventoryBucket, InventoryItem, IAccountSummary, IVa
 import { expandInShrinkOut, fadeInFromTop } from 'app/shared/animations';
 import { InventoryUtils } from './inventory-utils';
 import { delayBy } from 'app/shared/decorators';
+
+import 'rxjs/add/operator/debounceTime';
 
 @Component({
     selector: 'dd-inventory',
@@ -57,6 +60,7 @@ export class ItemManagerComponent extends CardComponent {
 
     // Filtering
     searchText: string = '';
+    searchTextForm = new FormControl();
     showInventoryGroups: Array<boolean>;
 
     constructor(private accountSummaryService: AccountSummaryService, private activatedRoute: ActivatedRoute, private characterInventorySummaryService: CharacterInventorySummaryService,
@@ -79,11 +83,13 @@ export class ItemManagerComponent extends CardComponent {
         this.selectedMembership = this.sharedBungie.destinyMemberships[this.sharedApp.userPreferences.membershipIndex];
 
         this.getFullInventory();
+        this.initSearch();
 
         if (this.isFullscreen) {
             this.setSubNavItems();
             this.sharedApp.showInfoOnce("Press and hold an item to enter multi-transfer mode.");
         }
+
     }
 
     getFullInventory() {
@@ -154,13 +160,18 @@ export class ItemManagerComponent extends CardComponent {
         InventoryUtils.groupBuckets(this.bucketGroupsArray, this.bucketsArray[bucketIndex], bucketIndex);
     }
 
-    searchTextChanged(newSearchText: string) {
-        let charAddedToEnd: boolean = false;
-        if (newSearchText.length - 1 == this.searchText.length && newSearchText.startsWith(this.searchText))
-            charAddedToEnd = true;
+    initSearch() {
+        this.searchTextForm.valueChanges.debounceTime(400).subscribe((newSearchText) => {
+            console.log(newSearchText);
+            this.searchText = newSearchText;
 
-        this.searchText = newSearchText;
-        this.applyFilter(charAddedToEnd);
+            let charAddedToEnd: boolean = false;
+            if (newSearchText.length - 1 == this.searchText.length && newSearchText.startsWith(this.searchText))
+                charAddedToEnd = true;
+
+            this.searchText = newSearchText;
+            this.applyFilter(charAddedToEnd);
+        });
     }
 
     applyFilter(skipAlreadyFiltered: boolean = false) {
