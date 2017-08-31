@@ -50,6 +50,7 @@ import { AboutComponent } from './about/about.component';
 import { DownloadManifestComponent } from './bungie/manifest/download-manifest.component';
 import { GamertagAutocompleteComponent } from './bungie/components/gamertag-autocomplete/gamertag-autocomplete.component';
 import { InventoryItemComponent } from './bungie/components/inventory-item/inventory-item.component';
+import { InventoryItemPopupComponent } from './bungie/components/inventory-item/inventory-item-popup/inventory-item-popup.component';
 import { MdTabCharacterHeadingComponent } from './bungie/components/md-tab-character-heading/md-tab-character-heading.component';
 
 //Cards
@@ -89,7 +90,7 @@ import { NumberFormatLocalePipe, RoundToDecimalPlacePipe } from './shared/pipes/
     AddCardComponent, CardHeaderComponent, CardLoaderComponent, DashboardComponent,
 
     //Other components 
-    AboutComponent, DownloadManifestComponent, GamertagAutocompleteComponent, InventoryItemComponent, MdTabCharacterHeadingComponent,
+    AboutComponent, DownloadManifestComponent, GamertagAutocompleteComponent, InventoryItemComponent, InventoryItemPopupComponent, MdTabCharacterHeadingComponent,
 
     //Cards
     BungieNewsComponent, ClanLeaderboardsComponent, CountdownComponent, DashboardNewsComponent, DashboardNewsArticle, ItemManagerComponent, ReputationComponent, RedditComponent, StatsComponent, TwitchComponent,
@@ -102,7 +103,7 @@ import { NumberFormatLocalePipe, RoundToDecimalPlacePipe } from './shared/pipes/
   ],
 
   entryComponents: [
-    AlertDialog, ConfirmDialog, FiltersDialog, SimpleInputDialog, TransferQuantityDialog
+    AlertDialog, ConfirmDialog, FiltersDialog, InventoryItemPopupComponent, SimpleInputDialog, TransferQuantityDialog
   ],
   imports: [
     Angulartics2Module.forRoot([Angulartics2GoogleAnalytics]),

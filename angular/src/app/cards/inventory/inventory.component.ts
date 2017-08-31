@@ -266,6 +266,7 @@ export class ItemManagerComponent extends CardComponent {
             let inventoryItem = inventoryItems[i];
             // Don't transfer things that already exist in their destination
             if (inventoryItem.characterIndex == destCharacterIndex) {
+                inventoryItem.selected = false;
                 inventoryItems.splice(i, 1);
                 i--;
                 continue;
@@ -276,6 +277,11 @@ export class ItemManagerComponent extends CardComponent {
                 break;
             }
         }
+        if (inventoryItems.length == 0) {
+            this.setEditMode(false);
+            return;
+        }
+
         if (showTransferQuantityDialog) {
             let dialogRef = this.mdDialog.open(TransferQuantityDialog);
             dialogRef.componentInstance.inventoryItems = inventoryItems;
@@ -284,19 +290,14 @@ export class ItemManagerComponent extends CardComponent {
                     this.transferItemsToIndexRecurse(inventoryItems, destCharacterIndex, true);
             });
         }
-        else {
+        else
             this.transferItemsToIndexRecurse(inventoryItems, destCharacterIndex, true);
-        }
-
     }
 
     private transferItemsToIndexRecurse(inventoryItems: Array<InventoryItem>, destCharacterIndex: number, firstRecursion: boolean) {
         // First time recursive was called
-        if (firstRecursion) {
-            if (inventoryItems.length == 0)
-                return;
+        if (firstRecursion)
             this.sharedApp.showLoading(-34515);
-        }
 
         if (inventoryItems.length > 0) {
             let inventoryItem = inventoryItems.pop();

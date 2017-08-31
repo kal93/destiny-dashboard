@@ -117,3 +117,14 @@ export function expandInShrinkOut() {
             ])
     ]);
 }
+
+export function scaleIn() {
+    return trigger('scaleIn', [
+        transition(
+            ':enter', [
+                style({ transform: 'scale(0)' }),
+                animate('150ms cubic-bezier(0.0, 0.0, 0.2, 1)', style({ transform: 'scale(1)' }))
+            ],
+        )
+    ]);
+}
