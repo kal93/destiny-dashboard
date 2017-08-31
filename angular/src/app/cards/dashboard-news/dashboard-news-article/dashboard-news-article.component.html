@@ -1,15 +1,14 @@
-<md-card class="news-card" (click)="isCollapsed ? isCollapsed = false : isCollapsed = true;">
+<md-card class="news-card" (click)="isCollapsed = !isCollapsed">
   <md-card-title class="title-wrapper">
-    <div class="title" [innerHTML]="article.articleTitle"></div>
-    <div class="spacer"></div>
-    <div class="category">{{article.articleCategory}}</div>
+    <div [innerHTML]="article.title"></div>
   </md-card-title>
   <md-card-content class="content">
-    <div *ngIf="isCollapsed" class="preview" [innerHTML]="article.articleBodyPreview"></div>
-    <div *ngIf="!isCollapsed" [innerHTML]="article.articleBody"></div>
+    <div *ngIf="isCollapsed" class="preview" [innerHTML]="domSanitizer.bypassSecurityTrustHtml(article.bodyPreview)" [@fadeIn]></div>
+    <div *ngIf="!isCollapsed" [innerHTML]="domSanitizer.bypassSecurityTrustHtml(article.body)" [@fadeIn]></div>
   </md-card-content>
-  <md-card-actions class="actions">
-    <div class="article-date">{{article.articleDate | pDateFormatLocaleNoSeconds}}</div>
+  <md-card-actions class="footer">
+    <div class="text category">{{article.category}}</div>
+    <div class="text date">{{article.date | pDateFormatLocaleNoSeconds}}</div>
     <div class="icon-button" *ngIf="isCollapsed" mdTooltip="Expand">
       <md-icon>expand_more</md-icon>
     </div>

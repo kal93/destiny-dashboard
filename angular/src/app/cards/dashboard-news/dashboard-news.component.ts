@@ -13,7 +13,6 @@ import { NewsArticleService } from './dashboard-news-article/dashboard-news-arti
 })
 
 export class DashboardNewsComponent extends CardComponent {
-
   CARD_DEFINITION_ID = 8;
 
   articles: NewsArticle[] = [];
@@ -26,11 +25,9 @@ export class DashboardNewsComponent extends CardComponent {
     super.ngOnInit();
 
     this.newsArticleService.getNewsArticles().then(articles => this.articles = articles);
-
   }
 
   ngOnDestroy() {
     super.ngOnDestroy();
   }
-
 }

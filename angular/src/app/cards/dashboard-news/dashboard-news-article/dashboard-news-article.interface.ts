@@ -3,10 +3,10 @@
 import { ArticleCategory } from './dashboard-news-article.enum';
 
 export interface NewsArticle {
-    articleId: number;
-    articleTitle: string;
-    articleCategory: ArticleCategory;
-    articleBodyPreview: string;
-    articleBody: string;
-    articleDate: Date;
+    id: number;
+    title: string;
+    category: ArticleCategory;
+    bodyPreview: string;
+    body: string;
+    date: Date;
 }
