@@ -1,7 +1,7 @@
-![destiny dashboard](https://destinydashboard.net/favicon.ico "Destiny Dashboard")
+![destiny dashboard](https://www.destinydashboard.net/favicon.ico "Destiny Dashboard")
 
 # Goals
-- Create a collection of professionally developed high quailty, performant, and reusable tools for a Destiny player.
+- Create a collection of professionally developed, high quailty, and performant tools for a Destiny player.
 
 - Inspire a community collaboration where members teach and learn cutting edge web development.
 
@@ -73,9 +73,7 @@ You only need to do steps 2, 3 & 4 if you are working on the Java API.
 
 
 ## References
-1. [Bungie API](https://destiny-db.appspot.com/api/)
-2. [Reddit](https://www.reddit.com/r/DestinyDashboard/)
-3. [Discord](https://discord.gg/A5fPSTa)
-4. [Bungie User Endpoints](https://www.bungie.net/platform/User/help/)
-5. [Bungie Destiny Endpoints](https://www.bungie.net/platform/destiny/help/)
-6. [Angular 2+ SSL Info](http://brianflove.com/2016/10/22/angular-cli-using-https/)
+1. [Reddit](https://www.reddit.com/r/DestinyDashboard/)
+2. [Discord](https://discord.gg/A5fPSTa)
+3. [Bungie User Endpoints](https://www.bungie.net/platform/User/help/)
+4. [Bungie Destiny 2 Endpoints](https://www.bungie.net/platform/Destiny2/help/)
