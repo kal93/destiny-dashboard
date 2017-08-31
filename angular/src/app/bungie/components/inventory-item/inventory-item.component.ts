@@ -10,13 +10,18 @@ import { InventoryItem } from '../../services/interface.barrel';
 export class InventoryItemComponent {
   @Input()
   inventoryItem: InventoryItem;
-  @Input()
-  equipped: boolean;
-  @Input()
-  selected: boolean;
 
   @Input()
-  disablePopup: boolean = false;
+  equipped: boolean = false;
+
+  @Input()
+  selected: boolean = false;
+
+  @Input()
+  disablePopup: boolean = true;
+
+  @Input()
+  textColor: string;
 
   @Output()
   longPress = new EventEmitter<void>();

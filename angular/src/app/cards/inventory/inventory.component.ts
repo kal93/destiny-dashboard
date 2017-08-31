@@ -1,15 +1,15 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MdDialog } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
 import { CardComponent } from '../_base/card.component';
 import { ManifestService } from 'app/bungie/manifest/manifest.service';
 import { SharedBungie } from 'app/bungie/shared-bungie.service';
 import { SharedApp } from 'app/shared/services/shared-app.service';
 import { FiltersDialog } from './filters-dialog/filters-dialog.component';
+import { TransferQuantityDialog } from './transfer-quantity-dialog/transfer-quantity-dialog.component';
 
-import { ISubNavItem, IToolbarItem } from 'app/nav/nav.interface';
+import { ISubNavItem } from 'app/nav/nav.interface';
 import { AccountSummaryService, CharacterInventorySummaryService, InventoryItemService, VaultSummaryService } from 'app/bungie/services/service.barrel';
 import { DestinyMembership, InventoryBucket, InventoryItem, IAccountSummary, IVaultSummary, SummaryCharacter, InventoryItemTransferResult } from 'app/bungie/services/interface.barrel';
 
@@ -57,13 +57,14 @@ export class ItemManagerComponent extends CardComponent {
 
     // Array of selected inventory items
     selectedInventoryItems: Array<InventoryItem>;
+    private refreshIndexes: Array<boolean> = [false, false, false, false];
 
     // Filtering
     searchText: string = '';
     searchTextForm = new FormControl();
     showInventoryGroups: Array<boolean>;
 
-    constructor(private accountSummaryService: AccountSummaryService, private activatedRoute: ActivatedRoute, private characterInventorySummaryService: CharacterInventorySummaryService,
+    constructor(private accountSummaryService: AccountSummaryService, private characterInventorySummaryService: CharacterInventorySummaryService,
         public domSanitizer: DomSanitizer, private inventoryItemService: InventoryItemService, private mdDialog: MdDialog, private manifestService: ManifestService,
         private sharedBungie: SharedBungie, public sharedApp: SharedApp, private vaultSummaryService: VaultSummaryService) {
         super(sharedApp);
@@ -89,7 +90,6 @@ export class ItemManagerComponent extends CardComponent {
             this.setSubNavItems();
             this.sharedApp.showInfoOnce("Press and hold an item to enter multi-transfer mode.");
         }
-
     }
 
     getFullInventory() {
@@ -102,7 +102,6 @@ export class ItemManagerComponent extends CardComponent {
                 character.characterBase.genderValue = this.manifestService.getManifestEntry("DestinyGenderDefinition", character.characterBase.genderHash);
                 character.characterBase.raceValue = this.manifestService.getManifestEntry("DestinyRaceDefinition", character.characterBase.raceHash);
             });
-
 
             // Init buckets
             this.bucketGroupsArray = new Array<Array<Array<InventoryBucket>>>(4);
@@ -261,23 +260,52 @@ export class ItemManagerComponent extends CardComponent {
         // Show list of loadouts
     }
 
-    private refreshIndexes: Array<boolean> = [false, false, false, false];
-    transferItemsToIndex(inventoryItems: Array<InventoryItem>, destCharacterIndex: number, firstRecursion: boolean = true) {
+    transferItemsToIndex(inventoryItems: Array<InventoryItem>, destCharacterIndex: number) {
+        let showTransferQuantityDialog: boolean = false;
+        for (var i = 0; i < inventoryItems.length; i++) {
+            let inventoryItem = inventoryItems[i];
+            // Don't transfer things that already exist in their destination
+            if (inventoryItem.characterIndex == destCharacterIndex) {
+                inventoryItems.splice(i, 1);
+                i--;
+                continue;
+            }
+
+            if (inventoryItem.quantity > 1) {
+                showTransferQuantityDialog = true;
+                break;
+            }
+        }
+        if (showTransferQuantityDialog) {
+            let dialogRef = this.mdDialog.open(TransferQuantityDialog);
+            dialogRef.componentInstance.inventoryItems = inventoryItems;
+            dialogRef.afterClosed().subscribe((result: string) => {
+                if (result == "Transfer")
+                    this.transferItemsToIndexRecurse(inventoryItems, destCharacterIndex, true);
+            });
+        }
+        else {
+            this.transferItemsToIndexRecurse(inventoryItems, destCharacterIndex, true);
+        }
+
+    }
+
+    private transferItemsToIndexRecurse(inventoryItems: Array<InventoryItem>, destCharacterIndex: number, firstRecursion: boolean) {
         // First time recursive was called
         if (firstRecursion) {
+            if (inventoryItems.length == 0)
+                return;
             this.sharedApp.showLoading(-34515);
         }
-        // Call this function again until there are no items left
-        //this.refreshIndexes[destCharacterIndex] = true;
+
         if (inventoryItems.length > 0) {
-            // Transfer the item
             let inventoryItem = inventoryItems.pop();
             inventoryItem.selected = false;
             this.transferSingleItemToIndex(inventoryItem, destCharacterIndex).then(() => {
-                // Wait some time between trying to transfer each item
-                setTimeout(() => { this.transferItemsToIndex(inventoryItems, destCharacterIndex, false); }, InventoryItemService.TRANSFER_DELAY);
+                // Call this function again until there are no items left
+                setTimeout(() => { this.transferItemsToIndexRecurse(inventoryItems, destCharacterIndex, false); }, InventoryItemService.TRANSFER_DELAY);
             }).catch(() => {
-                setTimeout(() => { this.transferItemsToIndex(inventoryItems, destCharacterIndex, false); }, InventoryItemService.TRANSFER_DELAY);
+                setTimeout(() => { this.transferItemsToIndexRecurse(inventoryItems, destCharacterIndex, false); }, InventoryItemService.TRANSFER_DELAY);
             });
         }
         else {
@@ -295,19 +323,19 @@ export class ItemManagerComponent extends CardComponent {
 
     transferSingleItemToIndex(inventoryItem: InventoryItem, destCharacterIndex: number): Promise<any> {
         return new Promise<any>((resolve, reject) => {
-            // Don't transfer things that already exist in their destination
-            if (inventoryItem.characterIndex == destCharacterIndex)
+            // Don't transfer items with no quantity
+            if (inventoryItem.transferQuantity === 0)
                 return resolve();
 
             // Don't attempt to transfer if destination bucket is full            
             let destBucket: InventoryBucket = this.bucketsMap[destCharacterIndex].get(inventoryItem.itemValue.bucketTypeHash);
             if (InventoryUtils.isBucketFull(destBucket)) {
-                this.sharedApp.showWarning(inventoryItem.itemValue.itemName + "Transfer Failed: Destination is full!",
+                this.sharedApp.showWarning(inventoryItem.itemValue.itemName + " transfer failed: Destination is full!",
                     { timeOut: 5000, progressBar: false });
                 return resolve();
             }
 
-            this.inventoryItemService.transferItemToIndex(this.bucketsMap, this.selectedMembership, this.accountSummary, inventoryItem, destCharacterIndex, 1)
+            this.inventoryItemService.transferItemToIndex(this.bucketsMap, this.selectedMembership, this.accountSummary, inventoryItem, destCharacterIndex)
                 .then((transferResult: Array<Array<InventoryItemTransferResult>>) => {
                     let transferSuccesses = transferResult[0];
                     let transferFailures = transferResult[1];
@@ -318,11 +346,8 @@ export class ItemManagerComponent extends CardComponent {
                             this.refreshIndexes[inventoryItem.characterIndex] = true;
                     });
 
-                    //if (transferSuccesses.length > 0)
-                    //    this.sharedApp.showSuccess(inventoryItem.itemValue.itemName + " Transfered", { timeOut: 1000, progressBar: false });
-
                     transferFailures.forEach((transferFailure) => {
-                        this.sharedApp.showWarning(transferFailure.inventoryItem.itemValue.itemName + "Transfer Failed: " + transferFailure.Message,
+                        this.sharedApp.showWarning(transferFailure.inventoryItem.itemValue.itemName + " transfer failed: " + transferFailure.Message,
                             { timeOut: 5000, progressBar: false });
                     });
                     resolve();

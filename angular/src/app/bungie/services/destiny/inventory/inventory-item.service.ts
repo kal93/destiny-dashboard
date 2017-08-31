@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from 'app/shared/services/http.service';
-import { SharedBungie } from 'app/bungie/shared-bungie.service';
 import { SharedApp } from 'app/shared/services/shared-app.service';
 
 import { DestinyMembership } from 'app/bungie/services/interface.barrel';
-import { IAccountSummary, InventoryItem, InventoryBucket, InventoryItemTransferResult, SummaryCharacter } from 'app/bungie/services/interface.barrel';
+import { IAccountSummary, InventoryItem, InventoryBucket, InventoryItemTransferResult } from 'app/bungie/services/interface.barrel';
 import { InventoryUtils } from 'app/bungie/services/destiny/inventory/inventory-utils';
 
 @Injectable()
@@ -18,11 +17,11 @@ export class InventoryItemService {
     private _transferFailures: Array<InventoryItemTransferResult>;
 
     // If additional transfers need to be made, delay them so we don't get yelled at bu the API
-    public static TRANSFER_DELAY = 750;
+    public static TRANSFER_DELAY = 400;
 
-    constructor(protected http: HttpService, public sharedApp: SharedApp, private sharedBungie: SharedBungie) { }
+    constructor(protected http: HttpService, public sharedApp: SharedApp) { }
 
-    transferItemToIndex(bucketsMap: Array<Map<number, InventoryBucket>>, selectedMembership: DestinyMembership, accountSummary: IAccountSummary, inventoryItem: InventoryItem, destCharacterIndex: number, count: number): Promise<Array<Array<InventoryItemTransferResult>>> {
+    transferItemToIndex(bucketsMap: Array<Map<number, InventoryBucket>>, selectedMembership: DestinyMembership, accountSummary: IAccountSummary, inventoryItem: InventoryItem, destCharacterIndex: number): Promise<Array<Array<InventoryItemTransferResult>>> {
         this._bucketsMap = bucketsMap;
         this._selectedMembership = selectedMembership;
         this._accountSummary = accountSummary;
@@ -36,13 +35,13 @@ export class InventoryItemService {
             let transferPromise;
             if (destCharacterIndex < 3 && inventoryItem.characterIndex < 3)
                 // Character to character transfer
-                transferPromise = this.transferItemCharacterToCharacter(inventoryItem, destCharacterIndex, count);
+                transferPromise = this.transferItemCharacterToCharacter(inventoryItem, destCharacterIndex, inventoryItem.transferQuantity);
             else if (destCharacterIndex == 3)
                 // Character to vault
-                transferPromise = this.transferItemCharacterToVault(inventoryItem, count);
+                transferPromise = this.transferItemCharacterToVault(inventoryItem, inventoryItem.transferQuantity);
             else if (inventoryItem.characterIndex == 3)
                 // Vault to character
-                transferPromise = this.transferItemVaultToCharacter(inventoryItem, destCharacterIndex, count);
+                transferPromise = this.transferItemVaultToCharacter(inventoryItem, destCharacterIndex, inventoryItem.transferQuantity);
             else
                 console.error("Unknown index for transfer");
 
@@ -88,11 +87,13 @@ export class InventoryItemService {
                     this._transferFailures.push(tranferResult);
                     resolve(tranferResult);
                 }
-                this.equipItem(this._selectedMembership, srcCharacter.characterBase.characterId, inventoryItem).then(() => {
-                    setTimeout(() => {
-                        resolve(this.transferItem(this._selectedMembership, srcCharacter.characterBase.characterId, 3, inventoryItem, count, true));
-                    }, InventoryItemService.TRANSFER_DELAY);
-                });
+                else {
+                    this.equipItem(this._selectedMembership, srcCharacter.characterBase.characterId, srcCharacterIndex, highestValueItem).then(() => {
+                        setTimeout(() => {
+                            resolve(this.transferItem(this._selectedMembership, srcCharacter.characterBase.characterId, 3, inventoryItem, count, true));
+                        }, InventoryItemService.TRANSFER_DELAY);
+                    });
+                }
             }
             else {
                 // Make sure the vault can handle whatever we're trying to transfer
@@ -126,30 +127,6 @@ export class InventoryItemService {
         });
     }
 
-    private equipItem(membership: DestinyMembership, characterId: string, inventoryItem: InventoryItem): Promise<InventoryItemTransferResult> {
-        let requestUrl = "https://www.bungie.net/d1/Platform/Destiny/EquipItem/";
-
-        let body = {
-            membershipType: membership.membershipType,
-            itemId: inventoryItem.itemId,
-            characterId: characterId
-        };
-
-        return this.http.postBungie(requestUrl, body);
-    }
-
-    private equipItems(membership: DestinyMembership, characterId: string, itemIds: Array<number>): Promise<InventoryItemTransferResult> {
-        let requestUrl = "https://www.bungie.net/d1/Platform/Destiny/EquipItem/";
-
-        let body = {
-            characterId: characterId,
-            membershipType: membership.membershipType,
-            itemIds: itemIds
-        };
-
-        return this.http.postBungie(requestUrl, body);
-    }
-
     private transferItem(membership: DestinyMembership, targetCharacterId: string, destCharacterIndex: number, inventoryItem: InventoryItem, count: number, toVault: boolean): Promise<InventoryItemTransferResult> {
         // Build the request URL
         let requestUrl = "https://www.bungie.net/d1/Platform/Destiny/TransferItem/";
@@ -181,6 +158,9 @@ export class InventoryItemService {
             // Update inventory item with new characterIndex
             inventoryItem.characterIndex = destCharacterIndex;
 
+            // Sort after we insert the new item
+            InventoryUtils.sortBucketItems(destBucket);
+
             tranferResult.inventoryItem = inventoryItem;
             this._transferSuccesses.push(tranferResult);
             return tranferResult;
@@ -190,4 +170,34 @@ export class InventoryItemService {
             return tranferResult;
         });
     }
+
+    private equipItem(membership: DestinyMembership, characterId: string, destCharacterIndex: number, inventoryItem: InventoryItem): Promise<InventoryItemTransferResult> {
+        let requestUrl = "https://www.bungie.net/d1/Platform/Destiny/EquipItem/";
+        let destBucket: InventoryBucket = this._bucketsMap[destCharacterIndex].get(inventoryItem.itemValue.bucketTypeHash);
+
+        //Mark currently equipped item as unequipped
+        let equippedItem = InventoryUtils.getEquippedItemFromBucket(destBucket);
+        if (equippedItem != null)
+            equippedItem.transferStatus = 0;
+
+        //Mark target item as equipped
+        inventoryItem.transferStatus = 1;
+
+        // Sort after we insert the new item
+        InventoryUtils.sortBucketItems(destBucket);
+
+        let body = {
+            membershipType: membership.membershipType,
+            itemId: inventoryItem.itemId,
+            characterId: characterId
+        };
+
+        return this.http.postBungie(requestUrl, body);
+    }
+
+    /*  private equipItems(membership: DestinyMembership, characterId: string, itemIds: Array<number>): Promise<InventoryItemTransferResult> {
+        let requestUrl = "https://www.bungie.net/d1/Platform/Destiny/EquipItem/";
+        let body = {            characterId: characterId,            membershipType: membership.membershipType,            itemIds: itemIds        };
+        return this.http.postBungie(requestUrl, body);
+    }*/
 } 

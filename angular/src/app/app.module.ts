@@ -37,6 +37,7 @@ import { AlertDialog } from './shared/dialogs/alert.component';
 import { ConfirmDialog } from './shared/dialogs/confirm.component';
 import { FiltersDialog } from './cards/inventory/filters-dialog/filters-dialog.component';
 import { SimpleInputDialog } from './shared/dialogs/simple-input.component';
+import { TransferQuantityDialog } from './cards/inventory/transfer-quantity-dialog/transfer-quantity-dialog.component';
 
 //Base Components
 import { AddCardComponent } from './dashboard/add-card/add-card.component';
@@ -82,7 +83,7 @@ import { NumberFormatLocalePipe, RoundToDecimalPlacePipe } from './shared/pipes/
     AppComponent, NavComponent,
 
     //Dialogs
-    AlertDialog, ConfirmDialog, FiltersDialog, SimpleInputDialog,
+    AlertDialog, ConfirmDialog, FiltersDialog, SimpleInputDialog, TransferQuantityDialog,
 
     //Base Components
     AddCardComponent, CardHeaderComponent, CardLoaderComponent, DashboardComponent,
@@ -101,7 +102,7 @@ import { NumberFormatLocalePipe, RoundToDecimalPlacePipe } from './shared/pipes/
   ],
 
   entryComponents: [
-    AlertDialog, ConfirmDialog, FiltersDialog, SimpleInputDialog
+    AlertDialog, ConfirmDialog, FiltersDialog, SimpleInputDialog, TransferQuantityDialog
   ],
   imports: [
     Angulartics2Module.forRoot([Angulartics2GoogleAnalytics]),

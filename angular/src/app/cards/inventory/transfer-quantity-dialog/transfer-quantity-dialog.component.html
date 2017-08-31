@@ -1,0 +1,26 @@
+<div class="title">Choose Quantity</div>
+<div md-dialog-content class="modal-content-wrap">
+  <ng-container *ngFor="let inventoryItem of inventoryItems">
+    <div *ngIf="inventoryItem.quantity > 1" class="item-wrap">
+      <dd-inventory-item [inventoryItem]="inventoryItem" [textColor]="'#444'"></dd-inventory-item>
+      <div class="quantity-wrap">
+        <div class="top">
+          <md-slider [max]="inventoryItem.quantity" [min]="1" [step]="1" [thumb-label]="true" [(ngModel)]="inventoryItem.transferQuantity"></md-slider>
+          <input mdInput type="number" [(ngModel)]="inventoryItem.transferQuantity">
+        </div>
+        <div class="bottom">
+          <div class="increment-buttons-wrap">
+            <button *ngIf="inventoryItem.quantity > 5" md-button (click)="incrementBy(inventoryItem, -5)">-5</button>
+            <button md-button (click)="incrementBy(inventoryItem, -1)">-1</button>
+            <button md-button (click)="incrementBy(inventoryItem, 1)">+1</button>
+            <button *ngIf="inventoryItem.quantity > 5" md-button (click)="incrementBy(inventoryItem, 5)">+5</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
+<div md-dialog-actions class="card-actions">
+  <button md-button md-dialog-close="Cancel" class="close">Cancel</button>
+  <button md-button md-dialog-close="Transfer" class="transfer">Transfer</button>
+</div>

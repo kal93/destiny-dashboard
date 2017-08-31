@@ -1,0 +1,65 @@
+@import '../../../../styles/theme.scss';
+
+.title {}
+
+.modal-content-wrap {
+    display: flex;
+    flex-flow: wrap;
+    margin-top: 10px;
+    justify-content: center;
+    padding: 10px 0;
+
+    .item-wrap {
+        display: flex;
+        background-color: rgba(#B3E5FC,.5);
+        padding: 5px 5px 0;
+        margin: 3px;
+
+        .quantity-wrap {
+            margin: 0 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .top {
+                display: flex;
+                align-items: center;
+
+                .mat-slider {
+                    width: 150px;
+                }
+
+                input {
+                    margin-left: 5px;
+                    background-color: #fff;
+                    width: 50px;
+                    text-align: center;
+                }
+            }
+
+            .bottom {
+                display: flex;
+                align-items: center;
+
+                .increment-buttons-wrap {
+                    display: flex;
+
+                    button {
+                        color: $app-text-dark;
+                        min-width: 0;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.card-actions {
+    display: flex;
+    justify-content: flex-end;
+
+    .transfer {
+        color: $app-text-link;
+    }
+}
+@media(max-width: 600px) {}

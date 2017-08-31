@@ -44,4 +44,5 @@ export interface InventoryItem {
   filteredOut: boolean;
   itemValue: DestinyInventoryItemDefinition;
   selected: boolean;
+  transferQuantity: number;
 }

@@ -149,6 +149,15 @@ export class InventoryUtils {
         return destBucket.bucketValue.itemCount == destBucket.items.length;
     }
 
+    public static getEquippedItemFromBucket(destBucket: InventoryBucket): InventoryItem {
+        for (let i = 0; i < destBucket.items.length; i++) {
+            if (InventoryUtils.isItemEquipped(destBucket.items[i]))
+                return destBucket.items[i];
+        }
+        console.log("No equipped item found in bucket");
+        return null;
+    }
+
     public static getUnequippedLowestValueItemFromBucket(destBucket: InventoryBucket): InventoryItem {
         var lowestValueItem: InventoryItem;
         for (let i = 0; i < destBucket.items.length; i++) {
