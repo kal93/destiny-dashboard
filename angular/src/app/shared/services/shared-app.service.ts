@@ -118,7 +118,7 @@ export class SharedApp {
     }
 
     private tutorialStep6() {
-        this.snackBar.open("You can swipe through cards to browse. Cards you have already added will not appear.", "Done").afterDismissed().subscribe(() => {
+        this.snackBar.open("You can swipe through cards. Cards you have already added will not appear.", "Done").afterDismissed().subscribe(() => {
             this.tutorialAddCardSubject.next(false);
             this.tutorialEditDashboardSubject.next(false);
             this.isTutorialMode = false;
