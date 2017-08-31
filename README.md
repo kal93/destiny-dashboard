@@ -1,22 +1,28 @@
 ![destiny dashboard](https://destinydashboard.net/favicon.ico "Destiny Dashboard")
 
+# Goals
+- Create a collection of professionally developed high quailty, performant, and reusable tools for a Destiny player.
+
+- Inspire a community collaboration where members teach and learn cutting edge web development.
+
+- Have fun :)
+
 # Vision
-This site will have every tool a Destiny player might need. No more jumping to 6 different websites to check your stats, grimoire, dead ghosts, item transferring, public events, news, etc.
 
-This project will emphasize performance and cutting edge web development practices. Service Workers, HTTP level caching, AoT compiling, and efficient Manifest parsing are already included in the project.
+No more jumping to 6 different websites to check your stats, grimoire, dead ghosts, item transferring, public events, news, etc.
 
-Search the repository for [HOW TO] for commits that serve as a guide on how to implement something. For example, there is a commit named [[HOW TO] [Add a new card]](https://github.com/lax20attack/destiny-dashboard/commit/a7c0e9b8cde5e71355cba404137afb39f68f5ac8)  that shows every piece of code needed to create a new card.
+This project will emphasize performance and use cutting edge web development practices. Service Workers, HTTP level caching, AoT compiling, and efficient Manifest parsing are already included in the project.
 
 # Dashboard
 A user can create multiple dashboards. Dashboards consist of one or more cards. Cards can be added, removed, resized, and moved. Users can modify their dashboard as they please, and their changes will be linked to their Bungie account.
 
 # Cards
 There are two types of cards.
-1. Internal cards, which have a fullscreen mode. (Stats card for example) 
-2. External cards, which do not have a fullscreen mode. (Reddit card for example). 
+1. Internal cards, which have a fullscreen mode. (Stats card for example)
+2. External cards, which do not have a fullscreen mode. (Reddit card for example)
 
 
-# DestinyDashboard Development Setup
+# Development Setup
 There are 4 main setup steps for this project.
 
 1. [Angular 4 Material](https://github.com/lax20attack/destiny-dashboard/wiki/Angular-4-Setup)
@@ -26,14 +32,15 @@ There are 4 main setup steps for this project.
 
 Step 1 will set up the front-end Angular code which is the majority of the application. Out of the box, the Angular code is pointing to a test app engine server and MySQL database. 
 
-You only need to do steps 2 & 3 if you are working on the Java API.
+You only need to do steps 2, 3 & 4 if you are working on the Java API.
 
 
-## Platform todo List
+# Todo
+## Destiny Dashboard Platform
 - [x] App Engine, Cloud SQL, Cloudflare
 - [x] Bungie OAuth
 - [x] Shared Manifest
-- [x] Shared Http caching
+- [x] Shared application level Http caching
 - [x] Cards base class
 - [x] Stackdriver logging
 - [ ] Add Card should show how many users have it installed
@@ -42,7 +49,7 @@ You only need to do steps 2 & 3 if you are working on the Java API.
 - [ ] Localization to support all languages supported by the Manifest
 
 
-## Cards Todo list
+## Cards
 - [x] Reddit
 - [x] Twitch
 - [x] Countdown
@@ -63,9 +70,6 @@ You only need to do steps 2 & 3 if you are working on the Java API.
 - [ ] Dead Ghosts ?
 - [ ] Clan support ?
 - [ ] Your Idea Here
-
-## Known issues
-- [ ] Safari Display issues for image in Countdown card
 
 
 ## References
