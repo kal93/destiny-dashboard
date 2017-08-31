@@ -3,11 +3,11 @@
 .inventory-group-wrap {
     display: flex;
     flex-flow: wrap;
-    max-width: 500px;
     margin-top: 15px;
+    overflow: hidden;
 
     .inventory-group {
-        margin: 5px 0;
+        margin: 5px 2px;
         flex: 1 0 140px;
     }
 }
