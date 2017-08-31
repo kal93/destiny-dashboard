@@ -99,7 +99,11 @@ export class AppComponent {
         this.setAppInitialized();
       });
     }).catch((error) => {
-      this.sharedApp.showError("Could not load membership for the current user. This is probably an error with Bungie's servers, please try again later.");
+      if (error.Message != null)
+        this.sharedApp.showError("Could not load the Bungie User. Error from Bungie: " + error.Message);
+      else
+        this.sharedApp.showError("Could not load the Bungie User. This is probably an error with Bungie's servers, please try again later.");
+      this.sharedApp.logOutSubject.next();
       this.setAppInitialized();
     });
   }

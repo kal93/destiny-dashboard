@@ -115,7 +115,7 @@
   </md-sidenav>
 
   <!-- Sub Nav (right side) -->
-  <md-drawer #subNav *ngIf="sharedApp.subNavItems != null" mode="over" align="end" class="sub-nav">
+  <md-sidenav #subNav *ngIf="sharedApp.subNavItems != null" mode="over" align="end" class="sub-nav">
     <md-nav-list>
       <ng-container *ngFor="let subNavItem of sharedApp.subNavItems">
         <md-list-item *ngIf="subNavItem.title != '_spacer'" (click)="subNavItemClicked(subNavItem)" [class.sub-nav-item-selected]="subNavItem.selectedStyle">
@@ -125,7 +125,7 @@
         <div *ngIf="subNavItem.title == '_spacer'" class="sub-nav-spacer"></div>
       </ng-container>
     </md-nav-list>
-  </md-drawer>
+  </md-sidenav>
 
   <!-- Only load the router if the app has been initialized -->
   <div *ngIf="sharedApp.appInitialized" class="router-wrap dd-dashboard-background">
