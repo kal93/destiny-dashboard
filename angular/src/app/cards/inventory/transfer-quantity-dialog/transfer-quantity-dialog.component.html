@@ -5,15 +5,16 @@
       <dd-inventory-item [inventoryItem]="inventoryItem" [textColor]="'#444'"></dd-inventory-item>
       <div class="quantity-wrap">
         <div class="top">
-          <md-slider [max]="inventoryItem.quantity" [min]="1" [step]="1" [thumb-label]="true" [(ngModel)]="inventoryItem.transferQuantity"></md-slider>
-          <input mdInput type="number" [(ngModel)]="inventoryItem.transferQuantity">
+          <md-slider [min]="1" [max]="inventoryItem.quantity" [step]="1" [thumb-label]="true" [(ngModel)]="inventoryItem.transferQuantity"></md-slider>
+          <input mdInput type="number" [min]="1" [max]="inventoryItem.quantity" [step]="1" [(ngModel)]="inventoryItem.transferQuantity"
+            (keyup)="validateQuantity(inventoryItem)">
         </div>
         <div class="bottom">
           <div class="increment-buttons-wrap">
-            <button *ngIf="inventoryItem.quantity > 5" md-button (click)="incrementBy(inventoryItem, -5)">-5</button>
+            <button md-button (click)="incrementBy(inventoryItem, -5)">-5</button>
             <button md-button (click)="incrementBy(inventoryItem, -1)">-1</button>
             <button md-button (click)="incrementBy(inventoryItem, 1)">+1</button>
-            <button *ngIf="inventoryItem.quantity > 5" md-button (click)="incrementBy(inventoryItem, 5)">+5</button>
+            <button md-button (click)="incrementBy(inventoryItem, 5)">+5</button>
           </div>
         </div>
       </div>

@@ -29,4 +29,15 @@ export class TransferQuantityDialog {
                 inventoryItem.transferQuantity = 1;
         }
     }
+
+    validateQuantity(inventoryItem: InventoryItem) {
+        // Make float a whole number
+        inventoryItem.transferQuantity = Math.round(inventoryItem.transferQuantity);
+
+        // Verify transfer amount is within bounds
+        if (inventoryItem.transferQuantity < 1)
+            inventoryItem.transferQuantity = 1;
+        else if (inventoryItem.transferQuantity > inventoryItem.quantity)
+            inventoryItem.transferQuantity = inventoryItem.quantity;
+    }
 }

@@ -296,8 +296,9 @@ export class ItemManagerComponent extends CardComponent {
 
     private transferItemsToIndexRecurse(inventoryItems: Array<InventoryItem>, destCharacterIndex: number, firstRecursion: boolean) {
         // First time recursive was called
+        let loadingId = -34515;
         if (firstRecursion)
-            this.sharedApp.showLoading(-34515);
+            this.sharedApp.showLoading(loadingId);
 
         if (inventoryItems.length > 0) {
             let inventoryItem = inventoryItems.pop();
@@ -318,7 +319,7 @@ export class ItemManagerComponent extends CardComponent {
 
             this.refreshIndexes = [false, false, false, false];
             this.setEditMode(false);
-            this.sharedApp.hideLoading(-34515);
+            this.sharedApp.hideLoading(loadingId);
         }
     }
 
