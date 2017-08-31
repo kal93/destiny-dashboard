@@ -1,6 +1,9 @@
 <md-card class="news-card" (click)="isCollapsed = !isCollapsed">
   <md-card-title class="title-wrapper">
     <div [innerHTML]="article.title"></div>
+    <md-icon *ngIf="article.category == articleCategory.NewCard">dashboard</md-icon>
+    <md-icon *ngIf="article.category == articleCategory.CardUpdate">update</md-icon>
+    <md-icon *ngIf="article.category == articleCategory.SiteNews">announcement</md-icon>
   </md-card-title>
   <md-card-content class="content">
     <div *ngIf="isCollapsed" class="preview" [innerHTML]="domSanitizer.bypassSecurityTrustHtml(article.bodyPreview)" [@fadeIn]></div>

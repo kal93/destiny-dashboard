@@ -3,6 +3,7 @@ import { fadeIn } from 'app/shared/animations';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { NewsArticle } from './dashboard-news-article.interface';
+import { ArticleCategory } from './dashboard-news-article.enum';
 
 @Component({
   selector: 'dashboard-news-article',
@@ -12,6 +13,9 @@ import { NewsArticle } from './dashboard-news-article.interface';
 })
 
 export class DashboardNewsArticle {
+
+  articleCategory = ArticleCategory;
+
   constructor(public domSanitizer: DomSanitizer) { }
   @Input() article: NewsArticle;
 

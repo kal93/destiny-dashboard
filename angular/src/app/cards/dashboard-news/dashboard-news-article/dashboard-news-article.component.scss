@@ -25,6 +25,15 @@
         font-size: 1.1em;
         color: $app-text-light;
         padding: 6px 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        md-icon {
+            font-size: 22px;
+            height: 22px;
+            width: 22px;
+        }
     }
 
     .content {
