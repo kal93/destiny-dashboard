@@ -24,8 +24,7 @@
     "@angular/platform-browser-dynamic": "4.3.6",
     "@angular/router": "4.3.6",
     "angulartics2": "2.3.0",
-    "classlist.js": "1.1.20150312",
-    "core-js": "2.5.0",
+    "core-js": "2.5.1",
     "hammerjs": "2.0.8",
     "jszip": "3.1.4",
     "ngx-toastr": "6.1.2",
@@ -35,7 +34,7 @@
     "zone.js": "0.8.17"
   },
   "devDependencies": {
-    "@angular/cli": "1.3.2",
+    "@angular/cli": "1.4.0-rc.2",
     "@angular/compiler-cli": "4.3.6",
     "@angular/language-service": "4.3.6",
     "@types/node": "8.0.26",
@@ -47,6 +46,6 @@
     "run-sequence": "2.1.0",
     "sql.js": "0.4.0",
     "sw-precache": "5.2.0",
-    "typescript": "2.4.2"
+    "typescript": "2.5.2"
   }
 }

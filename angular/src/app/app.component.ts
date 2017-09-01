@@ -38,8 +38,6 @@ export class AppComponent {
   constructor(private angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics, private changeDetectorRef: ChangeDetectorRef, private http: HttpService, private manifestService: ManifestService,
     public mdDialog: MdDialog, private sharedBungie: SharedBungie, private sharedDashboard: SharedDashboard, public sharedApp: SharedApp) { }
 
-  resizeTimeoutId: NodeJS.Timer;
-
   ngOnInit() {
     this.manifestService.loadManifest().then(() => {
       this.initApp();
@@ -114,18 +112,5 @@ export class AppComponent {
 
     // Run CD since we are changing a variable that has been initialized during this function
     this.changeDetectorRef.detectChanges();
-  }
-
-  //Global dom events
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    console.log("resize");
-    this.sharedApp.onResize();
-
-    // Hack for Safari since it doesn't actually resize immediately
-    clearTimeout(this.resizeTimeoutId);
-    this.resizeTimeoutId = setTimeout(() => {
-      this.sharedApp.onResize();
-    }, 200);
   }
 }

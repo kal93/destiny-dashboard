@@ -79,7 +79,7 @@ export class SharedDashboard {
     }
 
     getUserDashboards(): Promise<any> {
-        return this.http.getWithCache("api/dashboard/dashboard", HttpRequestType.DASHBOARD, 30000);
+        return this.http.getWithCache("api/dashboard/dashboard", HttpRequestType.DASHBOARD, 60000);
     }
 
     saveUserDashboard(dashboardToSave: IUserDashboard): Promise<any> {
@@ -138,7 +138,7 @@ export class SharedDashboard {
 
     //Dashboard network calls
     getUserPreferences(): Promise<any> {
-        return this.http.getWithCache("api/dashboard/userPreferences", HttpRequestType.DASHBOARD, 30000);
+        return this.http.getWithCache("api/dashboard/userPreferences", HttpRequestType.DASHBOARD, 120000);
     }
 
     saveUserPreferences() {

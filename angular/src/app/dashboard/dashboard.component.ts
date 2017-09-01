@@ -53,7 +53,7 @@ export class DashboardComponent {
 
   ngOnInit() {
     // Application Events
-    this.windowResizedSubscription = this.sharedApp.windowResizedSubject.subscribe(() => { this.setColumnCount(); });
+    this.sharedApp.windowResize$.subscribe(() => { this.setColumnCount(); });
 
     // Tutorial Events
     this.tutorialEditDashboardSubscription = this.sharedApp.tutorialEditDashboardSubject.subscribe((show) => {

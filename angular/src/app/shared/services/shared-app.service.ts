@@ -10,7 +10,12 @@ import { AlertDialog } from '../../shared/dialogs/alert.component';
 import { ISubNavItem, IToolbarItem } from '../../nav/nav.interface';
 import { delayBy } from '../decorators';
 
+import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/throttleTime';
+import 'rxjs/add/observable/fromEvent';
 
 /** This Injectable manages the application */
 @Injectable()
@@ -19,13 +24,14 @@ export class SharedApp {
     windowWidth: number = document.body.clientWidth;
 
     //Application Events
-    windowResizedSubject = new Subject<void>();
     toggleMainNavSubject = new Subject<boolean>();
     toggleSubNavSubject = new Subject<boolean>();
     tutorialEditDashboardSubject = new Subject<boolean>();
     tutorialAddCardSubject = new Subject<boolean>();
     invalidateCachesSubject = new Subject<void>();
     logOutSubject = new Subject<void>();
+
+    windowResize$: Observable<any> = Observable.fromEvent(window, 'resize').throttleTime(200);
 
     // Application specific
     public appInitialized: boolean = false;
@@ -63,6 +69,17 @@ export class SharedApp {
         this.accessToken = this.getLocalStorage("accessToken");
         this.accessTokenExpires = +this.getLocalStorage("accessTokenExpires", -1);
         this.membershipId = +this.getLocalStorage("membershipId", -1);
+
+
+        let resizeTimeoutId: NodeJS.Timer;
+        this.windowResize$.subscribe(e => {
+            this.onResize();
+
+            // Hack for Safari since it doesn't actually resize immediately
+            clearTimeout(resizeTimeoutId);
+            resizeTimeoutId = setTimeout(() => { this.onResize(); }, 200);
+        });
+
         this.onResize();
     }
 
@@ -75,7 +92,6 @@ export class SharedApp {
 
         this.windowHeight = Math.max(document.body.clientHeight, window.innerHeight);
         this.windowWidth = document.body.clientWidth;
-        this.windowResizedSubject.next();
     }
 
     startTutorial() {
