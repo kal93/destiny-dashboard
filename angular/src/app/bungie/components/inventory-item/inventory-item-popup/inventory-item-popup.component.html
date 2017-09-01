@@ -20,18 +20,19 @@
     </div>
     <div class="transfer">
         <ng-container *ngFor="let character of accountSummary.characters; let i = index">
-            <div *ngIf="" class="option" (click)="transferToIndex(i)" [class.transfer-disabled]="inventoryItem.characterIndex == i">
+            <div *ngIf="inventoryItem.characterIndex != i && !inventoryItem.itemValue.nonTransferrable" class="option" (click)="transferToIndex(i)">
                 <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemPath +')')"></div>
-                <div class="type">Trans</div>
+                <div class="type">Move</div>
             </div>
-            <div class="option" (click)="equipToIndex(i)" [class.transfer-disabled]="inventoryItem.characterIndex == i && InventoryUtils.isItemEquipped(inventoryItem)">
+            <div *ngIf="inventoryItem.itemValue.equippable && (inventoryItem.characterIndex == i || !inventoryItem.itemValue.nonTransferrable)"
+                class="option" (click)="equipToIndex(i)" [style.opacity]="InventoryUtils.isItemEquipped(inventoryItem) && inventoryItem.characterIndex == i ? .5 : 1">
                 <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemPath +')')"></div>
                 <div class="type">Equip</div>
             </div>
         </ng-container>
-        <div class="option" (click)="transferToIndex(3)">
-            <div class="icon vault" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + manifestService.towerDefinition.icon +')')"></div>
-            <div class="type">Trans</div>
+        <div *ngIf="!inventoryItem.itemValue.nonTransferrable && inventoryItem.characterIndex != 3" class="option" (click)="transferToIndex(3)">
+            <div class="icon vault" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + manifestService?.vaultIconPath +')')"></div>
+            <div class="type">Move</div>
         </div>
     </div>
 </div>

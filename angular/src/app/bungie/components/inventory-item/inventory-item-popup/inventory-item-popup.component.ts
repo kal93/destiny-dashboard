@@ -55,7 +55,7 @@ export class InventoryItemPopupComponent {
 
   initPopupPosition() {
     let popupWidth = 280;
-    let popupHeight = 350;
+    let popupMaxHeight = 350;
     let boundaryPadding = 35;
     // Get the position and dimensions of the element we're trying to show the tooltip for
     let boundingRect: ClientRect = this.targetElementRef.nativeElement.getBoundingClientRect();
@@ -68,18 +68,22 @@ export class InventoryItemPopupComponent {
       popupLeft = this.sharedApp.windowWidth - popupWidth - boundaryPadding;
 
     // Test to see if popup will be too far down 
-    if (popupTop + popupHeight + boundaryPadding > this.sharedApp.windowHeight)
-      popupTop = this.sharedApp.windowHeight - popupHeight - boundaryPadding;
+    if (popupTop + popupMaxHeight + boundaryPadding > this.sharedApp.windowHeight)
+      popupTop = this.sharedApp.windowHeight - popupMaxHeight - boundaryPadding;
 
     // Apply styles to popup
-    this.popupStyle = { 'top.px': popupTop, 'left.px': popupLeft, 'width.px': popupWidth, 'height.px': popupHeight };
+    this.popupStyle = { 'top.px': popupTop, 'left.px': popupLeft, 'width.px': popupWidth, 'max-height.px': popupMaxHeight };
   }
 
   transferToIndex(characterIndex: number) {
 
+    console.log("transfer");
   }
 
   equipToIndex(characterIndex: number) {
+    if (this.inventoryItem.characterIndex == characterIndex && InventoryUtils.isItemEquipped(this.inventoryItem))
+      return;
 
+    console.log("equip");
   }
 }

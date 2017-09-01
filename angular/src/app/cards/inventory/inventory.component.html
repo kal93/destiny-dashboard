@@ -9,7 +9,7 @@
           <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemPath +')')"></div>
         </div>
         <div class="menu-option" (click)="transferItemsToIndex(selectedInventoryItems, 3)">
-          <div class="icon vault" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + manifestService.towerDefinition.icon +')')"></div>
+          <div class="icon vault" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + manifestService?.vaultIconPath +')')"></div>
         </div>
         <div class="menu-option close-option" (click)="setEditMode(false)">
           <button class="icon" md-icon-button><md-icon>close</md-icon></button>
@@ -63,7 +63,7 @@
       <div class="character-wrap">
         <div class="character-header vault-header">
           <div class="background dd-tower-background" (click)="collapseSection(3)"></div>
-          <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + manifestService.towerDefinition.icon +')')"></div>
+          <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + manifestService?.vaultIconPath +')')"></div>
           <div class="top-left">Vault</div>
 
           <button md-icon-button class="option refresh" (click)="refreshVaultInventory()"><md-icon>refresh</md-icon></button>
@@ -80,7 +80,7 @@
                 <div class="bucket">
                   <ng-container *ngFor="let inventoryItem of bucket.items">
                     <dd-inventory-item *ngIf="!inventoryItem.filteredOut" [class.edit-mode]="editMode" [class.selected]="inventoryItem.selected"
-                      [inventoryItem]="inventoryItem" [disablePopup]="editMode" [equipped]="inventoryItem.transferStatus % 2 == 1"
+                      [inventoryItem]="inventoryItem" [accountSummary]="accountSummary" [disablePopup]="editMode" [equipped]="inventoryItem.transferStatus % 2 == 1"
                       [selected]="editMode && inventoryItem.selected" (clicked)="inventoryItemClicked(inventoryItem)" (longPress)="inventoryItemLongPress(inventoryItem)"></dd-inventory-item>
                   </ng-container>
                 </div>

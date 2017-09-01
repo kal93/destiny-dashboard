@@ -6,8 +6,8 @@
     overflow-y: auto;
     background-color: $bungie-blue;
     color: $app-text-light;
-    border: 1px solid #555;
-    box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.3);
+    border: 1px solid #999;
+    box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.18), 0 3px 14px 2px rgba(0, 0, 0, 0.16), 0 5px 5px -3px rgba(0, 0, 0, 0.4);
     display: flex;
     flex-direction: column;
 
@@ -15,6 +15,7 @@
         display: flex;
         align-items: center;
         background-color: rgba(#fff, .1);
+        border-bottom: 1px solid #338;
 
         .item-icon {
             width: 72px;
@@ -22,6 +23,7 @@
             background-size: contain;
             position: relative;
             font-size: .85em;
+            margin: 1px 0 0 1px;
 
             .quantity {
                 background-color: rgba(#fff, .7);
@@ -69,9 +71,9 @@
 
     .content-wrap {
         flex: 1;
+        padding: 10px 12px;
 
         .description {
-            padding: 6px 8px;
             font-size: .8em;
             opacity: .9;
         }
@@ -86,8 +88,8 @@
             cursor: pointer;
 
             .icon {
-                width: 38px;
-                height: 38px;
+                width: 40px;
+                height: 40px;
                 background-size: contain;
 
                 &.vault {
@@ -96,7 +98,7 @@
             }
 
             .type {
-                font-size: .8em;
+                font-size: .7em;
                 opacity: .8;
                 text-transform: uppercase;
             }

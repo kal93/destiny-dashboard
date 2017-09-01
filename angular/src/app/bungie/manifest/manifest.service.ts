@@ -16,7 +16,7 @@ export class ManifestService {
     private manifestMap: Map<string, Map<number, any>>;
 
     // Tower definition from the manifest so we can have the icon
-    public towerDefinition: any;
+    public vaultIconPath: string;
 
     constructor(protected http: HttpService, private sharedApp: SharedApp) {
     }
@@ -35,11 +35,11 @@ export class ManifestService {
         this.sharedApp.showLoading(loadingId);
         return new Promise((resolve, reject) => {
             //Download latest local manifest zip file
-            this.http.httpGetBinary("./destiny-manifest_0.1.90.json.zip").then((manifestZipBlob: Blob) => {
+            this.http.httpGetBinary("./destiny-manifest_0.9.0.zip").then((manifestZipBlob: Blob) => {
                 //Convert it a workable format for unzipping
                 FileUtils.blobToUintArray8(manifestZipBlob).then((arrayBuffer: Uint8Array) => {
                     //Unzip it
-                    FileUtils.unzipArrayBuffer(arrayBuffer, "destiny-manifest_0.1.90.json").then((unzippedManifest: Uint8Array) => {
+                    FileUtils.unzipArrayBuffer(arrayBuffer, "destiny-manifest_0.9.0.json").then((unzippedManifest: Uint8Array) => {
                         //Convert bytearray to JSON string
                         let stringifiedDB = FileUtils.utf8ByteArrayToString(unzippedManifest);
 
@@ -82,7 +82,8 @@ export class ManifestService {
     }
 
     private setGlobalManifestDefinitions() {
-        this.towerDefinition = this.getManifestEntry("DestinyActivityDefinition", 1522220810);
+        try { this.vaultIconPath = this.getManifestEntry("DestinyVendorDefinition", 892630493).summary.vendorIcon; }
+        catch (e) { }
     }
 
     getManifestMetadata(): Promise<IDestinyManifestMeta> {

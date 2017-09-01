@@ -107,13 +107,13 @@ export function expandInShrinkOut() {
         transition(
             ':enter', [
                 style({ height: 0 }),
-                animate('400ms ease-in', style({ height: '*' }))
+                animate('300ms ease-in', style({ height: '*' }))
             ]
         ),
         transition(
             ':leave', [
                 style({ height: '*' }),
-                animate('400ms ease-out', style({ height: 0 }))
+                animate('300ms ease-out', style({ height: 0 }))
             ])
     ]);
 }

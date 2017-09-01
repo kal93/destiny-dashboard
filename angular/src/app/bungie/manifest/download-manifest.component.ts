@@ -87,7 +87,7 @@ export class DownloadManifestComponent {
         || tableName == "DestinyRecordBookDefinition" || tableName == "DestinyRecordDefinition"
         || tableName == "DestinyRewardSourceDefinition" || tableName == "DestinySandboxPerkDefinition" || tableName == "DestinyScriptedSkullDefinition" || tableName == "DestinySpecialEventDefinition"
         || tableName == "DestinyStatDefinition" || tableName == "DestinyStatGroupDefinition" || tableName == "DestinyTalentGridDefinition" || tableName == "DestinyTriumphSetDefinition"
-        || tableName == "DestinyUnlockFlagDefinition" || tableName == "DestinyVendorCategoryDefinition" || tableName == "DestinyVendorDefinition") {
+        || tableName == "DestinyUnlockFlagDefinition" || tableName == "DestinyVendorCategoryDefinition") {
         resultSet = this.db.exec(`DROP TABLE ${tableName}`);
         continue;
       }
