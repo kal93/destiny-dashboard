@@ -15,6 +15,9 @@ export class ManifestService {
     //                  Map<tableName, Map<hash, object>>
     private manifestMap: Map<string, Map<number, any>>;
 
+    // Tower definition from the manifest so we can have the icon
+    public towerDefinition: any;
+
     constructor(protected http: HttpService, private sharedApp: SharedApp) {
     }
 
@@ -64,6 +67,8 @@ export class ManifestService {
                         //Cleanup
                         manifestData = null;
 
+                        this.setGlobalManifestDefinitions();
+
                         this.sharedApp.hideLoading(loadingId);
                         resolve();
                     });
@@ -74,6 +79,10 @@ export class ManifestService {
                 reject(error);
             });
         });
+    }
+
+    private setGlobalManifestDefinitions() {
+        this.towerDefinition = this.getManifestEntry("DestinyActivityDefinition", 1522220810);
     }
 
     getManifestMetadata(): Promise<IDestinyManifestMeta> {

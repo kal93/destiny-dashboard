@@ -8,13 +8,13 @@ import { SharedBungie } from 'app/bungie/shared-bungie.service';
 import { SharedApp } from 'app/shared/services/shared-app.service';
 import { FiltersDialog } from './filters-dialog/filters-dialog.component';
 import { TransferQuantityDialog } from './transfer-quantity-dialog/transfer-quantity-dialog.component';
+import { InventoryUtils } from 'app/bungie/services/destiny/inventory/inventory-utils';
 
 import { ISubNavItem } from 'app/nav/nav.interface';
 import { AccountSummaryService, CharacterInventorySummaryService, InventoryItemService, VaultSummaryService } from 'app/bungie/services/service.barrel';
 import { DestinyMembership, InventoryBucket, InventoryItem, IAccountSummary, IVaultSummary, SummaryCharacter, InventoryItemTransferResult } from 'app/bungie/services/interface.barrel';
 
 import { expandInShrinkOut, fadeInFromTop } from 'app/shared/animations';
-import { InventoryUtils } from 'app/bungie/services/destiny/inventory/inventory-utils';
 import { delayBy } from 'app/shared/decorators';
 
 import 'rxjs/add/operator/debounceTime';
@@ -46,9 +46,6 @@ export class ItemManagerComponent extends CardComponent {
     // Only character buckets get grouped. Character[BucketGroup[Buckets]]
     bucketGroupsArray: Array<Array<Array<InventoryBucket>>> = new Array<Array<Array<InventoryBucket>>>(4);
 
-    // Tower definition from the manifest so we can have the icon
-    towerDefinition: any;
-
     // Keep track if a user has collapsed a section
     expandedSections: Array<boolean>;
 
@@ -65,20 +62,19 @@ export class ItemManagerComponent extends CardComponent {
     showInventoryGroups: Array<boolean>;
 
     constructor(private accountSummaryService: AccountSummaryService, private characterInventorySummaryService: CharacterInventorySummaryService,
-        public domSanitizer: DomSanitizer, private inventoryItemService: InventoryItemService, private mdDialog: MdDialog, private manifestService: ManifestService,
+        public domSanitizer: DomSanitizer, private inventoryItemService: InventoryItemService, private mdDialog: MdDialog, public manifestService: ManifestService,
         private sharedBungie: SharedBungie, public sharedApp: SharedApp, private vaultSummaryService: VaultSummaryService) {
         super(sharedApp);
     }
 
     ngOnInit() {
         super.ngOnInit();
+        if (this.sharedBungie.destinyMemberships == null)
+            return;
 
         // Get localStorage variables
         this.expandedSections = this.getCardLocalStorageAsJsonObject("expandedSections", [false, false, false, false]);
         this.showInventoryGroups = this.getCardLocalStorageAsJsonObject("showInventoryGroups", [false, true, true, false, true, true, true, false, false, true]);
-
-        // Get tower definition so we can show the tower emblem
-        this.towerDefinition = this.manifestService.getManifestEntry("DestinyActivityDefinition", 1522220810);
 
         // Set our membership (XBL, PSN, Blizzard)
         this.selectedMembership = this.sharedBungie.destinyMemberships[this.sharedApp.userPreferences.membershipIndex];

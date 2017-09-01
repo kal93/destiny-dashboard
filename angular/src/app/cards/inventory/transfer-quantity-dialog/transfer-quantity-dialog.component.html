@@ -2,7 +2,7 @@
 <div md-dialog-content class="modal-content-wrap">
   <ng-container *ngFor="let inventoryItem of inventoryItems">
     <div *ngIf="inventoryItem.quantity > 1" class="item-wrap">
-      <dd-inventory-item [inventoryItem]="inventoryItem" [textColor]="'#444'"></dd-inventory-item>
+      <dd-inventory-item [inventoryItem]="inventoryItem" [textColor]="'#444'" [disablePopup]="true"></dd-inventory-item>
       <div class="quantity-wrap">
         <div class="top">
           <md-slider [min]="1" [max]="inventoryItem.quantity" [step]="1" [thumb-label]="true" [(ngModel)]="inventoryItem.transferQuantity"></md-slider>

@@ -12,7 +12,6 @@
         height: $iconHeight;
         background-size: contain;
         background-repeat: no-repeat;
-        background-position: center;
         border: 1px solid #90A4AE;
         position: relative;
         font-size: .85em;
@@ -30,7 +29,7 @@
         }
 
         .quantity {
-            color: #2A333E;
+            color: $bungie-blue;
             background-color: rgba(#fff, .7);
             position: absolute;
             top: 0;
@@ -49,7 +48,7 @@
 
     .name {
         display: inline-block;
-        font-size: .72em;
+        font-size: .74em;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;

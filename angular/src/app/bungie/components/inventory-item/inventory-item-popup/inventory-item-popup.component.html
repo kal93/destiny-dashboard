@@ -1,1 +1,37 @@
-<div class="inventory-item-popup" [ngStyle]="popupStyle" [@scaleIn]="true"></div>
+<div class="inventory-item-popup" [ngStyle]="popupStyle" [@scaleIn]="true">
+    <div class="header-wrap">
+        <div class="item-icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + inventoryItem.itemValue.icon  +')')">
+            <span *ngIf="inventoryItem.quantity > 1" class="quantity">{{inventoryItem.quantity}}</span>
+            <div *ngIf="inventoryItem.primaryStat!= null" class="level" [style.background-color]="inventoryItem.damageType!=null ? damageTypeColors[inventoryItem.damageType]:''">
+                {{inventoryItem.primaryStat.value}}
+            </div>
+        </div>
+
+        <div class="header-middle-wrap">
+            <div class="title">{{inventoryItem.itemValue.itemName}}</div>
+            <div class="type">{{inventoryItem.itemValue.itemTypeName}}</div>
+        </div>
+
+        <div *ngIf="inventoryItem.damageTypeValue != null" class="damage-icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + inventoryItem.damageTypeValue.iconPath  +')')"></div>
+
+    </div>
+    <div class="content-wrap">
+        <div class="description">{{inventoryItem.itemValue.itemDescription}}</div>
+    </div>
+    <div class="transfer">
+        <ng-container *ngFor="let character of accountSummary.characters; let i = index">
+            <div *ngIf="" class="option" (click)="transferToIndex(i)" [class.transfer-disabled]="inventoryItem.characterIndex == i">
+                <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemPath +')')"></div>
+                <div class="type">Trans</div>
+            </div>
+            <div class="option" (click)="equipToIndex(i)" [class.transfer-disabled]="inventoryItem.characterIndex == i && InventoryUtils.isItemEquipped(inventoryItem)">
+                <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemPath +')')"></div>
+                <div class="type">Equip</div>
+            </div>
+        </ng-container>
+        <div class="option" (click)="transferToIndex(3)">
+            <div class="icon vault" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + manifestService.towerDefinition.icon +')')"></div>
+            <div class="type">Trans</div>
+        </div>
+    </div>
+</div>
