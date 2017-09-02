@@ -76,7 +76,7 @@ export class NavComponent {
 
   logIn() {
     //Remove existing auth data
-    this.sharedApp.removeLocalStorage("accessToken", "accessTokenExpires", "membershipId", "bungieAuthCode");
+    this.sharedApp.removeLocalStorage("accessToken", "accessTokenExpires", "refreshToken", "membershipId", "bungieAuthCode");
 
     //Generate a random state variable and save to local storage so it can be verified later
     let randomState = Math.random().toString(36).substring(7, 15) + Math.random().toString(36).substring(7, 15);
@@ -84,14 +84,18 @@ export class NavComponent {
     //Store it to localStorage. Don't want to compress it, so we won't use sharedApp.setLocalStorage
     localStorage.setItem("bungieAuthState", randomState);
 
+
+    let useClientId = environment.bungieClientIds[0];    //Math.floor(Math.random() * 4)
+    localStorage.setItem("bungieClientId", useClientId.toString());
+
     //Send user to Bungie's login page
-    window.location.href = "https://www.bungie.net/en/oauth/authorize?client_id=" + environment.bungieClientId + "&response_type=code&state=" + randomState;
+    window.location.href = "https://www.bungie.net/en/oauth/authorize?client_id=" + useClientId + "&response_type=code&state=" + randomState;
   }
 
   logOut() {
     this.sharedBungie.deleteAccessToken();
-    this.sharedApp.accessToken = this.sharedApp.accessTokenExpires = this.sharedApp.membershipId = this.sharedBungie.bungieNetUser = this.sharedBungie.destinyMemberships = null;
-    this.sharedApp.removeLocalStorage("accessToken", "accessTokenExpires", "membershipId", "bungieAuthCode");
+    this.sharedApp.accessToken = this.sharedApp.accessTokenExpires = this.sharedApp.refreshToken = this.sharedApp.membershipId = this.sharedBungie.bungieNetUser = this.sharedBungie.destinyMemberships = null;
+    this.sharedApp.removeLocalStorage("accessToken", "accessTokenExpires", "refreshToken", "membershipId", "bungieAuthCode");
     this.sharedDashboard.userDashboards = CardDefinitions.defaultDashboards;
     this.sharedApp.invalidateCachesSubject.next();
     this.backToDashboard();

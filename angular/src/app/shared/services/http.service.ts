@@ -7,6 +7,8 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { ErrorTypes } from 'app/bungie/services/errors.interface';
 
+import { IBungieOAuth } from 'app/bungie/services/interface.barrel';
+
 export interface ICustomCache {
     cachedData: any;
     cachedPromise: Promise<any>;
@@ -32,7 +34,7 @@ export class HttpService {
     private customCaches = new Map<string, ICustomCache>();
 
     //Return the same promise if it's been started already
-    private refreshTokenPromise: Promise<any>;
+    private tokenPromise: Promise<any>;
 
     constructor(private http: HttpClient, public sharedApp: SharedApp) {
         // Load Map from local storage
@@ -50,11 +52,15 @@ export class HttpService {
     }
 
     // Headers
-    private getBungieBasicAuthHeaders(): HttpHeaders {
+    // private getBungieAuthHeaders(): HttpHeaders {
+    //     return new HttpHeaders().set('Authorization', "Basic " + environment.apiEncodedAuth).set('Content-Type', 'application/x-www-form-urlencoded').set('X-API-Key', this.apiKey);
+    // }
+
+    private getBungieBasicHeaders(): HttpHeaders {
         return new HttpHeaders().set('X-API-Key', this.apiKey);
     }
 
-    private getBungiePrivilegedAuthHeaders(): HttpHeaders {
+    private getBungiePrivilegedHeaders(): HttpHeaders {
         return new HttpHeaders().set('Authorization', "Bearer " + this.sharedApp.accessToken).set('X-API-Key', this.apiKey);
     }
 
@@ -127,7 +133,7 @@ export class HttpService {
         this.sharedApp.showLoading(loadingId);
 
         return new Promise((resolve, reject) => {
-            this.getBungieTokenResponse(bungieAuthCode).then((accessTokenResponse) => {
+            this.getBungieTokenResponseFromAPI(bungieAuthCode).then((accessTokenResponse) => {
                 this.sharedApp.hideLoading(loadingId);
                 resolve(accessTokenResponse);
             }).catch((error) => {
@@ -138,13 +144,13 @@ export class HttpService {
         });
     }
 
-    private getBungieTokenResponse(authCodeOnce?: string) {
+    private getBungieTokenResponseFromAPI(authCodeOnce?: string) {
         //If we are authenticating with the one time code, then post it to the server
         // Otherwise, we are refreshing. Post the actual accessToken to the server where it will refresh it automatically
 
         //Return the promise if it's already started so we don't try to refresh multiple times
-        if (this.refreshTokenPromise != null)
-            return this.refreshTokenPromise;
+        if (this.tokenPromise != null)
+            return this.tokenPromise;
 
         let tokenUrl = authCodeOnce ? "api/bungie/accessToken" : "api/bungie/refreshToken";
 
@@ -153,7 +159,7 @@ export class HttpService {
             tokenUrl = environment.useApiPrefix + tokenUrl;
 
         let postBody = authCodeOnce ? authCodeOnce : this.sharedApp.accessToken;
-        this.refreshTokenPromise = this.httpPost(tokenUrl, postBody).then((authResponse) => {
+        this.tokenPromise = this.httpPost(tokenUrl, postBody).then((authResponse) => {
             //Refresh when the token is 98% expired
             this.sharedApp.accessTokenExpires = (Date.now() + authResponse.expiresIn * 1000 * .98);
             this.sharedApp.accessToken = authResponse.accessToken;
@@ -163,17 +169,54 @@ export class HttpService {
             this.sharedApp.setLocalStorage("accessToken", this.sharedApp.accessToken);
             this.sharedApp.setLocalStorage("membershipId", this.sharedApp.membershipId);
 
-            this.refreshTokenPromise = null;
+            this.tokenPromise = null;
 
             return authResponse;
         });
 
-        return this.refreshTokenPromise
+        return this.tokenPromise;
     }
 
+    /*
+    private getBungieTokenResponseFromClient(authCodeOnce?: string) {
+        //If we are authenticating with the one time code, then get authToken from bungie
+        // Otherwise, we are refreshing.
+
+        // Return the promise if it's already started so we don't try to refresh multiple times
+        if (this.tokenPromise != null)
+            return this.tokenPromise;
+
+        let tokenUrl = "https://www.bungie.net/platform/app/oauth/token/";
+        if (authCodeOnce) {
+            let postBody = "grant_type=authorization_code&code=" + authCodeOnce;
+            this.tokenPromise = this.httpPost(tokenUrl, postBody, this.getBungieAuthHeaders());
+        }
+        else {
+            let postBody = "grant_type=refresh_token&refresh_token=" + this.sharedApp.refreshToken;
+            this.tokenPromise = this.httpPost(tokenUrl, postBody, this.getBungieAuthHeaders())
+        }
+
+        return this.tokenPromise.then((oAuthResponse: IBungieOAuth) => {
+            //Refresh when the token is 98% expired
+            this.sharedApp.accessToken = oAuthResponse.access_token;
+            this.sharedApp.accessTokenExpires = (Date.now() + oAuthResponse.expires_in * 1000 * .98);
+            this.sharedApp.refreshToken = oAuthResponse.refresh_token;
+            this.sharedApp.membershipId = +oAuthResponse.membership_id;
+
+            this.sharedApp.setLocalStorage("accessToken", this.sharedApp.accessToken);
+            this.sharedApp.setLocalStorage("accessTokenExpires", this.sharedApp.accessTokenExpires);
+            this.sharedApp.setLocalStorage("refreshToken", this.sharedApp.refreshToken);
+            this.sharedApp.setLocalStorage("membershipId", this.sharedApp.membershipId);
+
+            this.tokenPromise = null;
+
+            return oAuthResponse;
+        });
+    }
+*/
     private checkBungieRefreshToken(): Promise<any> {
         if (this.sharedApp.accessToken != null && this.sharedApp.accessTokenExpires <= Date.now())
-            return this.getBungieTokenResponse().catch((error) => {
+            return this.getBungieTokenResponseFromAPI().catch((error) => {
                 console.log("There was an error when trying to Refresh Token.");
             });
         else
@@ -187,7 +230,7 @@ export class HttpService {
         return new Promise((resolve, reject) => {
             //If the token needs to be refreshed, do it before making the call
             this.checkBungieRefreshToken().then(() => {
-                let headers = privileged ? this.getBungiePrivilegedAuthHeaders() : this.getBungieBasicAuthHeaders();
+                let headers = privileged ? this.getBungiePrivilegedHeaders() : this.getBungieBasicHeaders();
                 this.httpGet(url, headers).then((response) => {
                     this.sharedApp.hideLoading(loadingId);
                     if (response.ErrorCode == 1)
@@ -212,7 +255,7 @@ export class HttpService {
         return new Promise((resolve, reject) => {
             //If the token needs to be refreshed, do it before making the call
             this.checkBungieRefreshToken().then(() => {
-                let headers = privileged ? this.getBungiePrivilegedAuthHeaders() : this.getBungieBasicAuthHeaders();
+                let headers = privileged ? this.getBungiePrivilegedHeaders() : this.getBungieBasicHeaders();
                 this.httpPost(url, body, headers).then((response) => {
                     this.sharedApp.hideLoading(loadingId);
                     if (response.ErrorCode == 1)

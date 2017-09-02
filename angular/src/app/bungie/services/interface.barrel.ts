@@ -12,5 +12,7 @@ export * from './destiny/stats/character-progression.interface';
 export * from './destiny/stats/character-stats.interface';
 export * from './destiny/stats/clan-leaderboards-stats.interface';
 
+export * from './platform/oauth.interface';
+
 export * from './user/get-bungie-account.interface';
 export * from './user/user.interface';  

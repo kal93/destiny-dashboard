@@ -46,6 +46,7 @@ export class SharedApp {
     // Application wide Bungie variables
     public accessToken: string;
     public accessTokenExpires: number;
+    public refreshToken: string;
     public membershipId: number;
 
     // Application wide dashboard variables
@@ -68,8 +69,8 @@ export class SharedApp {
 
         this.accessToken = this.getLocalStorage("accessToken");
         this.accessTokenExpires = +this.getLocalStorage("accessTokenExpires", -1);
+        this.refreshToken = this.getLocalStorage("refreshToken");
         this.membershipId = +this.getLocalStorage("membershipId", -1);
-
 
         let resizeTimeoutId: NodeJS.Timer;
         this.windowResize$.subscribe(e => {
