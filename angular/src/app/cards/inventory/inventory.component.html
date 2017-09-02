@@ -50,7 +50,9 @@
                     <dd-inventory-item *ngIf="!inventoryItem.filteredOut" [class.edit-mode]="editMode" [class.transfer-disabled]="editMode && inventoryItem.itemValue.nonTransferrable"
                       [class.selected]="inventoryItem.selected" [inventoryItem]="inventoryItem" [accountSummary]="accountSummary"
                       [disablePopup]="editMode" [equipped]="inventoryItem.transferStatus % 2 == 1" [selected]="editMode && inventoryItem.selected"
-                      (clicked)="inventoryItemClicked(inventoryItem)" (longPress)="inventoryItemLongPress(inventoryItem)"></dd-inventory-item>
+                      (transferItemToIndexEvent)="transferSingleItemToIndex($event.inventoryItem, $event.destCharacterIndex)"
+                      (equipItemToIndexEvent)="equipSingleItemToIndex($event.inventoryItem, $event.destCharacterIndex)" (clicked)="inventoryItemClicked(inventoryItem)"
+                      (longPress)="inventoryItemLongPress(inventoryItem)"></dd-inventory-item>
                   </ng-container>
                 </div>
               </div>

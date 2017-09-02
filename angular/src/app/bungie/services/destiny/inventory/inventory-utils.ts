@@ -158,11 +158,13 @@ export class InventoryUtils {
         return null;
     }
 
-    public static getUnequippedLowestValueItemFromBucket(destBucket: InventoryBucket): InventoryItem {
+    public static getUnequippedLowestValueItemFromBucket(destBucket: InventoryBucket, allowExotic: boolean = true): InventoryItem {
         var lowestValueItem: InventoryItem;
         for (let i = 0; i < destBucket.items.length; i++) {
             let inventoryItem = destBucket.items[i];
             if (InventoryUtils.isItemEquipped(inventoryItem))
+                continue;
+            if (!allowExotic && InventoryUtils.isItemExotic(inventoryItem))
                 continue;
             if (!lowestValueItem) {
                 lowestValueItem = inventoryItem;

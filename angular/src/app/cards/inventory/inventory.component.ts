@@ -320,12 +320,19 @@ export class ItemManagerComponent extends CardComponent {
     }
 
     transferSingleItemToIndex(inventoryItem: InventoryItem, destCharacterIndex: number): Promise<any> {
+        let loadingId = -56489;
+        this.sharedApp.showLoading(loadingId);
+
         return new Promise<any>((resolve, reject) => {
             // Don't transfer items with no quantity
-            if (inventoryItem.transferQuantity === 0)
-                return resolve();
+            if (inventoryItem.transferQuantity == null || inventoryItem.transferQuantity == 0) {
+                console.log("Attempted to transfer item with no quantity. Defaulting to 1.");
+                inventoryItem.transferQuantity = 1;
+            }
 
-            // Don't attempt to transfer if destination bucket is full            
+            this.inventoryItemService.setData(this.bucketsMap, this.selectedMembership, this.accountSummary);
+
+            // Don't attempt to transfer if destination bucket is full
             let destBucket: InventoryBucket = this.bucketsMap[destCharacterIndex].get(inventoryItem.itemValue.bucketTypeHash);
             if (InventoryUtils.isBucketFull(destBucket)) {
                 this.sharedApp.showWarning(inventoryItem.itemValue.itemName + " transfer failed: Destination is full!",
@@ -333,7 +340,7 @@ export class ItemManagerComponent extends CardComponent {
                 return resolve();
             }
 
-            this.inventoryItemService.transferItemToIndex(this.bucketsMap, this.selectedMembership, this.accountSummary, inventoryItem, destCharacterIndex)
+            this.inventoryItemService.transferItemToIndex(inventoryItem, destCharacterIndex)
                 .then((transferResult: Array<Array<InventoryItemTransferResult>>) => {
                     let transferSuccesses = transferResult[0];
                     let transferFailures = transferResult[1];
@@ -353,6 +360,37 @@ export class ItemManagerComponent extends CardComponent {
                     this.sharedApp.showError("There was an unexpected error transferring items!", error);
                     reject(error);
                 });
+        }).then((data) => {
+            this.sharedApp.hideLoading(loadingId);
+            return data;
+        });
+    }
+
+    equipSingleItemToIndex(inventoryItem: InventoryItem, destCharacterIndex: number): Promise<any> {
+        // Transfer, then equip it
+        let loadingId = -96548;
+        this.sharedApp.showLoading(loadingId);
+        return new Promise<any>((resolve, reject) => {
+            this.inventoryItemService.setData(this.bucketsMap, this.selectedMembership, this.accountSummary);
+
+            // Transfer item if it's not on the same character
+            if (inventoryItem.characterIndex != destCharacterIndex) {
+                this.transferSingleItemToIndex(inventoryItem, destCharacterIndex).then(() => {
+                    setTimeout(() => {
+                        this.inventoryItemService.equipItem(inventoryItem);
+                        resolve();
+                    }, InventoryItemService.TRANSFER_DELAY)
+                }).catch((error) => {
+                    reject(error);
+                });
+            }
+            else {
+                this.inventoryItemService.equipItem(inventoryItem);
+                resolve();
+            }
+        }).then((data) => {
+            this.sharedApp.hideLoading(loadingId);
+            return data;
         });
     }
 }

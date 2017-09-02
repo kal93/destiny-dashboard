@@ -32,6 +32,10 @@ export class InventoryItemComponent {
   longPress = new EventEmitter<void>();
   @Output()
   clicked = new EventEmitter<void>();
+  @Output()
+  transferItemToIndexEvent = new EventEmitter<{ inventoryItem: InventoryItem, destCharacterIndex: number }>();
+  @Output()
+  equipItemToIndexEvent = new EventEmitter<{ inventoryItem: InventoryItem, destCharacterIndex: number }>();
 
   // 0=nothing, 1=kinetic, 2=arc, 3=solar, 4=void
   damageTypeColors = ["#2A333E", "#2A333E", "#84C4EB", "#F36F26", "#B082CB"];
@@ -75,6 +79,8 @@ export class InventoryItemComponent {
     this.inventoryItemPopupComponentRef.instance["inventoryItem"] = this.inventoryItem;
     this.inventoryItemPopupComponentRef.instance["destroyPopupSubject"] = this.destroyPopupSubject;
     this.inventoryItemPopupComponentRef.instance["accountSummary"] = this.accountSummary;
+    this.inventoryItemPopupComponentRef.instance["transferItemToIndexEvent"] = this.transferItemToIndexEvent;
+    this.inventoryItemPopupComponentRef.instance["equipItemToIndexEvent"] = this.equipItemToIndexEvent;
 
     this.destroyPopupSubscription = this.destroyPopupSubject.subscribe(() => {
       this.hidePopup();

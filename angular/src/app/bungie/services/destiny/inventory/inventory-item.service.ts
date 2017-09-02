@@ -17,15 +17,17 @@ export class InventoryItemService {
     private _transferFailures: Array<InventoryItemTransferResult>;
 
     // Delay transfers so we don't get yelled at by the API
-    public static TRANSFER_DELAY = 500;
+    public static TRANSFER_DELAY = 400;
 
     constructor(protected http: HttpService, public sharedApp: SharedApp) { }
 
-    transferItemToIndex(bucketsMap: Array<Map<number, InventoryBucket>>, selectedMembership: DestinyMembership, accountSummary: IAccountSummary, inventoryItem: InventoryItem, destCharacterIndex: number): Promise<Array<Array<InventoryItemTransferResult>>> {
+    setData(bucketsMap: Array<Map<number, InventoryBucket>>, selectedMembership: DestinyMembership, accountSummary: IAccountSummary) {
         this._bucketsMap = bucketsMap;
         this._selectedMembership = selectedMembership;
         this._accountSummary = accountSummary;
+    }
 
+    transferItemToIndex(inventoryItem: InventoryItem, destCharacterIndex: number): Promise<Array<Array<InventoryItemTransferResult>>> {
         this._transferSuccesses = new Array<InventoryItemTransferResult>();
         this._transferFailures = new Array<InventoryItemTransferResult>();
 
@@ -83,21 +85,42 @@ export class InventoryItemService {
                 let srcBucket = this._bucketsMap[srcCharacterIndex].get(inventoryItem.itemValue.bucketTypeHash);
                 let highestValueItem = InventoryUtils.getUnequippedHighestValueNonExoticItemFromBucket(srcBucket);
                 if (highestValueItem == null) {
-                    var tranferResult: any = { inventoryItem: inventoryItem, Message: "Could not unequip the item in order to transfer it." };
-                    this._transferFailures.push(tranferResult);
-                    resolve(tranferResult);
+                    // If we're trying to unequip it but can't, try transfer junk from vault first.
+                    let vaultBucket = this._bucketsMap[3].get(inventoryItem.itemValue.bucketTypeHash);
+                    let lowestValueItemFromVault = InventoryUtils.getUnequippedLowestValueItemFromBucket(vaultBucket, false);
+                    // If even after all of that, we couldn't get anything from the vault, throw an error
+                    if (lowestValueItemFromVault == null) {
+                        var tranferResult: any = { inventoryItem: inventoryItem, Message: "Could not unequip the item in order to transfer it." };
+                        this._transferFailures.push(tranferResult);
+                        return resolve(tranferResult);
+                    }
+
+                    // Get junk item from vault so we can unequip our current item
+                    this.transferItemVaultToCharacter(lowestValueItemFromVault, inventoryItem.characterIndex, count).then((transferResult: InventoryItemTransferResult) => {
+                        this.sharedApp.showInfo("Transferred " + lowestValueItemFromVault.itemValue.itemName + " from vault to un-equip " + inventoryItem.itemValue.itemName, { timeOut: 3000 });
+
+                        // Equip junk item
+                        setTimeout(() => {
+                            this.equipItem(lowestValueItemFromVault).then(() => {
+                                setTimeout(() => {
+                                    // Finally, transfer our current item out
+                                    resolve(this.transferItem(srcCharacter.characterBase.characterId, 3, inventoryItem, count, true));
+                                }, InventoryItemService.TRANSFER_DELAY);
+                            });
+                        }, InventoryItemService.TRANSFER_DELAY);
+                    });
                 }
                 else {
-                    this.equipItem(this._selectedMembership, srcCharacter.characterBase.characterId, srcCharacterIndex, highestValueItem).then(() => {
+                    this.equipItem(inventoryItem).then(() => {
                         setTimeout(() => {
-                            resolve(this.transferItem(this._selectedMembership, srcCharacter.characterBase.characterId, 3, inventoryItem, count, true));
+                            resolve(this.transferItem(srcCharacter.characterBase.characterId, 3, inventoryItem, count, true));
                         }, InventoryItemService.TRANSFER_DELAY);
                     });
                 }
             }
             else {
                 // Make sure the vault can handle whatever we're trying to transfer
-                resolve(this.transferItem(this._selectedMembership, srcCharacter.characterBase.characterId, 3, inventoryItem, count, true));
+                resolve(this.transferItem(srcCharacter.characterBase.characterId, 3, inventoryItem, count, true));
             }
         });
     }
@@ -111,29 +134,26 @@ export class InventoryItemService {
             // If the destination bucket is full, transfer out the lowest value item (Full stack if possible)
             if (InventoryUtils.isBucketFull(destBucket)) {
                 let lowestValueItem = InventoryUtils.getUnequippedLowestValueItemFromBucket(destBucket);
+                this.transferItemCharacterToVault(lowestValueItem, lowestValueItem.quantity).then(() => {
+                    this.sharedApp.showInfo("Destination was full, transferred " + lowestValueItem.itemValue.itemName + " to your vault to make room", { timeOut: 3000 });
 
-                setTimeout(() => {
-                    this.transferItemCharacterToVault(lowestValueItem, lowestValueItem.quantity).then(() => {
-                        this.sharedApp.showInfo("Destination was full, transferred " + lowestValueItem.itemValue.itemName + " to your vault to make room", { timeOut: 3000 });
-
-                        setTimeout(() => {
-                            resolve(this.transferItem(this._selectedMembership, destCharacter.characterBase.characterId, destCharacterIndex, inventoryItem, count, false));
-                        }, InventoryItemService.TRANSFER_DELAY);
-                    });
-                }, InventoryItemService.TRANSFER_DELAY);
+                    setTimeout(() => {
+                        resolve(this.transferItem(destCharacter.characterBase.characterId, destCharacterIndex, inventoryItem, count, false));
+                    }, InventoryItemService.TRANSFER_DELAY);
+                });
             }
             else
-                resolve(this.transferItem(this._selectedMembership, destCharacter.characterBase.characterId, destCharacterIndex, inventoryItem, count, false));
+                resolve(this.transferItem(destCharacter.characterBase.characterId, destCharacterIndex, inventoryItem, count, false));
         });
     }
 
-    private transferItem(membership: DestinyMembership, targetCharacterId: string, destCharacterIndex: number, inventoryItem: InventoryItem, count: number, toVault: boolean): Promise<InventoryItemTransferResult> {
+    private transferItem(targetCharacterId: string, destCharacterIndex: number, inventoryItem: InventoryItem, count: number, toVault: boolean): Promise<InventoryItemTransferResult> {
         // Build the request URL
         let requestUrl = "https://www.bungie.net/d1/Platform/Destiny/TransferItem/";
 
         let body = {
             characterId: targetCharacterId,
-            membershipType: membership.membershipType,
+            membershipType: this._selectedMembership.membershipType,
             itemId: inventoryItem.itemId,
             itemReferenceHash: inventoryItem.itemHash,
             stackSize: count,
@@ -171,28 +191,33 @@ export class InventoryItemService {
         });
     }
 
-    private equipItem(membership: DestinyMembership, characterId: string, destCharacterIndex: number, inventoryItem: InventoryItem): Promise<InventoryItemTransferResult> {
+    public equipItem(inventoryItem: InventoryItem): Promise<InventoryItemTransferResult> {
+        let srcCharacterId = this._accountSummary.characters[inventoryItem.characterIndex].characterBase.characterId;
+
         let requestUrl = "https://www.bungie.net/d1/Platform/Destiny/EquipItem/";
-        let destBucket: InventoryBucket = this._bucketsMap[destCharacterIndex].get(inventoryItem.itemValue.bucketTypeHash);
-
-        //Mark currently equipped item as unequipped
-        let equippedItem = InventoryUtils.getEquippedItemFromBucket(destBucket);
-        if (equippedItem != null)
-            equippedItem.transferStatus = 0;
-
-        //Mark target item as equipped
-        inventoryItem.transferStatus = 1;
-
-        // Sort after we insert the new item
-        InventoryUtils.sortBucketItems(destBucket);
-
         let body = {
-            membershipType: membership.membershipType,
+            membershipType: this._selectedMembership.membershipType,
             itemId: inventoryItem.itemId,
-            characterId: characterId
+            characterId: srcCharacterId
         };
 
-        return this.http.postBungie(requestUrl, body);
+        return this.http.postBungie(requestUrl, body).then((response) => {
+            let srcBucket: InventoryBucket = this._bucketsMap[inventoryItem.characterIndex].get(inventoryItem.itemValue.bucketTypeHash);
+
+            //Mark currently equipped item as unequipped
+            let equippedItem = InventoryUtils.getEquippedItemFromBucket(srcBucket);
+            if (equippedItem != null)
+                equippedItem.transferStatus = 0;
+
+            //Mark target item as equipped
+            inventoryItem.transferStatus = 1;
+
+            // Sort after we insert the new item
+            InventoryUtils.sortBucketItems(srcBucket);
+            return response;
+        }).catch((tranferResult: InventoryItemTransferResult) => {
+            this.sharedApp.showError("Error when equipping item: " + tranferResult.Message);
+        });
     }
 
     /*  private equipItems(membership: DestinyMembership, characterId: string, itemIds: Array<number>): Promise<InventoryItemTransferResult> {

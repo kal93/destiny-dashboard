@@ -25,7 +25,7 @@
                 <div class="type">Move</div>
             </div>
             <div *ngIf="inventoryItem.itemValue.equippable && (inventoryItem.characterIndex == i || !inventoryItem.itemValue.nonTransferrable)"
-                class="option" (click)="equipToIndex(i)" [style.opacity]="InventoryUtils.isItemEquipped(inventoryItem) && inventoryItem.characterIndex == i ? .5 : 1">
+                class="option" (click)="equipToIndex(i)" [class.no-equip]="InventoryUtils.isItemEquipped(inventoryItem) && inventoryItem.characterIndex == i">
                 <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemPath +')')"></div>
                 <div class="type">Equip</div>
             </div>

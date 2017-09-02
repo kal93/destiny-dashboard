@@ -26,8 +26,11 @@ export class InventoryItemPopupComponent {
   accountSummary: IAccountSummary;
 
   @Output()
+  transferItemToIndexEvent = new EventEmitter<{ inventoryItem: InventoryItem, destCharacterIndex: number }>();
+  @Output()
+  equipItemToIndexEvent = new EventEmitter<{ inventoryItem: InventoryItem, destCharacterIndex: number }>();
+  @Output()
   destroyPopupSubject: Subject<void> = new Subject<void>();
-
 
   public popupStyle = {};
 
@@ -36,7 +39,6 @@ export class InventoryItemPopupComponent {
   InventoryUtils = InventoryUtils;
 
   constructor(public domSanitizer: DomSanitizer, private elementRef: ElementRef, public manifestService: ManifestService, private sharedApp: SharedApp) {
-
   }
 
   @HostListener('document:click', ['$event'])
@@ -48,8 +50,6 @@ export class InventoryItemPopupComponent {
   }
 
   ngOnInit() {
-    console.log(this.inventoryItem);
-
     this.initPopupPosition();
   }
 
@@ -75,15 +75,16 @@ export class InventoryItemPopupComponent {
     this.popupStyle = { 'top.px': popupTop, 'left.px': popupLeft, 'width.px': popupWidth, 'max-height.px': popupMaxHeight };
   }
 
-  transferToIndex(characterIndex: number) {
-
-    console.log("transfer");
+  transferToIndex(destCharacterIndex: number) {
+    this.transferItemToIndexEvent.emit({ inventoryItem: this.inventoryItem, destCharacterIndex: destCharacterIndex });
+    this.destroyPopupSubject.next();
   }
 
-  equipToIndex(characterIndex: number) {
-    if (this.inventoryItem.characterIndex == characterIndex && InventoryUtils.isItemEquipped(this.inventoryItem))
+  equipToIndex(destCharacterIndex: number) {
+    if (this.inventoryItem.characterIndex == destCharacterIndex && InventoryUtils.isItemEquipped(this.inventoryItem))
       return;
 
-    console.log("equip");
+    this.equipItemToIndexEvent.emit({ inventoryItem: this.inventoryItem, destCharacterIndex: destCharacterIndex });
+    this.destroyPopupSubject.next();
   }
 }

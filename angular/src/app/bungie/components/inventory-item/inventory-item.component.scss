@@ -17,9 +17,9 @@
         font-size: .85em;
 
         &.equipped {
-            border: 4px double #F44336;
-            width: $iconHeight - 6;
-            height: $iconWidth - 6;
+            border: 3px double #B71C1C;
+            width: $iconHeight - 4;
+            height: $iconWidth - 4;
         }
 
         &.selected {

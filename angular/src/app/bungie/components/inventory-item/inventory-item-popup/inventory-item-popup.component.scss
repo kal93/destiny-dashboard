@@ -12,14 +12,17 @@
     flex-direction: column;
 
     .header-wrap {
+        $iconSize: 72px;
+
         display: flex;
         align-items: center;
         background-color: rgba(0,0,0, .3);
         box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+        min-height: $iconSize;
 
         .item-icon {
-            width: 72px;
-            height: 72px;
+            width: $iconSize;
+            height: $iconSize;
             background-size: contain;
             position: relative;
             font-size: .85em;
@@ -87,9 +90,15 @@
         background-color: rgba(0, 0, 0, 0.3);
         padding-top: 6px;
         box-shadow: 0 -1px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 4px -1px rgba(0, 0, 0, 0.3);
+        min-height: 56px;
 
         .option {
             cursor: pointer;
+
+            &.no-equip {
+                opacity: .5;
+                cursor: not-allowed;
+            }
 
             .icon {
                 width: 40px;
@@ -105,24 +114,6 @@
                 font-size: .7em;
                 opacity: .8;
                 text-transform: uppercase;
-            }
-
-            &.transfer-disabled {
-                cursor: not-allowed;
-
-                .icon {
-                    opacity: .4;
-
-                    &::after {
-                        content: 'X';
-                        background-color: #f00;
-                        height: 100%;
-                        display: flex;
-                        align-items: center;
-                        font-size: 1.5em;
-                        justify-content: center;
-                    }
-                }
             }
         }
     }
