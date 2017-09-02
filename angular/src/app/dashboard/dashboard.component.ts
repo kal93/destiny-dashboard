@@ -7,7 +7,6 @@ import { SharedDashboard } from './shared-dashboard.service';
 import { ConfirmDialog } from '../shared/dialogs/confirm.component';
 import { SimpleInputDialog } from '../shared/dialogs/simple-input.component';
 
-import { debounceBy } from '../shared/decorators';
 import { fadeInChildren, fadeInOut } from '../shared/animations';
 import { ISubNavItem, IToolbarItem } from '../nav/nav.interface';
 import { ICard, IUserDashboard } from '../cards/_base/card.interface';
@@ -319,7 +318,6 @@ export class DashboardComponent {
   }
 
   // Set the number of columns in our md-grid-list. The amount of columns change depending on the screen width
-  @debounceBy(100)
   setColumnCount() {
     // 187 is the magic number apparently
     this.columnCount = Math.max(Math.round(this.sharedApp.windowWidth / 187), 3);

@@ -13,8 +13,6 @@ import { delayBy } from '../decorators';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/throttleTime';
 import 'rxjs/add/observable/fromEvent';
 
 /** This Injectable manages the application */
@@ -31,7 +29,7 @@ export class SharedApp {
     invalidateCachesSubject = new Subject<void>();
     logOutSubject = new Subject<void>();
 
-    windowResize$: Observable<any> = Observable.fromEvent(window, 'resize').throttleTime(200);
+    windowResize$: Observable<any> = Observable.fromEvent(window, 'resize');
 
     // Application specific
     public appInitialized: boolean = false;

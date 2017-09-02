@@ -1,7 +1,5 @@
 import { Directive, EventEmitter, HostListener, Input, Output } from '@angular/core';
 
-import { debounceBy } from '../../shared/decorators';
-
 @Directive({
   selector: '[ddMouseEvents]'
 })
@@ -52,7 +50,6 @@ export class MouseEventsDirective {
   }
 
   @HostListener('touchmove', ['$event'])
-  @debounceBy(50)
   touchMove(event: TouchEvent) {
     // If we already know we're going to cancel events, return
     if (this.cancelTouchAndPress) return;
