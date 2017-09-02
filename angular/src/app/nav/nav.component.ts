@@ -105,6 +105,7 @@ export class NavComponent {
   backToDashboard() {
     if (this.openMenuOnDashboardLoad)
       this.mainNav.open();
+    this.subNav.close();
     this.router.navigate(['/dashboard']);
   }
 

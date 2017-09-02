@@ -97,7 +97,7 @@ export class DashboardComponent {
           return;
         }
 
-        let dialogRef: MdDialogRef<SimpleInputDialog> = this.mdDialog.open(SimpleInputDialog, { height: '240px', width: '340px', });
+        let dialogRef: MdDialogRef<SimpleInputDialog> = this.mdDialog.open(SimpleInputDialog);
         dialogRef.componentInstance.title = "Create Dashboard";
         dialogRef.componentInstance.inputPlaceholder = "Dashboard Name";
         dialogRef.componentInstance.inputValue = this.sharedDashboard.generateDashboardName();

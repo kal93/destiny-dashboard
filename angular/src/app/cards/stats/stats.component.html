@@ -84,7 +84,7 @@
         </md-tab>
 
         <!-- Character Specific Data -->
-        <md-tab *ngFor="let character of accountSummary?.characters; let i = index">
+        <md-tab *ngFor="let character of accountSummary?.characters">
           <ng-template mdTabLabel>
             <dd-md-tab-character-heading [character]="character"></dd-md-tab-character-heading>
           </ng-template>
