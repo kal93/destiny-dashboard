@@ -5,7 +5,7 @@ import { InventoryBucket, InventoryItem } from 'app/bungie/services/interface.ba
 export class InventoryUtils {
 
     // Converts an API response to a workable bucketMap, and populates the hashes for bucket and items
-    public static populateBucketMapFromResponse(characterIndex: number, manifestService: ManifestService, bucketItemsResponse: Array<InventoryItem>, bucketsMap: Map<number, InventoryBucket>) {
+    public static populateBucketMapFromResponse(characterIndex: number, manifestService: ManifestService, bucketItemsResponse: Array<InventoryItem>, inventoryItemHashMap: Map<number, InventoryItem>, bucketsMap: Map<number, InventoryBucket>) {
         // Loop each vault item and place in to proper bucket
         bucketItemsResponse.forEach((inventoryItem) => {
             // Get the vault item definition 
@@ -31,6 +31,9 @@ export class InventoryUtils {
                 inventoryItem.damageTypeValue = manifestService.getManifestEntry("DestinyDamageTypeDefinition", inventoryItem.damageTypeHash);
 
             inventoryBucket.items.push(inventoryItem);
+
+            // Add this item to the inventoryItemHash map
+            inventoryItemHashMap.set(inventoryItem.itemHash, inventoryItem);
         });
     }
 
@@ -159,7 +162,7 @@ export class InventoryUtils {
     }
 
     public static getUnequippedLowestValueItemFromBucket(destBucket: InventoryBucket, allowExotic: boolean = true): InventoryItem {
-        var lowestValueItem: InventoryItem;
+        let lowestValueItem: InventoryItem;
         for (let i = 0; i < destBucket.items.length; i++) {
             let inventoryItem = destBucket.items[i];
             if (InventoryUtils.isItemEquipped(inventoryItem))
@@ -187,7 +190,7 @@ export class InventoryUtils {
     }
 
     public static getUnequippedHighestValueNonExoticItemFromBucket(destBucket: InventoryBucket): InventoryItem {
-        var highestValueItem: InventoryItem;
+        let highestValueItem: InventoryItem;
         for (let i = 0; i < destBucket.items.length; i++) {
             let inventoryItem = destBucket.items[i];
             if (InventoryUtils.isItemEquipped(inventoryItem))

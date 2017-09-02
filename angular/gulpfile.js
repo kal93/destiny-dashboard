@@ -1,8 +1,8 @@
-var clean = require('gulp-clean');
-var gulp = require('gulp');
-var replace = require('gulp-replace');
-var runSequence = require('run-sequence');
-var shell = require('gulp-shell');
+let clean = require('gulp-clean');
+let gulp = require('gulp');
+let replace = require('gulp-replace');
+let runSequence = require('run-sequence');
+let shell = require('gulp-shell');
 
 // This is main task for production use
 gulp.task('build', function (done) {

@@ -36,6 +36,7 @@ import { CustomReuseStrategy, Routing } from './shared/routing';
 import { AlertDialog } from './shared/dialogs/alert.component';
 import { ConfirmDialog } from './shared/dialogs/confirm.component';
 import { FiltersDialog } from './cards/inventory/filters-dialog/filters-dialog.component';
+import { LoadoutsDialog } from './cards/inventory/loadouts-dialog/loadouts-dialog.component';
 import { SimpleInputDialog } from './shared/dialogs/simple-input.component';
 import { TransferQuantityDialog } from './cards/inventory/transfer-quantity-dialog/transfer-quantity-dialog.component';
 
@@ -84,7 +85,7 @@ import { NumberFormatLocalePipe, RoundToDecimalPlacePipe } from './shared/pipes/
     AppComponent, NavComponent,
 
     //Dialogs
-    AlertDialog, ConfirmDialog, FiltersDialog, SimpleInputDialog, TransferQuantityDialog,
+    AlertDialog, ConfirmDialog, FiltersDialog, LoadoutsDialog, SimpleInputDialog, TransferQuantityDialog,
 
     //Base Components
     AddCardComponent, CardHeaderComponent, CardLoaderComponent, DashboardComponent,
@@ -103,7 +104,7 @@ import { NumberFormatLocalePipe, RoundToDecimalPlacePipe } from './shared/pipes/
   ],
 
   entryComponents: [
-    AlertDialog, ConfirmDialog, FiltersDialog, InventoryItemPopupComponent, SimpleInputDialog, TransferQuantityDialog
+    AlertDialog, ConfirmDialog, FiltersDialog, LoadoutsDialog, InventoryItemPopupComponent, SimpleInputDialog, TransferQuantityDialog
   ],
   imports: [
     Angulartics2Module.forRoot([Angulartics2GoogleAnalytics]),
@@ -119,6 +120,7 @@ import { NumberFormatLocalePipe, RoundToDecimalPlacePipe } from './shared/pipes/
   ],
   providers: [
     AuthGuard,
+    HttpService,
     SharedApp,
     GlobalErrorHandler,
     { provide: ErrorHandler, useClass: GlobalErrorHandler },

@@ -90,7 +90,7 @@ export class InventoryItemService {
                     let lowestValueItemFromVault = InventoryUtils.getUnequippedLowestValueItemFromBucket(vaultBucket, false);
                     // If even after all of that, we couldn't get anything from the vault, throw an error
                     if (lowestValueItemFromVault == null) {
-                        var tranferResult: any = { inventoryItem: inventoryItem, Message: "Could not unequip the item in order to transfer it." };
+                        let tranferResult: any = { inventoryItem: inventoryItem, Message: "Could not unequip the item in order to transfer it." };
                         this._transferFailures.push(tranferResult);
                         return resolve(tranferResult);
                     }

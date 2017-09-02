@@ -7,6 +7,7 @@ import { ManifestService } from 'app/bungie/manifest/manifest.service';
 import { SharedBungie } from 'app/bungie/shared-bungie.service';
 import { SharedApp } from 'app/shared/services/shared-app.service';
 import { FiltersDialog } from './filters-dialog/filters-dialog.component';
+import { LoadoutsDialog } from './loadouts-dialog/loadouts-dialog.component';
 import { TransferQuantityDialog } from './transfer-quantity-dialog/transfer-quantity-dialog.component';
 import { InventoryUtils } from 'app/bungie/services/destiny/inventory/inventory-utils';
 
@@ -36,6 +37,9 @@ export class ItemManagerComponent extends CardComponent {
 
     // Account summary so we can get the characters associated to this account
     accountSummary: IAccountSummary;
+
+    // Map of all inventoryItems for a player
+    private inventoryItemHashMap = new Map<number, InventoryItem>();
 
     // Array of Map of <bucketHash, bucket>. Array position matches caracter position in this.accountSummary.characters. Vault is always [3]
     private bucketsMap: Array<Map<number, InventoryBucket>> = new Array<Map<number, InventoryBucket>>(4);
@@ -147,10 +151,11 @@ export class ItemManagerComponent extends CardComponent {
         });
     }
 
-    populateBuckets(bucketIndex: number, responseItems: Array<InventoryItem>) {
+    populateBuckets(bucketIndex: number, inventoryItems: Array<InventoryItem>) {
+        this.inventoryItemHashMap = new Map<number, InventoryItem>();
         this.bucketsMap[bucketIndex] = new Map<number, InventoryBucket>();
         this.bucketsArray[bucketIndex] = new Array<InventoryBucket>();
-        InventoryUtils.populateBucketMapFromResponse(bucketIndex, this.manifestService, responseItems, this.bucketsMap[bucketIndex]);
+        InventoryUtils.populateBucketMapFromResponse(bucketIndex, this.manifestService, inventoryItems, this.inventoryItemHashMap, this.bucketsMap[bucketIndex]);
         InventoryUtils.populateBucketArrayFromMap(this.bucketsMap[bucketIndex], this.bucketsArray[bucketIndex]);
         InventoryUtils.groupBuckets(this.bucketGroupsArray, this.bucketsArray[bucketIndex], bucketIndex);
     }
@@ -248,8 +253,13 @@ export class ItemManagerComponent extends CardComponent {
         this.sharedApp.subNavItems.push({ title: '_spacer', materialIcon: '' });
 
         this.sharedApp.subNavItems.push({
-            title: 'Manage Loadouts', materialIcon: 'library_add',
+            title: 'Loadouts', materialIcon: 'build',
             selectedCallback: (subNavItem: ISubNavItem) => {
+                let dialogRef = this.mdDialog.open(LoadoutsDialog);
+                dialogRef.componentInstance.membershipId = this.selectedMembership.membershipId;
+                dialogRef.componentInstance.inventoryItemHashMap = this.inventoryItemHashMap;
+                dialogRef.afterClosed().subscribe((result: string) => {
+                });
             }
         });
 
@@ -258,7 +268,7 @@ export class ItemManagerComponent extends CardComponent {
 
     transferItemsToIndex(inventoryItems: Array<InventoryItem>, destCharacterIndex: number) {
         let showTransferQuantityDialog: boolean = false;
-        for (var i = 0; i < inventoryItems.length; i++) {
+        for (let i = 0; i < inventoryItems.length; i++) {
             let inventoryItem = inventoryItems[i];
             // Don't transfer things that already exist in their destination
             if (inventoryItem.characterIndex == destCharacterIndex) {

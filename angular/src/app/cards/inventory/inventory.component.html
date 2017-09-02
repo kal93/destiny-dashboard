@@ -50,7 +50,7 @@
                     <dd-inventory-item *ngIf="!inventoryItem.filteredOut" [class.edit-mode]="editMode" [class.transfer-disabled]="editMode && inventoryItem.itemValue.nonTransferrable"
                       [class.selected]="inventoryItem.selected" [inventoryItem]="inventoryItem" [accountSummary]="accountSummary"
                       [disablePopup]="editMode" [equipped]="inventoryItem.transferStatus % 2 == 1" [selected]="editMode && inventoryItem.selected"
-                      (transferItemToIndexEvent)="transferSingleItemToIndex($event.inventoryItem, $event.destCharacterIndex)"
+                      (transferItemToIndexEvent)="transferItemsToIndex([$event.inventoryItem], $event.destCharacterIndex)"
                       (equipItemToIndexEvent)="equipSingleItemToIndex($event.inventoryItem, $event.destCharacterIndex)" (clicked)="inventoryItemClicked(inventoryItem)"
                       (longPress)="inventoryItemLongPress(inventoryItem)"></dd-inventory-item>
                   </ng-container>
@@ -83,7 +83,9 @@
                   <ng-container *ngFor="let inventoryItem of bucket.items">
                     <dd-inventory-item *ngIf="!inventoryItem.filteredOut" [class.edit-mode]="editMode" [class.selected]="inventoryItem.selected"
                       [inventoryItem]="inventoryItem" [accountSummary]="accountSummary" [disablePopup]="editMode" [equipped]="inventoryItem.transferStatus % 2 == 1"
-                      [selected]="editMode && inventoryItem.selected" (clicked)="inventoryItemClicked(inventoryItem)" (longPress)="inventoryItemLongPress(inventoryItem)"></dd-inventory-item>
+                      [selected]="editMode && inventoryItem.selected" (transferItemToIndexEvent)="transferItemsToIndex([$event.inventoryItem], $event.destCharacterIndex)"
+                      (equipItemToIndexEvent)="equipSingleItemToIndex($event.inventoryItem, $event.destCharacterIndex)" (clicked)="inventoryItemClicked(inventoryItem)"
+                      (longPress)="inventoryItemLongPress(inventoryItem)"></dd-inventory-item>
                   </ng-container>
                 </div>
               </div>
