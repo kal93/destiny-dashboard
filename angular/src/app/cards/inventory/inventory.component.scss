@@ -26,14 +26,13 @@
                 padding-right: 0;
             }
 
-            $iconHeight: 55px;
-            $iconWidth: 55px;
+            $iconSize: 55px;
 
             .icon {
                 box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
                 pointer-events: none;
-                width: $iconWidth;
-                height: $iconHeight;
+                width: $iconSize;
+                height: $iconSize;
                 background-size: contain;
 
                 &.vault {
@@ -42,8 +41,8 @@
             }
 
             .close {
-                width: $iconWidth;
-                height: $iconHeight;
+                width: $iconSize;
+                height: $iconSize;
 
                 md-icon {
                     @include md-icon-size(36px);
@@ -286,17 +285,16 @@
         .menu-option {
             padding: 4px 2px;
 
-            $iconHeight: 48px;
-            $iconWidth: 48px;
+            $iconSize: 48px;
 
             .icon {
-                width: $iconWidth;
-                height: $iconHeight;
+                width: $iconSize;
+                height: $iconSize;
             }
 
             .close {
-                width: $iconWidth - 5;
-                height: $iconHeight;
+                width: $iconSize - 5;
+                height: $iconSize;
             }
         }
     }

@@ -1,0 +1,34 @@
+<div md-dialog-title> Manage Loadouts </div>
+<div md-dialog-content class="loadouts-wrap">
+  <md-tab-group #tabGroup (selectedIndexChange)="selectedTabIndexChanged($event)">
+
+    <md-tab *ngFor="let userLoadout of userLoadouts">
+      <ng-template mdTabLabel>
+        {{userLoadout.name}}
+      </ng-template>
+      <div class="tab-content-wrap">
+        <div *ngIf="userLoadout.inventoryItems == null || userLoadout.inventoryItems.length == 0"> No items in this loadout</div>
+        <div class="loadout-item" *ngFor="let inventoryItem of userLoadout.inventoryItems">
+          <dd-inventory-item [inventoryItem]="inventoryItem" [disablePopup]="true"></dd-inventory-item>
+        </div>
+        <div *ngIf="!editMode" class="item-option add-item" (click)="addItemsToLoadout(userLoadout)">
+          <md-icon>add</md-icon> <span>Add</span>
+        </div>
+      </div>
+    </md-tab>
+
+    <md-tab>
+      <ng-template mdTabLabel>
+        <md-icon>add</md-icon><span class="new-loadout"> New Loadout </span>
+      </ng-template>
+      <div class="tab-content-wrap">
+        <div *ngIf="userLoadouts.length == 0"> You don't have any loadouts!</div>
+        <button md-raised-button (click)="createLoadout()"> Create Loadout </button>
+      </div>
+    </md-tab>
+
+  </md-tab-group>
+</div>
+<div md-dialog-actions class="card-actions">
+  <button md-button (click)="closeDialog()" class="close">Close</button>
+</div>

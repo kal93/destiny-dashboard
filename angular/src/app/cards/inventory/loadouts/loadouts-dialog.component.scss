@@ -1,0 +1,73 @@
+@import '../../../../styles/theme.scss';
+
+.loadouts-wrap {
+    margin-top: 10px;
+    min-width: 300px;
+    max-width: 750px;
+
+    ::ng-deep .mat-tab-label {
+        .new-loadout {
+            margin-left: 8px;
+        }
+    }
+
+    ::ng-deep .mat-tab-body-wrapper {
+        .mat-tab-body {
+            height: 100%;
+
+            .mat-tab-body-content {
+                overflow: auto;
+
+                .tab-content-wrap {
+                    background-color: rgba(0, 0, 150, .04);
+                    min-height: 300px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-evenly;
+                    align-items: center;
+
+                    $iconSize: 60px;
+
+                    .item-option {
+                        height: $iconSize;
+                        width: $iconSize;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        font-size: .8em;
+                        background-color: #fff;
+                        cursor: pointer;
+                    }
+
+                    .add-item {
+                        border: 1px solid #43A047;
+                        color: #43A047;
+                    }
+
+                    .remove-item {
+                        border: 1px solid #D84315;
+                        color: #D84315;
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+.card-actions {
+    display: flex;
+    justify-content: flex-end;
+
+    .close {
+        color: $app-text-link;
+    }
+}
+@media(max-width: 600px) {
+    .inventory-group-wrap {
+        .inventory-group {
+            flex: 1 0 125px;
+        }
+    }
+}

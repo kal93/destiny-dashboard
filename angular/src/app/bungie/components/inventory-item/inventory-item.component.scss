@@ -4,12 +4,11 @@
     margin: 0 2px;
     color: $app-text-light;
 
-    $iconHeight: 60px;
-    $iconWidth: 60px;
+    $iconSize: 60px;
 
     .icon {
-        width: $iconHeight;
-        height: $iconHeight;
+        width: $iconSize;
+        height: $iconSize;
         background-size: contain;
         background-repeat: no-repeat;
         border: 1px solid #90A4AE;
@@ -18,14 +17,14 @@
 
         &.equipped {
             border: 3px double #B71C1C;
-            width: $iconHeight - 4;
-            height: $iconWidth - 4;
+            width: $iconSize - 4;
+            height: $iconSize - 4;
         }
 
         &.selected {
             border: 2px solid #FFEB3B;
-            width: $iconHeight - 2;
-            height: $iconWidth - 2;
+            width: $iconSize - 2;
+            height: $iconSize - 2;
         }
 
         .quantity {
@@ -52,7 +51,7 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        width: $iconWidth + 2;
+        width: $iconSize + 2;
         text-align: center;
     }
 }

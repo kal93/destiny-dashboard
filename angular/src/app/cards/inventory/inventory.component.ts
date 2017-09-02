@@ -3,17 +3,20 @@ import { FormControl } from '@angular/forms';
 import { MdDialog } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CardComponent } from '../_base/card.component';
+import { LoadoutsService } from './loadouts/loadouts.service';
 import { ManifestService } from 'app/bungie/manifest/manifest.service';
 import { SharedBungie } from 'app/bungie/shared-bungie.service';
 import { SharedApp } from 'app/shared/services/shared-app.service';
 import { FiltersDialog } from './filters-dialog/filters-dialog.component';
-import { LoadoutsDialog } from './loadouts-dialog/loadouts-dialog.component';
+import { LoadoutsDialog } from './loadouts/loadouts-dialog.component';
 import { TransferQuantityDialog } from './transfer-quantity-dialog/transfer-quantity-dialog.component';
 import { InventoryUtils } from 'app/bungie/services/destiny/inventory/inventory-utils';
 
 import { ISubNavItem } from 'app/nav/nav.interface';
 import { AccountSummaryService, CharacterInventorySummaryService, InventoryItemService, VaultSummaryService } from 'app/bungie/services/service.barrel';
 import { DestinyMembership, InventoryBucket, InventoryItem, IAccountSummary, IVaultSummary, SummaryCharacter, InventoryItemTransferResult } from 'app/bungie/services/interface.barrel';
+
+import { ILoadout } from './loadouts/loadouts.interface';
 
 import { expandInShrinkOut, fadeInFromTop } from 'app/shared/animations';
 import { delayBy } from 'app/shared/decorators';
@@ -24,6 +27,7 @@ import 'rxjs/add/operator/debounceTime';
     selector: 'dd-inventory',
     templateUrl: './inventory.component.html',
     styleUrls: ['../_base/card.component.scss', './inventory.component.scss'],
+    providers: [LoadoutsService],
     animations: [expandInShrinkOut(), fadeInFromTop()]
 })
 
@@ -47,7 +51,7 @@ export class ItemManagerComponent extends CardComponent {
     // Array of character buckets for display in .html. Array position matches caracter position in this.accountSummary.characters. Character[Buckets]
     bucketsArray: Array<Array<InventoryBucket>> = new Array<Array<InventoryBucket>>(4);
 
-    // Only character buckets get grouped. Character[BucketGroup[Buckets]]
+    // Character/Vault[BucketGroup[Buckets]]
     bucketGroupsArray: Array<Array<Array<InventoryBucket>>> = new Array<Array<Array<InventoryBucket>>>(4);
 
     // Keep track if a user has collapsed a section
@@ -65,9 +69,13 @@ export class ItemManagerComponent extends CardComponent {
     searchTextForm = new FormControl();
     showInventoryGroups: Array<boolean>;
 
+    //Loadouts    
+    public userLoadouts: Array<ILoadout> = [];
+
     constructor(private accountSummaryService: AccountSummaryService, private characterInventorySummaryService: CharacterInventorySummaryService,
-        public domSanitizer: DomSanitizer, private inventoryItemService: InventoryItemService, private mdDialog: MdDialog, public manifestService: ManifestService,
-        private sharedBungie: SharedBungie, public sharedApp: SharedApp, private vaultSummaryService: VaultSummaryService) {
+        public domSanitizer: DomSanitizer, private inventoryItemService: InventoryItemService, private loadoutsService: LoadoutsService,
+        private mdDialog: MdDialog, public manifestService: ManifestService, private sharedBungie: SharedBungie,
+        public sharedApp: SharedApp, private vaultSummaryService: VaultSummaryService) {
         super(sharedApp);
     }
 
@@ -87,9 +95,17 @@ export class ItemManagerComponent extends CardComponent {
         this.initSearch();
 
         if (this.isFullscreen) {
-            this.setSubNavItems();
+            this.getUserLoadouts();
             this.sharedApp.showInfoOnce("Press and hold an item to enter multi-transfer mode.");
         }
+    }
+
+    // Loadouts only available in fullscreen mode
+    getUserLoadouts() {
+        this.loadoutsService.getUserLoadouts(this.selectedMembership.membershipId).then((userLoadouts) => {
+            this.userLoadouts = userLoadouts;
+            this.setSubNavItems();
+        });
     }
 
     getFullInventory() {
@@ -234,7 +250,6 @@ export class ItemManagerComponent extends CardComponent {
         this.selectedInventoryItems = new Array<InventoryItem>();
     }
 
-    @delayBy(50)
     setSubNavItems() {
         this.sharedApp.subNavItems = new Array<ISubNavItem>();
 
@@ -253,17 +268,41 @@ export class ItemManagerComponent extends CardComponent {
         this.sharedApp.subNavItems.push({ title: '_spacer', materialIcon: '' });
 
         this.sharedApp.subNavItems.push({
-            title: 'Loadouts', materialIcon: 'build',
+            title: 'Manage Loadouts', materialIcon: 'build',
             selectedCallback: (subNavItem: ISubNavItem) => {
+                // Close all characters to clear up the dom
+                this.expandedSections = [false, false, false, false];
+
                 let dialogRef = this.mdDialog.open(LoadoutsDialog);
-                dialogRef.componentInstance.membershipId = this.selectedMembership.membershipId;
+                dialogRef.componentInstance.userLoadouts = this.userLoadouts;
                 dialogRef.componentInstance.inventoryItemHashMap = this.inventoryItemHashMap;
+                dialogRef.componentInstance.restoreExpandedSections = () => {
+                    this.expandedSections = this.getCardLocalStorageAsJsonObject("expandedSections", [false, false, false, false]);
+                }
                 dialogRef.afterClosed().subscribe((result: string) => {
+                    // Redraw subnav since loadouts may have changed things
+                    this.setSubNavItems();
+                    this.loadoutsService.saveUserLoadouts(this.userLoadouts);
                 });
             }
         });
 
+        if (this.userLoadouts.length > 0)
+            this.sharedApp.subNavItems.push({ title: '_spacer', materialIcon: '' });
+
         // Show list of loadouts
+        this.userLoadouts.forEach((loadout) => {
+            this.sharedApp.subNavItems.push({
+                title: loadout.name, materialIcon: 'toys', //device_hub, whatshot, star
+                selectedCallback: (subNavItem: ISubNavItem) => {
+                    this.applyLoadout(loadout);
+                }
+            });
+        });
+    }
+
+    applyLoadout(loadout: ILoadout) {
+        console.log(loadout);
     }
 
     transferItemsToIndex(inventoryItems: Array<InventoryItem>, destCharacterIndex: number) {
