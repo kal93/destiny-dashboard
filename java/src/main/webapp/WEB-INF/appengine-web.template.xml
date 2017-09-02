@@ -22,8 +22,8 @@
 		<max-concurrent-requests>15</max-concurrent-requests>
 		<min-idle-instances>1</min-idle-instances>
 		<max-idle-instances>3</max-idle-instances>
-		<min-pending-latency>400ms</min-pending-latency>
-		<max-pending-latency>8000ms</max-pending-latency>
+		<min-pending-latency>100ms</min-pending-latency>
+		<max-pending-latency>4000ms</max-pending-latency>
 	</automatic-scaling>
 
 	<static-files>

@@ -14,13 +14,10 @@ import net.destinydashboard.model.dashboard.IUserDashboard;
 public class DashboardRepository
 {
     public static List<IUserDashboard> loadUserDashboards(long membershipId, Connection conn) throws SQLException {
-
-        try (PreparedStatement statement = conn.prepareStatement("SELECT id, name FROM user_dashboard WHERE membership_id = ?")) {
-            statement.setLong(1, membershipId);
-
+        try (Statement statement = conn.createStatement()) {
             List<IUserDashboard> userDashboards = new ArrayList<IUserDashboard>();
 
-            ResultSet rs = statement.executeQuery();
+            ResultSet rs = statement.executeQuery("SELECT id, name FROM user_dashboard WHERE membership_id = " + membershipId);
             while (rs.next()) {
                 IUserDashboard userDashboard = new IUserDashboard(rs.getLong(1), rs.getString(2));
 
