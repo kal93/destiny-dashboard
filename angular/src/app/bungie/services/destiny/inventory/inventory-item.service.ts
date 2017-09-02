@@ -17,7 +17,7 @@ export class InventoryItemService {
     private _transferFailures: Array<InventoryItemTransferResult>;
 
     // Delay transfers so we don't get yelled at by the API
-    public static TRANSFER_DELAY = 300;
+    public static TRANSFER_DELAY = 500;
 
     constructor(protected http: HttpService, public sharedApp: SharedApp) { }
 
