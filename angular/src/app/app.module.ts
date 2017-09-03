@@ -24,6 +24,7 @@ import { NavComponent } from './nav/nav.component';
 import { GlobalErrorHandler } from './shared/services/error-handler.service';
 
 //Shared Services
+import { ManifestService } from './bungie/manifest/manifest.service';
 import { SharedBungie } from './bungie/shared-bungie.service';
 import { SharedDashboard } from './dashboard/shared-dashboard.service';
 import { SharedApp } from './shared/services/shared-app.service';
@@ -121,9 +122,10 @@ import { NumberFormatLocalePipe, RoundToDecimalPlacePipe } from './shared/pipes/
   ],
   providers: [
     AuthGuard,
-    HttpService,
-    SharedApp,
     GlobalErrorHandler,
+    HttpService,
+    ManifestService,
+    SharedApp,
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
     { provide: MD_RIPPLE_GLOBAL_OPTIONS, useValue: { baseSpeedFactor: 1.5 } },
     { provide: RouteReuseStrategy, useClass: CustomReuseStrategy }

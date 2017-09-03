@@ -5,7 +5,7 @@ import { MdDialogRef } from '@angular/material';
     template: `<h1 md-dialog-title>{{title}}</h1>
                 <div md-dialog-content>                
                     <md-form-field>
-                        <input mdInput [(ngModel)]="inputValue" [placeholder]="inputPlaceholder">
+                        <input mdInput [(ngModel)]="inputValue" [maxlength]="16" [placeholder]="inputPlaceholder">
                     </md-form-field>
                 </div>
                 <div md-dialog-actions [style.justify-content]="'flex-end'">

@@ -2,12 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SharedApp } from './shared-app.service';
 
+import { ErrorTypes } from 'app/bungie/services/errors.interface';
+import { IBungieOAuth } from 'app/bungie/services/interface.barrel';
+
 import { environment } from '../../../environments/environment';
 import { Subscription } from 'rxjs/Subscription';
-
-import { ErrorTypes } from 'app/bungie/services/errors.interface';
-
-import { IBungieOAuth } from 'app/bungie/services/interface.barrel';
 
 export interface ICustomCache {
     cachedData: any;

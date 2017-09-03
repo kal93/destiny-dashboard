@@ -31,7 +31,7 @@ import { fadeInOut } from './shared/animations';
   </div>
   `,
   providers: [AccountStatsService, AccountSummaryService, BungieSiteNewsService, ClanLeaderboardsStatsService, CharacterInventorySummaryService, CharacterProgressionService, CharacterStatsService,
-    GetBungieAccountService, InventoryItemService, ManifestService, SharedBungie, SharedDashboard, VaultSummaryService],
+    GetBungieAccountService, InventoryItemService, SharedBungie, SharedDashboard, VaultSummaryService],
   animations: [fadeInOut()]
 })
 export class AppComponent {
