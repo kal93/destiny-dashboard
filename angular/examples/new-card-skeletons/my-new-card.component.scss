@@ -1,0 +1,25 @@
+@import '../../../styles/theme.scss';
+
+// These are just the basics, there are usually more.  Remove this comment in a real card file.
+
+// These styles apply to both dashboard and fullscreen
+.dd-my-new-card {
+    background-color: mat-color($app-secondary);
+    color: $app-text-light;
+
+    // Adjust wrapper height calc as needed for your content setup
+    .wrapper {
+        overflow: auto;
+        height: calc(100% - 1px);
+    }
+}
+
+// These styles only applies to dashboard card modes
+.dd-card-content.dd-my-new-card {
+    height: calc(100% - 40px);
+}
+
+// These styles only apply to fullscreen mode
+.dd-fullscreen.dd-my-new-card {
+    height: 100%;
+}
