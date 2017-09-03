@@ -18,13 +18,13 @@
     <div class="content-wrap">
         <div class="description">{{inventoryItem.itemValue.itemDescription}}</div>
     </div>
-    <div class="transfer">
+    <div *ngIf="accountSummary != null" class="transfer">
         <ng-container *ngFor="let character of accountSummary.characters; let i = index">
             <div *ngIf="inventoryItem.characterIndex != i && !inventoryItem.itemValue.nonTransferrable" class="option" (click)="transferToIndex(i)">
                 <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemPath +')')"></div>
                 <div class="type">Move</div>
             </div>
-            <div *ngIf="inventoryItem.itemValue.equippable && (inventoryItem.characterIndex == i || !inventoryItem.itemValue.nonTransferrable)"
+            <div *ngIf="InventoryUtils.isItemEquippableOnCharacter(inventoryItem, character) && (inventoryItem.characterIndex == i || !inventoryItem.itemValue.nonTransferrable)"
                 class="option" (click)="equipToIndex(i)" [class.no-equip]="InventoryUtils.isItemEquipped(inventoryItem) && inventoryItem.characterIndex == i">
                 <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemPath +')')"></div>
                 <div class="type">Equip</div>

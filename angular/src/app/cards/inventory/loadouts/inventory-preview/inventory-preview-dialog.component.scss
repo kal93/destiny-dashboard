@@ -1,23 +1,89 @@
 @import '../../../../../styles/theme.scss';
 
-.loadouts-wrap {
-    margin-top: 10px;
-    min-width: 300px;
+.title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .text {
+        font-size: 1.3em;
+    }
+
+    .right {
+        text-align: right;
+
+        .count {
+            font-size: .9em;
+        }
+
+        .text {
+
+            font-size: .8em;
+            opacity: .8;
+        }
+    }
+}
+
+.preview-wrap {
+    margin-top: 4px;
     max-width: 750px;
+
+    .inventory-bucket {
+        .name {
+            font-size: 1.2em;
+            letter-spacing: .5px;
+            margin-top: 10px;
+        }
+
+        .items-wrap {
+            display: flex;
+            flex-wrap: wrap;
+
+            .item-wrap {
+                position: relative;
+
+                dd-inventory-item {
+                    cursor: pointer;
+                    opacity: .85;
+
+                    &.selected {
+                        opacity: 1;
+                    }
+                }
+
+                .selected-icon {
+                    position: absolute;
+                    top: 3px;
+                    right: 5px;
+                    color: #43A047;
+                    background-color: #fff;
+                    border-radius: 50%;
+                    pointer-events: none;
+                }
+            }
+        }
+
+    }
 }
 
 .card-actions {
     display: flex;
     justify-content: flex-end;
 
-    .close {
+    .save {
         color: $app-text-link;
     }
 }
-@media(max-width: 600px) {
-    .inventory-group-wrap {
-        .inventory-group {
-            flex: 1 0 125px;
+@media(max-width:600px) {
+    .preview-wrap {
+        .inventory-bucket {
+            .items-wrap {
+                .item-wrap {
+                    dd-inventory-item {
+                        zoom: .85;
+                    }
+                }
+            }
         }
     }
 }

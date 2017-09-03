@@ -6,6 +6,8 @@ import { DestinyMembership } from 'app/bungie/services/interface.barrel';
 import { IAccountSummary, InventoryItem, InventoryBucket, InventoryItemTransferResult } from 'app/bungie/services/interface.barrel';
 import { InventoryUtils } from 'app/bungie/services/destiny/inventory/inventory-utils';
 
+import { ErrorTypes } from 'app/bungie/services/errors.interface';
+
 @Injectable()
 export class InventoryItemService {
     private _bucketsMap: Array<Map<number, InventoryBucket>>;
@@ -32,8 +34,6 @@ export class InventoryItemService {
         this._transferFailures = new Array<InventoryItemTransferResult>();
 
         return new Promise<Array<Array<InventoryItemTransferResult>>>((resolve, reject) => {
-            let transferPromises = Array<Promise<any>>();
-
             let transferPromise;
             if (destCharacterIndex < 3 && inventoryItem.characterIndex < 3)
                 // Character to character transfer
@@ -47,9 +47,7 @@ export class InventoryItemService {
             else
                 console.error("Unknown index for transfer");
 
-            transferPromises.push(transferPromise);
-
-            Promise.all(transferPromises).then(() => {
+            transferPromise.then(() => {
                 resolve([this._transferSuccesses, this._transferFailures]);
             });
         });
@@ -83,8 +81,16 @@ export class InventoryItemService {
             if (InventoryUtils.isItemEquipped(inventoryItem)) {
                 // If trying to transfer an equipped item, need to unequip it first, then transfer it
                 let srcBucket = this._bucketsMap[srcCharacterIndex].get(inventoryItem.itemValue.bucketTypeHash);
-                let highestValueItem = InventoryUtils.getUnequippedHighestValueNonExoticItemFromBucket(srcBucket);
-                if (highestValueItem == null) {
+                let highestValueItem = InventoryUtils.getUnequippedHighestValueItemFromBucket(srcBucket, false);
+                if (highestValueItem != null) {
+                    // We have found an item to equip so we can unequip the item we're trying to transfer
+                    this.equipItem(highestValueItem).then(() => {
+                        setTimeout(() => {
+                            resolve(this.transferItem(srcCharacter.characterBase.characterId, 3, inventoryItem, count, true));
+                        }, InventoryItemService.TRANSFER_DELAY);
+                    });
+                }
+                else {
                     // If we're trying to unequip it but can't, try transfer junk from vault first.
                     let vaultBucket = this._bucketsMap[3].get(inventoryItem.itemValue.bucketTypeHash);
                     let lowestValueItemFromVault = InventoryUtils.getUnequippedLowestValueItemFromBucket(vaultBucket, false);
@@ -107,13 +113,6 @@ export class InventoryItemService {
                                     resolve(this.transferItem(srcCharacter.characterBase.characterId, 3, inventoryItem, count, true));
                                 }, InventoryItemService.TRANSFER_DELAY);
                             });
-                        }, InventoryItemService.TRANSFER_DELAY);
-                    });
-                }
-                else {
-                    this.equipItem(inventoryItem).then(() => {
-                        setTimeout(() => {
-                            resolve(this.transferItem(srcCharacter.characterBase.characterId, 3, inventoryItem, count, true));
                         }, InventoryItemService.TRANSFER_DELAY);
                     });
                 }
@@ -172,8 +171,10 @@ export class InventoryItemService {
             // If this bucket doesn't exist yet, let the callee know so we can refresh the inventory from network request
             if (destBucket == null)
                 tranferResult.refreshRequired = true;
-            else
+            else {
+                tranferResult.refreshRequired = false;
                 destBucket.items.push(inventoryItem);
+            }
 
             // Update inventory item with new characterIndex
             inventoryItem.characterIndex = destCharacterIndex;
@@ -185,6 +186,9 @@ export class InventoryItemService {
             this._transferSuccesses.push(tranferResult);
             return tranferResult;
         }).catch((tranferResult: InventoryItemTransferResult) => {
+            // Clean up dumb message
+            if (tranferResult.ErrorCode == ErrorTypes.DestinyUniquenessViolation)
+                tranferResult.Message = "You can only have one of these on a character/vault at a time.";
             tranferResult.inventoryItem = inventoryItem;
             this._transferFailures.push(tranferResult);
             return tranferResult;

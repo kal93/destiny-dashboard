@@ -1,7 +1,6 @@
 @import '../../../../styles/theme.scss';
 
 :host {
-    margin: 0 2px;
     color: $app-text-light;
 
     $iconSize: 60px;
@@ -14,6 +13,7 @@
         border: 1px solid #90A4AE;
         position: relative;
         font-size: .85em;
+        margin: 0 2px;
 
         &.equipped {
             border: 3px double #B71C1C;

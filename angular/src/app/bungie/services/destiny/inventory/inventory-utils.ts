@@ -1,11 +1,12 @@
 import { ManifestService } from '../../../manifest/manifest.service';
 
-import { InventoryBucket, InventoryItem } from 'app/bungie/services/interface.barrel';
+import { InventoryBucket, InventoryItem, SummaryCharacter } from 'app/bungie/services/interface.barrel';
+import { ClassTypes, TierTypes } from 'app/bungie/services/enums.interface';
 
 export class InventoryUtils {
 
     // Converts an API response to a workable bucketMap, and populates the hashes for bucket and items
-    public static populateBucketMapFromResponse(characterIndex: number, manifestService: ManifestService, bucketItemsResponse: Array<InventoryItem>, inventoryItemHashMap: Map<number, InventoryItem>, bucketsMap: Map<number, InventoryBucket>) {
+    public static populateBucketMapFromResponse(characterIndex: number, manifestService: ManifestService, bucketItemsResponse: Array<InventoryItem>, inventoryItemHashMap: Map<string, InventoryItem>, bucketsMap: Map<number, InventoryBucket>) {
         // Loop each vault item and place in to proper bucket
         bucketItemsResponse.forEach((inventoryItem) => {
             // Get the vault item definition 
@@ -33,15 +34,15 @@ export class InventoryUtils {
             inventoryBucket.items.push(inventoryItem);
 
             // Add this item to the inventoryItemHash map
-            inventoryItemHashMap.set(inventoryItem.itemHash, inventoryItem);
+            inventoryItemHashMap.set(inventoryItem.itemId, inventoryItem);
         });
     }
 
     // Flattens a bucket map in to an array so it can be handled efficiently in .html
-    public static populateBucketArrayFromMap(bucketsMap: Map<number, InventoryBucket>, bucketsArray: Array<InventoryBucket>) {
+    public static populateBucketArrayFromMap(bucketsMap: Map<number, InventoryBucket>, bucketsArray: Array<InventoryBucket>, ignoreEquipped: boolean = false) {
         // Add it to the flattened array
         bucketsMap.forEach((bucket, bucketHash) => {
-            InventoryUtils.sortBucketItems(bucket);
+            InventoryUtils.sortBucketItems(bucket, ignoreEquipped);
             bucketsArray.push(bucket);
         });
 
@@ -53,12 +54,15 @@ export class InventoryUtils {
         });
     }
 
-    public static sortBucketItems(bucket: InventoryBucket) {
+    public static sortBucketItems(bucket: InventoryBucket, ignoreEquipped: boolean = false) {
         // Sort items in bucket. transferStatus == 1 means it's selected
         bucket.items.sort((a: InventoryItem, b: InventoryItem) => {
             // Sort by whether if its in a transferrable status
-            let statusA = (a.transferStatus % 2);
-            let statusB = (b.transferStatus % 2);
+            let statusA = 0, statusB = 0;
+            if (!ignoreEquipped) {
+                statusA = (a.transferStatus % 2);
+                statusB = (b.transferStatus % 2);
+            }
             if (statusA == statusB) {
                 // Sort by light level                
                 let primaryStatA = a.primaryStat != null ? a.primaryStat.value : Number.MIN_SAFE_INTEGER;
@@ -140,15 +144,20 @@ export class InventoryUtils {
         bucket.filteredOut = !bucketHasItem;
     }
 
-    public static isItemEquipped(inventoryItem: InventoryItem) {
+    public static isItemEquippableOnCharacter(inventoryItem: InventoryItem, character: SummaryCharacter): boolean {
+        if (!inventoryItem.itemValue.equippable)
+            return false;
+        if (inventoryItem.itemValue.classType != ClassTypes.UNKNOWN && inventoryItem.itemValue.classType != character.characterBase.classType)
+            return false;
+
+        return true;
+    }
+
+    public static isItemEquipped(inventoryItem: InventoryItem): boolean {
         return inventoryItem.transferStatus % 2 == 1;
     }
 
-    public static isItemExotic(inventoryItem: InventoryItem) {
-        return inventoryItem.itemValue.tierType == 6;
-    }
-
-    public static isBucketFull(destBucket: InventoryBucket) {
+    public static isBucketFull(destBucket: InventoryBucket): boolean {
         return destBucket.bucketValue.itemCount == destBucket.items.length;
     }
 
@@ -167,7 +176,7 @@ export class InventoryUtils {
             let inventoryItem = destBucket.items[i];
             if (InventoryUtils.isItemEquipped(inventoryItem))
                 continue;
-            if (!allowExotic && InventoryUtils.isItemExotic(inventoryItem))
+            if (!allowExotic && inventoryItem.itemValue.tierType == TierTypes.EXOTIC)
                 continue;
             if (!lowestValueItem) {
                 lowestValueItem = inventoryItem;
@@ -189,13 +198,13 @@ export class InventoryUtils {
         return lowestValueItem;
     }
 
-    public static getUnequippedHighestValueNonExoticItemFromBucket(destBucket: InventoryBucket): InventoryItem {
+    public static getUnequippedHighestValueItemFromBucket(destBucket: InventoryBucket, allowExotic: boolean = true): InventoryItem {
         let highestValueItem: InventoryItem;
         for (let i = 0; i < destBucket.items.length; i++) {
             let inventoryItem = destBucket.items[i];
             if (InventoryUtils.isItemEquipped(inventoryItem))
                 continue;
-            if (InventoryUtils.isItemExotic(inventoryItem))
+            if (!allowExotic && inventoryItem.itemValue.tierType == TierTypes.EXOTIC)
                 continue;
             if (!highestValueItem) {
                 highestValueItem = inventoryItem;

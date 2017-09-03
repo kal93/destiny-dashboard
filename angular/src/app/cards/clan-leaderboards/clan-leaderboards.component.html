@@ -17,12 +17,12 @@
             </button>
 
           <md-menu #appMenu="mdMenu">
-            <button md-menu-item class="md-menu-item" (click)="statsChanged(4)"> Raid </button>
-            <button md-menu-item class="md-menu-item" (click)="statsChanged(5)"> All PvP </button>
-            <button md-menu-item class="md-menu-item" (click)="statsChanged(7)"> All PvE </button>
-            <button md-menu-item class="md-menu-item" (click)="statsChanged(14)"> Trials of Osiris </button>
-            <button md-menu-item class="md-menu-item" (click)="statsChanged(16)"> Nightfall </button>
-            <button md-menu-item class="md-menu-item" (click)="statsChanged(18)"> All Strikes </button>
+            <button md-menu-item (click)="statsChanged(4)"> Raid </button>
+            <button md-menu-item (click)="statsChanged(5)"> All PvP </button>
+            <button md-menu-item (click)="statsChanged(7)"> All PvE </button>
+            <button md-menu-item (click)="statsChanged(14)"> Trials of Osiris </button>
+            <button md-menu-item (click)="statsChanged(16)"> Nightfall </button>
+            <button md-menu-item (click)="statsChanged(18)"> All Strikes </button>
           </md-menu>
         </ng-container>
       </div>

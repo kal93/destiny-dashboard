@@ -13,10 +13,12 @@ import { TransferQuantityDialog } from './transfer-quantity-dialog/transfer-quan
 import { InventoryUtils } from 'app/bungie/services/destiny/inventory/inventory-utils';
 
 import { ISubNavItem } from 'app/nav/nav.interface';
-import { AccountSummaryService, CharacterInventorySummaryService, InventoryItemService, VaultSummaryService } from 'app/bungie/services/service.barrel';
-import { DestinyMembership, InventoryBucket, InventoryItem, IAccountSummary, IVaultSummary, SummaryCharacter, InventoryItemTransferResult } from 'app/bungie/services/interface.barrel';
+import { Loadout } from './loadouts/loadouts.interface';
 
-import { ILoadout } from './loadouts/loadouts.interface';
+import { AccountSummaryService, CharacterInventorySummaryService, InventoryItemService, VaultSummaryService } from 'app/bungie/services/service.barrel';
+import {
+    DestinyMembership, InventoryBucket, InventoryItem, IAccountSummary, IVaultSummary, SummaryCharacter, InventoryItemTransferResult
+} from 'app/bungie/services/interface.barrel';
 
 import { expandInShrinkOut, fadeInFromTop } from 'app/shared/animations';
 import { delayBy } from 'app/shared/decorators';
@@ -43,7 +45,7 @@ export class ItemManagerComponent extends CardComponent {
     accountSummary: IAccountSummary;
 
     // Map of all inventoryItems for a player
-    private inventoryItemHashMap = new Map<number, InventoryItem>();
+    private inventoryItemHashMap = new Map<string, InventoryItem>();
 
     // Array of Map of <bucketHash, bucket>. Array position matches caracter position in this.accountSummary.characters. Vault is always [3]
     private bucketsMap: Array<Map<number, InventoryBucket>> = new Array<Map<number, InventoryBucket>>(4);
@@ -61,7 +63,7 @@ export class ItemManagerComponent extends CardComponent {
     editMode: boolean = false;
 
     // Array of selected inventory items
-    selectedInventoryItems: Array<InventoryItem>;
+    selectedInventoryItems = new Array<InventoryItem>();
     private refreshIndexes: Array<boolean> = [false, false, false, false];
 
     // Filtering
@@ -70,7 +72,7 @@ export class ItemManagerComponent extends CardComponent {
     showInventoryGroups: Array<boolean>;
 
     //Loadouts    
-    public userLoadouts: Array<ILoadout> = [];
+    public userLoadouts: Array<Loadout> = [];
 
     constructor(private accountSummaryService: AccountSummaryService, private characterInventorySummaryService: CharacterInventorySummaryService,
         public domSanitizer: DomSanitizer, private inventoryItemService: InventoryItemService, private loadoutsService: LoadoutsService,
@@ -91,52 +93,56 @@ export class ItemManagerComponent extends CardComponent {
         // Set our membership (XBL, PSN, Blizzard)
         this.selectedMembership = this.sharedBungie.destinyMemberships[this.sharedApp.userPreferences.membershipIndex];
 
-        this.getFullInventory();
-        this.initSearch();
-
-        if (this.isFullscreen) {
-            this.getUserLoadouts();
+        this.getFullInventory().then(() => {
+            // Loadouts only available in fullscreen mode
+            if (this.isFullscreen) {
+                this.getUserLoadouts();
+                this.setSubNavItems();
+            }
             this.sharedApp.showInfoOnce("Press and hold an item to enter multi-transfer mode.");
-        }
+        });
+        this.initSearch();
     }
 
-    // Loadouts only available in fullscreen mode
     getUserLoadouts() {
-        this.loadoutsService.getUserLoadouts(this.selectedMembership.membershipId).then((userLoadouts) => {
+        this.loadoutsService.getUserLoadouts(this.selectedMembership.membershipId, this.inventoryItemHashMap).then((userLoadouts) => {
             this.userLoadouts = userLoadouts;
-            this.setSubNavItems();
         });
     }
 
-    getFullInventory() {
-        // Get Account Summary to get the list of available characters
-        this.accountSummaryService.getAccountSummary(this.selectedMembership).then((accountSummary: IAccountSummary) => {
-            this.accountSummary = accountSummary;
-            this.accountSummary.characters.forEach((character: SummaryCharacter) => {
-                // Set the manifest values for the characters
-                character.characterBase.classValue = this.manifestService.getManifestEntry("DestinyClassDefinition", character.characterBase.classHash);
-                character.characterBase.genderValue = this.manifestService.getManifestEntry("DestinyGenderDefinition", character.characterBase.genderHash);
-                character.characterBase.raceValue = this.manifestService.getManifestEntry("DestinyRaceDefinition", character.characterBase.raceHash);
+    getFullInventory(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            // Get Account Summary to get the list of available characters
+            this.accountSummaryService.getAccountSummary(this.selectedMembership).then((accountSummary: IAccountSummary) => {
+                this.accountSummary = accountSummary;
+                this.accountSummary.characters.forEach((character: SummaryCharacter) => {
+                    // Set the manifest values for the characters
+                    character.characterBase.classValue = this.manifestService.getManifestEntry("DestinyClassDefinition", character.characterBase.classHash);
+                    character.characterBase.genderValue = this.manifestService.getManifestEntry("DestinyGenderDefinition", character.characterBase.genderHash);
+                    character.characterBase.raceValue = this.manifestService.getManifestEntry("DestinyRaceDefinition", character.characterBase.raceHash);
+                });
+
+                // Init buckets
+                this.bucketGroupsArray = new Array<Array<Array<InventoryBucket>>>(4);
+                this.bucketsMap = new Array<Map<number, InventoryBucket>>(4);
+
+                // Load character data
+                let inventoryPromises = new Array<Promise<any>>();
+                for (let i = 0; i < this.accountSummary.characters.length; i++)
+                    inventoryPromises.push(this.loadCharacterInventory(i));
+
+                inventoryPromises.push(this.loadVaultInventory());
+
+                Promise.all(inventoryPromises).then(() => {
+                    this.applyFilter();
+                    this.isInitialized = true;
+                    resolve();
+                });
+
+            }).catch(error => {
+                this.sharedApp.showError("There was an error getting the account summary.", error);
+                reject(error);
             });
-
-            // Init buckets
-            this.bucketGroupsArray = new Array<Array<Array<InventoryBucket>>>(4);
-            this.bucketsMap = new Array<Map<number, InventoryBucket>>(4);
-
-            // Load character data
-            let inventoryPromises = new Array<Promise<any>>();
-            for (let i = 0; i < this.accountSummary.characters.length; i++)
-                inventoryPromises.push(this.loadCharacterInventory(i));
-
-            inventoryPromises.push(this.loadVaultInventory());
-
-            Promise.all(inventoryPromises).then(() => {
-                this.applyFilter();
-                this.isInitialized = true;
-            });
-
-        }).catch(error => {
-            this.sharedApp.showError("There was an error getting the account summary.", error);
         });
     }
 
@@ -168,7 +174,6 @@ export class ItemManagerComponent extends CardComponent {
     }
 
     populateBuckets(bucketIndex: number, inventoryItems: Array<InventoryItem>) {
-        this.inventoryItemHashMap = new Map<number, InventoryItem>();
         this.bucketsMap[bucketIndex] = new Map<number, InventoryBucket>();
         this.bucketsArray[bucketIndex] = new Array<InventoryBucket>();
         InventoryUtils.populateBucketMapFromResponse(bucketIndex, this.manifestService, inventoryItems, this.inventoryItemHashMap, this.bucketsMap[bucketIndex]);
@@ -268,41 +273,31 @@ export class ItemManagerComponent extends CardComponent {
         this.sharedApp.subNavItems.push({ title: '_spacer', materialIcon: '' });
 
         this.sharedApp.subNavItems.push({
-            title: 'Manage Loadouts', materialIcon: 'build',
+            title: 'Loadouts', materialIcon: 'build',
             selectedCallback: (subNavItem: ISubNavItem) => {
                 // Close all characters to clear up the dom
                 this.expandedSections = [false, false, false, false];
 
                 let dialogRef = this.mdDialog.open(LoadoutsDialog);
                 dialogRef.componentInstance.userLoadouts = this.userLoadouts;
+                dialogRef.componentInstance.accountSummary = this.accountSummary;
                 dialogRef.componentInstance.inventoryItemHashMap = this.inventoryItemHashMap;
                 dialogRef.componentInstance.restoreExpandedSections = () => {
                     this.expandedSections = this.getCardLocalStorageAsJsonObject("expandedSections", [false, false, false, false]);
                 }
-                dialogRef.afterClosed().subscribe((result: string) => {
-                    // Redraw subnav since loadouts may have changed things
-                    this.setSubNavItems();
-                    this.loadoutsService.saveUserLoadouts(this.userLoadouts);
+                dialogRef.componentInstance.applyLoadout = ((loadout: Loadout, destCharacterIndex: number) => {
+                    // Make a copy of the loadout items so we don't remove them when they're being transferred
+                    let loadoutItemsCopy = [];
+                    loadout.inventoryItems.forEach(inventoryItem => loadoutItemsCopy.push(inventoryItem));
+                    this.transferItemsToIndex(loadoutItemsCopy, destCharacterIndex);
+                });
+
+                dialogRef.afterClosed().subscribe((isChanged: boolean) => {
+                    if (isChanged)
+                        this.loadoutsService.saveUserLoadouts(this.userLoadouts);
                 });
             }
         });
-
-        if (this.userLoadouts.length > 0)
-            this.sharedApp.subNavItems.push({ title: '_spacer', materialIcon: '' });
-
-        // Show list of loadouts
-        this.userLoadouts.forEach((loadout) => {
-            this.sharedApp.subNavItems.push({
-                title: loadout.name, materialIcon: 'toys', //device_hub, whatshot, star
-                selectedCallback: (subNavItem: ISubNavItem) => {
-                    this.applyLoadout(loadout);
-                }
-            });
-        });
-    }
-
-    applyLoadout(loadout: ILoadout) {
-        console.log(loadout);
     }
 
     transferItemsToIndex(inventoryItems: Array<InventoryItem>, destCharacterIndex: number) {
@@ -373,11 +368,8 @@ export class ItemManagerComponent extends CardComponent {
         this.sharedApp.showLoading(loadingId);
 
         return new Promise<any>((resolve, reject) => {
-            // Don't transfer items with no quantity
-            if (inventoryItem.transferQuantity == null || inventoryItem.transferQuantity == 0) {
-                console.log("Attempted to transfer item with no quantity. Defaulting to 1.");
-                inventoryItem.transferQuantity = 1;
-            }
+            if (inventoryItem.transferQuantity == null || inventoryItem.transferQuantity == 0)
+                inventoryItem.transferQuantity = inventoryItem.quantity;
 
             this.inventoryItemService.setData(this.bucketsMap, this.selectedMembership, this.accountSummary);
 
@@ -416,6 +408,14 @@ export class ItemManagerComponent extends CardComponent {
     }
 
     equipSingleItemToIndex(inventoryItem: InventoryItem, destCharacterIndex: number): Promise<any> {
+        let destCharacter = this.accountSummary.characters[destCharacterIndex];
+
+        // See if the item can actually be equipped on the character before transferring
+        if (!InventoryUtils.isItemEquippableOnCharacter(inventoryItem, destCharacter)) {
+            this.sharedApp.showError(inventoryItem.itemValue.itemName + " cannot be equiped on a " + destCharacter.characterBase.classValue.className);
+            return Promise.resolve();
+        }
+
         // Transfer, then equip it
         let loadingId = -96548;
         this.sharedApp.showLoading(loadingId);

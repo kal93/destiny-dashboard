@@ -59,6 +59,8 @@ export class InventoryItemComponent {
   }
 
   click() {
+    //console.log(this.inventoryItem);
+
     this.clicked.emit();
 
     if (!this.disablePopup)

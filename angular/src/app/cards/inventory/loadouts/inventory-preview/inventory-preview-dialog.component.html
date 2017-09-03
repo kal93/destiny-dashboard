@@ -1,7 +1,26 @@
-<div md-dialog-title> Manage Loadouts </div>
-<div md-dialog-content class="loadouts-wrap">
+<div class="title">
+  <div class="text">{{title}}</div>
+
+  <div class="right">
+    <div class="count">{{selectedInventoryItems.length}}/{{MAX_INVENTORY_ITEMS}}</div>
+    <div class="text">Click an item to toggle</div>
+  </div>
+</div>
+
+<div md-dialog-content class="preview-wrap">
+
+  <div *ngFor="let inventoryBucket of inventoryBuckets" class="inventory-bucket">
+    <div class="name">{{inventoryBucket.bucketValue.bucketName}}</div>
+    <div class="items-wrap">
+      <div class="item-wrap" *ngFor="let inventoryItem of inventoryBucket.items">
+        <dd-inventory-item [class.selected]="inventoryItem.selected" [inventoryItem]="inventoryItem" [disablePopup]="true" [selected]="inventoryItem.selected"
+          (clicked)="inventoryItemClicked(inventoryItem)" [textColor]="'#444'"></dd-inventory-item>
+        <md-icon *ngIf="inventoryItem.selected" class="selected-icon">check_circle</md-icon>
+      </div>
+    </div>
+  </div>
 
 </div>
 <div md-dialog-actions class="card-actions">
-  <button md-button (click)="closeDialog()" class="close">Close</button>
+  <button md-button (click)="closeDialog()" class="save">Save</button>
 </div>

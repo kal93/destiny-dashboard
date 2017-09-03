@@ -1,59 +1,95 @@
 @import '../../../../styles/theme.scss';
 
+.dialog-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .title {
+        font-size: 1.2em;
+        margin-bottom: 12px;
+    }
+
+    .add {
+        cursor: pointer;
+        font-size: .7em;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
 .loadouts-wrap {
     margin-top: 10px;
     min-width: 300px;
-    max-width: 750px;
+    max-width: 800px;
+    padding: 5px 8px;
 
-    ::ng-deep .mat-tab-label {
-        .new-loadout {
-            margin-left: 8px;
-        }
-    }
+    .loadout {
+        margin-bottom: 16px;
+        padding: 16px 2px 10px;
+        box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
 
-    ::ng-deep .mat-tab-body-wrapper {
-        .mat-tab-body {
-            height: 100%;
+        .top {
+            display: flex;
+            align-items: center;
 
-            .mat-tab-body-content {
-                overflow: auto;
+            .name {
+                width: 45%;
+                margin-left: 12px;
+                font-size: .9em;
+            }
 
-                .tab-content-wrap {
-                    background-color: rgba(0, 0, 150, .04);
-                    min-height: 300px;
+            .options {
+                flex: 1;
+                display: flex;
+                justify-content: flex-end;
+                padding-bottom: 14px;
+
+                .option-wrap {
                     display: flex;
                     flex-direction: column;
-                    justify-content: space-evenly;
                     align-items: center;
+                    margin: 0 7px;
+                    cursor: pointer;
 
-                    $iconSize: 60px;
-
-                    .item-option {
-                        height: $iconSize;
-                        width: $iconSize;
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: center;
-                        align-items: center;
-                        font-size: .8em;
-                        background-color: #fff;
-                        cursor: pointer;
+                    md-icon {
+                        height: 20px;
+                        width: 20px;
+                        font-size: 20px;
                     }
 
-                    .add-item {
-                        border: 1px solid #43A047;
-                        color: #43A047;
-                    }
-
-                    .remove-item {
-                        border: 1px solid #D84315;
-                        color: #D84315;
+                    span {
+                        margin-top: 3px;
+                        font-size: .7em;
                     }
                 }
+            }
+
+        }
+
+        .bottom {
+            margin-top: 10px;
+            padding: 0 6px;
+            display: flex;
+            flex-wrap: wrap;
+            min-height: 60px;
+
+            dd-inventory-item {
+                zoom: .85;
+            }
+
+            .no-items {
+                margin: 0 auto;
             }
         }
     }
 
+    .no-loadouts {
+        text-align: center;
+        margin: 14px 0;
+    }
 }
 
 .card-actions {
@@ -64,10 +100,10 @@
         color: $app-text-link;
     }
 }
-@media(max-width: 600px) {
-    .inventory-group-wrap {
-        .inventory-group {
-            flex: 1 0 125px;
+@media(max-width:600px) {
+    .loadouts-wrap {
+        .loadout {
+            margin-bottom: 8px;
         }
     }
 }

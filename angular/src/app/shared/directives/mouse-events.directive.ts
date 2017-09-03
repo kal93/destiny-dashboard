@@ -1,5 +1,11 @@
 import { Directive, EventEmitter, HostListener, Input, Output } from '@angular/core';
 
+enum BUTTON_TYPE {
+  LEFT = 0,
+  MIDDLE = 1,
+  RIGHT = 2
+}
+
 @Directive({
   selector: '[ddMouseEvents]'
 })
@@ -25,18 +31,22 @@ export class MouseEventsDirective {
   private touchDelta: number = 10;
   private cancelTouchAndPress: boolean = false;
 
+
   constructor() { }
 
   // Listen for mouse events
   @HostListener('mousedown', ['$event'])
-  onMouseDown() {
+  onMouseDown(event: MouseEvent) {
+    // Don't show on middle or right click
+    if (event.button != BUTTON_TYPE.LEFT) return;
     // If this device supports touchstart, don't handle mouseDown event
     if (this.supportsTouch) return;
     this.down();
   }
 
   @HostListener('mouseup', ['$event'])
-  onMouseUp() {
+  onMouseUp(event: MouseEvent) {
+    if (event.button != BUTTON_TYPE.LEFT) return;
     if (this.supportsTouch) return;
     this.up();
   }

@@ -1,9 +1,11 @@
-import { InventoryItem } from 'app/bungie/services/interface.barrel'
+import { InventoryItem } from 'app/bungie/services/interface.barrel';
 
-export interface ILoadout {
+export interface ILoadoutResponse {
     name: string;
-    itemHashes: Array<number>;
-
-    //Runtime variables
-    inventoryItems?: Array<InventoryItem>;
+    itemIds: Array<string>;
 }
+
+export interface Loadout {
+    name: string;
+    inventoryItems: Array<InventoryItem>;
+} 
