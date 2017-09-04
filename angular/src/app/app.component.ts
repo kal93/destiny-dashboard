@@ -70,7 +70,7 @@ export class AppComponent {
   welcomeUser() {
     this.sharedDashboard.userDashboards = CardDefinitions.defaultDashboards;
 
-    if (!this.sharedApp.localStorageDisabled && this.sharedApp.getSessionStorage("LimitedFeaturesDialog") == null) {
+    if (!this.sharedApp.localStorageDisabled && this.sharedApp.getLocalStorage("LimitedFeaturesDialog") == null) {
       let dialogRef = this.mdDialog.open(ConfirmDialog, { height: '230px', width: '290px', });
       dialogRef.componentInstance.title = "Limited Features";
       dialogRef.componentInstance.message = "Welcome! Since you are not logged in, you will have limited access to certain features.";
@@ -80,7 +80,7 @@ export class AppComponent {
       dialogRef.afterClosed().subscribe((result: string) => {
         if (result == "Tutorial") this.sharedApp.startTutorial();
       });
-      this.sharedApp.setSessionStorage("LimitedFeaturesDialog", "");
+      this.sharedApp.setLocalStorage("LimitedFeaturesDialog", "1");
     }
     this.setAppInitialized();
   }

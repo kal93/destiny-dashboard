@@ -36,40 +36,31 @@ You only need to do steps 2, 3 & 4 if you are working on the Java API.
 
 
 # Todo
-## Destiny Dashboard Platform
-- [x] App Engine, Cloud SQL, Cloudflare
-- [x] Bungie OAuth
-- [x] Shared Manifest
-- [x] Shared application level Http caching
-- [x] Cards base class
-- [x] Stackdriver logging
+## Platform
 - [ ] Add Card should show how many users have it installed
+- [ ] Add Card should have filter by card types
 - [ ] Ability for users to subscribe to push notifications for different cards
 - [ ] Add Cordova wrapper and push to iOS and Android stores
 - [ ] Localization to support all languages supported by the Manifest
 
 
-## Cards
-- [x] Reddit
-- [x] Twitch
-- [x] Countdown
-- [x] Stats
-- [x] Bungie News (Weekly Update, blogs)
-- [ ] ITEM TRANSFER
-- [ ] Xur
-- [ ] Grimoire
+## New Cards
 - [ ] PvP realtime analysis
     - Detect current in-game opponents and show commons stats like K/D, Favorite subclass or super, most used weapons
 - [ ] Quest Lines 
 - [ ] Checklist
     - Has user completed the Daily, Weekly, Raids, Nightfall?
 - [ ] Game History Browser
-- [ ] Destiny Dashboard News
 - [ ] LFG/ Team finder with scheduling
+- [ ] Xur ?
+- [ ] Grimoire ?
 - [ ] Public Events ?
 - [ ] Dead Ghosts ?
 - [ ] Clan support ?
-- [ ] Your Idea Here
+
+
+## Existing Card Enhancements
+- [ ] Inventory Popup should have more detail
 
 
 ## References
