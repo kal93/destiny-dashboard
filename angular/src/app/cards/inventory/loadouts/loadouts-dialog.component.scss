@@ -24,7 +24,7 @@
     margin-top: 10px;
     min-width: 300px;
     max-width: 800px;
-    padding: 5px 8px;
+    padding: 5px 12px;
 
     .loadout {
         margin-bottom: 16px;
@@ -98,12 +98,5 @@
 
     .close {
         color: $app-text-link;
-    }
-}
-@media(max-width:600px) {
-    .loadouts-wrap {
-        .loadout {
-            margin-bottom: 8px;
-        }
     }
 }

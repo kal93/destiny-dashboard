@@ -100,13 +100,15 @@
       <md-list-item [style.color]="dashboard == sharedDashboard.selectedDashboard ? '#03A9F4':''" (click)="selectDashboard(dashboard)">{{dashboard.name}}</md-list-item>
     </md-nav-list>
 
-    <!-- Help -->
-    <button md-button class="about" (click)="navigateToRoute('/about')">
-      About
-    </button>
-
     <div *ngIf="sharedApp.accessToken" md-ripple [mdRippleRadius]="20" [mdRippleColor]="'rgba(255,255,255,.25)'" class="logout"
       (click)="logOut()">Logout</div>
+
+    <!-- Help -->
+    <div class="footer">
+      <span class="version">v{{environment.version}}</span>
+      <div class="about" (click)="navigateToRoute('/about')">
+        <md-icon>info_outline</md-icon> About </div>
+    </div>
   </md-sidenav>
 
   <!-- Sub Nav (right side) -->

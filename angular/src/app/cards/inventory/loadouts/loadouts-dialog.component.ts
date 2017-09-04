@@ -28,6 +28,7 @@ export class LoadoutsDialog {
     isChanged: boolean = false;
 
     MAX_LOADOUTS: number = 5;
+    isInitialized: boolean = false;
 
     constructor(public dialogRef: MdDialogRef<LoadoutsDialog>, public domSanitizer: DomSanitizer, private loadoutsService: LoadoutsService, public mdDialog: MdDialog) {
         this.dialogRef.disableClose = true;
@@ -37,6 +38,9 @@ export class LoadoutsDialog {
         this.loadoutsService.getUserLoadouts(this.accountSummary.membershipId, this.inventoryItemHashMap).then((userLoadouts) => {
             this.userLoadouts = userLoadouts;
         });
+
+        // Hack to prevent autofocus of loadout name field 
+        setTimeout(() => { this.isInitialized = true; }, 1000);
     }
 
     createLoadout() {

@@ -10,12 +10,10 @@
   </div>
 
   <div md-dialog-content class="loadouts-wrap">
-    <!-- Hack to prevent autofocus of loadout name field -->
-    <input type="text" autofocus="true" style="position: absolute; left: -1000px;" />
     <div *ngFor="let userLoadout of userLoadouts" class="loadout" [@fadeInChildren]="userLoadouts.length">
       <div class="top">
         <md-form-field class="name">
-          <input mdInput [(ngModel)]="userLoadout.name" placeholder="Loadout Name" [maxlength]="16">
+          <input mdInput [(ngModel)]="userLoadout.name" placeholder="Loadout Name" [maxlength]="16" [disabled]="!isInitialized">
         </md-form-field>
 
         <div class="options">

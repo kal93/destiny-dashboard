@@ -164,20 +164,6 @@
             }
         }
 
-        .about {
-            margin: 10px 5% 2px;
-            cursor: pointer;
-            border-top: 1px solid #ddd;
-            border-bottom: 1px solid #ddd;
-            text-transform: uppercase;
-            padding: 8px 12px;
-            text-align: center;
-            font-size: .9em;
-            color: $app-text-dark;
-            width: 89%;
-            line-height: 21px;
-        }
-
         .logout {
             margin: 5px;
             border-radius: 2px;
@@ -194,6 +180,32 @@
             text-transform: uppercase;
             background-color: mat-color($app-primary);
             color: $app-text-light;
+        }
+
+        .footer {
+            margin: 4px 6px 0 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            opacity: .7;
+            font-size: .8em;
+
+            .version {}
+
+            .about {
+                cursor: pointer;
+                text-transform: uppercase;
+                color: $app-text-dark;
+                display: flex;
+                padding: 8px 4px;
+
+                md-icon {
+                    font-size: 16px;
+                    height: 16px;
+                    width: 16px;
+                    margin-right: 4px;
+                }
+            }
         }
     }
 

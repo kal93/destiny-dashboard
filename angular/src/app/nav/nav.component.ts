@@ -20,6 +20,8 @@ import { Subscription } from 'rxjs/Subscription';
   animations: [fadeIn()],
 })
 export class NavComponent {
+  environment = environment;
+  
   @ViewChild("mainNav")
   mainNav: MdSidenav;
 
