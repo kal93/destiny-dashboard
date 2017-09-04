@@ -58,6 +58,8 @@ export class ReputationComponent extends CardComponent {
         character.characterBase.raceValue = this.manifestService.getManifestEntry("DestinyRaceDefinition", character.characterBase.raceHash);
       });
 
+      if (this.selectedTabIndex > this.accountSummary.characters.length - 1)
+        this.selectedTabIndex = 0;
 
       this.tabGroup.selectedIndex = this.selectedTabIndex;
       this.selectedTabIndexChanged(this.selectedTabIndex);
