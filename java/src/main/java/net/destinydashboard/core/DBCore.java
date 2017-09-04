@@ -11,7 +11,11 @@ public class DBCore
     public static Connection getDBConnection() throws SQLException {
         String connectionString;
         if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production) {
-            connectionString = System.getProperty("cloudsql-database-url");
+            if (SystemProperty.applicationId.get().equals("destiny-dashboard-test"))
+                connectionString = System.getProperty("cloudsql-test-database-url");
+            else
+                connectionString = System.getProperty("cloudsql-database-url");
+
             try {
                 Class.forName("com.mysql.jdbc.GoogleDriver");
             }
