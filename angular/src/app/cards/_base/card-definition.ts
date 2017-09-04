@@ -36,7 +36,7 @@ export class CardDefinitions {
     {
         id: 1,
         title: "Stats",
-        description: "A summary of your characters",
+        description: "A summary of character stats",
         rating: 5,
         route: "/stats",
         layouts: [
@@ -113,7 +113,7 @@ export class CardDefinitions {
     {
         id: 6,
         title: "Inventory",
-        description: "Manage your vault and inventories.",
+        description: "Manage your vault and inventories, and create custom loadouts.",
         rating: 5,
         route: "inventory",
         layouts: [
@@ -142,7 +142,7 @@ export class CardDefinitions {
     {
         id: 8,
         title: "Dashboard News",
-        description: "DestinyDashboard site news",
+        description: "DestinyDashboard internal site news",
         rating: 5,
         route: "dashboard-news",
         layouts: [
