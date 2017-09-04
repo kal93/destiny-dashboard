@@ -56,6 +56,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/api/dashboard/userPreferences/*</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>DashboardUserLoadouts</servlet-name>
+		<servlet-class>net.destinydashboard.servlet.dashboard.UserLoadoutsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DashboardUserLoadouts</servlet-name>
+		<url-pattern>/api/dashboard/userLoadouts/*</url-pattern>
+	</servlet-mapping>
+
 	<!-- Twitter -->
 	<servlet>
 		<servlet-name>Twitter</servlet-name>

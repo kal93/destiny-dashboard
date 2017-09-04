@@ -14,34 +14,35 @@ import net.destinydashboard.model.dashboard.IUserDashboard;
 public class DashboardRepository
 {
     public static List<IUserDashboard> loadUserDashboards(long membershipId, Connection conn) throws SQLException {
-        try (Statement statement = conn.createStatement()) {
-            List<IUserDashboard> userDashboards = new ArrayList<IUserDashboard>();
+        Statement statement = conn.createStatement();
+        List<IUserDashboard> userDashboards = new ArrayList<IUserDashboard>();
 
-            ResultSet rs = statement.executeQuery("SELECT id, name FROM user_dashboard WHERE membership_id = " + membershipId);
-            while (rs.next()) {
-                IUserDashboard userDashboard = new IUserDashboard(rs.getLong(1), rs.getString(2));
-
-                try (Statement statement2 = conn.createStatement()) {
-                    ResultSet rs2 = statement2
-                            .executeQuery("SELECT sequence, definition_id, layout_id FROM dashboard_cards WHERE dashboard_id = "
-                                    + userDashboard.id + " ORDER BY sequence");
-
-                    while (rs2.next())
-                        userDashboard.cards.add(new ICard(rs2.getShort(1), rs2.getShort(2), rs2.getShort(3)));
-                }
-
-                userDashboards.add(userDashboard);
-            }
-
-            return userDashboards;
+        ResultSet rs = statement.executeQuery("SELECT id, name FROM user_dashboard WHERE membership_id = " + membershipId);
+        while (rs.next()) {
+            IUserDashboard userDashboard = new IUserDashboard(rs.getLong(1), rs.getString(2));
+            userDashboards.add(userDashboard);
         }
+        statement.close();
+
+        PreparedStatement preparedStatement = conn.prepareStatement(
+                "SELECT sequence, definition_id, layout_id FROM user_dashboard_cards WHERE dashboard_id = ? ORDER BY sequence");
+
+        for (IUserDashboard userDashboard : userDashboards) {
+            preparedStatement.setLong(1, userDashboard.id);
+            ResultSet rs2 = preparedStatement.executeQuery();
+
+            while (rs2.next())
+                userDashboard.cards.add(new ICard(rs2.getShort(1), rs2.getShort(2), rs2.getShort(3)));
+        }
+        
+        preparedStatement.close();
+
+        return userDashboards;
+
     }
 
     public static long saveUserDashboard(long membershipId, IUserDashboard userDashboard, Connection conn)
             throws IllegalAccessException, SQLException {
-
-        if (userDashboard.name.length() > 24)
-            throw new IllegalArgumentException("Dashboard Name was too long");
 
         long dashboardId = -1;
         String name = "";
@@ -104,13 +105,13 @@ public class DashboardRepository
 
             try (Statement statement = conn.createStatement()) {
                 // Remove existing cards
-                statement.execute("DELETE FROM dashboard_cards WHERE dashboard_id = " + dashboardId);
+                statement.execute("DELETE FROM user_dashboard_cards WHERE dashboard_id = " + dashboardId);
             }
         }
 
         // Insert new cards
         try (PreparedStatement preparedStatement = conn
-                .prepareStatement("INSERT INTO dashboard_cards (dashboard_id, sequence, definition_id, layout_id) VALUES(?, ?, ?, ?)")) {
+                .prepareStatement("INSERT INTO user_dashboard_cards (dashboard_id, sequence, definition_id, layout_id) VALUES(?, ?, ?, ?)")) {
 
             for (ICard userCard : userDashboard.cards) {
                 preparedStatement.setLong(1, dashboardId);
@@ -144,7 +145,7 @@ public class DashboardRepository
 
         try (Statement statement = conn.createStatement()) {
             // Remove existing cards
-            statement.execute("DELETE FROM dashboard_cards WHERE dashboard_id = " + dashboardId);
+            statement.execute("DELETE FROM user_dashboard_cards WHERE dashboard_id = " + dashboardId);
         }
 
         try (PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM user_dashboard WHERE id = ? AND membership_id = ?")) {

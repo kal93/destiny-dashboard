@@ -11,7 +11,6 @@ import net.destinydashboard.model.dashboard.IUserPreferences;
 public class UserPreferenceRepository
 {
     public static IUserPreferences loadUserPreferences(long membershipId, Connection conn) throws SQLException {
-
         PreparedStatement preparedStatement = conn.prepareStatement("SELECT membership_index FROM user_preferences WHERE membership_id = ?");
         preparedStatement.setLong(1, membershipId);
 
