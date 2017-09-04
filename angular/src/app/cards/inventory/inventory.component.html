@@ -25,7 +25,7 @@
 
       <!-- Characters -->
       <div class="character-wrap" *ngFor="let character of accountSummary?.characters; let i = index">
-        <div class="character-header" [style.margin-top]="i == 0 ? '20px':''">
+        <div class="character-header" [style.margin-top]="i == 0 ? '10px':''">
           <img class="background" [src]="domSanitizer.bypassSecurityTrustUrl('https://www.bungie.net' + character.backgroundPath)"
             (click)="collapseSection(i)" />
           <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemPath +')')"></div>
