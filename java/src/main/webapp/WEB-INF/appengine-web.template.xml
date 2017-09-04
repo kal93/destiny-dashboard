@@ -6,7 +6,7 @@
 	<system-properties>
 		<property name="java.util.logging.config.file" value="WEB-INF/logging.properties" />
 		<property name="local-database-url"
-			value="jdbc:mysql://11.22.33.44:3306/{{DATABASE_NAME}}?user=user&amp;password=pass" />
+			value="jdbc:mysql://11.22.33.44:3306/{{DATABASE_NAME}}?user=user&amp;password=pass&amp;useSSL=false" />
 
 		<property name="test-api-key" value="476b19d252da4473a60b841546ac9431" />
 		<property name="test-encoded-auth"
