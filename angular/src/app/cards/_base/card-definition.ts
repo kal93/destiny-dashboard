@@ -173,7 +173,7 @@ export class CardDefinitions {
         id: -3, name: "Stats", cards: [
             { id: -1, sequence: 1, definitionId: 1, layoutId: 3, definition: CardDefinitions.definitions[1], layout: CardDefinitions.definitions[1].layouts[3] },
             { id: -2, sequence: 2, definitionId: 3, layoutId: 2, definition: CardDefinitions.definitions[3], layout: CardDefinitions.definitions[3].layouts[2] },
-            { id: -3, sequence: 3, definitionId: 7, layoutId: 4, definition: CardDefinitions.definitions[7], layout: CardDefinitions.definitions[7].layouts[4] }
+            { id: -3, sequence: 3, definitionId: 7, layoutId: 2, definition: CardDefinitions.definitions[7], layout: CardDefinitions.definitions[7].layouts[2] }
         ]
     }];
 

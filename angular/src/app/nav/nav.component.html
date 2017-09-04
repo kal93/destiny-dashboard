@@ -101,14 +101,9 @@
     </md-nav-list>
 
     <!-- Help -->
-    <div class="section-header" color="primary" (click)="helpCollapsed = !helpCollapsed">
-      Help
-      <md-icon class="carrot" [class.collapsed]="helpCollapsed">keyboard_arrow_down</md-icon>
-    </div>
-    <md-nav-list [style.max-height]="helpCollapsed ? '0':'200px'">
-      <md-list-item (click)="sharedApp.startTutorial()">Tutorial</md-list-item>
-      <md-list-item (click)="navigateToRoute('/about')">About</md-list-item>
-    </md-nav-list>
+    <button md-button class="about" (click)="navigateToRoute('/about')">
+      About
+    </button>
 
     <div *ngIf="sharedApp.accessToken" md-ripple [mdRippleRadius]="20" [mdRippleColor]="'rgba(255,255,255,.25)'" class="logout"
       (click)="logOut()">Logout</div>

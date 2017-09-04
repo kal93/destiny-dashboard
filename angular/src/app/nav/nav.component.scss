@@ -137,7 +137,7 @@
         .section-header {
             min-width: 145px;
             text-transform: uppercase;
-            padding: 15px 20px 15px 15px;
+            padding: 12px 20px 12px 15px;
             background-color: mat-color($app-primary);
             color: $app-text-light;
             cursor: pointer;
@@ -162,6 +162,20 @@
             .mat-list-item {
                 color: $app-text-dark;
             }
+        }
+
+        .about {
+            margin: 10px 5% 2px;
+            cursor: pointer;
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            text-transform: uppercase;
+            padding: 8px 12px;
+            text-align: center;
+            font-size: .9em;
+            color: $app-text-dark;
+            width: 89%;
+            line-height: 21px;
         }
 
         .logout {

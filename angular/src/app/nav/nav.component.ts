@@ -34,7 +34,6 @@ export class NavComponent {
   //Remember dashboard menu state when navigating back to dashboard
   quickLinksCollapsed: boolean = false;
   dashboardsCollapsed: boolean = false;
-  helpCollapsed: boolean = false;
   routeChangedFromNav: boolean = false;
   openMenuOnDashboardLoad: boolean = false;
 
