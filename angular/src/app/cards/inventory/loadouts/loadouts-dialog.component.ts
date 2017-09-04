@@ -4,6 +4,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ConfirmDialog } from 'app/shared/dialogs/confirm.component';
 import { InventoryPreviewDialog } from './inventory-preview/inventory-preview-dialog.component';
 import { SimpleInputDialog } from '../../../shared/dialogs/simple-input.component';
+import { LoadoutsService } from '../loadouts/loadouts.service';
 
 import { Loadout } from './loadouts.interface';
 import { IAccountSummary, InventoryItem } from 'app/bungie/services/interface.barrel';
@@ -13,22 +14,29 @@ import { fadeInChildren } from 'app/shared/animations';
 @Component({
     templateUrl: './loadouts-dialog.component.html',
     styleUrls: ['./loadouts-dialog.component.scss'],
+    providers: [LoadoutsService],
     animations: [fadeInChildren()]
 })
 export class LoadoutsDialog {
     // Inputs
-    userLoadouts: Array<Loadout> = [];
     accountSummary: IAccountSummary;
     inventoryItemHashMap: Map<string, InventoryItem>;
     restoreExpandedSections: Function;
     applyLoadout: Function;
 
-    private isChanged: boolean = false;
+    userLoadouts: Array<Loadout>;
+    isChanged: boolean = false;
 
     MAX_LOADOUTS: number = 5;
 
-    constructor(public dialogRef: MdDialogRef<LoadoutsDialog>, public domSanitizer: DomSanitizer, public mdDialog: MdDialog) {
+    constructor(public dialogRef: MdDialogRef<LoadoutsDialog>, public domSanitizer: DomSanitizer, private loadoutsService: LoadoutsService, public mdDialog: MdDialog) {
         this.dialogRef.disableClose = true;
+    }
+
+    ngOnInit() {
+        this.loadoutsService.getUserLoadouts(this.accountSummary.membershipId, this.inventoryItemHashMap).then((userLoadouts) => {
+            this.userLoadouts = userLoadouts;
+        });
     }
 
     createLoadout() {
@@ -74,12 +82,15 @@ export class LoadoutsDialog {
 
     applyLoadoutProxy(loadout: Loadout, destCharacterIndex: number) {
         this.applyLoadout(loadout, destCharacterIndex);
-        this.dialogRef.close(this.isChanged);
+        this.closeDialog();
     }
 
     closeDialog() {
+        if (this.isChanged)
+            this.loadoutsService.saveUserLoadouts(this.userLoadouts);
+
         this.restoreExpandedSections();
-        this.dialogRef.close(this.isChanged);
+        this.dialogRef.close();
     }
 
 }

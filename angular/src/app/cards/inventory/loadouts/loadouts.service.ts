@@ -1,34 +1,45 @@
 import { Injectable } from '@angular/core';
 import { HttpRequestType, HttpService } from 'app/shared/services/http.service';
+import { SharedApp } from 'app/shared/services/shared-app.service';
 import { Loadout, ILoadoutResponse } from './loadouts.interface'
 import { InventoryItem } from 'app/bungie/services/interface.barrel';
 
 @Injectable()
 export class LoadoutsService {
-    constructor(protected http: HttpService) { }
+    constructor(protected http: HttpService, private sharedApp: SharedApp) { }
+
+    private _userLoadouts: Array<Loadout>;
 
     getUserLoadouts(membershipId: string, inventoryItemHashMap: Map<string, InventoryItem>): Promise<Array<Loadout>> {
-        // return this.http.getWithCache("api/dashboard/userLoadouts", HttpRequestType.DASHBOARD, 120000);
-        let loadoutsResponse: Array<ILoadoutResponse> = JSON.parse(localStorage.getItem("loadouts"));
-        if (!loadoutsResponse)
-            loadoutsResponse = [];
+        // If it's already been loaded this session, do not load again
+        if (this._userLoadouts != null)
+            return Promise.resolve(this._userLoadouts);
 
-        // Assign loadouts their actual inventory item from the inventoryItem.itemId field
-        let userLoadouts = new Array<Loadout>();
-        for (let i = 0; i < loadoutsResponse.length; i++) {
-            let loadoutResponse = loadoutsResponse[i];
-            let loadout: Loadout = { name: loadoutResponse.name, inventoryItems: new Array<InventoryItem>() };
+        return this.http.getWithCache("api/dashboard/userLoadouts", HttpRequestType.DASHBOARD, 30000).then((loadoutsResponse: Array<ILoadoutResponse>) => {
+            if (!loadoutsResponse)
+                loadoutsResponse = [];
 
-            for (let j = 0; j < loadoutResponse.itemIds.length; j++) {
-                let inventoryItem = inventoryItemHashMap.get(loadoutResponse.itemIds[j]);
-                // Remove the inventoryItem if the user doesn't have it any more
-                if (inventoryItem != null)
-                    loadout.inventoryItems.push(inventoryItem);
+            // Assign loadouts their actual inventory item from the inventoryItem.itemId field
+            let userLoadouts = new Array<Loadout>();
+            for (let i = 0; i < loadoutsResponse.length; i++) {
+                let loadoutResponse = loadoutsResponse[i];
+                let loadout: Loadout = { name: loadoutResponse.name, inventoryItems: new Array<InventoryItem>() };
+
+                for (let j = 0; j < loadoutResponse.itemIds.length; j++) {
+                    let inventoryItem = inventoryItemHashMap.get(loadoutResponse.itemIds[j]);
+                    // Remove the inventoryItem if the user doesn't have it any more
+                    if (inventoryItem != null)
+                        loadout.inventoryItems.push(inventoryItem);
+                }
+                userLoadouts.push(loadout);
             }
-            userLoadouts.push(loadout);
-        }
 
-        return Promise.resolve(userLoadouts);
+            this._userLoadouts = userLoadouts;
+            return userLoadouts;
+        }).catch((error) => {
+            this.sharedApp.showError("There was an error loading loadouts.", error);
+            return null;
+        });
     }
 
     saveUserLoadouts(userLoadouts: Array<Loadout>) {
@@ -42,7 +53,12 @@ export class LoadoutsService {
             loadoutsResponse.push(loadoutResponse);
         });
 
-        // Only save itemId, not full inventoryItem
-        localStorage.setItem("loadouts", JSON.stringify(loadoutsResponse));
+        //When we save, invalidate the cache
+        this.http.invalidateCache("api/dashboard/userLoadouts");
+
+        return this.http.postDashboard("api/dashboard/userLoadouts", loadoutsResponse).catch((error) => {
+            this.sharedApp.showError("There was an error when trying to save loadouts. Please try again.", error);
+            throw (error);
+        });
     }
 }

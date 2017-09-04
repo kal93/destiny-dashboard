@@ -3,7 +3,6 @@ import { FormControl } from '@angular/forms';
 import { MdDialog } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CardComponent } from '../_base/card.component';
-import { LoadoutsService } from './loadouts/loadouts.service';
 import { ManifestService } from 'app/bungie/manifest/manifest.service';
 import { SharedBungie } from 'app/bungie/shared-bungie.service';
 import { SharedApp } from 'app/shared/services/shared-app.service';
@@ -29,7 +28,6 @@ import 'rxjs/add/operator/debounceTime';
     selector: 'dd-inventory',
     templateUrl: './inventory.component.html',
     styleUrls: ['../_base/card.component.scss', './inventory.component.scss'],
-    providers: [LoadoutsService],
     animations: [expandInShrinkOut(), fadeInFromTop()]
 })
 
@@ -75,7 +73,7 @@ export class ItemManagerComponent extends CardComponent {
     public userLoadouts: Array<Loadout> = [];
 
     constructor(private accountSummaryService: AccountSummaryService, private characterInventorySummaryService: CharacterInventorySummaryService,
-        public domSanitizer: DomSanitizer, private inventoryItemService: InventoryItemService, private loadoutsService: LoadoutsService,
+        public domSanitizer: DomSanitizer, private inventoryItemService: InventoryItemService,
         private mdDialog: MdDialog, public manifestService: ManifestService, private sharedBungie: SharedBungie,
         public sharedApp: SharedApp, private vaultSummaryService: VaultSummaryService) {
         super(sharedApp);
@@ -95,21 +93,13 @@ export class ItemManagerComponent extends CardComponent {
 
         this.getFullInventory().then(() => {
             // Loadouts only available in fullscreen mode
-            if (this.isFullscreen) {
-                this.getUserLoadouts();
+            if (this.isFullscreen) 
                 this.setSubNavItems();
-            }
+            
             this.sharedApp.showInfoOnce("Press and hold an item to enter multi-transfer mode.");
         });
         this.initSearch();
     }
-
-    getUserLoadouts() {
-        this.loadoutsService.getUserLoadouts(this.selectedMembership.membershipId, this.inventoryItemHashMap).then((userLoadouts) => {
-            this.userLoadouts = userLoadouts;
-        });
-    }
-
     getFullInventory(): Promise<any> {
         return new Promise((resolve, reject) => {
             // Get Account Summary to get the list of available characters
@@ -279,7 +269,6 @@ export class ItemManagerComponent extends CardComponent {
                 this.expandedSections = [false, false, false, false];
 
                 let dialogRef = this.mdDialog.open(LoadoutsDialog);
-                dialogRef.componentInstance.userLoadouts = this.userLoadouts;
                 dialogRef.componentInstance.accountSummary = this.accountSummary;
                 dialogRef.componentInstance.inventoryItemHashMap = this.inventoryItemHashMap;
                 dialogRef.componentInstance.restoreExpandedSections = () => {
@@ -290,11 +279,6 @@ export class ItemManagerComponent extends CardComponent {
                     let loadoutItemsCopy = [];
                     loadout.inventoryItems.forEach(inventoryItem => loadoutItemsCopy.push(inventoryItem));
                     this.transferItemsToIndex(loadoutItemsCopy, destCharacterIndex);
-                });
-
-                dialogRef.afterClosed().subscribe((isChanged: boolean) => {
-                    if (isChanged)
-                        this.loadoutsService.saveUserLoadouts(this.userLoadouts);
                 });
             }
         });

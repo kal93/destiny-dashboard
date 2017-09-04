@@ -1,57 +1,60 @@
-<div class="dialog-title">
-  <div class="title"> Manage Loadouts</div>
-  <div class="add" (click)="createLoadout()" [style.opacity]="userLoadouts.length >= MAX_LOADOUTS ? .6:1" [mdTooltip]="'Maximum of ' + MAX_LOADOUTS + ' loadouts'"
-    [mdTooltipDisabled]="userLoadouts.length != MAX_LOADOUTS">
-    <md-icon>add</md-icon>
-    <span>Create</span>
+<div *ngIf="userLoadouts == null">Loading loadouts...</div>
+<ng-container *ngIf="userLoadouts != null">
+  <div class="dialog-title">
+    <div class="title"> Manage Loadouts</div>
+    <div class="add" (click)="createLoadout()" [style.opacity]="userLoadouts.length >= MAX_LOADOUTS ? .6:1" [mdTooltip]="'Maximum of ' + MAX_LOADOUTS + ' loadouts'"
+      [mdTooltipDisabled]="userLoadouts.length != MAX_LOADOUTS">
+      <md-icon>add</md-icon>
+      <span>Create</span>
+    </div>
   </div>
-</div>
 
-<div md-dialog-content class="loadouts-wrap">
-  <!-- Hack to prevent autofocus of loadout name field -->
-  <input type="text" autofocus="true" style="position: absolute; left: -1000px;" />
-  <div *ngFor="let userLoadout of userLoadouts" class="loadout" [@fadeInChildren]="userLoadouts.length">
-    <div class="top">
-      <md-form-field class="name">
-        <input mdInput [(ngModel)]="userLoadout.name" placeholder="Loadout Name" [maxlength]="16">
-      </md-form-field>
+  <div md-dialog-content class="loadouts-wrap">
+    <!-- Hack to prevent autofocus of loadout name field -->
+    <input type="text" autofocus="true" style="position: absolute; left: -1000px;" />
+    <div *ngFor="let userLoadout of userLoadouts" class="loadout" [@fadeInChildren]="userLoadouts.length">
+      <div class="top">
+        <md-form-field class="name">
+          <input mdInput [(ngModel)]="userLoadout.name" placeholder="Loadout Name" [maxlength]="16">
+        </md-form-field>
 
-      <div class="options">
-        <div class="option-wrap" [mdMenuTriggerFor]="characterMenu">
-          <md-icon>exit_to_app</md-icon>
-          <span>Equip</span>
-        </div>
-        <div class="option-wrap" (click)="deleteLoadout(userLoadout)">
-          <md-icon>delete_forever</md-icon>
-          <span>Delete</span>
-        </div>
-        <div class="option-wrap" (click)="addItemsToLoadout(userLoadout)">
-          <md-icon>edit</md-icon>
-          <span>Edit</span>
-        </div>
-
-        <md-menu #characterMenu="mdMenu" [overlapTrigger]="false" [yPosition]="'below'">
-          <div *ngFor="let character of accountSummary?.characters; let i = index" (click)="applyLoadoutProxy(userLoadout, i)" style="display: flex; align-items: center; padding: 4px 8px;">
-            <div [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemPath +')')"
-              style="width: 36px; height: 36px; background-size: contain;"></div>
-            <div style="margin-left: 12px; color: #444;">{{character.characterLevel}} {{character.characterBase.raceValue.raceName}} {{character.characterBase.classValue.className}}</div>
+        <div class="options">
+          <div class="option-wrap" [mdMenuTriggerFor]="characterMenu">
+            <md-icon>exit_to_app</md-icon>
+            <span>Equip</span>
           </div>
-        </md-menu>
+          <div class="option-wrap" (click)="deleteLoadout(userLoadout)">
+            <md-icon>delete_forever</md-icon>
+            <span>Delete</span>
+          </div>
+          <div class="option-wrap" (click)="addItemsToLoadout(userLoadout)">
+            <md-icon>edit</md-icon>
+            <span>Edit</span>
+          </div>
+
+          <md-menu #characterMenu="mdMenu" [overlapTrigger]="false" [yPosition]="'below'">
+            <div *ngFor="let character of accountSummary?.characters; let i = index" (click)="applyLoadoutProxy(userLoadout, i)" style="display: flex; align-items: center; padding: 4px 8px;">
+              <div [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemPath +')')"
+                style="width: 36px; height: 36px; background-size: contain;"></div>
+              <div style="margin-left: 12px; color: #444;">{{character.characterLevel}} {{character.characterBase.raceValue.raceName}} {{character.characterBase.classValue.className}}</div>
+            </div>
+          </md-menu>
+        </div>
+      </div>
+
+      <div class="bottom">
+        <div class="loadout-item" *ngFor="let inventoryItem of userLoadout.inventoryItems">
+          <dd-inventory-item [inventoryItem]="inventoryItem" [disablePopup]="false" [textColor]="'#444'"></dd-inventory-item>
+        </div>
+        <div class="no-items" *ngIf="userLoadout.inventoryItems == null || userLoadout.inventoryItems.length == 0">
+          <span>Edit the loadout to add gear.</span>
+        </div>
       </div>
     </div>
 
-    <div class="bottom">
-      <div class="loadout-item" *ngFor="let inventoryItem of userLoadout.inventoryItems">
-        <dd-inventory-item [inventoryItem]="inventoryItem" [disablePopup]="false" [textColor]="'#444'"></dd-inventory-item>
-      </div>
-      <div class="no-items" *ngIf="userLoadout.inventoryItems == null || userLoadout.inventoryItems.length == 0">
-        <span>Edit the loadout to add gear.</span>
-      </div>
-    </div>
+    <div class="no-loadouts" *ngIf="userLoadouts.length == 0"> You don't have any loadouts!</div>
   </div>
-
-  <div class="no-loadouts" *ngIf="userLoadouts.length == 0"> You don't have any loadouts!</div>
-</div>
+</ng-container>
 <div md-dialog-actions class="card-actions">
   <button md-button (click)="closeDialog()" class="close">Close</button>
 </div>
