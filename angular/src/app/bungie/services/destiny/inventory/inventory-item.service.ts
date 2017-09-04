@@ -174,13 +174,11 @@ export class InventoryItemService {
             else {
                 tranferResult.refreshRequired = false;
                 destBucket.items.push(inventoryItem);
+                InventoryUtils.sortBucketItems(destBucket);
             }
 
             // Update inventory item with new characterIndex
             inventoryItem.characterIndex = destCharacterIndex;
-
-            // Sort after we insert the new item
-            InventoryUtils.sortBucketItems(destBucket);
 
             tranferResult.inventoryItem = inventoryItem;
             this._transferSuccesses.push(tranferResult);

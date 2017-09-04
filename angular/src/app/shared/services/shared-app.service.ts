@@ -222,9 +222,16 @@ export class SharedApp {
         return sessionStorageValue
     }
 
+    private showLoadingTimeoutId: NodeJS.Timer;
     @delayBy(10)
     showLoading(loadingId: any) {
         this.showLoadingIds.set(loadingId, true);
+
+        // Hide loading after 15 seconds after the last loading was shown to prevent inifinite loading if an error happens
+        clearTimeout(this.showLoadingTimeoutId);
+        this.showLoadingTimeoutId = setTimeout(() => {
+            this.showLoadingIds.clear();
+        }, 15000);
     }
 
     @delayBy(50)

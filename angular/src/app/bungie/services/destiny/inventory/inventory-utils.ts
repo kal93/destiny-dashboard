@@ -55,6 +55,7 @@ export class InventoryUtils {
     }
 
     public static sortBucketItems(bucket: InventoryBucket, ignoreEquipped: boolean = false) {
+        if (bucket == null) return;
         // Sort items in bucket. transferStatus == 1 means it's selected
         bucket.items.sort((a: InventoryItem, b: InventoryItem) => {
             // Sort by whether if its in a transferrable status
@@ -158,10 +159,12 @@ export class InventoryUtils {
     }
 
     public static isBucketFull(destBucket: InventoryBucket): boolean {
+        if (destBucket == null) return false;
         return destBucket.bucketValue.itemCount == destBucket.items.length;
     }
 
     public static getEquippedItemFromBucket(destBucket: InventoryBucket): InventoryItem {
+        if (destBucket == null) return null;
         for (let i = 0; i < destBucket.items.length; i++) {
             if (InventoryUtils.isItemEquipped(destBucket.items[i]))
                 return destBucket.items[i];
@@ -171,6 +174,7 @@ export class InventoryUtils {
     }
 
     public static getUnequippedLowestValueItemFromBucket(destBucket: InventoryBucket, allowExotic: boolean = true): InventoryItem {
+        if (destBucket == null) return null;
         let lowestValueItem: InventoryItem;
         for (let i = 0; i < destBucket.items.length; i++) {
             let inventoryItem = destBucket.items[i];
@@ -199,6 +203,7 @@ export class InventoryUtils {
     }
 
     public static getUnequippedHighestValueItemFromBucket(destBucket: InventoryBucket, allowExotic: boolean = true): InventoryItem {
+        if (destBucket == null) return null;
         let highestValueItem: InventoryItem;
         for (let i = 0; i < destBucket.items.length; i++) {
             let inventoryItem = destBucket.items[i];

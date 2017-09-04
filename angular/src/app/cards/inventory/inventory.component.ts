@@ -93,9 +93,9 @@ export class ItemManagerComponent extends CardComponent {
 
         this.getFullInventory().then(() => {
             // Loadouts only available in fullscreen mode
-            if (this.isFullscreen) 
+            if (this.isFullscreen)
                 this.setSubNavItems();
-            
+
             this.sharedApp.showInfoOnce("Press and hold an item to enter multi-transfer mode.");
         });
         this.initSearch();
@@ -382,12 +382,15 @@ export class ItemManagerComponent extends CardComponent {
                     });
                     resolve();
                 }).catch((error) => {
-                    this.sharedApp.showError("There was an unexpected error transferring items!", error);
+                    this.sharedApp.showError("Error when trying to transfer " + inventoryItem.itemValue.itemName, error);
                     reject(error);
                 });
         }).then((data) => {
             this.sharedApp.hideLoading(loadingId);
             return data;
+        }).catch((error) => {
+            this.sharedApp.showError("There was an error when trying to transfer " + inventoryItem.itemValue.itemName, error);
+            this.sharedApp.hideLoading(loadingId);
         });
     }
 
