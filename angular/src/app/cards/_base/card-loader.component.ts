@@ -13,8 +13,8 @@ import { ICard } from './card.interface';
              <dd-bungie-news *ngIf="dashboardCard.definitionId == 5" [dashboardCard]="dashboardCard"></dd-bungie-news>
              <dd-inventory *ngIf="dashboardCard.definitionId == 6" [dashboardCard]="dashboardCard"></dd-inventory>
              <dd-clan-leaderboards *ngIf="dashboardCard.definitionId == 7" [dashboardCard]="dashboardCard"></dd-clan-leaderboards>
-             <dd-dashboard-news *ngIf="dashboardCard.definitionId == 8" [dashboardCard]="dashboardCard"></dd-dashboard-news>`
-
+             <dd-dashboard-news *ngIf="dashboardCard.definitionId == 8" [dashboardCard]="dashboardCard"></dd-dashboard-news>
+             <dd-database *ngIf="dashboardCard.definitionId == 9" [dashboardCard]="dashboardCard"></dd-database>`
 })
 
 export class CardLoaderComponent {

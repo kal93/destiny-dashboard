@@ -1,0 +1,33 @@
+@import '../../../styles/theme.scss';
+
+//These styles apply to both dashboard and fullscreen
+.dd-database {
+    background-color: #FFF;
+    color: $app-text-dark;
+
+    .input-wrap {
+        margin: 20px 2%;
+        background-color: #F5F5F5;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .results-wrap {
+        margin: 20px auto;
+        background-color: #F5F5F5;
+        width: 90%;
+        min-height: 400px;
+    }
+}
+
+//These styles only applies to dashboard cards
+.dd-card-content.dd-database {
+    height: calc(100% - 40px);
+}
+
+//These styles only apply to fullscreen mode
+.dd-fullscreen.dd-database {
+    height: 100%;
+}

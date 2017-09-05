@@ -1,0 +1,22 @@
+<div>
+  <div [class.dd-card-wrap]="!isFullscreen">
+    <dd-card-header *ngIf="!isFullscreen" [dashboardCard]="dashboardCard"></dd-card-header>
+    <div class="dd-database" [class.dd-fullscreen]="isFullscreen" [class.dd-card-content]="!isFullscreen">
+
+      <div class="input-wrap">
+        <md-form-field class="search-text">
+          <input mdInput placeholder="Search Database" [formControl]="searchTextForm">
+        </md-form-field>
+
+        <md-select placeholder="Item Category">
+          <md-option *ngFor="let itemCategory of itemCategories" [value]="itemCategory.value">
+            {{ itemCategory.displayValue }}
+          </md-option>
+        </md-select>
+      </div>
+
+      <div class="results-wrap">
+      </div>
+    </div>
+  </div>
+</div>

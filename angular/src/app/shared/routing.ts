@@ -4,17 +4,18 @@ import { ActivatedRouteSnapshot, DetachedRouteHandle, Routes, RouterModule, Rout
 
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { AboutComponent } from '../about/about.component';
+import { DownloadManifestComponent } from '../bungie/manifest/download-manifest.component';
 
 import { BungieNewsComponent } from '../cards/bungie-news/bungie-news.component';
+import { ClanLeaderboardsComponent } from '../cards/clan-leaderboards/clan-leaderboards.component';
 import { CountdownComponent } from '../cards/countdown/countdown.component';
 import { DashboardNewsComponent } from '../cards/dashboard-news/dashboard-news.component';
+import { DatabaseComponent } from '../cards/database/database.component';
 import { ItemManagerComponent } from '../cards/inventory/inventory.component';
 import { ReputationComponent } from '../cards/reputation/reputation.component';
-import { DownloadManifestComponent } from '../bungie/manifest/download-manifest.component';
 import { RedditComponent } from '../cards/reddit/reddit.component';
 import { StatsComponent } from '../cards/stats/stats.component';
 import { TwitchComponent } from '../cards/twitch/twitch.component';
-import { ClanLeaderboardsComponent } from '../cards/clan-leaderboards/clan-leaderboards.component'
 
 import { AuthGuard } from './guards/auth.guard';
 
@@ -52,63 +53,58 @@ const routes: Routes = [
     { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
     {
         path: 'dashboard', component: DashboardComponent, data: {
-            animation: 'dashboard',
             title: "Dashboard"
         }
     },
     {
         path: 'about', component: AboutComponent, data: {
-            animation: 'card',
             title: "About"
         }
     },
     {
         path: 'bungie-news', component: BungieNewsComponent, data: {
-            animation: 'card',
             title: "Bungie News"
         }
     },
     {
+        path: 'clan-leaderboards', component: ClanLeaderboardsComponent, data: {
+            title: "Clan Leaderboards"
+        }
+    },
+    {
         path: 'countdown', component: CountdownComponent, data: {
-            animation: 'card',
             title: "Countdown"
         }
     },
     {
         path: 'dashboard-news', component: DashboardNewsComponent, data: {
-            animation: 'card',
             title: "Dashboard News"
         }
     },
     {
+        path: 'database', component: DatabaseComponent, data: {
+            title: "Database"
+        }
+    },
+    {
         path: 'download-manifest', component: DownloadManifestComponent, data: {
-            animation: 'card',
             title: "Download Manifest"
         }
     },
     {
         canActivate: [AuthGuard],
         path: 'inventory', component: ItemManagerComponent, data: {
-            animation: 'card',
             title: "Inventory"
         }
     },
     {
         path: 'reputation', component: ReputationComponent, data: {
-            animation: 'card',
             title: "Reputation"
         }
     },
     {
         path: 'stats', component: StatsComponent, data: {
-            animation: 'card',
             title: "Stats"
-        }
-    },
-    {
-        path: 'clan-leaderboards', component: ClanLeaderboardsComponent, data: {
-            animation: 'card',
-            title: "Clan Leaderboards"
         }
     }
 ];

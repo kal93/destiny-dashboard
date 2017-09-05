@@ -17,142 +17,88 @@ export class CardDefinitions {
     // When removing cards, replace the card definition with null
     static definitions: Array<ICardDefinition> =
     [{
-        id: 0,
-        title: "Countdown",
-        description: "Destiny 2 countdown",
-        rating: 5,
-        route: "/countdown",
+        id: 0, title: "Countdown", description: "Destiny 2 countdown", rating: 5, route: "/countdown",
         //Sort layouts by column, then row
         layouts: [
             { rows: 1, cols: 1 },
             { rows: 1, cols: 2 }, { rows: 2, cols: 2 },
             { rows: 1, cols: 3 }, { rows: 2, cols: 3 }
         ],
-        requiresLogin: false,
-        isExternalRoute: false,
-        lastUpdated: 1497057903904,
-        previewImageClass: "dd-countdown-preview"
+        requiresLogin: false, isExternalRoute: false, lastUpdated: 1497057903904, previewImageClass: "dd-countdown-preview"
     },
     {
-        id: 1,
-        title: "Stats",
-        description: "A summary of character stats",
-        rating: 5,
-        route: "/stats",
+        id: 1, title: "Stats", description: "A summary of character stats", rating: 5, route: "/stats",
         layouts: [
             { rows: 2, cols: 2 }, { rows: 3, cols: 2 }, { rows: 4, cols: 2 },
             { rows: 2, cols: 3 }, { rows: 3, cols: 3 }, { rows: 4, cols: 3 }
         ],
-        requiresLogin: false,
-        isExternalRoute: false,
-        lastUpdated: 1497057974086,
-        previewImageClass: "dd-stats-preview"
+        requiresLogin: false, isExternalRoute: false, lastUpdated: 1497057974086, previewImageClass: "dd-stats-preview"
     },
     {
-        id: 2,
-        title: "Reddit",
-        description: "A preview of what's happening on /r/DestinyTheGame",
-        rating: 5,
-        route: "https://www.reddit.com/r/destinythegame/",
+        id: 2, title: "Reddit", description: "A preview of what's happening on /r/DestinyTheGame", rating: 5, route: "https://www.reddit.com/r/destinythegame/",
         layouts: [
             { rows: 2, cols: 1 },
             { rows: 2, cols: 2 },
             { rows: 2, cols: 3 }, { rows: 3, cols: 3 }
         ],
-        requiresLogin: false,
-        isExternalRoute: true,
-        lastUpdated: 1497057959790,
-        previewImageClass: "dd-reddit-preview"
+        requiresLogin: false, isExternalRoute: true, lastUpdated: 1497057959790, previewImageClass: "dd-reddit-preview"
     },
     {
-        id: 3,
-        title: "Reputation",
-        description: "View character reputation",
-        rating: 5,
+        id: 3, title: "Reputation", description: "View character reputation", rating: 5,
         route: "/reputation",
         layouts: [
             { rows: 2, cols: 2 }, { rows: 3, cols: 2 },
             { rows: 2, cols: 3 }, { rows: 3, cols: 3 }
         ],
-        requiresLogin: false,
-        isExternalRoute: false,
-        lastUpdated: 1503951147138,
-        previewImageClass: "dd-reputation-preview"
+        requiresLogin: false, isExternalRoute: false, lastUpdated: 1503951147138, previewImageClass: "dd-reputation-preview"
     },
     {
-        id: 4,
-        title: "Twitch",
-        description: "Popular Destiny Twitch streams",
-        rating: 5,
-        route: "https://www.twitch.tv/directory/game/Destiny",
+        id: 4, title: "Twitch", description: "Popular Destiny Twitch streams", rating: 5, route: "https://www.twitch.tv/directory/game/Destiny",
         layouts: [
             { rows: 2, cols: 1 }, { rows: 3, cols: 1 },
             { rows: 2, cols: 2 }, { rows: 3, cols: 2 },
             { rows: 2, cols: 3 }, { rows: 3, cols: 3 }
         ],
-        requiresLogin: false,
-        isExternalRoute: true,
-        lastUpdated: 1497058159790,
-        previewImageClass: "dd-twitch-preview"
+        requiresLogin: false, isExternalRoute: true, lastUpdated: 1497058159790, previewImageClass: "dd-twitch-preview"
     },
     {
-        id: 5,
-        title: "Bungie News",
-        description: "The latest news from Bungie.net",
-        rating: 5,
-        route: "https://www.bungie.net/en/News",
+        id: 5, title: "Bungie News", description: "The latest news from Bungie.net", rating: 5, route: "https://www.bungie.net/en/News",
         layouts: [
             { rows: 2, cols: 2 }, { rows: 3, cols: 2 },
             { rows: 2, cols: 3 }, { rows: 3, cols: 3 }, { rows: 4, cols: 3 }
         ],
-        requiresLogin: false,
-        isExternalRoute: true,
-        lastUpdated: 1501718581327,
-        previewImageClass: "dd-bungie-news-preview"
+        requiresLogin: false, isExternalRoute: true, lastUpdated: 1501718581327, previewImageClass: "dd-bungie-news-preview"
     },
     {
-        id: 6,
-        title: "Inventory",
-        description: "Manage your vault and inventories, and create custom loadouts.",
-        rating: 5,
-        route: "inventory",
+        id: 6, title: "Inventory", description: "Manage your vault and inventories, and create custom loadouts.", rating: 5, route: "inventory",
         layouts: [
             { rows: 3, cols: 3 }, { rows: 4, cols: 3 }
         ],
-        requiresLogin: true,
-        isExternalRoute: false,
-        lastUpdated: 1502124275046,
-        previewImageClass: "dd-inventory-preview"
+        requiresLogin: true, isExternalRoute: false, lastUpdated: 1502124275046, previewImageClass: "dd-inventory-preview"
     },
     {
-        id: 7,
-        title: "Clan Leaderboards",
-        description: "View clan leaderboards",
-        rating: 5,
-        route: "clan-leaderboards",
+        id: 7, title: "Clan Leaderboards", description: "View clan leaderboards", rating: 5, route: "clan-leaderboards",
         layouts: [
             { rows: 2, cols: 2 }, { rows: 3, cols: 2 }, { rows: 4, cols: 2 },
             { rows: 2, cols: 3 }, { rows: 3, cols: 3 }
         ],
-        requiresLogin: false,
-        isExternalRoute: false,
-        lastUpdated: 1503092830522,
-        previewImageClass: "dd-clan-leaderboards-preview"
+        requiresLogin: false, isExternalRoute: false, lastUpdated: 1503092830522, previewImageClass: "dd-clan-leaderboards-preview"
     },
     {
-        id: 8,
-        title: "Dashboard News",
-        description: "DestinyDashboard internal site news",
-        rating: 5,
-        route: "dashboard-news",
+        id: 8, title: "Dashboard News", description: "DestinyDashboard internal site news", rating: 5, route: "dashboard-news",
         layouts: [
             { rows: 2, cols: 2 }, { rows: 3, cols: 2 }, { rows: 4, cols: 2 },
             { rows: 2, cols: 3 }, { rows: 3, cols: 3 }
         ],
-        requiresLogin: false,
-        isExternalRoute: false,
-        lastUpdated: 1503622407631,
-        previewImageClass: "dd-dashboard-news-preview"
+        requiresLogin: false, isExternalRoute: false, lastUpdated: 1503622407631, previewImageClass: "dd-dashboard-news-preview"
+    },
+    {
+        id: 9, title: "Database", description: "Database of every item in Destiny", rating: 5, route: "database",
+        layouts: [
+            { rows: 2, cols: 2 }, { rows: 3, cols: 2 }, { rows: 4, cols: 2 },
+            { rows: 2, cols: 3 }, { rows: 3, cols: 3 }
+        ],
+        requiresLogin: false, isExternalRoute: false, lastUpdated: 1504570852262, previewImageClass: "dd-database-preview"
     }];
 
     static defaultDashboards: Array<IUserDashboard> = [{
