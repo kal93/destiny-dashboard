@@ -15,7 +15,7 @@ export class AboutComponent {
   public cacheSizeKB: string;
 
   constructor(public sharedApp: SharedApp) {
-    this.sharedApp.updateMetaTags("About Destiny Dashboard", "Details about DestinyDashboard.net");
+    this.sharedApp.updateMetaTags("About", "Details about DestinyDashboard.net");
   }
 
   ngOnInit() {
