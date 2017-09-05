@@ -7,17 +7,16 @@ import { SharedApp } from './shared/services/shared-app.service';
 import { SharedBungie } from './bungie/shared-bungie.service';
 import { SharedDashboard } from './dashboard/shared-dashboard.service';
 
+import { CardDefinitions } from './cards/_base/card-definition';
+import { ICard, IUserDashboard } from './cards/_base/card.interface';
 import {
   AccountStatsService, AccountSummaryService, BungieSiteNewsService, CharacterInventorySummaryService, CharacterStatsService, CharacterProgressionService,
   ClanLeaderboardsStatsService, GetBungieAccountService, InventoryItemService, VaultSummaryService
 } from './bungie/services/service.barrel';
 
-import { ICard, IUserDashboard } from './cards/_base/card.interface';
 
-import { Angulartics2GoogleAnalytics } from 'angulartics2';
-
-import { CardDefinitions } from './cards/_base/card-definition';
 import { fadeInOut } from './shared/animations';
+import { Angulartics2GoogleAnalytics } from 'angulartics2';
 
 @Component({
   selector: 'dd-app',
