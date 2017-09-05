@@ -1,27 +1,28 @@
 <div class="dashboard-wrap dd-dashboard-background">
     <md-grid-list *ngIf="sharedDashboard.selectedDashboard != null" [cols]="columnCount" rowHeight="200px" [gutterSize]="gutterSize"
         [@fadeInChildren]="sharedDashboard.selectedDashboard.cards.length">
-        <md-grid-tile *ngFor="let dashboardCard of sharedDashboard.selectedDashboard.cards" class="box-shadow-1" [colspan]="dashboardCard.layout.cols"
-            [rowspan]="dashboardCard.layout.rows">
-            <dd-card-loader [dashboardCard]="dashboardCard"></dd-card-loader>
-            <div *ngIf="sharedDashboard.editMode" class="edit-card-wrap">
-                <div class="fill"></div>
+        <ng-container *ngFor="let card of sharedDashboard.selectedDashboard.cards">
+            <md-grid-tile *ngIf="card.definition.enabled" class="box-shadow-1" [colspan]="card.layout.cols" [rowspan]="card.layout.rows">
+                <dd-card-loader [dashboardCard]="card"></dd-card-loader>
+                <div *ngIf="sharedDashboard.editMode" class="edit-card-wrap">
+                    <div class="fill"></div>
 
-                <div class="card-remove">
-                    <button md-icon-button (click)="removeCard(dashboardCard)"><md-icon>delete_forever</md-icon></button>
-                </div>
+                    <div class="card-remove">
+                        <button md-icon-button (click)="removeCard(card)"><md-icon>delete_forever</md-icon></button>
+                    </div>
 
-                <div class="card-size">
-                    <button md-icon-button [disabled]="dashboardCard.layoutId == 0" (click)="setCardSize(dashboardCard, -1)"><md-icon>remove</md-icon></button>
-                    <button md-icon-button [disabled]="dashboardCard.layoutId == dashboardCard.definition.layouts.length - 1" (click)="setCardSize(dashboardCard, 1)"><md-icon>add</md-icon></button>
-                </div>
+                    <div class="card-size">
+                        <button md-icon-button [disabled]="card.layoutId == 0" (click)="setCardSize(card, -1)"><md-icon>remove</md-icon></button>
+                        <button md-icon-button [disabled]="card.layoutId == card.definition.layouts.length - 1" (click)="setCardSize(card, 1)"><md-icon>add</md-icon></button>
+                    </div>
 
-                <div class="card-position">
-                    <button md-button [disabled]="dashboardCard.sequence == 0" (click)="setCardPosition(dashboardCard, -1)"><md-icon>arrow_back</md-icon></button>
-                    <button md-button [disabled]="dashboardCard.sequence == sharedDashboard.selectedDashboard.cards.length - 1" (click)="setCardPosition(dashboardCard, 1)"><md-icon>arrow_forward</md-icon></button>
+                    <div class="card-position">
+                        <button md-button [disabled]="card.sequence == 0" (click)="setCardPosition(card, -1)"><md-icon>arrow_back</md-icon></button>
+                        <button md-button [disabled]="card.sequence == sharedDashboard.selectedDashboard.cards.length - 1" (click)="setCardPosition(card, 1)"><md-icon>arrow_forward</md-icon></button>
+                    </div>
                 </div>
-            </div>
-        </md-grid-tile>
+            </md-grid-tile>
+        </ng-container>
     </md-grid-list>
 
     <!-- modalClosedEvent() is called after the modal has been closed -->

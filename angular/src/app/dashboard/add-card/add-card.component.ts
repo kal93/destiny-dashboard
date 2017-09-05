@@ -41,7 +41,8 @@ export class AddCardComponent {
     //Remove the card if the user already has it
     this.availableCards = CardDefinitions.definitions.slice();
     for (let i = 0; i < this.availableCards.length; i++) {
-      if (alreadyAddedCards.has(this.availableCards[i].id)) {
+      let availableCard = this.availableCards[i];
+      if (alreadyAddedCards.has(availableCard.id) || availableCard.enabled == false) {
         this.availableCards.splice(i, 1);
         i--;
       }
