@@ -35,11 +35,11 @@ export class ManifestService {
         this.sharedApp.showLoading(loadingId);
         return new Promise((resolve, reject) => {
             //Download latest local manifest zip file
-            this.http.httpGetBinary("./destiny-manifest_0.9.0.zip").then((manifestZipBlob: Blob) => {
+            this.http.httpGetBinary("./destiny-manifest_1.0.3.zip").then((manifestZipBlob: Blob) => {
                 //Convert it a workable format for unzipping
                 FileUtils.blobToUintArray8(manifestZipBlob).then((arrayBuffer: Uint8Array) => {
                     //Unzip it
-                    FileUtils.unzipArrayBuffer(arrayBuffer, "destiny-manifest_0.9.0.json").then((unzippedManifest: Uint8Array) => {
+                    FileUtils.unzipArrayBuffer(arrayBuffer, "destiny-manifest_1.0.3.json").then((unzippedManifest: Uint8Array) => {
                         //Convert bytearray to JSON string
                         let stringifiedDB = FileUtils.utf8ByteArrayToString(unzippedManifest);
 
@@ -87,7 +87,7 @@ export class ManifestService {
     }
 
     getManifestMetadata(): Promise<IDestinyManifestMeta> {
-        return this.http.getWithCache("https://www.bungie.net/d1/Platform/Destiny/Manifest/", HttpRequestType.BUNGIE_BASIC, 0);
+        return this.http.getWithCache("https://www.bungie.net/Platform/Destiny2/Manifest/", HttpRequestType.BUNGIE_BASIC, 0);
     }
 
     getManifestDatabase(manifestMeta: IDestinyManifestMeta): Promise<Blob> {

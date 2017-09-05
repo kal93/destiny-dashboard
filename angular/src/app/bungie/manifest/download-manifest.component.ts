@@ -77,6 +77,7 @@ export class DownloadManifestComponent {
     for (let i = 0; i < tableDefinitions.values.length; i++) {
       let tableName: string = tableDefinitions.values[i][0];
 
+      /*
       // Tables that we want to ignore completely
       if (tableName == "DestinyActivityBundleDefinition" || tableName == "DestinyActivityCategoryDefinition" || tableName == "DestinyActivityModeDefinition"
         || tableName == "DestinyActivityTypeDefinition" || tableName == "DestinyBondDefinition" || tableName == "DestinyCombatantDefinition"
@@ -91,9 +92,11 @@ export class DownloadManifestComponent {
         resultSet = this.db.exec(`DROP TABLE ${tableName}`);
         continue;
       }
-
+*/
       resultSet = this.db.exec(`SELECT * FROM ${tableName}`);
       let tableRows = resultSet[0];
+      if(tableRows == null)
+        continue;
 
       // Create a map for the hash - > json values
       let rowMap = new Map<number, any>();
@@ -130,7 +133,7 @@ export class DownloadManifestComponent {
 
         // DestinyGenderDefinition
         delete rowObj.genderDescription;
-
+/*
         // Delete certain fields that we don't care about
         if (tableName == "DestinyInventoryItemDefinition") {
 
@@ -144,7 +147,7 @@ export class DownloadManifestComponent {
           delete rowObj.showActiveNodesInTooltip; delete rowObj.index; delete rowObj.redacted; delete rowObj.bountyResetUnlockHash;
           delete rowObj.itemCategoryHashes;
         }
-
+*/
         rowMap.set(hash, rowObj);
 
       });
