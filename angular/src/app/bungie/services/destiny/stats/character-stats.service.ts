@@ -16,7 +16,7 @@ export class CharacterStatsService {
 
     getCharacterStats(membership: DestinyMembership, characterId: string, groups: Array<GroupTypes>, modes: Array<ModeTypes>, period: PeriodTypes): Promise<ICharacterStats> {
         // Build the request URL
-        let requestUrl = "https://www.bungie.net/d1/Platform/Destiny/Stats/" + membership.membershipType + "/" + membership.membershipId + "/" + characterId +
+        let requestUrl = "https://www.bungie.net/Platform/Destiny2/Stats/" + membership.membershipType + "/" + membership.membershipId + "/" + characterId +
             "/?groups=" + groups.join() + "&modes=" + modes.join() + "&periodType=" + period;
 
         //Get the response, or return the cached result

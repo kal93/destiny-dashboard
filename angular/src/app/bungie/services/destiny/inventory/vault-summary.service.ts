@@ -14,7 +14,7 @@ export class VaultSummaryService {
 
     getVaultSummary(membership: DestinyMembership): Promise<IVaultSummary> {
         // Build the request URL
-        let requestUrl = "https://www.bungie.net/d1/Platform/Destiny/" + membership.membershipType + "/MyAccount/Vault/Summary/";
+        let requestUrl = "https://www.bungie.net/Platform/Destiny2/" + membership.membershipType + "/MyAccount/Vault/Summary/";
 
         //Get the response, or return the cached result
         return this.http.getWithCache(requestUrl, HttpRequestType.BUNGIE_PRIVILEGED, this.cacheTimeMs).then(response => response.data);

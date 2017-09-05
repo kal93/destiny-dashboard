@@ -15,7 +15,7 @@ export class AccountStatsService {
     }
 
     getAccountStats(membership: DestinyMembership, groups: Array<GroupTypes>): Promise<IAccountStats> {
-        let requestUrl = "https://www.bungie.net/d1/Platform/Destiny/Stats/Account/" + membership.membershipType + "/" + membership.membershipId +
+        let requestUrl = "https://www.bungie.net/Platform/Destiny2/Stats/Account/" + membership.membershipType + "/" + membership.membershipId +
             "/?groups=" + groups.join();
 
         //Get the response, or return the cached result

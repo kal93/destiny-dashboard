@@ -31,7 +31,7 @@ export class ClanLeaderboardsStatsService {
     getClanleaderboardStats(clan: BungieAccountClan, modes: Array<ModeTypes>, maxTop = 4, statId?: string): Promise<IClanLeaderboardsStats> {
         let statIdParam = (statId == null) ? "" : "&statid=" + statId;
 
-        let requestUrl = "https://www.bungie.net/D1/Platform/Destiny/Stats/ClanLeaderboards/" + clan.groupId + "/?maxtop=" + maxTop +
+        let requestUrl = "https://www.bungie.net/Platform/Destiny2/Stats/ClanLeaderboards/" + clan.groupId + "/?maxtop=" + maxTop +
             "&modes=" + modes.join() + statIdParam;
 
         //Get the response, or return the cached result

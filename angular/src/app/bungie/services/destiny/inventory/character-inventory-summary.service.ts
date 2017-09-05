@@ -14,7 +14,7 @@ export class CharacterInventorySummaryService {
 
     getCharacterInventorySummary(membership: DestinyMembership, characterId: string): Promise<ICharacterInventorySummary> {
         //Get the response, or return the cached result
-        return this.http.getWithCache("https://www.bungie.net/d1/Platform/Destiny/" + membership.membershipType + "/Account/" + membership.membershipId + "/Character/" + characterId +
+        return this.http.getWithCache("https://www.bungie.net/Platform/Destiny2/" + membership.membershipType + "/Account/" + membership.membershipId + "/Character/" + characterId +
             "/Inventory/Summary/", HttpRequestType.BUNGIE_PRIVILEGED, this.cacheTimeMs).then(response => response.data);
     }
 } 

@@ -14,7 +14,7 @@ export class AccountSummaryService {
     }
 
     getAccountSummary(membership: DestinyMembership): Promise<IAccountSummary> {
-        let requestUrl = "https://www.bungie.net/d1/Platform/Destiny/" + membership.membershipType + "/Account/" + membership.membershipId + "/Summary/";
+        let requestUrl = "https://www.bungie.net/Platform/Destiny2/" + membership.membershipType + "/Account/" + membership.membershipId + "/Summary/";
 
         //Get the response, or return the cached result
         return this.http.getWithCache(requestUrl, HttpRequestType.BUNGIE_BASIC, this.cacheTimeMs).then(response => response.data);
