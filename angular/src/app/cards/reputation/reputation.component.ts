@@ -6,7 +6,7 @@ import { SharedApp } from 'app/shared/services/shared-app.service';
 import { ManifestService } from 'app/bungie/manifest/manifest.service';
 import { AccountSummaryService, CharacterProgressionService } from 'app/bungie/services/service.barrel';
 
-import { DestinyMembership, IAccountSummary, Progression, SummaryCharacter } from 'app/bungie/services/interface.barrel';
+import { DestinyMembership, IAccountSummary, ProgressionBase } from 'app/bungie/services/interface.barrel';
 
 @Component({
   selector: 'dd-reputation',
@@ -28,7 +28,9 @@ export class ReputationComponent extends CardComponent {
   accountSummary: IAccountSummary;
 
   // Progression (Reputation) for selected character
-  characterProgressions: Array<Progression>;
+  characterProgressions: Array<ProgressionBase>;
+
+  loadedProgression: boolean = false;
 
   constructor(private accountSummaryService: AccountSummaryService, private characterProgressionService: CharacterProgressionService, public domSanitizer: DomSanitizer,
     private manifestService: ManifestService, public sharedApp: SharedApp) {
@@ -52,17 +54,13 @@ export class ReputationComponent extends CardComponent {
     //Get Account Summary to get the list of available characters
     this.accountSummaryService.getAccountSummary(this.selectedMembership).then((accountSummary: IAccountSummary) => {
       this.accountSummary = accountSummary;
-      this.accountSummary.characters.forEach((character: SummaryCharacter) => {
-        character.characterBase.classValue = this.manifestService.getManifestEntry("DestinyClassDefinition", character.characterBase.classHash);
-        character.characterBase.genderValue = this.manifestService.getManifestEntry("DestinyGenderDefinition", character.characterBase.genderHash);
-        character.characterBase.raceValue = this.manifestService.getManifestEntry("DestinyRaceDefinition", character.characterBase.raceHash);
-      });
+      if (this.accountSummary == null)
+        return;
 
-      if (this.selectedTabIndex > this.accountSummary.characters.length - 1)
+      if (this.selectedTabIndex > accountSummary.characterData.length - 1)
         this.selectedTabIndex = 0;
 
       this.tabGroup.selectedIndex = this.selectedTabIndex;
-      this.selectedTabIndexChanged(this.selectedTabIndex);
     });
   }
 
@@ -78,34 +76,18 @@ export class ReputationComponent extends CardComponent {
   }
 
   getSelectedRep() {
-    let characterId: string = this.accountSummary.characters[this.selectedTabIndex].characterBase.characterId;
-
-    //Create a map for the relationship from DestinyFactionDefinition to DestinyProgressDefinition
-    let progressionHashFactionMap = new Map<number, any>();
-    let factionMap = this.manifestService.getTableMap("DestinyFactionDefinition");
-    factionMap.forEach((value, key) => {
-      if (value.progressionHash != 0)
-        progressionHashFactionMap.set(value.progressionHash, value);
-    });
+    let characterId: string = this.accountSummary.characterData[this.selectedTabIndex].characterId;
 
     this.characterProgressionService.getCharacterProgression(this.selectedMembership, characterId).then((characterProgressionResponse) => {
+      if (characterProgressionResponse == null)
+        return;
+
       // Set progressions from API
-      this.characterProgressions = characterProgressionResponse.progressions;
-
-      // Set the manifest value for the given progression hash
-      this.characterProgressions.forEach((progression) => {
-        let factionValue = progressionHashFactionMap.get(progression.progressionHash);
-
-        // Set the faction if it exists
-        if (factionValue != null) {
-          progression.factionValue = factionValue;
-          progression.progressionValue = this.manifestService.getManifestEntry("DestinyProgressionDefinition", progression.progressionHash);
-        }
-      });
+      this.characterProgressions = characterProgressionResponse.progressionsData;
 
       // Filter out progressions we don't have a faction entry for, or if it's a negative level (Test faction probably)
       this.characterProgressions = this.characterProgressions.filter((progression) => {
-        return progression.factionValue != null && progression.level != -1 && progression.progressionHash != 452808717;
+        return progression.factionValue != null && progression.level != -1;
       });
 
       // Sort progressions based on progress

@@ -1,46 +1,42 @@
 import { Currency } from "../shared.interface";
 
 export interface IAccountSummary {
-    membershipId: string;
-    membershipType: number;
-    characters: SummaryCharacter[];
-    inventory: Inventory;
-    grimoireScore: number;
-    versions: number;
+    characters: SummaryCharacter;
+    itemComponents: ItemComponents;
+
+    //Runtime variables
+    characterData: Array<CharacterBase>;
 }
 
-export interface SummaryCharacter {
-    characterBase: CharacterBase;
-    levelProgression: LevelProgression;
-    emblemPath: string;
-    backgroundPath: string;
-    emblemHash: any;
-    characterLevel: number;
+interface ItemComponents {
+}
+
+interface SummaryCharacter {
+    data: { [key: number]: CharacterBase[] };
+    privacy: number;
+}
+
+export interface CharacterBase {
     baseCharacterLevel: number;
-    isPrestigeLevel: boolean;
-    percentToNextLevel: number;
-}
-
-interface CharacterBase {
-    buildStatGroupHash: any;
     characterId: string;
-    classHash: any;
+    classHash: number;
     classType: number;
-    currentActivityHash: number;
-    customization: Customization;
-    dateLastPlayed: Date;
-    genderHash: any;
+    dateLastPlayed: string;
+    emblemBackgroundPath: string;
+    emblemHash: number;
+    emblemPath: string;
+    genderHash: number;
     genderType: number;
-    grimoireScore: number;
-    lastCompletedStoryHash: number;
+    levelProgression: LevelProgression;
+    light: number;
     membershipId: string;
     membershipType: number;
     minutesPlayedThisSession: string;
     minutesPlayedTotal: string;
-    peerView: PeerView;
-    powerLevel: number;
-    raceHash: any;
-    stats: Stats;
+    percentToNextLevel: number;
+    raceHash: number;
+    raceType: number;
+    stats: any; // AssocArray of hash?
 
     //Runtime variables
     classValue: any;
@@ -59,6 +55,7 @@ export interface LevelProgression {
     progressionHash: number;
 }
 
+/*
 interface Stats {
     STAT_DEFENSE: Stat;
     STAT_INTELLECT: Stat;
@@ -73,7 +70,7 @@ interface Stats {
     STAT_DAMAGE_REDUCTION: Stat;
     STAT_ATTACK_EFFICIENCY: Stat;
     STAT_ATTACK_ENERGY: Stat;
-}
+}*/
 
 interface Stat {
     statHash: number;

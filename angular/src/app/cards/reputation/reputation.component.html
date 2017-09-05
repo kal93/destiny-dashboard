@@ -9,7 +9,7 @@
 
       <md-tab-group #tabGroup *ngIf="selectedMembership != null" (selectedIndexChange)="selectedTabIndexChanged($event)">
         <!-- Character Specific Rep -->
-        <md-tab *ngFor="let character of accountSummary?.characters">
+        <md-tab *ngFor="let character of accountSummary?.characterData">
           <ng-template mdTabLabel>
             <dd-md-tab-character-heading [character]="character"></dd-md-tab-character-heading>
           </ng-template>
@@ -18,8 +18,8 @@
           <div class="sub-tab-wrap" *ngIf="characterProgressions != null">
             <div *ngFor="let progression of characterProgressions" class="reputation-section">
               <div class="top-wrap">
-                <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + progression.factionValue.factionIcon  +')')"></div>
-                <div class="name" [mdTooltip]="progression.factionValue.factionDescription" [mdTooltipPosition]="'below'">{{progression.factionValue.factionName}}</div>
+                <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + progression.factionValue.displayProperties.icon  +')')"></div>
+                <div class="name" [mdTooltip]="progression.factionValue.displayProperties.description" [mdTooltipPosition]="'below'">{{progression.factionValue.displayProperties.name}}</div>
               </div>
 
               <div class="progress-wrap">

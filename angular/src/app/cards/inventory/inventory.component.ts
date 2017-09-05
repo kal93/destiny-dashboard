@@ -16,7 +16,7 @@ import { Loadout } from './loadouts/loadouts.interface';
 
 import { AccountSummaryService, CharacterInventorySummaryService, InventoryItemService, VaultSummaryService } from 'app/bungie/services/service.barrel';
 import {
-    DestinyMembership, InventoryBucket, InventoryItem, IAccountSummary, IVaultSummary, SummaryCharacter, InventoryItemTransferResult
+    CharacterBase, DestinyMembership, InventoryBucket, InventoryItem, IAccountSummary, IVaultSummary, InventoryItemTransferResult
 } from 'app/bungie/services/interface.barrel';
 
 import { expandInShrinkOut, fadeInFromTop } from 'app/shared/animations';
@@ -45,10 +45,10 @@ export class ItemManagerComponent extends CardComponent {
     // Map of all inventoryItems for a player
     private inventoryItemHashMap = new Map<string, InventoryItem>();
 
-    // Array of Map of <bucketHash, bucket>. Array position matches caracter position in this.accountSummary.characters. Vault is always [3]
+    // Array of Map of <bucketHash, bucket>. Array position matches caracter position in this.accountSummary.characterData. Vault is always [3]
     private bucketsMap: Array<Map<number, InventoryBucket>> = new Array<Map<number, InventoryBucket>>(4);
 
-    // Array of character buckets for display in .html. Array position matches caracter position in this.accountSummary.characters. Character[Buckets]
+    // Array of character buckets for display in .html. Array position matches caracter position in this.accountSummary.characterData. Character[Buckets]
     bucketsArray: Array<Array<InventoryBucket>> = new Array<Array<InventoryBucket>>(4);
 
     // Character/Vault[BucketGroup[Buckets]]
@@ -105,12 +105,6 @@ export class ItemManagerComponent extends CardComponent {
             // Get Account Summary to get the list of available characters
             this.accountSummaryService.getAccountSummary(this.selectedMembership).then((accountSummary: IAccountSummary) => {
                 this.accountSummary = accountSummary;
-                this.accountSummary.characters.forEach((character: SummaryCharacter) => {
-                    // Set the manifest values for the characters
-                    character.characterBase.classValue = this.manifestService.getManifestEntry("DestinyClassDefinition", character.characterBase.classHash);
-                    character.characterBase.genderValue = this.manifestService.getManifestEntry("DestinyGenderDefinition", character.characterBase.genderHash);
-                    character.characterBase.raceValue = this.manifestService.getManifestEntry("DestinyRaceDefinition", character.characterBase.raceHash);
-                });
 
                 // Init buckets
                 this.bucketGroupsArray = new Array<Array<Array<InventoryBucket>>>(4);
@@ -118,7 +112,7 @@ export class ItemManagerComponent extends CardComponent {
 
                 // Load character data
                 let inventoryPromises = new Array<Promise<any>>();
-                for (let i = 0; i < this.accountSummary.characters.length; i++)
+                for (let i = 0; i < this.accountSummary.characterData.length; i++)
                     inventoryPromises.push(this.loadCharacterInventory(i));
 
                 inventoryPromises.push(this.loadVaultInventory());
@@ -151,8 +145,8 @@ export class ItemManagerComponent extends CardComponent {
     }
 
     loadCharacterInventory(characterIndex: number): Promise<any> {
-        let character: SummaryCharacter = this.accountSummary.characters[characterIndex];
-        return this.characterInventorySummaryService.getCharacterInventorySummary(this.selectedMembership, character.characterBase.characterId).then((inventoryResponse) => {
+        let character: CharacterBase = this.accountSummary.characterData[characterIndex];
+        return this.characterInventorySummaryService.getCharacterInventorySummary(this.selectedMembership, character.characterId).then((inventoryResponse) => {
             this.populateBuckets(characterIndex, inventoryResponse.items);
         });
     }
@@ -186,7 +180,7 @@ export class ItemManagerComponent extends CardComponent {
 
     applyFilter(skipAlreadyFiltered: boolean = false) {
         // Apply filter to each characters bucket groups
-        for (let characterIndex = 0; characterIndex < this.accountSummary.characters.length; characterIndex++) {
+        for (let characterIndex = 0; characterIndex < this.accountSummary.characterData.length; characterIndex++) {
             // Bucket groups for character
             let bucketGroups = this.bucketGroupsArray[characterIndex];
             InventoryUtils.applyFilterToBucketGroups(this.searchText, this.showInventoryGroups, bucketGroups, skipAlreadyFiltered);
@@ -269,6 +263,7 @@ export class ItemManagerComponent extends CardComponent {
                 this.expandedSections = [false, false, false, false];
 
                 let dialogRef = this.mdDialog.open(LoadoutsDialog);
+                dialogRef.componentInstance.destinyMembership = this.selectedMembership;
                 dialogRef.componentInstance.accountSummary = this.accountSummary;
                 dialogRef.componentInstance.inventoryItemHashMap = this.inventoryItemHashMap;
                 dialogRef.componentInstance.restoreExpandedSections = () => {
@@ -395,11 +390,11 @@ export class ItemManagerComponent extends CardComponent {
     }
 
     equipSingleItemToIndex(inventoryItem: InventoryItem, destCharacterIndex: number): Promise<any> {
-        let destCharacter = this.accountSummary.characters[destCharacterIndex];
+        let destCharacter = this.accountSummary.characterData[destCharacterIndex];
 
         // See if the item can actually be equipped on the character before transferring
         if (!InventoryUtils.isItemEquippableOnCharacter(inventoryItem, destCharacter)) {
-            this.sharedApp.showError(inventoryItem.itemValue.itemName + " cannot be equiped on a " + destCharacter.characterBase.classValue.className);
+            this.sharedApp.showError(inventoryItem.itemValue.itemName + " cannot be equiped on a " + destCharacter.classValue.className);
             return Promise.resolve();
         }
 

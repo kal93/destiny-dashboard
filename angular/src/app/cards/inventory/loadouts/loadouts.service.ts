@@ -2,15 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpRequestType, HttpService } from 'app/shared/services/http.service';
 import { SharedApp } from 'app/shared/services/shared-app.service';
 import { Loadout, ILoadoutResponse } from './loadouts.interface'
-import { IAccountSummary, InventoryItem } from 'app/bungie/services/interface.barrel';
+import { DestinyMembership, InventoryItem } from 'app/bungie/services/interface.barrel';
 
 @Injectable()
 export class LoadoutsService {
     constructor(protected http: HttpService, private sharedApp: SharedApp) { }
 
-    getUserLoadouts(accountSummary: IAccountSummary, inventoryItemHashMap: Map<string, InventoryItem>): Promise<Array<Loadout>> {
+    getUserLoadouts(destinyMembership: DestinyMembership, inventoryItemHashMap: Map<string, InventoryItem>): Promise<Array<Loadout>> {
 
-        return this.http.getWithCache("api/dashboard/userLoadouts?type=" + accountSummary.membershipType, HttpRequestType.DASHBOARD, 30000).then((loadoutsResponse: Array<ILoadoutResponse>) => {
+        return this.http.getWithCache("api/dashboard/userLoadouts?type=" + destinyMembership.membershipType, HttpRequestType.DASHBOARD, 30000).then((loadoutsResponse: Array<ILoadoutResponse>) => {
             if (!loadoutsResponse)
                 loadoutsResponse = [];
 
@@ -36,7 +36,7 @@ export class LoadoutsService {
         });
     }
 
-    saveUserLoadouts(accountSummary: IAccountSummary, userLoadouts: Array<Loadout>) {
+    saveUserLoadouts(destinyMembership: DestinyMembership, userLoadouts: Array<Loadout>) {
         let loadoutsResponse = new Array<ILoadoutResponse>();
         userLoadouts.forEach((loadout) => {
             let loadoutResponse: ILoadoutResponse = { name: loadout.name, itemIds: [] }
@@ -48,9 +48,9 @@ export class LoadoutsService {
         });
 
         //When we save, invalidate the cache
-        this.http.invalidateCache("api/dashboard/userLoadouts?type=" + accountSummary.membershipType);
+        this.http.invalidateCache("api/dashboard/userLoadouts?type=" + destinyMembership.membershipType);
 
-        return this.http.postDashboard("api/dashboard/userLoadouts?type=" + accountSummary.membershipType, loadoutsResponse).catch((error) => {
+        return this.http.postDashboard("api/dashboard/userLoadouts?type=" + destinyMembership.membershipType, loadoutsResponse).catch((error) => {
             this.sharedApp.showError("There was an error when trying to save loadouts. Please try again.", error);
             throw (error);
         });

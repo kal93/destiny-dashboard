@@ -7,7 +7,7 @@ import { SimpleInputDialog } from '../../../shared/dialogs/simple-input.componen
 import { LoadoutsService } from '../loadouts/loadouts.service';
 
 import { Loadout } from './loadouts.interface';
-import { IAccountSummary, InventoryItem } from 'app/bungie/services/interface.barrel';
+import { DestinyMembership, IAccountSummary, InventoryItem } from 'app/bungie/services/interface.barrel';
 
 import { fadeInChildren } from 'app/shared/animations';
 
@@ -19,6 +19,7 @@ import { fadeInChildren } from 'app/shared/animations';
 })
 export class LoadoutsDialog {
     // Inputs
+    destinyMembership: DestinyMembership;
     accountSummary: IAccountSummary;
     inventoryItemHashMap: Map<string, InventoryItem>;
     restoreExpandedSections: Function;
@@ -35,7 +36,7 @@ export class LoadoutsDialog {
     }
 
     ngOnInit() {
-        this.loadoutsService.getUserLoadouts(this.accountSummary, this.inventoryItemHashMap).then((userLoadouts) => {
+        this.loadoutsService.getUserLoadouts(this.destinyMembership, this.inventoryItemHashMap).then((userLoadouts) => {
             this.userLoadouts = userLoadouts;
         });
 
@@ -91,7 +92,7 @@ export class LoadoutsDialog {
 
     closeDialog() {
         if (this.isChanged)
-            this.loadoutsService.saveUserLoadouts(this.accountSummary, this.userLoadouts);
+            this.loadoutsService.saveUserLoadouts(this.destinyMembership, this.userLoadouts);
 
         this.restoreExpandedSections();
         this.dialogRef.close();

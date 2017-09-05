@@ -1,6 +1,6 @@
 import { ManifestService } from '../../../manifest/manifest.service';
 
-import { InventoryBucket, InventoryItem, SummaryCharacter } from 'app/bungie/services/interface.barrel';
+import { CharacterBase, InventoryBucket, InventoryItem } from 'app/bungie/services/interface.barrel';
 import { ClassTypes, TierTypes } from 'app/bungie/services/enums.interface';
 
 export class InventoryUtils {
@@ -145,10 +145,10 @@ export class InventoryUtils {
         bucket.filteredOut = !bucketHasItem;
     }
 
-    public static isItemEquippableOnCharacter(inventoryItem: InventoryItem, character: SummaryCharacter): boolean {
+    public static isItemEquippableOnCharacter(inventoryItem: InventoryItem, character: CharacterBase): boolean {
         if (!inventoryItem.itemValue.equippable)
             return false;
-        if (inventoryItem.itemValue.classType != ClassTypes.UNKNOWN && inventoryItem.itemValue.classType != character.characterBase.classType)
+        if (inventoryItem.itemValue.classType != ClassTypes.UNKNOWN && inventoryItem.itemValue.classType != character.classType)
             return false;
 
         return true;

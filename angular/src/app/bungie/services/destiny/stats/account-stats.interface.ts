@@ -10,7 +10,7 @@ export interface StatsCharacter {
     characterId: string;
     deleted: boolean;
     results: Results;
-    merged: Merged;
+    merged: MergedCharacterData;
 }
 
 export interface MergedCharacterData {

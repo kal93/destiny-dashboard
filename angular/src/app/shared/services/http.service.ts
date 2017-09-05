@@ -276,6 +276,10 @@ export class HttpService {
         //Bungie specific error we can handle probably
         if (error.ErrorCode) {
             switch (error.ErrorCode) {
+                case ErrorTypes.UnhandledException:
+                    this.sharedApp.showError("An unhandled exception error has occurred while trying to get Destiny information. It's probably an issue with Bungie's API, please try again later.", error);
+                    break;
+
                 case ErrorTypes.DestinyAccountNotFound:
                     this.sharedApp.showError("Could not find Destiny information for this Bungie account. Have you played with this account?");
                     break;
@@ -292,7 +296,7 @@ export class HttpService {
         }
 
         //Actual HTTP error 
-        else if (error.status)
+        else if (error.status != null)
             //Give more detail for errors we have some info about
             switch (error.status) {
                 case 401:
@@ -372,6 +376,11 @@ export class HttpService {
                         return customCache.cachedData;
                     });
             }
+
+            // Reset cached promise if it errors
+            customCache.cachedPromise.catch((error) => {
+                customCache.cachedPromise = null;
+            });
 
             //Store it in the promise cache
             this.customCaches.set(requestUrl, customCache);

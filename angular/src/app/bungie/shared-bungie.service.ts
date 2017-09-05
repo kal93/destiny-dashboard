@@ -24,7 +24,7 @@ export class SharedBungie {
 
     searchDestinyPlayer(membershipType: DestinyMembershipType, gamertag: string): Promise<any> {
         //Get bungie account information, cache for 1 minute 
-        return this.http.getWithCache("https://www.bungie.net/Platform/Destiny/SearchDestinyPlayer/" + membershipType + "/" + encodeURIComponent(gamertag) + "/ ",
+        return this.http.getWithCache("https://www.bungie.net/Platform/Destiny2/SearchDestinyPlayer/" + membershipType + "/" + encodeURIComponent(gamertag) + "/ ",
             HttpRequestType.BUNGIE_BASIC, 1 * 60 * 1000).then(response => {
                 if (response.length > 0)
                     return response[0];

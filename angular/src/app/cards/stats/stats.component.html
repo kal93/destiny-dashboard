@@ -9,149 +9,153 @@
 
       <md-tab-group #tabGroup *ngIf="selectedMembership != null" (selectedIndexChange)="selectedTabIndexChanged($event)">
         <!-- Account Wide Stats -->
-        <md-tab>
-          <ng-template mdTabLabel>
-            <dd-md-tab-character-heading [nonCharacterTitle]="selectedMembership.displayName" [nonCharacterSubtitle]="'Player Summary'"
-              [nonCharacterIconPath]="'https://www.bungie.net' + selectedMembership.iconPath"></dd-md-tab-character-heading>
-          </ng-template>
+        <ng-container *ngIf="accountSummary != null">
+          <md-tab>
+            <ng-template mdTabLabel>
+              <dd-md-tab-character-heading [nonCharacterTitle]="selectedMembership.displayName" [nonCharacterSubtitle]="'Player Summary'"
+                [nonCharacterIconPath]="'https://www.bungie.net' + selectedMembership.iconPath"></dd-md-tab-character-heading>
+            </ng-template>
 
-          <div *ngIf="accountStats != null && accountSummary != null" class="sub-tab-wrap">
-            <div *ngIf="accountStats.mergedAllCharacters.merged.allTime != null" class="stat-section">
-              <div class="header">Summary</div>
-              <div><span>Time Played</span> <span>{{accountStats.mergedAllCharacters.merged.allTime.secondsPlayed?.basic.displayValue}}</span></div>
-              <div><span>Combat Rating</span> <span>{{accountStats.mergedAllCharacters.merged.allTime.combatRating?.basic.displayValue}}</span></div>
-              <div><span>Grimoire Score</span> <span>{{accountSummary.grimoireScore}}</span></div>
-              <div><span>Kills</span> <span>{{accountStats.mergedAllCharacters.merged.allTime.kills?.basic.displayValue | pNumberFormatLocale}}</span></div>
-              <div><span>Deaths</span> <span>{{accountStats.mergedAllCharacters.merged.allTime.deaths?.basic.displayValue | pNumberFormatLocale}}</span></div>
-              <div><span>Assists</span> <span>{{accountStats.mergedAllCharacters.merged.allTime.assists?.basic.displayValue | pNumberFormatLocale}}</span></div>
-              <div><span>Suicides</span> <span>{{accountStats.mergedAllCharacters.merged.allTime.suicides?.basic.displayValue | pNumberFormatLocale}}</span></div>
-              <div><span>K/D</span> <span>{{accountStats.mergedAllCharacters.merged.allTime.killsDeathsRatio?.basic.displayValue}}</span></div>
-              <div><span>K+A/D</span> <span>{{accountStats.mergedAllCharacters.merged.allTime.killsDeathsAssists?.basic.displayValue}}</span></div>
-              <div><span>Best Weapon</span> <span>{{accountStats.mergedAllCharacters.merged.allTime.weaponBestType?.basic.displayValue}}</span></div>
-              <div><span>Score</span> <span>{{accountStats.mergedAllCharacters.merged.allTime.score?.basic.displayValue}}</span></div>
-              <div><span>Highest Light</span> <span>{{accountStats.mergedAllCharacters.merged.allTime.highestLightLevel?.basic.displayValue}}</span></div>
-              <div><span>Highest Level</span> <span>{{accountStats.mergedAllCharacters.merged.allTime.highestCharacterLevel?.basic.displayValue}}</span></div>
-              <div><span>Orbs Generated</span> <span>{{accountStats.mergedAllCharacters.merged.allTime.orbsDropped?.basic.displayValue | pNumberFormatLocale}}</span></div>
-              <div><span>Orbs Collected</span> <span>{{accountStats.mergedAllCharacters.merged.allTime.orbsGathered?.basic.displayValue | pNumberFormatLocale}}</span></div>
-            </div>
-            <div *ngIf="accountStats.mergedAllCharacters.results.allPvP.allTime != null" class="stat-section">
-              <div class="header">PvP</div>
-              <div><span>Time Played</span> <span>{{accountStats.mergedAllCharacters.results.allPvP.allTime.secondsPlayed?.basic.displayValue}}</span></div>
-              <div><span>Combat Rating</span> <span>{{accountStats.mergedAllCharacters.results.allPvP.allTime.combatRating?.basic.displayValue}}</span></div>
-              <div>
-                <span>Wins</span>
-                <span>
+            <div *ngIf="accountStats != null" class="sub-tab-wrap">
+              <div *ngIf="accountStats.mergedAllCharacters.merged.allTime != null" class="stat-section">
+                <div class="header">Summary</div>
+                <div><span>Time Played</span> <span>{{accountStats.mergedAllCharacters.merged.allTime.secondsPlayed?.basic.displayValue}}</span></div>
+                <div><span>Combat Rating</span> <span>{{accountStats.mergedAllCharacters.merged.allTime.combatRating?.basic.displayValue}}</span></div>
+                <div><span>Kills</span> <span>{{accountStats.mergedAllCharacters.merged.allTime.kills?.basic.displayValue | pNumberFormatLocale}}</span></div>
+                <div><span>Deaths</span> <span>{{accountStats.mergedAllCharacters.merged.allTime.deaths?.basic.displayValue | pNumberFormatLocale}}</span></div>
+                <div><span>Assists</span> <span>{{accountStats.mergedAllCharacters.merged.allTime.assists?.basic.displayValue | pNumberFormatLocale}}</span></div>
+                <div><span>Suicides</span> <span>{{accountStats.mergedAllCharacters.merged.allTime.suicides?.basic.displayValue | pNumberFormatLocale}}</span></div>
+                <div><span>K/D</span> <span>{{accountStats.mergedAllCharacters.merged.allTime.killsDeathsRatio?.basic.displayValue}}</span></div>
+                <div><span>K+A/D</span> <span>{{accountStats.mergedAllCharacters.merged.allTime.killsDeathsAssists?.basic.displayValue}}</span></div>
+                <div><span>Best Weapon</span> <span>{{accountStats.mergedAllCharacters.merged.allTime.weaponBestType?.basic.displayValue}}</span></div>
+                <div><span>Score</span> <span>{{accountStats.mergedAllCharacters.merged.allTime.score?.basic.displayValue}}</span></div>
+                <div><span>Highest Light</span> <span>{{accountStats.mergedAllCharacters.merged.allTime.highestLightLevel?.basic.displayValue}}</span></div>
+                <div><span>Highest Level</span> <span>{{accountStats.mergedAllCharacters.merged.allTime.highestCharacterLevel?.basic.displayValue}}</span></div>
+                <div><span>Orbs Generated</span> <span>{{accountStats.mergedAllCharacters.merged.allTime.orbsDropped?.basic.displayValue | pNumberFormatLocale}}</span></div>
+                <div><span>Orbs Collected</span> <span>{{accountStats.mergedAllCharacters.merged.allTime.orbsGathered?.basic.displayValue | pNumberFormatLocale}}</span></div>
+              </div>
+              <div *ngIf="accountStats.mergedAllCharacters.results.allPvP.allTime != null" class="stat-section">
+                <div class="header">PvP</div>
+                <div><span>Time Played</span> <span>{{accountStats.mergedAllCharacters.results.allPvP.allTime.secondsPlayed?.basic.displayValue}}</span></div>
+                <div><span>Combat Rating</span> <span>{{accountStats.mergedAllCharacters.results.allPvP.allTime.combatRating?.basic.displayValue}}</span></div>
+                <div>
+                  <span>Wins</span>
+                  <span>
                   <span> {{accountStats.mergedAllCharacters.results.allPvP.allTime.activitiesWon?.basic.displayValue | pNumberFormatLocale}}/{{accountStats.mergedAllCharacters.results.allPvP.allTime.activitiesEntered?.basic.displayValue | pNumberFormatLocale}}</span>
-                <span [style.font-size]="'.8em'">({{accountStats.mergedAllCharacters.results.allPvP.allTime.activitiesWon?.basic.value / accountStats.mergedAllCharacters.results.allPvP.allTime.activitiesEntered?.basic.value * 100 | pRoundToDecimalPlace:1}}%)</span>
-                </span>
+                  <span [style.font-size]="'.8em'">({{accountStats.mergedAllCharacters.results.allPvP.allTime.activitiesWon?.basic.value / accountStats.mergedAllCharacters.results.allPvP.allTime.activitiesEntered?.basic.value * 100 | pRoundToDecimalPlace:1}}%)</span>
+                  </span>
+                </div>
+                <div><span>Kills</span> <span>{{accountStats.mergedAllCharacters.results.allPvP.allTime.kills?.basic.displayValue | pNumberFormatLocale}}</span></div>
+                <div><span>Deaths</span> <span>{{accountStats.mergedAllCharacters.results.allPvP.allTime.deaths?.basic.displayValue | pNumberFormatLocale}}</span></div>
+                <div><span>Assists</span> <span>{{accountStats.mergedAllCharacters.results.allPvP.allTime.assists?.basic.displayValue | pNumberFormatLocale}}</span></div>
+                <div><span>Suicides</span> <span>{{accountStats.mergedAllCharacters.results.allPvP.allTime.suicides?.basic.displayValue | pNumberFormatLocale}}</span></div>
+                <div><span>K/D</span> <span>{{accountStats.mergedAllCharacters.results.allPvP.allTime.killsDeathsRatio?.basic.displayValue}}</span></div>
+                <div><span>K+A/D</span> <span>{{accountStats.mergedAllCharacters.results.allPvP.allTime.killsDeathsAssists?.basic.displayValue}}</span></div>
+                <div><span>Best Weapon</span> <span>{{accountStats.mergedAllCharacters.results.allPvP.allTime.weaponBestType?.basic.displayValue}}</span></div>
+                <div><span>Ability Kills</span> <span>{{accountStats.mergedAllCharacters.results.allPvP.allTime.abilityKills?.basic.displayValue | pNumberFormatLocale}}</span></div>
+                <div><span>Avg Kill Distance</span> <span>{{accountStats.mergedAllCharacters.results.allPvP.allTime.averageKillDistance?.basic.displayValue}}m</span></div>
+                <div><span>Most Single Game Kills</span> <span>{{accountStats.mergedAllCharacters.results.allPvP.allTime.bestSingleGameKills?.basic.displayValue}}</span></div>
+                <div><span>Best Kill Streak</span> <span>{{accountStats.mergedAllCharacters.results.allPvP.allTime.longestKillSpree?.basic.displayValue}}</span></div>
+                <div><span>Longest Distance Kill</span> <span>{{accountStats.mergedAllCharacters.results.allPvP.allTime.longestKillDistance?.basic.displayValue}}m</span></div>
+                <div><span>Precision Kills</span> <span>{{accountStats.mergedAllCharacters.results.allPvP.allTime.precisionKills?.basic.displayValue}}</span></div>
               </div>
-              <div><span>Kills</span> <span>{{accountStats.mergedAllCharacters.results.allPvP.allTime.kills?.basic.displayValue | pNumberFormatLocale}}</span></div>
-              <div><span>Deaths</span> <span>{{accountStats.mergedAllCharacters.results.allPvP.allTime.deaths?.basic.displayValue | pNumberFormatLocale}}</span></div>
-              <div><span>Assists</span> <span>{{accountStats.mergedAllCharacters.results.allPvP.allTime.assists?.basic.displayValue | pNumberFormatLocale}}</span></div>
-              <div><span>Suicides</span> <span>{{accountStats.mergedAllCharacters.results.allPvP.allTime.suicides?.basic.displayValue | pNumberFormatLocale}}</span></div>
-              <div><span>K/D</span> <span>{{accountStats.mergedAllCharacters.results.allPvP.allTime.killsDeathsRatio?.basic.displayValue}}</span></div>
-              <div><span>K+A/D</span> <span>{{accountStats.mergedAllCharacters.results.allPvP.allTime.killsDeathsAssists?.basic.displayValue}}</span></div>
-              <div><span>Best Weapon</span> <span>{{accountStats.mergedAllCharacters.results.allPvP.allTime.weaponBestType?.basic.displayValue}}</span></div>
-              <div><span>Ability Kills</span> <span>{{accountStats.mergedAllCharacters.results.allPvP.allTime.abilityKills?.basic.displayValue | pNumberFormatLocale}}</span></div>
-              <div><span>Avg Kill Distance</span> <span>{{accountStats.mergedAllCharacters.results.allPvP.allTime.averageKillDistance?.basic.displayValue}}m</span></div>
-              <div><span>Most Single Game Kills</span> <span>{{accountStats.mergedAllCharacters.results.allPvP.allTime.bestSingleGameKills?.basic.displayValue}}</span></div>
-              <div><span>Best Kill Streak</span> <span>{{accountStats.mergedAllCharacters.results.allPvP.allTime.longestKillSpree?.basic.displayValue}}</span></div>
-              <div><span>Longest Distance Kill</span> <span>{{accountStats.mergedAllCharacters.results.allPvP.allTime.longestKillDistance?.basic.displayValue}}m</span></div>
-              <div><span>Precision Kills</span> <span>{{accountStats.mergedAllCharacters.results.allPvP.allTime.precisionKills?.basic.displayValue}}</span></div>
+              <div *ngIf="accountStats.mergedAllCharacters.results.allPvE.allTime != null" class="stat-section">
+                <div class="header">PvE</div>
+                <div><span>Time Played</span> <span>{{accountStats.mergedAllCharacters.results.allPvE.allTime.secondsPlayed?.basic.displayValue}}</span></div>
+                <div><span>Kills</span> <span>{{accountStats.mergedAllCharacters.results.allPvE.allTime.kills?.basic.displayValue | pNumberFormatLocale}}</span></div>
+                <div><span>Deaths</span> <span>{{accountStats.mergedAllCharacters.results.allPvE.allTime.deaths?.basic.displayValue | pNumberFormatLocale}}</span></div>
+                <div><span>Assists</span> <span>{{accountStats.mergedAllCharacters.results.allPvE.allTime.assists?.basic.displayValue | pNumberFormatLocale}}</span></div>
+                <div><span>Suicides</span> <span>{{accountStats.mergedAllCharacters.results.allPvE.allTime.suicides?.basic.displayValue | pNumberFormatLocale}}</span></div>
+                <div><span>K/D</span> <span>{{accountStats.mergedAllCharacters.results.allPvE.allTime.killsDeathsRatio?.basic.displayValue}}</span></div>
+                <div><span>K+A/D</span> <span>{{accountStats.mergedAllCharacters.results.allPvE.allTime.killsDeathsAssists?.basic.displayValue}}</span></div>
+                <div><span>Best Weapon</span> <span>{{accountStats.mergedAllCharacters.results.allPvE.allTime.weaponBestType?.basic.displayValue}}</span></div>
+                <div><span>Most Single Game Kills</span> <span>{{accountStats.mergedAllCharacters.results.allPvE.allTime.bestSingleGameKills?.basic.displayValue}}</span></div>
+                <div><span>Best Kill Streak</span> <span>{{accountStats.mergedAllCharacters.results.allPvE.allTime.longestKillSpree?.basic.displayValue | pNumberFormatLocale}}</span></div>
+                <div><span>Longest Distance Kill</span> <span>{{accountStats.mergedAllCharacters.results.allPvE.allTime.longestKillDistance?.basic.displayValue}}</span></div>
+                <div><span>Precision Kills</span> <span>{{accountStats.mergedAllCharacters.results.allPvE.allTime.precisionKills?.basic.displayValue | pNumberFormatLocale}}</span></div>
+                <div><span>Public Events Completed</span> <span>{{accountStats.mergedAllCharacters.results.allPvE.allTime.publicEventsCompleted?.basic.displayValue | pNumberFormatLocale}}</span></div>
+              </div>
+              <div class="stat-section">
+                <!-- Weapons are stored in typescript in an array so we can sort them -->
+                <div class="header">Weapons</div>
+                <div *ngFor="let accountStatWeapon of accountStatsWeapons"><span>{{accountStatWeapon.displayName}}</span> <span>{{accountStatWeapon.value | pNumberFormatLocale}}</span></div>
+              </div>
             </div>
-            <div *ngIf="accountStats.mergedAllCharacters.results.allPvE.allTime != null" class="stat-section">
-              <div class="header">PvE</div>
-              <div><span>Time Played</span> <span>{{accountStats.mergedAllCharacters.results.allPvE.allTime.secondsPlayed?.basic.displayValue}}</span></div>
-              <div><span>Kills</span> <span>{{accountStats.mergedAllCharacters.results.allPvE.allTime.kills?.basic.displayValue | pNumberFormatLocale}}</span></div>
-              <div><span>Deaths</span> <span>{{accountStats.mergedAllCharacters.results.allPvE.allTime.deaths?.basic.displayValue | pNumberFormatLocale}}</span></div>
-              <div><span>Assists</span> <span>{{accountStats.mergedAllCharacters.results.allPvE.allTime.assists?.basic.displayValue | pNumberFormatLocale}}</span></div>
-              <div><span>Suicides</span> <span>{{accountStats.mergedAllCharacters.results.allPvE.allTime.suicides?.basic.displayValue | pNumberFormatLocale}}</span></div>
-              <div><span>K/D</span> <span>{{accountStats.mergedAllCharacters.results.allPvE.allTime.killsDeathsRatio?.basic.displayValue}}</span></div>
-              <div><span>K+A/D</span> <span>{{accountStats.mergedAllCharacters.results.allPvE.allTime.killsDeathsAssists?.basic.displayValue}}</span></div>
-              <div><span>Best Weapon</span> <span>{{accountStats.mergedAllCharacters.results.allPvE.allTime.weaponBestType?.basic.displayValue}}</span></div>
-              <div><span>Most Single Game Kills</span> <span>{{accountStats.mergedAllCharacters.results.allPvE.allTime.bestSingleGameKills?.basic.displayValue}}</span></div>
-              <div><span>Best Kill Streak</span> <span>{{accountStats.mergedAllCharacters.results.allPvE.allTime.longestKillSpree?.basic.displayValue | pNumberFormatLocale}}</span></div>
-              <div><span>Longest Distance Kill</span> <span>{{accountStats.mergedAllCharacters.results.allPvE.allTime.longestKillDistance?.basic.displayValue}}</span></div>
-              <div><span>Precision Kills</span> <span>{{accountStats.mergedAllCharacters.results.allPvE.allTime.precisionKills?.basic.displayValue | pNumberFormatLocale}}</span></div>
-              <div><span>Public Events Completed</span> <span>{{accountStats.mergedAllCharacters.results.allPvE.allTime.publicEventsCompleted?.basic.displayValue | pNumberFormatLocale}}</span></div>
-            </div>
-            <div class="stat-section">
-              <!-- Weapons are stored in typescript in an array so we can sort them -->
-              <div class="header">Weapons</div>
-              <div *ngFor="let accountStatWeapon of accountStatsWeapons"><span>{{accountStatWeapon.displayName}}</span> <span>{{accountStatWeapon.value | pNumberFormatLocale}}</span></div>
-            </div>
-          </div>
-        </md-tab>
+          </md-tab>
 
-        <!-- Character Specific Data -->
-        <md-tab *ngFor="let character of accountSummary?.characters">
-          <ng-template mdTabLabel>
-            <dd-md-tab-character-heading [character]="character"></dd-md-tab-character-heading>
-          </ng-template>
+          <!-- Character Specific Data -->
+          <md-tab *ngFor="let character of accountSummary.characterData">
+            <ng-template mdTabLabel>
+              <dd-md-tab-character-heading [character]="character"></dd-md-tab-character-heading>
+            </ng-template>
 
-          <!-- Character Stats -->
-          <div *ngIf="characterStats != null" class="sub-tab-wrap">
-            <div *ngIf="characterStats.allPvE.allTime!= null && characterStats.allPvP.allTime != null" class="stat-section">
-              <div class="header">Summary</div>
-              <div><span>Time Played</span> <span>{{characterStats.allPvE.allTime.secondsPlayed?.basic.displayValue}}</span></div>
-              <div><span>Last Played</span><span>{{character.characterBase.dateLastPlayed | pDateStringTimeAgo}}</span></div>
-              <div><span>Kills</span> <span>{{characterStats.allPvP.allTime.kills?.basic.value + characterStats.allPvE.allTime.kills?.basic.value | pNumberFormatLocale }}</span></div>
-              <div><span>Deaths</span> <span>{{characterStats.allPvP.allTime.deaths?.basic.value + characterStats.allPvE.allTime.deaths?.basic.value | pNumberFormatLocale }}</span></div>
-              <div><span>Assists</span> <span>{{characterStats.allPvP.allTime.assists?.basic.value + characterStats.allPvE.allTime.assists?.basic.value | pNumberFormatLocale }}</span></div>
-              <div><span>Suicides</span> <span>{{characterStats.allPvP.allTime.suicides?.basic.displayValue | pNumberFormatLocale}}</span></div>
-              <div><span>K/D</span> <span>{{characterStats.allPvP.allTime.killsDeathsRatio?.basic.displayValue}}</span></div>
-              <div><span>K+A/D</span> <span>{{characterStats.allPvP.allTime.killsDeathsAssists?.basic.displayValue}}</span></div>
-              <div><span>Best Weapon</span> <span>{{characterStats.allPvP.allTime.weaponBestType?.basic.displayValue}}</span></div>
-              <div><span>Score</span> <span>{{characterStats.allPvP.allTime.score?.basic.displayValue}}</span></div>
-              <div><span>Orbs Generated</span> <span>{{characterStats.allPvP.allTime.orbsDropped?.basic.displayValue | pNumberFormatLocale}}</span></div>
-              <div><span>Orbs Collected</span> <span>{{characterStats.allPvP.allTime.orbsGathered?.basic.displayValue | pNumberFormatLocale}}</span></div>
-            </div>
+            <!-- Character Stats -->
+            <div *ngIf="characterStats != null" class="sub-tab-wrap">
+              <div *ngIf="characterStats.allPvE.allTime == null && characterStats.allPvP.allTime == null" class="stat-section">
+                This character has no data!
+              </div>
+              <div *ngIf="characterStats.allPvE.allTime!= null && characterStats.allPvP.allTime != null" class="stat-section">
+                <div class="header">Summary</div>
+                <div><span>Time Played</span> <span>{{characterStats.allPvE.allTime.secondsPlayed?.basic.displayValue}}</span></div>
+                <div><span>Last Played</span><span>{{character.dateLastPlayed | pDateStringTimeAgo}}</span></div>
+                <div><span>Kills</span> <span>{{characterStats.allPvP.allTime.kills?.basic.value + characterStats.allPvE.allTime.kills?.basic.value | pNumberFormatLocale }}</span></div>
+                <div><span>Deaths</span> <span>{{characterStats.allPvP.allTime.deaths?.basic.value + characterStats.allPvE.allTime.deaths?.basic.value | pNumberFormatLocale }}</span></div>
+                <div><span>Assists</span> <span>{{characterStats.allPvP.allTime.assists?.basic.value + characterStats.allPvE.allTime.assists?.basic.value | pNumberFormatLocale }}</span></div>
+                <div><span>Suicides</span> <span>{{characterStats.allPvP.allTime.suicides?.basic.displayValue | pNumberFormatLocale}}</span></div>
+                <div><span>K/D</span> <span>{{characterStats.allPvP.allTime.killsDeathsRatio?.basic.displayValue}}</span></div>
+                <div><span>K+A/D</span> <span>{{characterStats.allPvP.allTime.killsDeathsAssists?.basic.displayValue}}</span></div>
+                <div><span>Best Weapon</span> <span>{{characterStats.allPvP.allTime.weaponBestType?.basic.displayValue}}</span></div>
+                <div><span>Score</span> <span>{{characterStats.allPvP.allTime.score?.basic.displayValue}}</span></div>
+                <div><span>Orbs Generated</span> <span>{{characterStats.allPvP.allTime.orbsDropped?.basic.displayValue | pNumberFormatLocale}}</span></div>
+                <div><span>Orbs Collected</span> <span>{{characterStats.allPvP.allTime.orbsGathered?.basic.displayValue | pNumberFormatLocale}}</span></div>
+              </div>
 
-            <div *ngIf="characterStats.allPvP.allTime != null" class="stat-section">
-              <div class="header">PvP</div>
-              <div><span>Time Played</span> <span>{{characterStats.allPvP.allTime.secondsPlayed?.basic.displayValue}}</span></div>
-              <div><span>Combat Rating</span> <span>{{characterStats.allPvP.allTime.combatRating?.basic.displayValue}}</span></div>
-              <div>
-                <span>Wins</span>
-                <span>   
+              <div *ngIf="characterStats.allPvP.allTime != null" class="stat-section">
+                <div class="header">PvP</div>
+                <div><span>Time Played</span> <span>{{characterStats.allPvP.allTime.secondsPlayed?.basic.displayValue}}</span></div>
+                <div><span>Combat Rating</span> <span>{{characterStats.allPvP.allTime.combatRating?.basic.displayValue}}</span></div>
+                <div>
+                  <span>Wins</span>
+                  <span>   
                   <span>{{characterStats.allPvP.allTime.activitiesWon?.basic.displayValue | pNumberFormatLocale}}/{{characterStats.allPvP.allTime.activitiesEntered?.basic.displayValue | pNumberFormatLocale}}</span>
-                <span [style.font-size]="'.8em'">({{characterStats.allPvP.allTime.activitiesWon?.basic.value / characterStats.allPvP.allTime.activitiesEntered?.basic.value * 100 | pRoundToDecimalPlace:1}}%)</span>
-                </span>
+                  <span [style.font-size]="'.8em'">({{characterStats.allPvP.allTime.activitiesWon?.basic.value / characterStats.allPvP.allTime.activitiesEntered?.basic.value * 100 | pRoundToDecimalPlace:1}}%)</span>
+                  </span>
+                </div>
+                <div><span>Kills</span> <span>{{characterStats.allPvP.allTime.kills?.basic.displayValue | pNumberFormatLocale}}</span></div>
+                <div><span>Deaths</span> <span>{{characterStats.allPvP.allTime.deaths?.basic.displayValue | pNumberFormatLocale}}</span></div>
+                <div><span>Assists</span> <span>{{characterStats.allPvP.allTime.assists?.basic.displayValue | pNumberFormatLocale}}</span></div>
+                <div><span>Suicides</span> <span>{{characterStats.allPvP.allTime.suicides?.basic.displayValue | pNumberFormatLocale}}</span></div>
+                <div><span>K/D</span> <span>{{characterStats.allPvP.allTime.killsDeathsRatio?.basic.displayValue}}</span></div>
+                <div><span>K+A/D</span> <span>{{characterStats.allPvP.allTime.killsDeathsAssists?.basic.displayValue}}</span></div>
+                <div><span>Best Weapon</span> <span>{{characterStats.allPvP.allTime.weaponBestType?.basic.displayValue}}</span></div>
+                <div><span>Ability Kills</span> <span>{{characterStats.allPvP.allTime.abilityKills?.basic.displayValue}}</span></div>
+                <div><span>Avg Kill Distance</span> <span>{{characterStats.allPvP.allTime.averageKillDistance?.basic.displayValue}}m</span></div>
+                <div><span>Avg Lifespan</span> <span>{{characterStats.allPvP.allTime.averageLifespan?.basic.displayValue}}</span></div>
+                <div><span>Most Single Game Kills</span> <span>{{characterStats.allPvP.allTime.bestSingleGameKills?.basic.displayValue}}</span></div>
+                <div><span>Best Kill Streak</span> <span>{{characterStats.allPvP.allTime.longestKillSpree?.basic.displayValue}}</span></div>
+                <div><span>Longest Distance Kill</span> <span>{{characterStats.allPvP.allTime.longestKillDistance?.basic.displayValue}}m</span></div>
+                <div><span>Precision Kills</span> <span>{{characterStats.allPvP.allTime.precisionKills?.basic.displayValue}}</span></div>
               </div>
-              <div><span>Kills</span> <span>{{characterStats.allPvP.allTime.kills?.basic.displayValue | pNumberFormatLocale}}</span></div>
-              <div><span>Deaths</span> <span>{{characterStats.allPvP.allTime.deaths?.basic.displayValue | pNumberFormatLocale}}</span></div>
-              <div><span>Assists</span> <span>{{characterStats.allPvP.allTime.assists?.basic.displayValue | pNumberFormatLocale}}</span></div>
-              <div><span>Suicides</span> <span>{{characterStats.allPvP.allTime.suicides?.basic.displayValue | pNumberFormatLocale}}</span></div>
-              <div><span>K/D</span> <span>{{characterStats.allPvP.allTime.killsDeathsRatio?.basic.displayValue}}</span></div>
-              <div><span>K+A/D</span> <span>{{characterStats.allPvP.allTime.killsDeathsAssists?.basic.displayValue}}</span></div>
-              <div><span>Best Weapon</span> <span>{{characterStats.allPvP.allTime.weaponBestType?.basic.displayValue}}</span></div>
-              <div><span>Ability Kills</span> <span>{{characterStats.allPvP.allTime.abilityKills?.basic.displayValue}}</span></div>
-              <div><span>Avg Kill Distance</span> <span>{{characterStats.allPvP.allTime.averageKillDistance?.basic.displayValue}}m</span></div>
-              <div><span>Avg Lifespan</span> <span>{{characterStats.allPvP.allTime.averageLifespan?.basic.displayValue}}</span></div>
-              <div><span>Most Single Game Kills</span> <span>{{characterStats.allPvP.allTime.bestSingleGameKills?.basic.displayValue}}</span></div>
-              <div><span>Best Kill Streak</span> <span>{{characterStats.allPvP.allTime.longestKillSpree?.basic.displayValue}}</span></div>
-              <div><span>Longest Distance Kill</span> <span>{{characterStats.allPvP.allTime.longestKillDistance?.basic.displayValue}}m</span></div>
-              <div><span>Precision Kills</span> <span>{{characterStats.allPvP.allTime.precisionKills?.basic.displayValue}}</span></div>
-            </div>
 
-            <div *ngIf="characterStats.allPvE.allTime != null" class="stat-section">
-              <div class="header">PvE</div>
-              <div><span>Time Played</span> <span>{{characterStats.allPvE.allTime.secondsPlayed?.basic.displayValue}}</span></div>
-              <div><span>Kills</span> <span>{{characterStats.allPvE.allTime.kills?.basic.displayValue | pNumberFormatLocale}}</span></div>
-              <div><span>Deaths</span> <span>{{characterStats.allPvE.allTime.deaths?.basic.displayValue | pNumberFormatLocale}}</span></div>
-              <div><span>Assists</span> <span>{{characterStats.allPvE.allTime.assists?.basic.displayValue | pNumberFormatLocale}}</span></div>
-              <div><span>Suicides</span> <span>{{characterStats.allPvE.allTime.suicides?.basic.displayValue | pNumberFormatLocale}}</span></div>
-              <div><span>K/D</span> <span>{{characterStats.allPvE.allTime.killsDeathsRatio?.basic.displayValue}}</span></div>
-              <div><span>K+A/D</span> <span>{{characterStats.allPvE.allTime.killsDeathsAssists?.basic.displayValue}}</span></div>
-              <div><span>Best Weapon</span> <span>{{characterStats.allPvE.allTime.weaponBestType?.basic.displayValue}}</span></div>
-              <div><span>Most Single Game Kills</span> <span>{{characterStats.allPvE.allTime.bestSingleGameKills?.basic.displayValue}}</span></div>
-              <div><span>Best Kill Streak</span> <span>{{characterStats.allPvE.allTime.longestKillSpree?.basic.displayValue | pNumberFormatLocale}}</span></div>
-              <div><span>Longest Distance Kill</span> <span>{{characterStats.allPvE.allTime.longestKillDistance?.basic.displayValue}}</span></div>
-              <div><span>Precision Kills</span> <span>{{characterStats.allPvE.allTime.precisionKills?.basic.displayValue | pNumberFormatLocale}}</span></div>
-              <div><span>Public Events Completed</span> <span>{{characterStats.allPvE.allTime.publicEventsCompleted?.basic.displayValue | pNumberFormatLocale}}</span></div>
+              <div *ngIf="characterStats.allPvE.allTime != null" class="stat-section">
+                <div class="header">PvE</div>
+                <div><span>Time Played</span> <span>{{characterStats.allPvE.allTime.secondsPlayed?.basic.displayValue}}</span></div>
+                <div><span>Kills</span> <span>{{characterStats.allPvE.allTime.kills?.basic.displayValue | pNumberFormatLocale}}</span></div>
+                <div><span>Deaths</span> <span>{{characterStats.allPvE.allTime.deaths?.basic.displayValue | pNumberFormatLocale}}</span></div>
+                <div><span>Assists</span> <span>{{characterStats.allPvE.allTime.assists?.basic.displayValue | pNumberFormatLocale}}</span></div>
+                <div><span>Suicides</span> <span>{{characterStats.allPvE.allTime.suicides?.basic.displayValue | pNumberFormatLocale}}</span></div>
+                <div><span>K/D</span> <span>{{characterStats.allPvE.allTime.killsDeathsRatio?.basic.displayValue}}</span></div>
+                <div><span>K+A/D</span> <span>{{characterStats.allPvE.allTime.killsDeathsAssists?.basic.displayValue}}</span></div>
+                <div><span>Best Weapon</span> <span>{{characterStats.allPvE.allTime.weaponBestType?.basic.displayValue}}</span></div>
+                <div><span>Most Single Game Kills</span> <span>{{characterStats.allPvE.allTime.bestSingleGameKills?.basic.displayValue}}</span></div>
+                <div><span>Best Kill Streak</span> <span>{{characterStats.allPvE.allTime.longestKillSpree?.basic.displayValue | pNumberFormatLocale}}</span></div>
+                <div><span>Longest Distance Kill</span> <span>{{characterStats.allPvE.allTime.longestKillDistance?.basic.displayValue}}</span></div>
+                <div><span>Precision Kills</span> <span>{{characterStats.allPvE.allTime.precisionKills?.basic.displayValue | pNumberFormatLocale}}</span></div>
+                <div><span>Public Events Completed</span> <span>{{characterStats.allPvE.allTime.publicEventsCompleted?.basic.displayValue | pNumberFormatLocale}}</span></div>
+              </div>
             </div>
-          </div>
-        </md-tab>
+          </md-tab>
+        </ng-container>
       </md-tab-group>
     </div>
   </div>

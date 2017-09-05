@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { SummaryCharacter } from '../../services/interface.barrel';
+import { CharacterBase } from '../../services/interface.barrel';
 
 @Component({
   selector: 'dd-md-tab-character-heading',
@@ -9,7 +9,7 @@ import { SummaryCharacter } from '../../services/interface.barrel';
 })
 export class MdTabCharacterHeadingComponent {
   @Input()
-  public character: SummaryCharacter;
+  public character: CharacterBase;
 
   // This component can also be used to show a placeholder md-tab, which is not a Character
   @Input()

@@ -6,7 +6,7 @@ import { ManifestService } from 'app/bungie/manifest/manifest.service';
 import { AccountStatsService, AccountSummaryService, CharacterStatsService } from 'app/bungie/services/service.barrel';
 
 import { GroupTypes, ModeTypes, PeriodTypes } from 'app/bungie/services/enums.interface';
-import { DestinyMembership, IAccountStats, IAccountSummary, ICharacterStats, SummaryCharacter } from 'app/bungie/services/interface.barrel';
+import { CharacterBase, DestinyMembership, IAccountStats, IAccountSummary, ICharacterStats } from 'app/bungie/services/interface.barrel';
 
 @Component({
   selector: 'dd-stats',
@@ -28,7 +28,6 @@ export class StatsComponent extends CardComponent {
   accountStats: IAccountStats;
   accountStatsWeapons: Array<{ displayName: string, value: string }>;
 
-  // Account summary with characters
   accountSummary: IAccountSummary;
 
   // Stats for selected character
@@ -57,17 +56,13 @@ export class StatsComponent extends CardComponent {
     //Get Account Summary to get the list of available characters
     this.accountSummaryService.getAccountSummary(this.selectedMembership).then((accountSummary: IAccountSummary) => {
       this.accountSummary = accountSummary;
-      this.accountSummary.characters.forEach((character: SummaryCharacter) => {
-        character.characterBase.classValue = this.manifestService.getManifestEntry("DestinyClassDefinition", character.characterBase.classHash);
-        character.characterBase.genderValue = this.manifestService.getManifestEntry("DestinyGenderDefinition", character.characterBase.genderHash);
-        character.characterBase.raceValue = this.manifestService.getManifestEntry("DestinyRaceDefinition", character.characterBase.raceHash);
-      });
+      if (this.accountSummary == null)
+        return;
 
-      if (this.selectedTabIndex > this.accountSummary.characters.length - 1)
+      if (this.selectedTabIndex > accountSummary.characterData.length - 1)
         this.selectedTabIndex = 0;
 
       this.tabGroup.selectedIndex = this.selectedTabIndex;
-      this.selectedTabIndexChanged(this.selectedTabIndex);
     });
   }
 
@@ -79,11 +74,7 @@ export class StatsComponent extends CardComponent {
     this.setCardLocalStorage("selectedTabIndex", this.selectedTabIndex);
 
     //Get data for the newly selected character
-    this.getSelectedStats();
-  }
-
-  getSelectedStats() {
-    // Index 0 is the summary information.Characters are index 1- 3
+    // Index 0 is the summary. Characters are index 1- 3
     if (this.selectedTabIndex == 0) {
       // Get a summary of the account statistics
       this.accountStatsService.getAccountStats(this.selectedMembership, [GroupTypes.GENERAL, GroupTypes.WEAPONS]).then((accountStats: IAccountStats) => {
@@ -92,7 +83,7 @@ export class StatsComponent extends CardComponent {
       });
     }
     else {
-      let characterId: string = this.accountSummary.characters[this.selectedTabIndex - 1].characterBase.characterId;
+      let characterId: string = this.accountSummary.characterData[this.selectedTabIndex - 1].characterId;
       this.characterStatsService.getCharacterStats(this.selectedMembership, characterId, [GroupTypes.GENERAL], [ModeTypes.ALLPVE, ModeTypes.ALLPVP], PeriodTypes.ALLTIME).then((characterStats: ICharacterStats) => {
         this.characterStats = characterStats;
       });
@@ -100,6 +91,9 @@ export class StatsComponent extends CardComponent {
   }
 
   private setAccountStatsWeapons() {
+    if (this.accountStats == null)
+      return;
+
     // Create an array of account weapon stats so we can sort by value 
     this.accountStatsWeapons = new Array<{ displayName: string, value: string }>();
 

@@ -77,7 +77,7 @@ export class InventoryItemService {
     transferItemCharacterToVault(inventoryItem: InventoryItem, count: number): Promise<InventoryItemTransferResult> {
         return new Promise<InventoryItemTransferResult>((resolve, reject) => {
             let srcCharacterIndex = inventoryItem.characterIndex;
-            let srcCharacter = this._accountSummary.characters[srcCharacterIndex];
+            let srcCharacter = this._accountSummary.characterData[srcCharacterIndex];
             if (InventoryUtils.isItemEquipped(inventoryItem)) {
                 // If trying to transfer an equipped item, need to unequip it first, then transfer it
                 let srcBucket = this._bucketsMap[srcCharacterIndex].get(inventoryItem.itemValue.bucketTypeHash);
@@ -86,7 +86,7 @@ export class InventoryItemService {
                     // We have found an item to equip so we can unequip the item we're trying to transfer
                     this.equipItem(highestValueItem).then(() => {
                         setTimeout(() => {
-                            resolve(this.transferItem(srcCharacter.characterBase.characterId, 3, inventoryItem, count, true));
+                            resolve(this.transferItem(srcCharacter.characterId, 3, inventoryItem, count, true));
                         }, InventoryItemService.TRANSFER_DELAY);
                     });
                 }
@@ -110,7 +110,7 @@ export class InventoryItemService {
                             this.equipItem(lowestValueItemFromVault).then(() => {
                                 setTimeout(() => {
                                     // Finally, transfer our current item out
-                                    resolve(this.transferItem(srcCharacter.characterBase.characterId, 3, inventoryItem, count, true));
+                                    resolve(this.transferItem(srcCharacter.characterId, 3, inventoryItem, count, true));
                                 }, InventoryItemService.TRANSFER_DELAY);
                             });
                         }, InventoryItemService.TRANSFER_DELAY);
@@ -119,7 +119,7 @@ export class InventoryItemService {
             }
             else {
                 // Make sure the vault can handle whatever we're trying to transfer
-                resolve(this.transferItem(srcCharacter.characterBase.characterId, 3, inventoryItem, count, true));
+                resolve(this.transferItem(srcCharacter.characterId, 3, inventoryItem, count, true));
             }
         });
     }
@@ -128,7 +128,7 @@ export class InventoryItemService {
         return new Promise<InventoryItemTransferResult>((resolve, reject) => {
             // Make sure destination character inventory has room to transfer
             let destBucket = this._bucketsMap[destCharacterIndex].get(inventoryItem.itemValue.bucketTypeHash);
-            let destCharacter = this._accountSummary.characters[destCharacterIndex];
+            let destCharacter = this._accountSummary.characterData[destCharacterIndex];
 
             // If the destination bucket is full, transfer out the lowest value item (Full stack if possible)
             if (InventoryUtils.isBucketFull(destBucket)) {
@@ -137,12 +137,12 @@ export class InventoryItemService {
                     this.sharedApp.showInfo("Destination was full, transferred " + lowestValueItem.itemValue.itemName + " to your vault to make room", { timeOut: 3000 });
 
                     setTimeout(() => {
-                        resolve(this.transferItem(destCharacter.characterBase.characterId, destCharacterIndex, inventoryItem, count, false));
+                        resolve(this.transferItem(destCharacter.characterId, destCharacterIndex, inventoryItem, count, false));
                     }, InventoryItemService.TRANSFER_DELAY);
                 });
             }
             else
-                resolve(this.transferItem(destCharacter.characterBase.characterId, destCharacterIndex, inventoryItem, count, false));
+                resolve(this.transferItem(destCharacter.characterId, destCharacterIndex, inventoryItem, count, false));
         });
     }
 
@@ -195,7 +195,7 @@ export class InventoryItemService {
 
     public equipItem(inventoryItem: InventoryItem): Promise<InventoryItemTransferResult> {
         try {
-            let srcCharacterId = this._accountSummary.characters[inventoryItem.characterIndex].characterBase.characterId;
+            let srcCharacterId = this._accountSummary.characterData[inventoryItem.characterIndex].characterId;
 
             let requestUrl = "https://www.bungie.net/Platform/Destiny2/EquipItem/";
             let body = {

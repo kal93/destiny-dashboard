@@ -16,10 +16,12 @@ export class CharacterStatsService {
 
     getCharacterStats(membership: DestinyMembership, characterId: string, groups: Array<GroupTypes>, modes: Array<ModeTypes>, period: PeriodTypes): Promise<ICharacterStats> {
         // Build the request URL
-        let requestUrl = "https://www.bungie.net/Platform/Destiny2/Stats/" + membership.membershipType + "/" + membership.membershipId + "/" + characterId +
-            "/?groups=" + groups.join() + "&modes=" + modes.join() + "&periodType=" + period;
+        let requestUrl = "https://www.bungie.net/Platform/Destiny2/" + membership.membershipType + "/Account/" + membership.membershipId + "/Character/" + characterId +
+            "/Stats/?periodType=" + period + "&modes=" + modes.join() + "&groups=" + groups.join();
 
         //Get the response, or return the cached result
-        return this.http.getWithCache(requestUrl, HttpRequestType.BUNGIE_BASIC, this.cacheTimeMs);
+        return this.http.getWithCache(requestUrl, HttpRequestType.BUNGIE_BASIC, this.cacheTimeMs).catch((error) => {
+            this.sharedApp.showError("There was an error getting character stats! Please try again.", error);
+        });
     }
 } 

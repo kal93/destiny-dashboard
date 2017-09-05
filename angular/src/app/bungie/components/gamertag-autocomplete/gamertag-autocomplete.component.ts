@@ -71,8 +71,8 @@ export class GamertagAutocompleteComponent {
       }
       catch (e) {
         //No selected user, not logged in, show Demo account        
-        this.selectedText = "DeeJ BNG";
-        this.initialMembership.emit({ displayName: "DeeJ BNG", iconPath: "/img/theme/destiny/icons/icon_psn.png", membershipId: "4611686018428791191", membershipType: 2 });
+        this.selectedText = "Dattowatto";
+        this.initialMembership.emit({ displayName: "Dattowatto", iconPath: "/img/theme/destiny/icons/icon_psn.png", membershipId: "4611686018428389623", membershipType: 2 });
       }
     }
 
@@ -136,7 +136,7 @@ export class GamertagAutocompleteComponent {
       //Multiple results found, let user decide which platform to use. Letting user choose is handled in html template.
 
     }).catch((error) => {
-      this.sharedApp.showError("There was an error when searching for the gamertag.", error);
+      this.sharedApp.showError("There was an error when searching for the gamertag. Please try again.", error);
     });
   }
 
