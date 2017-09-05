@@ -102,6 +102,8 @@ export class ClanLeaderboardsComponent extends CardComponent {
   }
 
   getLbStats(mode: number) {
+    if (this.bungieAccount == null || this.bungieAccount.clans == null || this.bungieAccount.clans.length == 0)
+      return;
     // Clear stats since some stats are optional for some modes
     //   and we don't want garbage data to be kept by accident
     this.clanLeaderboardsStats = null;
