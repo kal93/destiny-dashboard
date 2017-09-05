@@ -95,7 +95,7 @@ export class DownloadManifestComponent {
 */
       resultSet = this.db.exec(`SELECT * FROM ${tableName}`);
       let tableRows = resultSet[0];
-      if(tableRows == null)
+      if (tableRows == null)
         continue;
 
       // Create a map for the hash - > json values
@@ -105,9 +105,14 @@ export class DownloadManifestComponent {
       // Most tables follow the convention DestinyPlaceDefinition => placeHash. Others will be removed manually
       let tableHashId: string = (tableName.replace("Destiny", "").replace("Definition", "")).toLowerCase() + "Hash";
 
-      tableRows.values.forEach((row) => {
+      for (let j = 0; j < tableRows.values.length; j++) {
+        let row = tableRows.values[j];
+
         let hash = row[0];
         let rowObj = JSON.parse(row[1]);
+
+        if (rowObj.redacted == true)
+          continue;
 
         let originalHash = hash;
 
@@ -123,34 +128,24 @@ export class DownloadManifestComponent {
         //DetinyInventoryItemDefinition
         delete rowObj.itemHash;
 
-        // DestinyClassDefinition
-        delete rowObj.classNameFemale;
-        delete rowObj.classNameMale;
-
-        // DestinyRaceDefinition
-        delete rowObj.raceNameFemale;
-        delete rowObj.raceNameMale;
-
-        // DestinyGenderDefinition
-        delete rowObj.genderDescription;
-/*
-        // Delete certain fields that we don't care about
-        if (tableName == "DestinyInventoryItemDefinition") {
-
-          delete rowObj.hasIcon; delete rowObj.secondaryIcon; delete rowObj.hasGeometry;
-          delete rowObj.actionName; delete rowObj.hasAction; delete rowObj.deleteOnAction;
-          delete rowObj.specialItemType; delete rowObj.equippingBlock; delete rowObj.instanced;
-          delete rowObj.rewardItemHash; delete rowObj.values;
-          delete rowObj.values; delete rowObj.exclusive;
-          delete rowObj.itemIndex; delete rowObj.setItemHashes; delete rowObj.tooltipStyle; delete rowObj.needsFullCompletion;
-          delete rowObj.allowActions; delete rowObj.uniquenessHash;
-          delete rowObj.showActiveNodesInTooltip; delete rowObj.index; delete rowObj.redacted; delete rowObj.bountyResetUnlockHash;
-          delete rowObj.itemCategoryHashes;
-        }
-*/
+        /*
+                // Delete certain fields that we don't care about
+                if (tableName == "DestinyInventoryItemDefinition") {
+        
+                  delete rowObj.hasIcon; delete rowObj.secondaryIcon; delete rowObj.hasGeometry;
+                  delete rowObj.actionName; delete rowObj.hasAction; delete rowObj.deleteOnAction;
+                  delete rowObj.specialItemType; delete rowObj.equippingBlock; delete rowObj.instanced;
+                  delete rowObj.rewardItemHash; delete rowObj.values;
+                  delete rowObj.values; delete rowObj.exclusive;
+                  delete rowObj.itemIndex; delete rowObj.setItemHashes; delete rowObj.tooltipStyle; delete rowObj.needsFullCompletion;
+                  delete rowObj.allowActions; delete rowObj.uniquenessHash;
+                  delete rowObj.showActiveNodesInTooltip; delete rowObj.index; delete rowObj.redacted; delete rowObj.bountyResetUnlockHash;
+                  delete rowObj.itemCategoryHashes;
+                }
+        */
         rowMap.set(hash, rowObj);
 
-      });
+      }
 
       this.tableMap.set(tableName, Array.from(rowMap.entries()));
     }
