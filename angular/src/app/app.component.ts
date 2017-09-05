@@ -11,7 +11,7 @@ import { SharedDashboard } from './dashboard/shared-dashboard.service';
 import { CardDefinitions } from './cards/_base/card-definition';
 import { ICard, IUserDashboard } from './cards/_base/card.interface';
 import {
-  AccountStatsService, AccountSummaryService, BungieSiteNewsService, CharacterInventorySummaryService, CharacterStatsService, CharacterProgressionService,
+  AccountStatsService, AccountSummaryService, BasicProfileService, BungieSiteNewsService, CharacterInventorySummaryService, CharacterStatsService, CharacterProgressionService,
   ClanLeaderboardsStatsService, GetBungieAccountService, InventoryItemService, VaultSummaryService
 } from './bungie/services/service.barrel';
 
@@ -31,7 +31,7 @@ import { Angulartics2GoogleAnalytics } from 'angulartics2';
     </div>
   </div>
   `,
-  providers: [AccountStatsService, AccountSummaryService, BungieSiteNewsService, ClanLeaderboardsStatsService, CharacterInventorySummaryService, CharacterProgressionService, CharacterStatsService,
+  providers: [AccountStatsService, AccountSummaryService, BasicProfileService, BungieSiteNewsService, ClanLeaderboardsStatsService, CharacterInventorySummaryService, CharacterProgressionService, CharacterStatsService,
     GetBungieAccountService, InventoryItemService, SharedBungie, SharedDashboard, VaultSummaryService],
   animations: [fadeInOut()]
 })
@@ -93,6 +93,13 @@ export class AppComponent {
   loadUser() {
     //Load sharedBungie, then SharedDashboard
     this.sharedBungie.getMembershipsForCurrentUser().then(() => {
+      if (this.sharedBungie.destinyMemberships.length == 0) {
+        this.sharedApp.showError("Could not find any Destiny 2 memberships associated with this account!");
+        this.setAppInitialized();
+        this.sharedApp.logOutSubject.next();
+        return;
+      }
+
       //Once we have account info, get the user layout and their preferences
       this.sharedDashboard.loadUser().then(() => {
         if (this.sharedApp.userPreferences.membershipIndex > this.sharedBungie.destinyMemberships.length - 1)

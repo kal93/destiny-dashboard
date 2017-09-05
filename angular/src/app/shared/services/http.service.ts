@@ -281,7 +281,7 @@ export class HttpService {
                     break;
 
                 case ErrorTypes.DestinyAccountNotFound:
-                    this.sharedApp.showError("Could not find Destiny information for this Bungie account. Have you played with this account?");
+                    //this.sharedApp.showError("Could not find Destiny information for this Bungie account. Have you played with this account?");
                     break;
 
                 case ErrorTypes.DestinyUnexpectedError:
@@ -289,27 +289,27 @@ export class HttpService {
                     break;
 
                 default:
-                    // Let error bubble back up
-                    reject(error);
-                    break;
+                // Let error bubble back up
             }
+            return reject(error);
         }
 
         //Actual HTTP error 
-        else if (error.status != null)
+        else if (error.status != null) {
             //Give more detail for errors we have some info about
             switch (error.status) {
                 case 401:
                     this.sharedApp.showError("Authentication error when trying to connect to Bungie. Please try to log in again.", error);
                     this.sharedApp.logOutSubject.next();
-                    reject(error);
-                    break;
+                    return reject(error);
 
                 default:
                     console.log(error);
-                    reject(error);
                     break;
             }
+
+            return reject(error);
+        }
     }
 
     public getWithCache(requestUrl: string, requestType: HttpRequestType, cacheTimeMs: number): Promise<any> {
