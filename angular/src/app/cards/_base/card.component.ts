@@ -1,6 +1,7 @@
 import { Input } from '@angular/core';
 import { MdProgressSpinner } from '@angular/material';
 import { SharedApp } from 'app/shared/services/shared-app.service';
+import { CardDefinitions } from './card-definition';
 
 import { ICard } from './card.interface';
 
@@ -21,7 +22,11 @@ export class CardComponent {
 
   ngOnInit() {
     this.localStorageId = "card" + this.CARD_DEFINITION_ID + "-";
-    this.isFullscreen = this.dashboardCard == null;
+    this.isFullscreen = (this.dashboardCard == null);
+
+    if (this.isFullscreen)
+      this.sharedApp.updateMetaTags(CardDefinitions.definitions[this.CARD_DEFINITION_ID].title, CardDefinitions.definitions[this.CARD_DEFINITION_ID].description);
+
   }
 
   ngOnDestroy() {

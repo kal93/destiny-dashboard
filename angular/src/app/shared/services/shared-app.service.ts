@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MdDialog, MdSnackBar } from '@angular/material';
+import { Meta } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { GlobalErrorHandler } from './error-handler.service';
@@ -52,7 +53,8 @@ export class SharedApp {
         membershipIndex: number
     };
 
-    constructor(public mdDialog: MdDialog, private globalErrorHandler: GlobalErrorHandler, protected router: Router, public snackBar: MdSnackBar, private toastrService: ToastrService) {
+    constructor(public mdDialog: MdDialog, private meta: Meta, private globalErrorHandler: GlobalErrorHandler, protected router: Router,
+        public snackBar: MdSnackBar, private toastrService: ToastrService) {
         try {
             // Test localStorage to alert user that if they are browsing in private mode this site will not work
             localStorage.setItem("test", "test");
@@ -276,5 +278,12 @@ export class SharedApp {
 
     deepCopyObject(objToCopy: any) {
         return JSON.parse(JSON.stringify(objToCopy));
+    }
+
+    updateMetaTags(title: string, description: string) {
+        this.meta.updateTag({ content: title }, "name='title'");
+        this.meta.updateTag({ content: description }, "name='description'");
+        this.meta.updateTag({ content: title }, "property='og:title'");
+        this.meta.updateTag({ content: description }, "property='og:description'");
     }
 } 

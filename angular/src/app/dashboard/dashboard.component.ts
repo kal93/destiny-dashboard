@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { MdDialog, MdDialogRef } from '@angular/material';
+import { Meta } from '@angular/platform-browser';
 import { NavigationEnd, Router } from '@angular/router';
 import { ModalDirective } from '../shared/directives/modal.directive';
 import { SharedApp } from '../shared/services/shared-app.service';
@@ -45,7 +46,8 @@ export class DashboardComponent {
   layoutBeforeEdit: Map<number, ICard>;
   dashboardNameBeforeEdit: string;
 
-  constructor(public mdDialog: MdDialog, public router: Router, public sharedApp: SharedApp, public sharedDashboard: SharedDashboard) {
+  constructor(public mdDialog: MdDialog, private meta: Meta, public router: Router, public sharedApp: SharedApp, public sharedDashboard: SharedDashboard) {
+    this.updateMeta();
     this.setColumnCount();
     this.setSubNavItems();
   }
@@ -67,8 +69,10 @@ export class DashboardComponent {
     // Router Events - Subscribe to Router Events since Dashboard is special and is preserved when route changes. Search "CustomReuseStrategy"
     this.router.events.filter(e => e instanceof NavigationEnd).subscribe((e: NavigationEnd) => {
       this.isDashboardCurrentRoute = e.url == "/dashboard";
-      if (this.isDashboardCurrentRoute)
+      if (this.isDashboardCurrentRoute) {
+        this.updateMeta();
         this.setSubNavItems();
+      }
       else
         this.cancelEditMode();
     });
@@ -79,6 +83,10 @@ export class DashboardComponent {
     this.tutorialAddCardSubscription.unsubscribe();
     this.tutorialEditDashboardSubscription.unsubscribe();
     this.userDashboardChangedSubscription.unsubscribe();
+  }
+
+  private updateMeta() {
+    this.sharedApp.updateMetaTags("Destiny Dashboard", "The one stop shop for all of your Destiny 2 needs. Customized dashboards, inventory management, and much more...");
   }
 
   setSubNavItems() {
