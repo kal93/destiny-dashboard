@@ -62,7 +62,7 @@ export class SharedApp {
             this.localStorageDisabled = true;
             let dialogRef = this.mdDialog.open(AlertDialog, { height: '250px', width: '320px', });
             dialogRef.componentInstance.title = "Private Mode";
-            dialogRef.componentInstance.message = "It looks like your browser is in private mode, or does not support Local Storage. This site may not work properly without Local Storage.";
+            dialogRef.componentInstance.message = "It looks like your browser is in Private Mode, or Cookies may be disabled. Please <a target='_blank' href='https://support.apple.com/en-us/HT203036'>disable Private Mode</a> to use this site.";
         }
 
         this.accessToken = this.getLocalStorage("accessToken");
