@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpRequestType, HttpService } from 'app/shared/services/http.service';
 import { SharedApp } from 'app/shared/services/shared-app.service';
 import { Loadout, ILoadoutResponse } from './loadouts.interface'
-import { InventoryItem } from 'app/bungie/services/interface.barrel';
+import { IAccountSummary, InventoryItem } from 'app/bungie/services/interface.barrel';
 
 @Injectable()
 export class LoadoutsService {
@@ -10,12 +10,12 @@ export class LoadoutsService {
 
     private _userLoadouts: Array<Loadout>;
 
-    getUserLoadouts(membershipId: string, inventoryItemHashMap: Map<string, InventoryItem>): Promise<Array<Loadout>> {
+    getUserLoadouts(accountSummary: IAccountSummary, inventoryItemHashMap: Map<string, InventoryItem>): Promise<Array<Loadout>> {
         // If it's already been loaded this session, do not load again
         if (this._userLoadouts != null)
             return Promise.resolve(this._userLoadouts);
 
-        return this.http.getWithCache("api/dashboard/userLoadouts", HttpRequestType.DASHBOARD, 30000).then((loadoutsResponse: Array<ILoadoutResponse>) => {
+        return this.http.getWithCache("api/dashboard/userLoadouts?type=" + accountSummary.membershipType, HttpRequestType.DASHBOARD, 30000).then((loadoutsResponse: Array<ILoadoutResponse>) => {
             if (!loadoutsResponse)
                 loadoutsResponse = [];
 
@@ -42,7 +42,7 @@ export class LoadoutsService {
         });
     }
 
-    saveUserLoadouts(userLoadouts: Array<Loadout>) {
+    saveUserLoadouts(accountSummary: IAccountSummary, userLoadouts: Array<Loadout>) {
         let loadoutsResponse = new Array<ILoadoutResponse>();
         userLoadouts.forEach((loadout) => {
             let loadoutResponse: ILoadoutResponse = { name: loadout.name, itemIds: [] }
@@ -56,7 +56,7 @@ export class LoadoutsService {
         //When we save, invalidate the cache
         this.http.invalidateCache("api/dashboard/userLoadouts");
 
-        return this.http.postDashboard("api/dashboard/userLoadouts", loadoutsResponse).catch((error) => {
+        return this.http.postDashboard("api/dashboard/userLoadouts?type=" + accountSummary.membershipType, loadoutsResponse).catch((error) => {
             this.sharedApp.showError("There was an error when trying to save loadouts. Please try again.", error);
             throw (error);
         });

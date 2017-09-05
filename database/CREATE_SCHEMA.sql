@@ -61,10 +61,11 @@ DROP TABLE IF EXISTS `user_loadouts`;
 CREATE TABLE `user_loadouts` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `membership_id` bigint(20) DEFAULT NULL,
+  `membership_type` smallint(6) DEFAULT NULL,
   `name` varchar(16) DEFAULT NULL,
   `item_ids` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `IX_MEMBERSHIP_ID` (`membership_id`)
+  KEY `IX_MEMBERSHIP_ID_MEMBERSHIP_TYPE` (`membership_id`, `membership_type`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

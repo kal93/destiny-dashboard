@@ -27,13 +27,15 @@ public class UserLoadoutsServlet extends BaseServlet
 
         try {
             String accessToken = req.getHeader("Authorization");
-            if (accessToken == null)
+            String membershipType = req.getParameter("type");
+            if (accessToken == null || membershipType == null)
                 return;
 
             try (Connection conn = DBCore.getDBConnection()) {
                 long membershipId = TokenRepository.getMembershipIdByAccessToken(accessToken, conn);
 
-                List<IUserLoadout> userLoadouts = UserLoadoutsRepository.loadUserLoadouts(membershipId, conn);
+                List<IUserLoadout> userLoadouts = UserLoadoutsRepository.loadUserLoadouts(membershipId, Integer.parseInt(membershipType),
+                        conn);
 
                 resp.getWriter().write(new Gson().toJson(userLoadouts));
             }
@@ -50,7 +52,8 @@ public class UserLoadoutsServlet extends BaseServlet
 
         try {
             String accessToken = req.getHeader("Authorization");
-            if (accessToken == null)
+            String membershipType = req.getParameter("type");
+            if (accessToken == null || membershipType == null)
                 return;
 
             try (Connection conn = DBCore.getDBConnection()) {
@@ -71,7 +74,7 @@ public class UserLoadoutsServlet extends BaseServlet
                     IUserLoadout[] userLoadouts = gson.fromJson(requestBody.toString(), IUserLoadout[].class);
 
                     // Save to database
-                    UserLoadoutsRepository.saveUserLoadouts(membershipId, userLoadouts, conn);
+                    UserLoadoutsRepository.saveUserLoadouts(membershipId, Integer.parseInt(membershipType), userLoadouts, conn);
                     resp.setStatus(HttpURLConnection.HTTP_OK);
                 }
             }

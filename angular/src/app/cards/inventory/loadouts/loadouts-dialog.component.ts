@@ -35,7 +35,7 @@ export class LoadoutsDialog {
     }
 
     ngOnInit() {
-        this.loadoutsService.getUserLoadouts(this.accountSummary.membershipId, this.inventoryItemHashMap).then((userLoadouts) => {
+        this.loadoutsService.getUserLoadouts(this.accountSummary, this.inventoryItemHashMap).then((userLoadouts) => {
             this.userLoadouts = userLoadouts;
         });
 
@@ -91,7 +91,7 @@ export class LoadoutsDialog {
 
     closeDialog() {
         if (this.isChanged)
-            this.loadoutsService.saveUserLoadouts(this.userLoadouts);
+            this.loadoutsService.saveUserLoadouts(this.accountSummary, this.userLoadouts);
 
         this.restoreExpandedSections();
         this.dialogRef.close();

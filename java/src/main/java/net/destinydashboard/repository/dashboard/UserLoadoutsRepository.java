@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,9 +12,11 @@ import net.destinydashboard.repository.utility.Utilities;
 
 public class UserLoadoutsRepository
 {
-    public static List<IUserLoadout> loadUserLoadouts(long membershipId, Connection conn) throws SQLException {
-        PreparedStatement preparedStatement = conn.prepareStatement("SELECT name, item_ids FROM user_loadouts WHERE membership_id = ?");
+    public static List<IUserLoadout> loadUserLoadouts(long membershipId, int membershipType, Connection conn) throws SQLException {
+        PreparedStatement preparedStatement = conn
+                .prepareStatement("SELECT name, item_ids FROM user_loadouts WHERE membership_id = ? AND membership_type = ?");
         preparedStatement.setLong(1, membershipId);
+        preparedStatement.setInt(2, membershipType);
 
         List<IUserLoadout> userLoadouts = new ArrayList<IUserLoadout>();
 
@@ -30,19 +31,24 @@ public class UserLoadoutsRepository
         return userLoadouts;
     }
 
-    public static void saveUserLoadouts(long membershipId, IUserLoadout[] userLoadouts, Connection conn) throws SQLException {
+    public static void saveUserLoadouts(long membershipId, int membershipType, IUserLoadout[] userLoadouts, Connection conn)
+            throws SQLException {
         // Remove existing preference
-        Statement statement = conn.createStatement();
-        statement.execute("DELETE FROM user_loadouts WHERE membership_id = " + membershipId);
-        statement.close();
-
         PreparedStatement preparedStatement = conn
-                .prepareStatement("INSERT INTO user_loadouts (membership_id, name, item_ids) VALUES(?, ?, ?)");
+                .prepareStatement("DELETE FROM user_loadouts WHERE membership_id = ? AND membership_type = ?");
+        preparedStatement.setLong(1, membershipId);
+        preparedStatement.setInt(2, membershipType);
+        preparedStatement.execute();
+        preparedStatement.close();
+
+        preparedStatement = conn
+                .prepareStatement("INSERT INTO user_loadouts (membership_id, membership_type, name, item_ids) VALUES(?, ?, ?, ?)");
 
         for (IUserLoadout userLoadout : userLoadouts) {
             preparedStatement.setLong(1, membershipId);
-            preparedStatement.setString(2, userLoadout.name);
-            preparedStatement.setString(3, Utilities.Join(userLoadout.itemIds, ","));
+            preparedStatement.setInt(2, membershipType);
+            preparedStatement.setString(3, userLoadout.name);
+            preparedStatement.setString(4, Utilities.Join(userLoadout.itemIds, ","));
             preparedStatement.addBatch();
         }
 
