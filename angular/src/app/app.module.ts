@@ -55,6 +55,7 @@ import { GamertagAutocompleteComponent } from './bungie/components/gamertag-auto
 import { InventoryItemComponent } from './bungie/components/inventory-item/inventory-item.component';
 import { InventoryItemPopupComponent } from './bungie/components/inventory-item/inventory-item-popup/inventory-item-popup.component';
 import { MdTabCharacterHeadingComponent } from './bungie/components/md-tab-character-heading/md-tab-character-heading.component';
+import { SettingsComponent } from './settings/settings.component';
 
 //Cards
 import { BungieNewsComponent } from './cards/bungie-news/bungie-news.component';
@@ -94,7 +95,7 @@ import { NumberFormatLocalePipe, RoundToDecimalPlacePipe } from './shared/pipes/
     AddCardComponent, CardHeaderComponent, CardLoaderComponent, DashboardComponent,
 
     //Other components 
-    AboutComponent, DownloadManifestComponent, GamertagAutocompleteComponent, InventoryItemComponent, InventoryItemPopupComponent, MdTabCharacterHeadingComponent,
+    AboutComponent, DownloadManifestComponent, GamertagAutocompleteComponent, InventoryItemComponent, InventoryItemPopupComponent, MdTabCharacterHeadingComponent, SettingsComponent,
 
     //Cards
     BungieNewsComponent, ClanLeaderboardsComponent, CountdownComponent, DashboardNewsComponent, DashboardNewsArticleComponent, DatabaseComponent, ItemManagerComponent, ReputationComponent, RedditComponent, StatsComponent, TwitchComponent,

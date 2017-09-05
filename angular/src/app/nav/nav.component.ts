@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
-import { MdRadioChange, MdSidenav } from '@angular/material';
+import { MdDialog, MdRadioChange, MdSidenav } from '@angular/material';
 import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { AlertDialog } from 'app/shared/dialogs/alert.component';
 import { SharedBungie } from '../bungie/shared-bungie.service';
 import { SharedDashboard } from '../dashboard/shared-dashboard.service';
 import { SharedApp } from '../shared/services/shared-app.service';
@@ -21,7 +22,7 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class NavComponent {
   environment = environment;
-  
+
   @ViewChild("mainNav")
   mainNav: MdSidenav;
 
@@ -39,7 +40,7 @@ export class NavComponent {
   routeChangedFromNav: boolean = false;
   openMenuOnDashboardLoad: boolean = false;
 
-  constructor(private activatedRoute: ActivatedRoute, public sharedBungie: SharedBungie, public sharedDashboard: SharedDashboard, public sharedApp: SharedApp, public router: Router) {
+  constructor(private activatedRoute: ActivatedRoute, public mdDialog: MdDialog, public sharedBungie: SharedBungie, public sharedDashboard: SharedDashboard, public sharedApp: SharedApp, public router: Router) {
     //Application events
     this.toggleMainNavSubscription = this.sharedApp.toggleMainNavSubject.subscribe((open: boolean) => { open ? this.mainNav.open() : this.mainNav.close() });
     this.toggleSubNavSubscription = this.sharedApp.toggleSubNavSubject.subscribe((open: boolean) => { open ? this.subNav.open() : this.subNav.close() });
@@ -136,6 +137,14 @@ export class NavComponent {
     this.sharedApp.userPreferences.membershipIndex = radioChangeEvent.value;
     this.sharedDashboard.saveUserPreferences();
     this.sharedDashboard.reloadLayout();
+  }
+
+  nightModeClicked() {
+    let dialogRef = this.mdDialog.open(AlertDialog, { height: '295px', width: '320px', });
+    dialogRef.componentInstance.title = "Night Mode";
+    dialogRef.componentInstance.message = "Whoa, you're not supposed to see this message! If you do, it means Night Mode is not supported by your browser and would break things if we kept it on. We need to disable Night Mode for you.";
+    this.sharedApp.nightMode = false;
+    this.sharedApp.removeLocalStorage("nightMode");
   }
 
 }

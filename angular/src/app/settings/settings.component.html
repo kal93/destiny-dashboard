@@ -1,0 +1,15 @@
+<div>
+  <div class="dd-settings">
+    <md-card class="card">
+      <md-card-header>
+        <md-card-title class="title">Night Mode</md-card-title>
+        <md-card-subtitle> Enabling night mode will reduce the blue hues throughout the website. Night mode may not work properly on every browser.</md-card-subtitle>
+      </md-card-header>
+      <md-card-content>
+        <md-slide-toggle class="inventory-group" (change)="setNightMode(0, $event)" [checked]="sharedApp.nightMode">
+          Enable Night Mode
+        </md-slide-toggle>
+      </md-card-content>
+    </md-card>
+  </div>
+</div>

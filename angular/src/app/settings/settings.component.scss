@@ -1,0 +1,26 @@
+@import '../../styles/theme.scss';
+
+.dd-settings {
+    background-color: mat-color($app-primary);
+    color: $app-text-light;
+    height: 100vh;
+    padding: 30px;
+
+    .card {
+        margin: 0 auto 30px;
+        width: 90%;
+        max-width: 800px;
+
+        .title {
+            font-size: 1.3em;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .link {
+            cursor: pointer;
+            color: $app-text-link;
+        }
+    }
+}

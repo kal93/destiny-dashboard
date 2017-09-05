@@ -47,6 +47,7 @@ export class SharedApp {
     public accessTokenExpires: number;
     public refreshToken: string;
     public membershipId: number;
+    public nightMode: boolean = false;
 
     // Application wide dashboard variables
     public userPreferences: {
@@ -71,6 +72,7 @@ export class SharedApp {
         this.accessTokenExpires = +this.getLocalStorage("accessTokenExpires", -1);
         this.refreshToken = this.getLocalStorage("refreshToken");
         this.membershipId = +this.getLocalStorage("membershipId", -1);
+        this.nightMode = this.getLocalStorage("nightMode", false);
 
         let resizeTimeoutId: NodeJS.Timer;
         this.windowResize$.subscribe(e => {
@@ -152,6 +154,9 @@ export class SharedApp {
             if (isNaN(parsed))
                 return defaultValue;
             return parsed;
+        }
+        else if (typeof defaultValue === "boolean") {
+            return localStorageValue == "true";
         }
         return localStorageValue || defaultValue;
     }

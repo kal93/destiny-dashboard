@@ -183,27 +183,24 @@
         }
 
         .footer {
-            margin: 4px 6px 0 10px;
             display: flex;
-            justify-content: space-between;
+            justify-content: space-evenly;
             align-items: center;
             opacity: .7;
-            font-size: .8em;
+            font-size: .75em;
 
-            .version {}
-
-            .about {
+            .footer-option {
                 cursor: pointer;
                 text-transform: uppercase;
                 color: $app-text-dark;
                 display: flex;
-                padding: 8px 4px;
+                padding: 8px 6px;
 
                 md-icon {
-                    font-size: 16px;
-                    height: 16px;
-                    width: 16px;
-                    margin-right: 4px;
+                    font-size: 18px;
+                    height: 18px;
+                    width: 18px;
+                    margin-right: 3px;
                 }
             }
         }
@@ -240,5 +237,16 @@
 
     .router-wrap {
         background-color: #e3e3e3;
+
+        .night-mode {
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background-color: rgba(#F57C00,.2);
+            z-index: 10;
+            pointer-events: none;
+        }
     }
 }

@@ -106,9 +106,12 @@
 
     <!-- Help -->
     <div class="footer">
-      <span class="version">v{{environment.version}}</span>
-      <div class="about" (click)="navigateToRoute('/about')">
-        <md-icon>info_outline</md-icon> About </div>
+      <div class="footer-option" (click)="navigateToRoute('/settings')">
+        <md-icon>settings</md-icon> Settings
+      </div>
+      <div class="footer-option" (click)="navigateToRoute('/about')">
+        <md-icon>info_outline</md-icon> About
+      </div>
     </div>
   </md-sidenav>
 
@@ -127,6 +130,7 @@
 
   <!-- Only load the router if the app has been initialized -->
   <div *ngIf="sharedApp.appInitialized" class="router-wrap dd-dashboard-background">
+    <div *ngIf="sharedApp.nightMode == true" class="night-mode" (click)="nightModeClicked()"></div>
     <router-outlet></router-outlet>
   </div>
 
