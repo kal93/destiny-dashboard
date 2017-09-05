@@ -4,8 +4,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { CardComponent } from '../_base/card.component';
 import { SharedApp } from 'app/shared/services/shared-app.service';
 import { ManifestService } from 'app/bungie/manifest/manifest.service';
-import { AccountSummaryService, CharacterProgressionService } from 'app/bungie/services/service.barrel';
+import { PrivacyTypes } from 'app/bungie/services/enums.interface';
 
+import { AccountSummaryService, CharacterProgressionService } from 'app/bungie/services/service.barrel';
 import { DestinyMembership, IAccountSummary, ProgressionBase } from 'app/bungie/services/interface.barrel';
 
 @Component({
@@ -29,8 +30,7 @@ export class ReputationComponent extends CardComponent {
 
   // Progression (Reputation) for selected character
   characterProgressions: Array<ProgressionBase>;
-
-  loadedProgression: boolean = false;
+  progressionPrivacy;
 
   constructor(private accountSummaryService: AccountSummaryService, private characterProgressionService: CharacterProgressionService, public domSanitizer: DomSanitizer,
     private manifestService: ManifestService, public sharedApp: SharedApp) {
@@ -84,6 +84,7 @@ export class ReputationComponent extends CardComponent {
 
       // Set progressions from API
       this.characterProgressions = characterProgressionResponse.progressionsData;
+      this.progressionPrivacy = (characterProgressionResponse.progressions.privacy == PrivacyTypes.Private);
 
       // Filter out progressions we don't have a faction entry for, or if it's a negative level (Test faction probably)
       this.characterProgressions = this.characterProgressions.filter((progression) => {

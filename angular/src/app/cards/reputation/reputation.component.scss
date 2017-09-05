@@ -41,6 +41,11 @@
                         align-items: flex-start;
                         padding: 5px;
 
+                        .privacy-error {
+                            margin: 30px auto;
+                            text-align: center;
+                        }
+
                         .reputation-section {
                             flex: 1 0 175px;
                             margin: 5px;

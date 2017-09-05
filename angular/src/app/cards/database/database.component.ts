@@ -7,7 +7,7 @@ import { ManifestService } from 'app/bungie/manifest/manifest.service';
 
 import { DestinyInventoryItemDefinition } from "app/bungie/manifest/interfaces";
 
-import { DestinyMembership, IAccountSummary, Progression } from 'app/bungie/services/interface.barrel';
+import { DestinyMembership, IAccountSummary, ProgressionBase } from 'app/bungie/services/interface.barrel';
 
 @Component({
   selector: 'dd-database',

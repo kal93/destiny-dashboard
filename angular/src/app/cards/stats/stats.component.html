@@ -91,7 +91,7 @@
 
             <!-- Character Stats -->
             <div *ngIf="characterStats != null" class="sub-tab-wrap">
-              <div *ngIf="characterStats.allPvE.allTime == null && characterStats.allPvP.allTime == null" class="stat-section">
+              <div *ngIf="characterStats.allPvE.allTime == null && characterStats.allPvP.allTime == null" class="no-data">
                 This character has no data!
               </div>
               <div *ngIf="characterStats.allPvE.allTime!= null && characterStats.allPvP.allTime != null" class="stat-section">

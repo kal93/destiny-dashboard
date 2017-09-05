@@ -17,7 +17,7 @@ export class CharacterProgressionService {
     getCharacterProgression(membership: DestinyMembership, characterId: string): Promise<ICharacterProgression> {
         // Build the request URL
         let requestUrl = "https://www.bungie.net/Platform/Destiny2/" + membership.membershipType + "/Profile/" + membership.membershipId + "/Character/" + characterId +
-            "?components=" + ComponentTypes.CharacterProgressions;
+            "/?components=" + ComponentTypes.CharacterProgressions;
 
         //Get the response, or return the cached result
         return this.http.getWithCache(requestUrl, HttpRequestType.BUNGIE_BASIC, this.cacheTimeMs).then((characterProgressions: ICharacterProgression) => {
@@ -32,19 +32,21 @@ export class CharacterProgressionService {
             });
 
             //Populate characterData with data from assoc array
-            Object.keys(characterProgressions.progressions.data).forEach((key: string, index: number) => {
-                var progression: ProgressionBase = characterProgressions.progressions.data[key];
-                progression.progressionValue = this.manifestService.getManifestEntry("DestinyProgressionDefinition", progression.progressionHash);
+            if (characterProgressions.progressions.data != null) {
+                Object.keys(characterProgressions.progressions.data).forEach((key: string, index: number) => {
+                    var progression: ProgressionBase = characterProgressions.progressions.data[key];
+                    progression.progressionValue = this.manifestService.getManifestEntry("DestinyProgressionDefinition", progression.progressionHash);
 
-                let factionValue = progressionHashFactionMap.get(progression.progressionHash);
-                // Set the faction if it exists
-                if (factionValue != null) {
-                    progression.factionValue = factionValue;
-                    //progression.progressionValue = this.manifestService.getManifestEntry("DestinyProgressionDefinition", progression.progressionHash);
-                }
+                    let factionValue = progressionHashFactionMap.get(progression.progressionHash);
+                    // Set the faction if it exists
+                    if (factionValue != null) {
+                        progression.factionValue = factionValue;
+                        //progression.progressionValue = this.manifestService.getManifestEntry("DestinyProgressionDefinition", progression.progressionHash);
+                    }
 
-                characterProgressions.progressionsData[index] = progression;
-            });
+                    characterProgressions.progressionsData[index] = progression;
+                });
+            }
 
             return characterProgressions;
         }).catch((error) => {

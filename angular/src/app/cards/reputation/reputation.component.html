@@ -16,6 +16,10 @@
 
           <!-- Character Rep -->
           <div class="sub-tab-wrap" *ngIf="characterProgressions != null">
+            <div class="privacy-error" *ngIf="progressionPrivacy">
+              This user does not allow public viewing of Progressions. <br/> <br/>To enable public viewing of Progressions,
+              log in to Bungie.net and find the correct privacy setting in your profile.
+            </div>
             <div *ngFor="let progression of characterProgressions" class="reputation-section">
               <div class="top-wrap">
                 <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + progression.factionValue.displayProperties.icon  +')')"></div>

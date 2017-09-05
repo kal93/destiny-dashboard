@@ -108,6 +108,12 @@ export enum PeriodTypes {
     ACTIVITY = "Activity"
 }
 
+export enum PrivacyTypes {
+    None = 0,
+    Public = 1,
+    Private = 2,
+}
+
 export enum ModeTypes {
     NONE = 0,
     STORY = 2,
