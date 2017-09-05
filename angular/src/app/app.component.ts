@@ -1,9 +1,10 @@
 import { ChangeDetectorRef, Component, HostListener } from '@angular/core';
 import { MdDialog } from '@angular/material';
-import { ConfirmDialog } from './shared/dialogs/confirm.component';
-import { HttpService } from './shared/services/http.service';
+import { AlertDialog } from 'app/shared/dialogs/alert.component';
+import { ConfirmDialog } from 'app/shared/dialogs/confirm.component';
+import { HttpService } from 'app/shared/services/http.service';
 import { ManifestService } from './bungie/manifest/manifest.service';
-import { SharedApp } from './shared/services/shared-app.service';
+import { SharedApp } from 'app/shared/services/shared-app.service';
 import { SharedBungie } from './bungie/shared-bungie.service';
 import { SharedDashboard } from './dashboard/shared-dashboard.service';
 
@@ -21,6 +22,7 @@ import { Angulartics2GoogleAnalytics } from 'angulartics2';
 @Component({
   selector: 'dd-app',
   template: `<dd-nav></dd-nav>
+  <div *ngIf="sharedApp.nightMode == true" class="night-mode" (click)="nightModeClicked()"></div>  
   <div *ngIf="sharedApp.showLoadingIds.size > 0" class="loading-dim" [@fadeInOut]="true">
     <div class="loader">
       <svg class="circular" viewBox="25 25 50 50">
@@ -115,5 +117,13 @@ export class AppComponent {
 
     // Run CD since we are changing a variable that has been initialized during this function
     this.changeDetectorRef.detectChanges();
+  }
+
+  nightModeClicked() {
+    let dialogRef = this.mdDialog.open(AlertDialog, { height: '295px', width: '320px', });
+    dialogRef.componentInstance.title = "Night Mode";
+    dialogRef.componentInstance.message = "Whoa, you're not supposed to see this message! If you do, it means Night Mode is not supported by your browser and would break things if we kept it on. We need to disable Night Mode for you.";
+    this.sharedApp.nightMode = false;
+    this.sharedApp.removeLocalStorage("nightMode");
   }
 }

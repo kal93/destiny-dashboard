@@ -55,6 +55,17 @@ nav.dd-nav {
     background: rgba(0, 0, 0, .3);
 }
 
+.night-mode {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(#F57C00,.2);
+    z-index: 10;
+    pointer-events: none;
+}
+
 .loader {
     position: absolute;
     left: 50%;

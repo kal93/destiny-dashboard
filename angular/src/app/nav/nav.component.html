@@ -130,7 +130,6 @@
 
   <!-- Only load the router if the app has been initialized -->
   <div *ngIf="sharedApp.appInitialized" class="router-wrap dd-dashboard-background">
-    <div *ngIf="sharedApp.nightMode == true" class="night-mode" (click)="nightModeClicked()"></div>
     <router-outlet></router-outlet>
   </div>
 
