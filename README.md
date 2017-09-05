@@ -39,6 +39,7 @@ You only need to do steps 2, 3 & 4 if you are working on the Java API.
 ## Platform
 - [ ] Add Card should show how many users have it installed
 - [ ] Add Card should have filter by card types
+- [ ] Add Card should have arrows to navigate cards on desktop version
 - [ ] Ability for users to subscribe to push notifications for different cards
 - [ ] Add Cordova wrapper and push to iOS and Android stores
 - [ ] Localization to support all languages supported by the Manifest

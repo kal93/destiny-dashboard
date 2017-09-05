@@ -194,32 +194,39 @@ export class InventoryItemService {
     }
 
     public equipItem(inventoryItem: InventoryItem): Promise<InventoryItemTransferResult> {
-        let srcCharacterId = this._accountSummary.characters[inventoryItem.characterIndex].characterBase.characterId;
+        try {
+            let srcCharacterId = this._accountSummary.characters[inventoryItem.characterIndex].characterBase.characterId;
 
-        let requestUrl = "https://www.bungie.net/d1/Platform/Destiny/EquipItem/";
-        let body = {
-            membershipType: this._selectedMembership.membershipType,
-            itemId: inventoryItem.itemId,
-            characterId: srcCharacterId
-        };
+            let requestUrl = "https://www.bungie.net/d1/Platform/Destiny/EquipItem/";
+            let body = {
+                membershipType: this._selectedMembership.membershipType,
+                itemId: inventoryItem.itemId,
+                characterId: srcCharacterId
+            };
 
-        return this.http.postBungie(requestUrl, body).then((response) => {
-            let srcBucket: InventoryBucket = this._bucketsMap[inventoryItem.characterIndex].get(inventoryItem.itemValue.bucketTypeHash);
+            return this.http.postBungie(requestUrl, body).then((response) => {
+                let srcBucket: InventoryBucket = this._bucketsMap[inventoryItem.characterIndex].get(inventoryItem.itemValue.bucketTypeHash);
 
-            //Mark currently equipped item as unequipped
-            let equippedItem = InventoryUtils.getEquippedItemFromBucket(srcBucket);
-            if (equippedItem != null)
-                equippedItem.transferStatus = 0;
+                //Mark currently equipped item as unequipped
+                let equippedItem = InventoryUtils.getEquippedItemFromBucket(srcBucket);
+                if (equippedItem != null)
+                    equippedItem.transferStatus = 0;
 
-            //Mark target item as equipped
-            inventoryItem.transferStatus = 1;
+                //Mark target item as equipped
+                inventoryItem.transferStatus = 1;
 
-            // Sort after we insert the new item
-            InventoryUtils.sortBucketItems(srcBucket);
-            return response;
-        }).catch((tranferResult: InventoryItemTransferResult) => {
-            this.sharedApp.showError("Error when equipping item: " + tranferResult.Message);
-        });
+                // Sort after we insert the new item
+                InventoryUtils.sortBucketItems(srcBucket);
+                return response;
+            }).catch((tranferResult: InventoryItemTransferResult) => {
+                this.sharedApp.showError("Error when equipping " + inventoryItem.itemValue.itemName + ": " + tranferResult.Message);
+            });
+        }
+        catch (error) {
+            error.extraData1 = this._accountSummary;
+            error.extraData2 = inventoryItem.characterIndex;
+            this.sharedApp.showError("Error when equipping item " + inventoryItem.itemValue.itemName, error);
+        }
     }
 
     /*  private equipItems(membership: DestinyMembership, characterId: string, itemIds: Array<number>): Promise<InventoryItemTransferResult> {
