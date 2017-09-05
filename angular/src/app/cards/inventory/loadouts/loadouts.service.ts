@@ -8,12 +8,7 @@ import { IAccountSummary, InventoryItem } from 'app/bungie/services/interface.ba
 export class LoadoutsService {
     constructor(protected http: HttpService, private sharedApp: SharedApp) { }
 
-    private _userLoadouts: Array<Loadout>;
-
     getUserLoadouts(accountSummary: IAccountSummary, inventoryItemHashMap: Map<string, InventoryItem>): Promise<Array<Loadout>> {
-        // If it's already been loaded this session, do not load again
-        if (this._userLoadouts != null)
-            return Promise.resolve(this._userLoadouts);
 
         return this.http.getWithCache("api/dashboard/userLoadouts?type=" + accountSummary.membershipType, HttpRequestType.DASHBOARD, 30000).then((loadoutsResponse: Array<ILoadoutResponse>) => {
             if (!loadoutsResponse)
@@ -34,7 +29,6 @@ export class LoadoutsService {
                 userLoadouts.push(loadout);
             }
 
-            this._userLoadouts = userLoadouts;
             return userLoadouts;
         }).catch((error) => {
             this.sharedApp.showError("There was an error loading loadouts.", error);
@@ -54,7 +48,7 @@ export class LoadoutsService {
         });
 
         //When we save, invalidate the cache
-        this.http.invalidateCache("api/dashboard/userLoadouts");
+        this.http.invalidateCache("api/dashboard/userLoadouts?type=" + accountSummary.membershipType);
 
         return this.http.postDashboard("api/dashboard/userLoadouts?type=" + accountSummary.membershipType, loadoutsResponse).catch((error) => {
             this.sharedApp.showError("There was an error when trying to save loadouts. Please try again.", error);
