@@ -12,7 +12,7 @@ import { ArticleCategory } from './dashboard-news-article.enum';
   animations: [fadeIn()]
 })
 
-export class DashboardNewsArticle {
+export class DashboardNewsArticleComponent {
 
   articleCategory = ArticleCategory;
 
