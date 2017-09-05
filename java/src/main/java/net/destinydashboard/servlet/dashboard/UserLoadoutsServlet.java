@@ -42,7 +42,7 @@ public class UserLoadoutsServlet extends BaseServlet
 
         }
         catch (Exception e) {
-            Logger.getLogger("LoadoutssServlet").log(Level.SEVERE, e.getMessage(), e);
+            Logger.getLogger("LoadoutsServlet").log(Level.SEVERE, e.getMessage(), e);
             resp.setStatus(HttpURLConnection.HTTP_INTERNAL_ERROR);
         }
     }

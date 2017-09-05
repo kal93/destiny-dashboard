@@ -93,10 +93,10 @@ export class ItemManagerComponent extends CardComponent {
 
         this.getFullInventory().then(() => {
             // Loadouts only available in fullscreen mode
-            if (this.isFullscreen)
+            if (this.isFullscreen) {
                 this.setSubNavItems();
-
-            this.sharedApp.showInfoOnce("Press and hold an item to enter multi-transfer mode.");
+                this.sharedApp.showInfoOnce("Press and hold an item to enter multi-transfer mode.");
+            }
         });
         this.initSearch();
     }

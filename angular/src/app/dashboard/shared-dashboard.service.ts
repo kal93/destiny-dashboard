@@ -65,7 +65,8 @@ export class SharedDashboard {
 
             this.sharedApp.userPreferences = responses[1];
         }).catch((error) => {
-            this.sharedApp.showError("There was an error when trying to load your user. Please try again.", error);
+            this.sharedApp.showError("There was an error when trying to load your user. Please try to log in again.", error);
+            this.sharedApp.logOutSubject.next();
             throw (error);
         });
     }

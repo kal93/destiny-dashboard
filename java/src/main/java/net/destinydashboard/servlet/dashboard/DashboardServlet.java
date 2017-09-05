@@ -32,6 +32,8 @@ public class DashboardServlet extends BaseServlet
 
             try (Connection conn = DBCore.getDBConnection()) {
                 long membershipId = TokenRepository.getMembershipIdByAccessToken(accessToken, conn);
+                if (membershipId == -1)
+                    throw new IllegalAccessException("User made request with bad token.");
 
                 List<IUserDashboard> userDashboards = DashboardRepository.loadUserDashboards(membershipId, conn);
 
