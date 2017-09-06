@@ -109,6 +109,9 @@ export class InventoryUtils {
 
     public static applyFilterToBucketGroups(searchText: string, showInventoryGroups: Array<boolean>, bucketGroups: Array<Array<InventoryBucket>>, skipAlreadyFiltered: boolean) {
         // For each bucketGroup in this character or vault
+        if (bucketGroups == null)
+            return;
+
         for (let i = 0; i < bucketGroups.length; i++) {
             let bucketGroup = bucketGroups[i];
             // For each bucket in the current group
