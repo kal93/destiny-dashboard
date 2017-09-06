@@ -16,14 +16,22 @@ let githubLink = "<a style='color: #2196F3' target='_blank' href='https://github
 export const ARTICLES: NewsArticle[] = [
   {
     id: 3,
-    title: "v1.0.4 release",
+    title: "v1.0.7 release",
     category: ArticleCategory.NewCard,
+    bodyPreview: "Database released!",
+    body: "Search the entire Destiny 2 item database instantly!",
+    date: new Date("Sept 6, 2017 2:00 am")
+  },
+  {
+    id: 2,
+    title: "v1.0.4 release",
+    category: ArticleCategory.SiteNews,
     bodyPreview: "Destiny 2 Updates",
     body: "The dashboard has been converted to Destiny 2. Bungie API outages are preventing things from working properly at the moment.",
     date: new Date("Sept 5, 2017 6:00 pm")
   },
   {
-    id: 2,
+    id: 1,
     title: "v1.0.0 release",
     category: ArticleCategory.NewCard,
     bodyPreview: "It's here! Finally!",
@@ -31,20 +39,12 @@ export const ARTICLES: NewsArticle[] = [
     date: new Date("Sept 4, 2017 6:00 pm")
   },
   {
-    id: 1,
+    id: 0,
     title: "Inventory Manager",
     category: ArticleCategory.CardUpdate,
     bodyPreview: "Inventory Manager released!",
     body: "Inventory Manager is done! Multiple item transfer, Loadouts, Filtering, and Quick search have been added.",
     date: new Date("Sept 1, 2017 6:00 pm")
-  },
-  {
-    id: 0,
-    title: "Beta Released",
-    category: ArticleCategory.SiteNews,
-    bodyPreview: "Destiny Dashboard is now in Beta!",
-    body: "Destiny Dashboard is now in Beta! Please report any issues, feedback, or feature requests to " + githubLink + " or " + redditLink + ".",
-    date: new Date("Aug 30, 2017 6:00 pm")
   }
 ];
 

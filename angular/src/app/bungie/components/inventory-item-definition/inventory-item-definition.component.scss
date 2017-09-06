@@ -1,0 +1,31 @@
+@import '../../../../styles/theme.scss';
+
+:host {
+    color: $app-text-light;
+
+    $iconSize: 60px;
+
+    .icon {
+        width: $iconSize;
+        height: $iconSize;
+        background-color: $bungie-blue;
+        // Also has background image
+        background-size: contain;
+        background-repeat: no-repeat;
+        border: 1px solid #333;
+        position: relative;
+        font-size: .85em;
+        margin: 0 2px;
+        cursor: pointer;
+    }
+
+    .name {
+        display: inline-block;
+        font-size: .74em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: $iconSize + 2;
+        text-align: center;
+    }
+}

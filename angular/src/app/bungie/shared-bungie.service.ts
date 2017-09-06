@@ -28,7 +28,7 @@ export class SharedBungie {
                         console.log(response);
                     }).catch((error) => {
                         // Remove membership
-                        //this.destinyMemberships.splice(this.destinyMemberships.indexOf(membership), 1);
+                        this.destinyMemberships.splice(this.destinyMemberships.indexOf(membership), 1);
                     });
                     basicProfilePromises.push(profilePromise);
                 });

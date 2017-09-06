@@ -107,7 +107,7 @@ export class CardDefinitions {
         id: 9, title: "Database", description: "Database of every item in Destiny", rating: 5, route: "database",
         layouts: [
             { rows: 2, cols: 2 }, { rows: 3, cols: 2 }, { rows: 4, cols: 2 },
-            { rows: 2, cols: 3 }, { rows: 3, cols: 3 }
+            { rows: 2, cols: 3 }, { rows: 3, cols: 3 }, { rows: 4, cols: 3 }
         ],
         requiresLogin: false, isExternalRoute: false, lastUpdated: 1504570852262, previewImageClass: "dd-database-preview"
     }];
@@ -115,9 +115,11 @@ export class CardDefinitions {
     static defaultDashboards: Array<IUserDashboard> = [{
         id: -1, name: "Default Dashboard", cards: [
             { id: -1, sequence: 0, definitionId: 1, layoutId: 3, definition: CardDefinitions.definitions[1], layout: CardDefinitions.definitions[1].layouts[3] },
-            { id: -2, sequence: 1, definitionId: 2, layoutId: 0, definition: CardDefinitions.definitions[2], layout: CardDefinitions.definitions[2].layouts[0] },
-            { id: -3, sequence: 2, definitionId: 5, layoutId: 0, definition: CardDefinitions.definitions[5], layout: CardDefinitions.definitions[5].layouts[0] },
-            { id: -4, sequence: 3, definitionId: 0, layoutId: 3, definition: CardDefinitions.definitions[0], layout: CardDefinitions.definitions[0].layouts[3] }
+            { id: -2, sequence: 1, definitionId: 9, layoutId: 4, definition: CardDefinitions.definitions[9], layout: CardDefinitions.definitions[9].layouts[4] },
+            { id: -3, sequence: 2, definitionId: 2, layoutId: 0, definition: CardDefinitions.definitions[2], layout: CardDefinitions.definitions[2].layouts[0] },
+            { id: -4, sequence: 3, definitionId: 5, layoutId: 0, definition: CardDefinitions.definitions[5], layout: CardDefinitions.definitions[5].layouts[0] },
+            { id: -5, sequence: 4, definitionId: 8, layoutId: 0, definition: CardDefinitions.definitions[8], layout: CardDefinitions.definitions[8].layouts[0] },
+            { id: -6, sequence: 5, definitionId: 4, layoutId: 0, definition: CardDefinitions.definitions[4], layout: CardDefinitions.definitions[4].layouts[0] },
         ]
     }, {
         id: -2, name: "News", cards: [

@@ -8,8 +8,12 @@
           <input mdInput placeholder="Search Database" [formControl]="searchTextForm">
         </md-form-field>
 
-        <md-select class="search-type" placeholder="Item Type">
+        <md-select class="search-select" placeholder="Item Type" [(ngModel)]="searchType" (change)="applyFilter(false)">
           <md-option *ngFor="let itemType of itemTypes" [value]="itemType.value"> {{ itemType.displayValue }} </md-option>
+        </md-select>
+
+        <md-select class="search-select" placeholder="Class Type" [(ngModel)]="searchClass" (change)="applyFilter(false)">
+          <md-option *ngFor="let classType of classTypes" [value]="classType.value"> {{ classType.displayValue }} </md-option>
         </md-select>
       </md-card>
 
@@ -18,9 +22,7 @@
           <ng-container mdColumnDef="icon">
             <md-header-cell *mdHeaderCellDef> Icon </md-header-cell>
             <md-cell *mdCellDef="let itemDef">
-              <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + itemDef.displayProperties.icon +')')"
-                (click)="iconClicked(itemDef)">
-              </div>
+              <dd-inventory-item-definition [inventoryItemDefinition]="itemDef"></dd-inventory-item-definition>
             </md-cell>
           </ng-container>
 
@@ -34,12 +36,17 @@
             <md-cell *mdCellDef="let itemDef"> {{itemDef.itemTypeDisplayName}} </md-cell>
           </ng-container>
 
+          <ng-container mdColumnDef="class">
+            <md-header-cell *mdHeaderCellDef> Class </md-header-cell>
+            <md-cell *mdCellDef="let itemDef"> {{itemDef.className}} </md-cell>
+          </ng-container>
+
           <md-header-row *mdHeaderRowDef="displayedColumns"></md-header-row>
           <md-row *mdRowDef="let row; columns: displayedColumns;"></md-row>
         </md-table>
 
-        <md-paginator #paginator [length]="dataSource.filteredInventoryItems.length" [pageIndex]="0" [pageSize]="PAGE_SIZE" [pageSizeOptions]="[15, 50, 100]"
-          (page)="paginatorChanged()">
+        <md-paginator #paginator [length]="dataSource.filteredInventoryItems.length" [pageIndex]="0" [pageSize]="pageSize" [pageSizeOptions]="[15, 50, 100]"
+          (page)="pageChanged()">
         </md-paginator>
 
       </div>

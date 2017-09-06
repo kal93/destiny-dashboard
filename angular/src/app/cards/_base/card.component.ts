@@ -36,7 +36,7 @@ export class CardComponent {
     this.sharedApp.setLocalStorage(this.localStorageId + key, value);
   }
 
-  getCardLocalStorage(key: string, defaultValue?: any): string {
+  getCardLocalStorage(key: string, defaultValue?: any): any {
     return this.sharedApp.getLocalStorage(this.localStorageId + key, defaultValue);
   }
 

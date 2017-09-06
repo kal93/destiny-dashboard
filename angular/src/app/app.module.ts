@@ -97,10 +97,12 @@ import { NumberFormatLocalePipe, RoundToDecimalPlacePipe } from './shared/pipes/
     AddCardComponent, CardHeaderComponent, CardLoaderComponent, DashboardComponent,
 
     //Other components 
-    AboutComponent, DownloadManifestComponent, GamertagAutocompleteComponent, InventoryItemComponent, InventoryItemDefinitionPopupComponent, InventoryItemPopupComponent, MdTabCharacterHeadingComponent, SettingsComponent,
+    AboutComponent, DownloadManifestComponent, GamertagAutocompleteComponent, InventoryItemComponent, InventoryItemPopupComponent, InventoryItemDefinitionPopupComponent, InventoryItemDefinitionComponent,
+    MdTabCharacterHeadingComponent, SettingsComponent,
 
     //Cards
-    BungieNewsComponent, ClanLeaderboardsComponent, CountdownComponent, DashboardNewsComponent, DashboardNewsArticleComponent, DatabaseComponent, ItemManagerComponent, ReputationComponent, RedditComponent, StatsComponent, TwitchComponent,
+    BungieNewsComponent, ClanLeaderboardsComponent, CountdownComponent, DashboardNewsComponent, DashboardNewsArticleComponent, DatabaseComponent, ItemManagerComponent,
+    ReputationComponent, RedditComponent, StatsComponent, TwitchComponent,
 
     //Directives
     ModalDirective, MouseEventsDirective, ScrollWithElementDirective, Swipeable,
@@ -110,7 +112,8 @@ import { NumberFormatLocalePipe, RoundToDecimalPlacePipe } from './shared/pipes/
   ],
 
   entryComponents: [
-    AlertDialog, ConfirmDialog, FiltersDialog, LoadoutsDialog, InventoryItemDefinitionPopupComponent, InventoryItemPopupComponent, InventoryPreviewDialog, SimpleInputDialog, TransferQuantityDialog
+    AlertDialog, ConfirmDialog, FiltersDialog, LoadoutsDialog, InventoryItemPopupComponent, InventoryItemDefinitionPopupComponent, InventoryPreviewDialog,
+    SimpleInputDialog, TransferQuantityDialog
   ],
   imports: [
     Angulartics2Module.forRoot([Angulartics2GoogleAnalytics]),

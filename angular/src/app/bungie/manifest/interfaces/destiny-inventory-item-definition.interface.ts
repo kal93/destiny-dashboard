@@ -29,6 +29,9 @@ export interface DestinyInventoryItemDefinition {
     stats: Stats2;
     talentGrid: TalentGrid;
     translationBlock: TranslationBlock;
+
+    // Runtime variables
+    className: string;
 }
 
 

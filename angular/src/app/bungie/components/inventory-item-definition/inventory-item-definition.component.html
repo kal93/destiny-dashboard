@@ -1,0 +1,5 @@
+<div ddMouseEvents (mouseUp)="click()">
+  <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + inventoryItemDefinition.displayProperties.icon  +')')">
+  </div>
+  <div *ngIf="textColor != null" class="name" [style.color]="textColor">{{inventoryItemDefinition.displayProperties.name}}</div>
+</div>
