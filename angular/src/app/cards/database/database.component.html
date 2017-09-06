@@ -8,27 +8,27 @@
           <input mdInput placeholder="Search Database" [formControl]="searchTextForm">
         </md-form-field>
 
-        <md-select class="search-category" placeholder="Item Category">
-          <md-option *ngFor="let itemCategory of itemCategories" [value]="itemCategory.value">
-            {{ itemCategory.displayValue }}
-          </md-option>
+        <md-select class="search-type" placeholder="Item Type">
+          <md-option *ngFor="let itemType of itemTypes" [value]="itemType.value"> {{ itemType.displayValue }} </md-option>
         </md-select>
       </md-card>
 
       <div class="results-wrap  mat-elevation-z8">
+        <md-table *ngIf="dataSource != null" #table [dataSource]="dataSource" [trackBy]="hash">
+          <ng-container mdColumnDef="icon">
+            <md-header-cell *mdHeaderCellDef> Icon </md-header-cell>
+            <md-cell *mdCellDef="let itemDef">
+              <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + itemDef.displayProperties.icon +')')"
+                (click)="iconClicked(itemDef)">
+              </div>
+            </md-cell>
+          </ng-container>
 
-        <md-table *ngIf="dataSource != null" #table [dataSource]="dataSource">
-
-          <!--- Note that these columns can be defined in any order.
-                        The actual rendered columns are set as a property on the row definition" -->
-
-          <!-- Position Column -->
           <ng-container mdColumnDef="name">
             <md-header-cell *mdHeaderCellDef> Name </md-header-cell>
             <md-cell *mdCellDef="let itemDef"> {{itemDef.displayProperties.name}} </md-cell>
           </ng-container>
 
-          <!-- Name Column -->
           <ng-container mdColumnDef="type">
             <md-header-cell *mdHeaderCellDef> Type </md-header-cell>
             <md-cell *mdCellDef="let itemDef"> {{itemDef.itemTypeDisplayName}} </md-cell>
@@ -37,6 +37,10 @@
           <md-header-row *mdHeaderRowDef="displayedColumns"></md-header-row>
           <md-row *mdRowDef="let row; columns: displayedColumns;"></md-row>
         </md-table>
+
+        <md-paginator #paginator [length]="dataSource.filteredInventoryItems.length" [pageIndex]="0" [pageSize]="PAGE_SIZE" [pageSizeOptions]="[15, 50, 100]"
+          (page)="paginatorChanged()">
+        </md-paginator>
 
       </div>
     </div>

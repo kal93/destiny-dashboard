@@ -28,7 +28,6 @@
         <div class="character-header" [style.margin-top]="i == 0 ? '10px':''">
           <img class="background" [src]="domSanitizer.bypassSecurityTrustUrl('https://www.bungie.net' + character.emblemBackgroundPath)"
             (click)="collapseSection(i)" />
-          <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemPath +')')"></div>
           <div class="top-left">{{character.classValue.className}}</div>
           <div class="bottom-left">{{character.raceValue.raceName}} {{character.genderValue.genderName}}</div>
           <div class="top-right">{{character.light}}</div>
