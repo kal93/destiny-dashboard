@@ -162,10 +162,13 @@ export class InventoryItemService {
         //Get the response, or return the cached result
         return this.http.postBungie(requestUrl, body).then((tranferResult: InventoryItemTransferResult) => {
             let srcBucket: InventoryBucket = this._bucketsMap[inventoryItem.characterIndex].get(inventoryItem.itemValue.inventory.bucketTypeHash);
-            let sourceBucketItems: Array<InventoryItem> = srcBucket.items;
 
-            // Remove this item from the sourceArray
-            sourceBucketItems.splice(sourceBucketItems.indexOf(inventoryItem), 1);
+            // srcBucket can be null if we are transfering from Character -> Vault -> Character and the value didn't have anything in this bucket
+            if (srcBucket != null) {
+                let sourceBucketItems: Array<InventoryItem> = srcBucket.items;
+                // Remove this item from the sourceArray
+                sourceBucketItems.splice(sourceBucketItems.indexOf(inventoryItem), 1);
+            }
 
             let destBucket: InventoryBucket = this._bucketsMap[destCharacterIndex].get(inventoryItem.itemValue.inventory.bucketTypeHash);
             // If this bucket doesn't exist yet, let the callee know so we can refresh the inventory from network request
