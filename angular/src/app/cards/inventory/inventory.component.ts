@@ -110,6 +110,8 @@ export class ItemManagerComponent extends CardComponent {
                     this.sharedApp.showError("Account not found for Destiny 2!");
                     return;
                 }
+                console.log(accountSummary);
+
                 // Init buckets
                 this.bucketGroupsArray = new Array<Array<Array<InventoryBucket>>>(4);
                 this.bucketsMap = new Array<Map<number, InventoryBucket>>(4);
@@ -404,7 +406,7 @@ export class ItemManagerComponent extends CardComponent {
 
         // See if the item can actually be equipped on the character before transferring
         if (!InventoryUtils.isItemEquippableOnCharacter(inventoryItem, destCharacter)) {
-            this.sharedApp.showError(inventoryItem.itemValue.displayProperties.name + " cannot be equiped on a " + destCharacter.classValue.className);
+            this.sharedApp.showError(inventoryItem.itemValue.displayProperties.name + " cannot be equiped on a " + destCharacter.classValue.displayProperties.name);
             return Promise.resolve();
         }
 

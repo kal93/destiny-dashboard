@@ -28,8 +28,8 @@
         <div class="character-header" [style.margin-top]="i == 0 ? '10px':''">
           <img class="background" [src]="domSanitizer.bypassSecurityTrustUrl('https://www.bungie.net' + character.emblemBackgroundPath)"
             (click)="collapseSection(i)" />
-          <div class="top-left">{{character.classValue.className}}</div>
-          <div class="bottom-left">{{character.raceValue.raceName}} {{character.genderValue.genderName}}</div>
+          <div class="top-left">{{character.classValue.displayProperties.name}}</div>
+          <div class="bottom-left">{{character.raceValue.displayProperties.name}} {{character.genderValue.displayProperties.name}}</div>
           <div class="top-right">{{character.light}}</div>
           <div class="bottom-right"><span class="star">&#10022;</span>{{character.light}}</div>
 

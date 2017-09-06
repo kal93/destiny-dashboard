@@ -66,6 +66,7 @@ export class StatsComponent extends CardComponent {
         this.selectedTabIndex = 0;
 
       this.tabGroup.selectedIndex = this.selectedTabIndex;
+      this.selectedTabIndexChanged(this.selectedTabIndex);
     });
   }
 
@@ -106,7 +107,12 @@ export class StatsComponent extends CardComponent {
     this.accountStatsWeapons = new Array<{ displayName: string, value: string }>();
 
     // Create an alias for this long nammed variable
-    let PvEAllTime = this.accountStats.mergedAllCharacters.results.allPvE.allTime;
+    let PvEAllTime;
+    try { PvEAllTime = this.accountStats.mergedAllCharacters.results.allPvE.allTime; }
+    catch (error) {
+      console.error("PvEAllTime was null");
+      return;
+    }
     this.accountStatsWeapons.push({ displayName: "Auto Rifle Kills", value: PvEAllTime.weaponKillsAutoRifle.basic.displayValue });
     this.accountStatsWeapons.push({ displayName: "Fusion Rifle Kills", value: PvEAllTime.weaponKillsFusionRifle.basic.displayValue });
     this.accountStatsWeapons.push({ displayName: "Grenade Kills", value: PvEAllTime.weaponKillsGrenade.basic.displayValue });
