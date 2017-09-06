@@ -105,6 +105,10 @@ export class SharedApp {
         this.tutorialStep1();
     }
 
+    public destiny2Warning() {
+        this.snackBar.open("We're transitioning things over to Destiny 2. Some cards are working already, but others will take some time.", "Meh");
+    }
+
     private tutorialStep1() {
         this.toggleMainNavSubject.next(true);
         this.snackBar.open("The main menu allows you to log in or quickly jump to one of your dashboards. Logging in will save your dashboards to your Bungie account.", "Next").afterDismissed().subscribe(() => {
