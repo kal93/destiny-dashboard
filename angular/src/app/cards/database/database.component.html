@@ -15,6 +15,10 @@
         <md-select class="search-select" placeholder="Class Type" [(ngModel)]="searchClass" (change)="applyFilter(false)">
           <md-option *ngFor="let classType of classTypes" [value]="classType.value"> {{ classType.displayValue }} </md-option>
         </md-select>
+
+        <md-select class="search-select" placeholder="Tier Type" [(ngModel)]="searchTier" (change)="applyFilter(false)">
+          <md-option *ngFor="let tierType of tierTypes" [value]="tierType.value"> {{ tierType.displayValue }} </md-option>
+        </md-select>
       </md-card>
 
       <div class="results-wrap  mat-elevation-z8">
@@ -39,6 +43,11 @@
           <ng-container mdColumnDef="class">
             <md-header-cell *mdHeaderCellDef> Class </md-header-cell>
             <md-cell *mdCellDef="let itemDef"> {{itemDef.className}} </md-cell>
+          </ng-container>
+
+          <ng-container mdColumnDef="tier">
+            <md-header-cell *mdHeaderCellDef> Tier </md-header-cell>
+            <md-cell *mdCellDef="let itemDef"> {{itemDef.tierName}} </md-cell>
           </ng-container>
 
           <md-header-row *mdHeaderRowDef="displayedColumns"></md-header-row>

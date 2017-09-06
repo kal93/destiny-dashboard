@@ -172,6 +172,6 @@ export enum TierTypes {
     BASIC = 2,
     COMMON = 3,
     RARE = 4,
-    SUPERIOR = 5,
+    LEGENDARY = 5,
     EXOTIC = 6
 }

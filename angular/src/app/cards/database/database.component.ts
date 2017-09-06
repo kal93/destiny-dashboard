@@ -6,7 +6,7 @@ import { DataSource } from '@angular/cdk/collections';
 import { CardComponent } from '../_base/card.component';
 import { SharedApp } from 'app/shared/services/shared-app.service';
 import { ManifestService } from 'app/bungie/manifest/manifest.service';
-import { ClassTypes, ItemTypes } from 'app/bungie/services/enums.interface';
+import { ClassTypes, ItemTypes, TierTypes } from 'app/bungie/services/enums.interface';
 
 import { DestinyInventoryItemDefinition } from "app/bungie/manifest/interfaces";
 
@@ -27,6 +27,7 @@ export class DatabaseComponent extends CardComponent {
 
   CARD_DEFINITION_ID = 9;
 
+  // Select list definitions
   itemTypes: Array<any> = [{ value: -1, displayValue: "All" }, { value: ItemTypes.None, displayValue: "No Type" },
   { value: ItemTypes.Armor, displayValue: "Armor" }, { value: ItemTypes.Aura, displayValue: "Aura" }, { value: ItemTypes.ClanBanner, displayValue: "Clan Banner" },
   { value: ItemTypes.Consumable, displayValue: "Consumable" }, { value: ItemTypes.Currency, displayValue: "Currency" }, { value: ItemTypes.Emblem, displayValue: "Emblem" },
@@ -36,14 +37,24 @@ export class DatabaseComponent extends CardComponent {
   classTypes: Array<any> = [{ value: -1, displayValue: "All" }, { value: ClassTypes.TITAN, displayValue: "Titan" },
   { value: ClassTypes.HUNTER, displayValue: "Hunter" }, { value: ClassTypes.WARLOCK, displayValue: "Warlock" }];
 
+  tierTypes: Array<any> = [{ value: -1, displayValue: "All" },
+  { value: TierTypes.CURRENCY, displayValue: "Currency" },
+  { value: TierTypes.BASIC, displayValue: "Basic" },
+  { value: TierTypes.COMMON, displayValue: "Common" },
+  { value: TierTypes.RARE, displayValue: "Rare" },
+  { value: TierTypes.LEGENDARY, displayValue: "Legendary" },
+  { value: TierTypes.EXOTIC, displayValue: "Exotic" }];
+
+
   // Filtering
   searchText: string = "";
   searchTextForm = new FormControl();
   searchType: number = -1;
   searchClass: number = -1;
+  searchTier: number = -1;
 
   // Data table
-  displayedColumns = ['icon', 'name', 'type', 'class'];
+  displayedColumns = ['icon', 'name', 'type', 'class', 'tier'];
   dataSource: ItemDefinitionDataSource;
 
   // Paginator
@@ -53,7 +64,6 @@ export class DatabaseComponent extends CardComponent {
 
   constructor(private changeDetectorRef: ChangeDetectorRef, public domSanitizer: DomSanitizer, private manifestService: ManifestService, public sharedApp: SharedApp) {
     super(sharedApp);
-
   }
 
   ngOnInit() {
@@ -62,10 +72,21 @@ export class DatabaseComponent extends CardComponent {
     var manifestInventoryMap: Map<number, DestinyInventoryItemDefinition> = this.manifestService.getTableMap("DestinyInventoryItemDefinition");
     manifestInventoryMap.forEach((itemDefinition, itemHash) => {
       itemDefinition.displayProperties.nameLower = itemDefinition.displayProperties.name.toLowerCase();
+      // Set class name
       itemDefinition.className == "";
-      if (itemDefinition.classType == 0) itemDefinition.className = "Titan";
-      if (itemDefinition.classType == 1) itemDefinition.className = "Hunter";
-      if (itemDefinition.classType == 2) itemDefinition.className = "Warlock";
+      if (itemDefinition.classType == ClassTypes.TITAN) itemDefinition.className = "Titan";
+      else if (itemDefinition.classType == ClassTypes.HUNTER) itemDefinition.className = "Hunter";
+      else if (itemDefinition.classType == ClassTypes.WARLOCK) itemDefinition.className = "Warlock";
+      this.manifestInventory.push(itemDefinition);
+
+      // Set tier name
+      itemDefinition.tierName == "";
+      if (itemDefinition.inventory.tierType == TierTypes.BASIC) itemDefinition.tierName = "Basic";
+      else if (itemDefinition.inventory.tierType == TierTypes.CURRENCY) itemDefinition.tierName = "Currency";
+      else if (itemDefinition.inventory.tierType == TierTypes.COMMON) itemDefinition.tierName = "Common";
+      else if (itemDefinition.inventory.tierType == TierTypes.RARE) itemDefinition.tierName = "Rare";
+      else if (itemDefinition.inventory.tierType == TierTypes.LEGENDARY) itemDefinition.tierName = "Legendary";
+      else if (itemDefinition.inventory.tierType == TierTypes.EXOTIC) itemDefinition.tierName = "Exotic";
       this.manifestInventory.push(itemDefinition);
     });
 
@@ -90,7 +111,7 @@ export class DatabaseComponent extends CardComponent {
   }
 
   applyFilter(pageChange: boolean) {
-    this.dataSource.filterChange.next({ class: this.searchClass, text: this.searchText.toLowerCase(), type: this.searchType, pageChange: pageChange });
+    this.dataSource.filterChange.next({ class: this.searchClass, text: this.searchText.toLowerCase(), tier: this.searchTier, type: this.searchType, pageChange: pageChange });
   }
 
 }
@@ -98,12 +119,13 @@ export class DatabaseComponent extends CardComponent {
 interface Filter {
   class: number,
   text: string,
+  tier: number,
   type: number,
   pageChange: boolean
 }
 
 export class ItemDefinitionDataSource extends DataSource<any> {
-  filterChange = new BehaviorSubject<Filter>({ class: -1, text: "", type: -1, pageChange: false });
+  filterChange = new BehaviorSubject<Filter>({ class: -1, text: "", tier: -1, type: -1, pageChange: false });
   filteredInventoryItems = new Array<DestinyInventoryItemDefinition>();
 
   constructor(private paginator: MdPaginator, private inventoryItems: Array<DestinyInventoryItemDefinition>) {
@@ -122,7 +144,12 @@ export class ItemDefinitionDataSource extends DataSource<any> {
           if (filter.type != -1 && filter.type != item.itemType)
             return false;
 
+          // Filter item class
           if (filter.class != -1 && filter.class != item.classType)
+            return false;
+
+          // Filter item tier
+          if (filter.tier != -1 && filter.tier != item.inventory.tierType)
             return false;
 
           // Filter search text

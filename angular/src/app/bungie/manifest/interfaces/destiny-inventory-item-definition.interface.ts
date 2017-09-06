@@ -33,6 +33,7 @@ export interface DestinyInventoryItemDefinition {
 
     // Runtime variables
     className: string;
+    tierName: string;
 }
 
 
