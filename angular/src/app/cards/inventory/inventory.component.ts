@@ -106,7 +106,10 @@ export class ItemManagerComponent extends CardComponent {
             // Get Account Summary to get the list of available characters
             this.accountSummaryService.getAccountSummary(this.selectedMembership).then((accountSummary: IAccountSummary) => {
                 this.accountSummary = accountSummary;
-
+                if (this.accountSummary == null) {
+                    this.sharedApp.showError("Account not found for Destiny 2!");
+                    return;
+                }
                 // Init buckets
                 this.bucketGroupsArray = new Array<Array<Array<InventoryBucket>>>(4);
                 this.bucketsMap = new Array<Map<number, InventoryBucket>>(4);
