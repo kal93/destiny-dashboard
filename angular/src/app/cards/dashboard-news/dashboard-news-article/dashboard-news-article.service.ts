@@ -15,6 +15,14 @@ let githubLink = "<a style='color: #2196F3' target='_blank' href='https://github
 
 export const ARTICLES: NewsArticle[] = [
   {
+    id: 4,
+    title: "v1.1.0 release",
+    category: ArticleCategory.NewCard,
+    bodyPreview: "Inventory now supports Destiny 2. Dashboard fully converted to D2.",
+    body: "Yes, you read that right. Destiny 2 support is here!",
+    date: new Date("Sept 7, 2017 12:00 pm")
+  },
+  {
     id: 3,
     title: "v1.0.7 release",
     category: ArticleCategory.NewCard,
