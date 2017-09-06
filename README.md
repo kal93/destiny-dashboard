@@ -54,7 +54,6 @@ You only need to do steps 2, 3 & 4 if you are working on the Java API.
 - [ ] Game History Browser
 - [ ] LFG/ Team finder with scheduling
 - [ ] Xur ?
-- [ ] Grimoire ?
 - [ ] Public Events ?
 - [ ] Dead Ghosts ?
 - [ ] Clan support ?
@@ -62,6 +61,9 @@ You only need to do steps 2, 3 & 4 if you are working on the Java API.
 
 ## Existing Card Enhancements
 - [ ] Inventory Popup should have more detail
+- [ ] Database Popup should have more detail
+- [ ] Database should sort by columns
+- [ ] Database should filter by item tier (Common, Rare, Legendary, Exotic)
 
 
 ## References
