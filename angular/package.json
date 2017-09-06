@@ -1,6 +1,6 @@
 {
   "name": "destiny-dashboard",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --proxy-config proxy.config.json --port 4201 --ssl 1 --ssl-key ssl/ca.key --ssl-cert ssl/ca.crt",
