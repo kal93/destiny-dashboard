@@ -33,6 +33,7 @@ export class StatsComponent extends CardComponent {
   // Stats for selected character
   characterStats: ICharacterStats;
 
+  accountNotFound: boolean = false;
 
   constructor(private accountStatsService: AccountStatsService, private accountSummaryService: AccountSummaryService, private characterStatsService: CharacterStatsService,
     private manifestService: ManifestService, public sharedApp: SharedApp) {
@@ -53,11 +54,13 @@ export class StatsComponent extends CardComponent {
   membershipSelected(selectedMembership: DestinyMembership) {
     this.selectedMembership = selectedMembership;
 
-    //Get Account Summary to get the list of available characters
+    this.accountNotFound = false;
     this.accountSummaryService.getAccountSummary(this.selectedMembership).then((accountSummary: IAccountSummary) => {
       this.accountSummary = accountSummary;
-      if (this.accountSummary == null)
+      if (this.accountSummary == null) {
+        this.accountNotFound = true;
         return;
+      }
 
       if (this.selectedTabIndex > accountSummary.characterData.length - 1)
         this.selectedTabIndex = 0;
@@ -67,6 +70,11 @@ export class StatsComponent extends CardComponent {
   }
 
   selectedTabIndexChanged(targetCharacterIndex: number) {
+    if (this.accountSummary == null) {
+      this.accountNotFound = true;
+      return;
+    }
+
     //Set new character tab index
     this.selectedTabIndex = targetCharacterIndex;
 

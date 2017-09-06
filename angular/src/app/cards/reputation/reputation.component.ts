@@ -32,6 +32,8 @@ export class ReputationComponent extends CardComponent {
   characterProgressions: Array<ProgressionBase>;
   progressionPrivacy;
 
+  accountNotFound: boolean = false;
+
   constructor(private accountSummaryService: AccountSummaryService, private characterProgressionService: CharacterProgressionService, public domSanitizer: DomSanitizer,
     private manifestService: ManifestService, public sharedApp: SharedApp) {
     super(sharedApp);
@@ -51,11 +53,13 @@ export class ReputationComponent extends CardComponent {
   membershipSelected(selectedMembership: DestinyMembership) {
     this.selectedMembership = selectedMembership;
 
-    //Get Account Summary to get the list of available characters
+    this.accountNotFound = false;
     this.accountSummaryService.getAccountSummary(this.selectedMembership).then((accountSummary: IAccountSummary) => {
       this.accountSummary = accountSummary;
-      if (this.accountSummary == null)
+      if (this.accountSummary == null) {
+        this.accountNotFound = true;
         return;
+      }
 
       if (this.selectedTabIndex > accountSummary.characterData.length - 1)
         this.selectedTabIndex = 0;
@@ -65,6 +69,11 @@ export class ReputationComponent extends CardComponent {
   }
 
   selectedTabIndexChanged(targetCharacterIndex: number) {
+    if (this.accountSummary == null) {
+      this.accountNotFound = true;
+      return;
+    }
+
     //Set new character tab index
     this.selectedTabIndex = targetCharacterIndex;
 

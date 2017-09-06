@@ -7,6 +7,8 @@
         <dd-gamertag-autocomplete [autocompleteId]="'stats'" (membershipSelected)="membershipSelected($event)" (initialMembership)="membershipSelected($event)"></dd-gamertag-autocomplete>
       </div>
 
+      <div *ngIf="accountNotFound" class="error"> Could not find a Destiny 2 account for this gamertag.</div>
+
       <md-tab-group #tabGroup *ngIf="selectedMembership != null" (selectedIndexChange)="selectedTabIndexChanged($event)">
         <!-- Account Wide Stats -->
         <ng-container *ngIf="accountSummary != null">
@@ -91,7 +93,7 @@
 
             <!-- Character Stats -->
             <div *ngIf="characterStats != null" class="sub-tab-wrap">
-              <div *ngIf="characterStats.allPvE.allTime == null && characterStats.allPvP.allTime == null" class="no-data">
+              <div *ngIf="characterStats.allPvE.allTime == null && characterStats.allPvP.allTime == null" class="error">
                 This character has no data!
               </div>
               <div *ngIf="characterStats.allPvE.allTime!= null && characterStats.allPvP.allTime != null" class="stat-section">

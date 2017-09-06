@@ -12,6 +12,10 @@
         padding-top: 5px;
     }
 
+    .error {
+        max-width: 400px;
+        margin: 30px auto;
+    }
     //Wrapper for entire tab
     .mat-tab-group {
         height: 100%;
@@ -40,11 +44,6 @@
                         align-content: flex-start;
                         align-items: flex-start;
                         padding: 5px;
-
-                        .privacy-error {
-                            max-width: 400px;
-                            margin: 30px auto;
-                        }
 
                         .reputation-section {
                             flex: 1 0 175px;
