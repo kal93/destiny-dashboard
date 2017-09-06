@@ -5,7 +5,7 @@ import { SharedBungie } from 'app/bungie/shared-bungie.service';
 import { ManifestService } from 'app/bungie/manifest/manifest.service';
 import { ComponentTypes } from 'app/bungie/services/enums.interface';
 
-import { DestinyMembership, ICharacterProgression, ProgressionBase } from '../../interface.barrel'
+import { DestinyMembership, ICharacterProgression, FactionBase, ProgressionBase, MilestoneBase } from '../../interface.barrel'
 
 /** This Injectable manages the data layer for Destiny Character Stats*/
 @Injectable()
@@ -20,38 +20,43 @@ export class CharacterProgressionService {
             "/?components=" + ComponentTypes.CharacterProgressions;
 
         //Get the response, or return the cached result
-        return this.http.getWithCache(requestUrl, HttpRequestType.BUNGIE_BASIC, this.cacheTimeMs).then((characterProgressions: ICharacterProgression) => {
-            characterProgressions.progressionsData = new Array<ProgressionBase>();
+        return this.http.getWithCache(requestUrl, HttpRequestType.BUNGIE_PRIVILEGED, this.cacheTimeMs).then((characterProgressions: ICharacterProgression) => {
+            let progressionWrapper = characterProgressions.progressions.data;
 
-            //Create a map for the relationship from DestinyFactionDefinition to DestinyProgressDefinition
-            let progressionHashFactionMap = new Map<number, any>();
-            let factionMap = this.manifestService.getTableMap("DestinyFactionDefinition");
-            factionMap.forEach((value, key) => {
-                if (value.progressionHash != 0)
-                    progressionHashFactionMap.set(value.progressionHash, value);
-            });
+            characterProgressions.progressionData = new Array<ProgressionBase>();
+            characterProgressions.factionData = new Array<FactionBase>();
+            characterProgressions.milestoneData = new Array<MilestoneBase>();
 
-            //Populate characterData with data from assoc array
-            if (characterProgressions.progressions.data != null) {
-                Object.keys(characterProgressions.progressions.data).forEach((key: string, index: number) => {
-                    var progression: ProgressionBase = characterProgressions.progressions.data[key];
+            if (progressionWrapper != null) {
+                // Populate factions data
+                Object.keys(progressionWrapper.factions).forEach((key: string, index: number) => {
+                    var faction: FactionBase = progressionWrapper.factions[key];
+                    faction.factionValue = this.manifestService.getManifestEntry("DestinyFactionDefinition", faction.factionHash);
+
+                    if (faction.factionValue != null)
+                        characterProgressions.factionData.push(faction);
+                });
+
+                // Populate milestones data
+                Object.keys(progressionWrapper.milestones).forEach((key: string, index: number) => {
+                    var milestone: MilestoneBase = progressionWrapper.milestones[key];
+                    milestone.milestoneValue = this.manifestService.getManifestEntry("DestinyMilestoneDefinition", milestone.milestoneHash);
+
+                    if (milestone.milestoneValue != null)
+                        characterProgressions.milestoneData.push(milestone);
+                });
+
+                //Populate progressions data
+                Object.keys(progressionWrapper.progressions).forEach((key: string, index: number) => {
+                    var progression: ProgressionBase = progressionWrapper.progressions[key];
                     progression.progressionValue = this.manifestService.getManifestEntry("DestinyProgressionDefinition", progression.progressionHash);
 
-                    let factionValue = progressionHashFactionMap.get(progression.progressionHash);
-                    // Set the faction if it exists
-                    if (factionValue != null) {
-                        progression.factionValue = factionValue;
-                        //progression.progressionValue = this.manifestService.getManifestEntry("DestinyProgressionDefinition", progression.progressionHash);
-                    }
-
-                    characterProgressions.progressionsData[index] = progression;
+                    if (progression.progressionValue != null)
+                        characterProgressions.progressionData.push(progression);
                 });
             }
 
             return characterProgressions;
-        }).catch((error) => {
-           // this.sharedApp.showError("There was an error getting character reputation! Please try again.", error);
-            return null;
-        });;
+        });
     }
 } 

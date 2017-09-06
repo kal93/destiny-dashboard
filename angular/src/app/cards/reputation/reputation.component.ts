@@ -7,7 +7,7 @@ import { ManifestService } from 'app/bungie/manifest/manifest.service';
 import { PrivacyTypes } from 'app/bungie/services/enums.interface';
 
 import { AccountSummaryService, CharacterProgressionService } from 'app/bungie/services/service.barrel';
-import { DestinyMembership, IAccountSummary, ProgressionBase } from 'app/bungie/services/interface.barrel';
+import { DestinyMembership, IAccountSummary, FactionBase, MilestoneBase, ProgressionBase } from 'app/bungie/services/interface.barrel';
 
 @Component({
   selector: 'dd-reputation',
@@ -29,8 +29,8 @@ export class ReputationComponent extends CardComponent {
   accountSummary: IAccountSummary;
 
   // Progression (Reputation) for selected character
-  characterProgressions: Array<ProgressionBase>;
-  progressionPrivacy;
+  characterFactions: Array<FactionBase>;
+  privacyError: boolean;
 
   accountNotFound: boolean = false;
 
@@ -82,10 +82,10 @@ export class ReputationComponent extends CardComponent {
     this.setCardLocalStorage("selectedTabIndex", this.selectedTabIndex);
 
     //Get data for the newly selected character
-    this.getSelectedRep();
+    this.getSelectedCharacterProgression();
   }
 
-  getSelectedRep() {
+  getSelectedCharacterProgression() {
     let characterId: string;
     try { characterId = this.accountSummary.characterData[this.selectedTabIndex].characterId; }
     catch (error) {
@@ -93,25 +93,28 @@ export class ReputationComponent extends CardComponent {
       return;
     }
 
-    this.characterProgressionService.getCharacterProgression(this.selectedMembership, characterId).then((characterProgressionResponse) => {
-      if (characterProgressionResponse == null)
-        return;
+    if (this.sharedApp.accessToken == null) {
+      this.privacyError = true;
+    }
+    else {
+      this.characterProgressionService.getCharacterProgression(this.selectedMembership, characterId).then((characterProgressions) => {
+        if (characterProgressions == null)
+          return;
 
-      // Set progressions from API
-      this.characterProgressions = characterProgressionResponse.progressionsData;
-      this.progressionPrivacy = (characterProgressionResponse.progressions.privacy == PrivacyTypes.Private);
+        // Set progressions from API
+        this.characterFactions = characterProgressions.factionData;
 
-      // Filter out progressions we don't have a faction entry for, or if it's a negative level (Test faction probably)
-      this.characterProgressions = this.characterProgressions.filter((progression) => {
-        return progression.factionValue != null && progression.level != -1;
+        // Uncomment once endpoint is fixed
+        //if (this.characterFactions.length == 0)
+        // this.privacyError= (characterProgressions.progressions.privacy == PrivacyTypes.Private);
+
+        // Sort progressions based on progress
+        this.characterFactions.sort((a, b) => {
+          if (a.level != b.level)
+            return b.level - a.level;
+          return b.progressToNextLevel - a.progressToNextLevel;
+        });
       });
-
-      // Sort progressions based on progress
-      this.characterProgressions.sort((a, b) => {
-        if (a.level != b.level)
-          return b.level - a.level;
-        return b.progressToNextLevel - a.progressToNextLevel;
-      });
-    });
+    }
   }
 }

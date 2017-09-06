@@ -118,6 +118,15 @@ export enum PrivacyTypes {
     Private = 2,
 }
 
+export enum MilestoneTypes {
+    Unknown = 0,
+    Tutorial = 1,  //One-time milestones that are specifically oriented toward teaching players about new mechanics andgameplay modes.
+    OneTime = 2,
+    Weekly = 3,
+    Daily = 4,
+    Special = 5 //Special indicates that the event is not on a daily/ weekly cadence, but does occur more than once.For instance, Iron Banner in Destiny 1 or the Dawning were examples of what could be termed "Special"events.
+}
+
 export enum ModeTypes {
     NONE = 0,
     STORY = 2,
@@ -165,7 +174,6 @@ export enum NewsTypes {
     UPDATES = "updates"
 }
 
-
 export enum TierTypes {
     UNKNOWN = 0,
     CURRENCY = 1,
@@ -175,3 +183,4 @@ export enum TierTypes {
     LEGENDARY = 5,
     EXOTIC = 6
 }
+

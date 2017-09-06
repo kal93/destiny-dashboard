@@ -15,19 +15,37 @@
             <dd-md-tab-character-heading [character]="character"></dd-md-tab-character-heading>
           </ng-template>
 
-          <!-- Character Rep -->
-          <div class="sub-tab-wrap" *ngIf="characterProgressions != null">
-            <div class="error" *ngIf="progressionPrivacy">
-              <!--
-              This user does not allow public viewing of Progressions. <br/> <br/>To enable public viewing of Progressions,
-              log in to Bungie.net and find the correct privacy setting in your profile.
-              -->
-              Whoa! There is an issue with Bungie's API for reputation at the moment. Please check back another time.
+          <div class="error" *ngIf="privacyError">
+            <!--  This user does not allow public viewing of Progressions. <br/> <br/>To enable public viewing of Progressions,
+            log in to Bungie.net and find the correct privacy setting in your profile.  -->
+            You must be logged in to view Reputation.<br/><br/> This is a bug with Bungie's API, since we should be able
+            to view reputation without being logged in. They are aware of the issue.
+          </div>
+
+          <div class="sub-tab-wrap" *ngIf="characterFactions != null">
+
+            <!-- Factions -->
+            <div *ngFor="let faction of characterFactions" class="reputation-section">
+              <div class="top-wrap">
+                <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + faction.factionValue.displayProperties.icon  +')')"></div>
+                <div class="name" [mdTooltip]="faction.factionValue.displayProperties.description" [mdTooltipPosition]="'below'">{{faction.factionValue.displayProperties.name}}</div>
+              </div>
+
+              <div class="progress-wrap">
+                <div>{{faction.level}}</div>
+                <md-progress-bar class="progress-bar" [color]="'primary'" [mode]="'determinate'" [value]="(faction.progressToNextLevel / faction.nextLevelAt) * 100">
+                </md-progress-bar>
+                <div>{{faction.level + 1}}</div>
+              </div>
+
+              <div class="xp">{{faction.progressToNextLevel}} / {{faction.nextLevelAt}}</div>
             </div>
+
+            <!-- Progressions need a separate card
             <div *ngFor="let progression of characterProgressions" class="reputation-section">
               <div class="top-wrap">
-                <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + progression.factionValue.displayProperties.icon  +')')"></div>
-                <div class="name" [mdTooltip]="progression.factionValue.displayProperties.description" [mdTooltipPosition]="'below'">{{progression.factionValue.displayProperties.name}}</div>
+                <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + progression.progressionValue.displayProperties.icon  +')')"></div>
+                <div class="name" [mdTooltip]="progression.progressionValue.displayProperties.description" [mdTooltipPosition]="'below'">{{progression.progressionValue.displayProperties.displayUnitsName}}</div>
               </div>
 
               <div class="progress-wrap">
@@ -39,6 +57,24 @@
 
               <div class="xp">{{progression.progressToNextLevel}} / {{progression.nextLevelAt}}</div>
             </div>
+          -->
+            <!-- Milestones (NEED A SEPARATE CARD)
+            <div *ngFor="let milestone of characterMilestones" class="reputation-section">
+              <div class="top-wrap">
+                <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + milestone.milestoneValue.displayProperties.icon  +')')"></div>
+                <div class="name" [mdTooltip]="milestone.milestoneValue.displayProperties.description" [mdTooltipPosition]="'below'">{{milestone.milestoneValue.displayProperties.name}}</div>
+              </div>
+
+              <div class="progress-wrap">
+                <div>{{milestone.availableQuests}}</div>
+                <div>{{milestone.endDate}}</div>
+              </div>
+            </div>
+-->
+
+
+
+
           </div>
         </md-tab>
       </md-tab-group>

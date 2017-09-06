@@ -357,6 +357,10 @@ export class HttpService {
             }
             else if (requestType == HttpRequestType.BUNGIE_BASIC || requestType == HttpRequestType.BUNGIE_PRIVILEGED) {
                 let isPrivileged = requestType == HttpRequestType.BUNGIE_PRIVILEGED;
+                if (isPrivileged && this.sharedApp.accessToken == null) {
+                    console.log("No auth token provided when calling privileged endpoint.");
+                    return Promise.reject("No auth token provided when calling privileged endpoint.");
+                }
                 customCache.cachedPromise = this.getBungie(requestUrl, isPrivileged)
                     .then(response => {
                         customCache.cachedData = response.Response; //Response is already JSON format from getBungie call

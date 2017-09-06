@@ -18,6 +18,7 @@ gulp.task('version', shell.task([
 ]));
 
 gulp.task('clean', function (done) {
+    // Clean Java dir
     gulp.src('../java/src/main/webapp/*.js').pipe(clean({ force: true }));
     gulp.src('../java/src/main/webapp/*.png').pipe(clean({ force: true }));
     gulp.src('../java/src/main/webapp/*.css').pipe(clean({ force: true }));
@@ -25,6 +26,9 @@ gulp.task('clean', function (done) {
     gulp.src('../java/src/main/webapp/favicon.ico').pipe(clean({ force: true }));
     gulp.src('../java/src/main/webapp/manifest.json').pipe(clean({ force: true }));
     gulp.src('../java/src/main/webapp/index.html').pipe(clean({ force: true }));
+
+    // Clean cordova dir
+    gulp.src('../cordova/www/*').pipe(clean({ force: true }));
 
     done();
 });
@@ -38,14 +42,26 @@ gulp.task('service-worker', shell.task([
 ]));
 
 gulp.task('publish', function (done) {
-    //Copy files to publish directory
+    //Copy files to Java directory
     gulp.src('./build/*.js').pipe(gulp.dest('../java/src/main/webapp'));
     gulp.src('./build/*.png').pipe(gulp.dest('../java/src/main/webapp'));
     gulp.src('./build/*.css').pipe(gulp.dest('../java/src/main/webapp'));
     gulp.src('./build/*.zip').pipe(gulp.dest('../java/src/main/webapp'));
     gulp.src('./build/favicon.ico').pipe(gulp.dest('../java/src/main/webapp'));
     gulp.src('./build/manifest.json').pipe(gulp.dest('../java/src/main/webapp'));
-
     //Defer js
     gulp.src('./build/index.html').pipe(replace('src=', 'defer src=')).pipe(gulp.dest('../java/src/main/webapp'));
+
+    //Copy files to Cordova directory
+    gulp.src('./build/*.js').pipe(gulp.dest('../cordova/www'));
+    gulp.src('./build/*.png').pipe(gulp.dest('../cordova/www'));
+    gulp.src('./build/*.css').pipe(gulp.dest('../cordova/www'));
+    gulp.src('./build/*.zip').pipe(gulp.dest('../cordova/www'));
+    gulp.src('./build/favicon.ico').pipe(gulp.dest('../cordova/www'));
+    gulp.src('./build/manifest.json').pipe(gulp.dest('../cordova/www'));
 });
+
+
+gulp.task('cordova-build'), shell.task([
+    'cordova build android'
+]);
