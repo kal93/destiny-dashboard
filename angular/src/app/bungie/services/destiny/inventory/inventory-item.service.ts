@@ -80,7 +80,7 @@ export class InventoryItemService {
             let srcCharacter = this._accountSummary.characterData[srcCharacterIndex];
             if (InventoryUtils.isItemEquipped(inventoryItem)) {
                 // If trying to transfer an equipped item, need to unequip it first, then transfer it
-                let srcBucket = this._bucketsMap[srcCharacterIndex].get(inventoryItem.itemValue.bucketTypeHash);
+                let srcBucket = this._bucketsMap[srcCharacterIndex].get(inventoryItem.itemValue.inventory.bucketTypeHash);
                 let highestValueItem = InventoryUtils.getUnequippedHighestValueItemFromBucket(srcBucket, false);
                 if (highestValueItem != null) {
                     // We have found an item to equip so we can unequip the item we're trying to transfer
@@ -92,7 +92,7 @@ export class InventoryItemService {
                 }
                 else {
                     // If we're trying to unequip it but can't, try transfer junk from vault first.
-                    let vaultBucket = this._bucketsMap[3].get(inventoryItem.itemValue.bucketTypeHash);
+                    let vaultBucket = this._bucketsMap[3].get(inventoryItem.itemValue.inventory.bucketTypeHash);
                     let lowestValueItemFromVault = InventoryUtils.getUnequippedLowestValueItemFromBucket(vaultBucket, false);
                     // If even after all of that, we couldn't get anything from the vault, throw an error
                     if (lowestValueItemFromVault == null) {
@@ -103,7 +103,7 @@ export class InventoryItemService {
 
                     // Get junk item from vault so we can unequip our current item
                     this.transferItemVaultToCharacter(lowestValueItemFromVault, inventoryItem.characterIndex, count).then((transferResult: InventoryItemTransferResult) => {
-                        this.sharedApp.showInfo("Transferred " + lowestValueItemFromVault.itemValue.itemName + " from vault to un-equip " + inventoryItem.itemValue.itemName, { timeOut: 3000 });
+                        this.sharedApp.showInfo("Transferred " + lowestValueItemFromVault.itemValue.displayProperties.name + " from vault to un-equip " + inventoryItem.itemValue.displayProperties.name, { timeOut: 3000 });
 
                         // Equip junk item
                         setTimeout(() => {
@@ -127,14 +127,14 @@ export class InventoryItemService {
     transferItemVaultToCharacter(inventoryItem: InventoryItem, destCharacterIndex: number, count: number): Promise<InventoryItemTransferResult> {
         return new Promise<InventoryItemTransferResult>((resolve, reject) => {
             // Make sure destination character inventory has room to transfer
-            let destBucket = this._bucketsMap[destCharacterIndex].get(inventoryItem.itemValue.bucketTypeHash);
+            let destBucket = this._bucketsMap[destCharacterIndex].get(inventoryItem.itemValue.inventory.bucketTypeHash);
             let destCharacter = this._accountSummary.characterData[destCharacterIndex];
 
             // If the destination bucket is full, transfer out the lowest value item (Full stack if possible)
             if (InventoryUtils.isBucketFull(destBucket)) {
                 let lowestValueItem = InventoryUtils.getUnequippedLowestValueItemFromBucket(destBucket);
                 this.transferItemCharacterToVault(lowestValueItem, lowestValueItem.quantity).then(() => {
-                    this.sharedApp.showInfo("Destination was full, transferred " + lowestValueItem.itemValue.itemName + " to your vault to make room", { timeOut: 3000 });
+                    this.sharedApp.showInfo("Destination was full, transferred " + lowestValueItem.itemValue.displayProperties.name + " to your vault to make room", { timeOut: 3000 });
 
                     setTimeout(() => {
                         resolve(this.transferItem(destCharacter.characterId, destCharacterIndex, inventoryItem, count, false));
@@ -161,13 +161,13 @@ export class InventoryItemService {
 
         //Get the response, or return the cached result
         return this.http.postBungie(requestUrl, body).then((tranferResult: InventoryItemTransferResult) => {
-            let srcBucket: InventoryBucket = this._bucketsMap[inventoryItem.characterIndex].get(inventoryItem.itemValue.bucketTypeHash);
+            let srcBucket: InventoryBucket = this._bucketsMap[inventoryItem.characterIndex].get(inventoryItem.itemValue.inventory.bucketTypeHash);
             let sourceBucketItems: Array<InventoryItem> = srcBucket.items;
 
             // Remove this item from the sourceArray
             sourceBucketItems.splice(sourceBucketItems.indexOf(inventoryItem), 1);
 
-            let destBucket: InventoryBucket = this._bucketsMap[destCharacterIndex].get(inventoryItem.itemValue.bucketTypeHash);
+            let destBucket: InventoryBucket = this._bucketsMap[destCharacterIndex].get(inventoryItem.itemValue.inventory.bucketTypeHash);
             // If this bucket doesn't exist yet, let the callee know so we can refresh the inventory from network request
             if (destBucket == null)
                 tranferResult.refreshRequired = true;
@@ -205,7 +205,7 @@ export class InventoryItemService {
             };
 
             return this.http.postBungie(requestUrl, body).then((response) => {
-                let srcBucket: InventoryBucket = this._bucketsMap[inventoryItem.characterIndex].get(inventoryItem.itemValue.bucketTypeHash);
+                let srcBucket: InventoryBucket = this._bucketsMap[inventoryItem.characterIndex].get(inventoryItem.itemValue.inventory.bucketTypeHash);
 
                 //Mark currently equipped item as unequipped
                 let equippedItem = InventoryUtils.getEquippedItemFromBucket(srcBucket);
@@ -219,13 +219,13 @@ export class InventoryItemService {
                 InventoryUtils.sortBucketItems(srcBucket);
                 return response;
             }).catch((tranferResult: InventoryItemTransferResult) => {
-                this.sharedApp.showError("Error when equipping " + inventoryItem.itemValue.itemName + ": " + tranferResult.Message);
+                this.sharedApp.showError("Error when equipping " + inventoryItem.itemValue.displayProperties.name + ": " + tranferResult.Message);
             });
         }
         catch (error) {
             error.extraData1 = this._accountSummary;
             error.extraData2 = inventoryItem.characterIndex;
-            this.sharedApp.showError("Error when equipping item " + inventoryItem.itemValue.itemName, error);
+            this.sharedApp.showError("Error when equipping item " + inventoryItem.itemValue.displayProperties.name, error);
         }
     }
 

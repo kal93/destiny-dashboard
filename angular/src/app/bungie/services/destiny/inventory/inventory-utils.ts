@@ -15,17 +15,17 @@ export class InventoryUtils {
             // Set the character index so we can reference it later
             inventoryItem.characterIndex = characterIndex;
 
-            let inventoryBucket: InventoryBucket = bucketsMap.get(inventoryItem.itemValue.bucketTypeHash);
+            let inventoryBucket: InventoryBucket = bucketsMap.get(inventoryItem.itemValue.inventory.bucketTypeHash);
 
             // If the bucket for this vault item doesn't exist yet, create it
             if (inventoryBucket == null) {
                 inventoryBucket = {
-                    hash: inventoryItem.itemValue.bucketTypeHash,
-                    bucketValue: manifestService.getManifestEntry("DestinyInventoryBucketDefinition", inventoryItem.itemValue.bucketTypeHash),
+                    hash: inventoryItem.itemValue.inventory.bucketTypeHash,
+                    bucketValue: manifestService.getManifestEntry("DestinyInventoryBucketDefinition", inventoryItem.itemValue.inventory.bucketTypeHash),
                     items: new Array<InventoryItem>(),
                     filteredOut: false
                 }
-                bucketsMap.set(inventoryItem.itemValue.bucketTypeHash, inventoryBucket);
+                bucketsMap.set(inventoryItem.itemValue.inventory.bucketTypeHash, inventoryBucket);
             }
             // Get the damage type definition, if exists
             if (inventoryItem.damageTypeHash != 0)
@@ -74,7 +74,7 @@ export class InventoryUtils {
                     if (a.quantity != null && b.quantity != null) {
                         // Quantity is same, sort by name
                         if (a.quantity == b.quantity)
-                            return b.itemValue.itemName > a.itemValue.itemName ? -1 : 1;
+                            return b.itemValue.displayProperties.name > a.itemValue.displayProperties.name ? -1 : 1;
                         return b.quantity - a.quantity;
                     }
                 }
@@ -137,7 +137,7 @@ export class InventoryUtils {
                 continue;
 
             inventoryItem.filteredOut = false;
-            if (inventoryItem.itemValue.itemName.toLowerCase().indexOf(searchTextLower) == -1)
+            if (inventoryItem.itemValue.displayProperties.name.toLowerCase().indexOf(searchTextLower) == -1)
                 inventoryItem.filteredOut = true;
             else
                 bucketHasItem = true;
@@ -180,7 +180,7 @@ export class InventoryUtils {
             let inventoryItem = destBucket.items[i];
             if (InventoryUtils.isItemEquipped(inventoryItem))
                 continue;
-            if (!allowExotic && inventoryItem.itemValue.tierType == TierTypes.EXOTIC)
+            if (!allowExotic && inventoryItem.itemValue.inventory.tierType == TierTypes.EXOTIC)
                 continue;
             if (!lowestValueItem) {
                 lowestValueItem = inventoryItem;
@@ -209,7 +209,7 @@ export class InventoryUtils {
             let inventoryItem = destBucket.items[i];
             if (InventoryUtils.isItemEquipped(inventoryItem))
                 continue;
-            if (!allowExotic && inventoryItem.itemValue.tierType == TierTypes.EXOTIC)
+            if (!allowExotic && inventoryItem.itemValue.inventory.tierType == TierTypes.EXOTIC)
                 continue;
             if (!highestValueItem) {
                 highestValueItem = inventoryItem;

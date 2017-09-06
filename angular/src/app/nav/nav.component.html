@@ -86,7 +86,7 @@
       <md-icon class="carrot" [class.collapsed]="quickLinksCollapsed">keyboard_arrow_down</md-icon>
     </div>
     <md-nav-list *ngIf="sharedDashboard.selectedDashboard != null" [style.max-height]="quickLinksCollapsed ? '0':'500px'">
-      <!--<md-list-item (click)="navigateToRoute('/database')">Database</md-list-item>-->
+      <md-list-item (click)="navigateToRoute('/database')">Database</md-list-item>
       <md-list-item (click)="navigateToRoute('/inventory')">Inventory</md-list-item>
       <md-list-item (click)="navigateToRoute('/stats')">Stats</md-list-item>
     </md-nav-list>

@@ -353,9 +353,9 @@ export class ItemManagerComponent extends CardComponent {
             this.inventoryItemService.setData(this.bucketsMap, this.selectedMembership, this.accountSummary);
 
             // Don't attempt to transfer if destination bucket is full
-            let destBucket: InventoryBucket = this.bucketsMap[destCharacterIndex].get(inventoryItem.itemValue.bucketTypeHash);
+            let destBucket: InventoryBucket = this.bucketsMap[destCharacterIndex].get(inventoryItem.itemValue.inventory.bucketTypeHash);
             if (InventoryUtils.isBucketFull(destBucket)) {
-                this.sharedApp.showWarning(inventoryItem.itemValue.itemName + " transfer failed: Destination is full!",
+                this.sharedApp.showWarning(inventoryItem.itemValue.displayProperties.name + " transfer failed: Destination is full!",
                     { timeOut: 5000, progressBar: false });
                 return resolve();
             }
@@ -372,19 +372,19 @@ export class ItemManagerComponent extends CardComponent {
                     });
 
                     transferFailures.forEach((transferFailure) => {
-                        this.sharedApp.showWarning(transferFailure.inventoryItem.itemValue.itemName + " transfer failed: " + transferFailure.Message,
+                        this.sharedApp.showWarning(transferFailure.inventoryItem.itemValue.displayProperties.name + " transfer failed: " + transferFailure.Message,
                             { timeOut: 5000, progressBar: false });
                     });
                     resolve();
                 }).catch((error) => {
-                    this.sharedApp.showError("Error when trying to transfer " + inventoryItem.itemValue.itemName, error);
+                    this.sharedApp.showError("Error when trying to transfer " + inventoryItem.itemValue.displayProperties.name, error);
                     reject(error);
                 });
         }).then((data) => {
             this.sharedApp.hideLoading(loadingId);
             return data;
         }).catch((error) => {
-            this.sharedApp.showError("There was an error when trying to transfer " + inventoryItem.itemValue.itemName, error);
+            this.sharedApp.showError("There was an error when trying to transfer " + inventoryItem.itemValue.displayProperties.name, error);
             this.sharedApp.hideLoading(loadingId);
         });
     }
@@ -394,7 +394,7 @@ export class ItemManagerComponent extends CardComponent {
 
         // See if the item can actually be equipped on the character before transferring
         if (!InventoryUtils.isItemEquippableOnCharacter(inventoryItem, destCharacter)) {
-            this.sharedApp.showError(inventoryItem.itemValue.itemName + " cannot be equiped on a " + destCharacter.classValue.className);
+            this.sharedApp.showError(inventoryItem.itemValue.displayProperties.name + " cannot be equiped on a " + destCharacter.classValue.className);
             return Promise.resolve();
         }
 

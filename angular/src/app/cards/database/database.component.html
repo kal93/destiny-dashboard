@@ -15,7 +15,29 @@
         </md-select>
       </md-card>
 
-      <div class="results-wrap">
+      <div class="results-wrap  mat-elevation-z8">
+
+        <md-table *ngIf="dataSource != null" #table [dataSource]="dataSource">
+
+          <!--- Note that these columns can be defined in any order.
+                        The actual rendered columns are set as a property on the row definition" -->
+
+          <!-- Position Column -->
+          <ng-container mdColumnDef="name">
+            <md-header-cell *mdHeaderCellDef> Name </md-header-cell>
+            <md-cell *mdCellDef="let itemDef"> {{itemDef.displayProperties.name}} </md-cell>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container mdColumnDef="type">
+            <md-header-cell *mdHeaderCellDef> Type </md-header-cell>
+            <md-cell *mdCellDef="let itemDef"> {{itemDef.itemTypeDisplayName}} </md-cell>
+          </ng-container>
+
+          <md-header-row *mdHeaderRowDef="displayedColumns"></md-header-row>
+          <md-row *mdRowDef="let row; columns: displayedColumns;"></md-row>
+        </md-table>
+
       </div>
     </div>
   </div>

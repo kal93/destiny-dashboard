@@ -54,19 +54,19 @@ export class InventoryPreviewDialog {
             // Check if item is transferrable, and is not an engram
             if (!inventoryItem.itemValue.nonTransferrable && inventoryItem.itemValue.itemType != ItemTypes.ENGRAM) {
                 // Check if inventory item is in an acceptable bucket
-                let inventoryItemBucketValue = this.manifestService.getManifestEntry("DestinyInventoryBucketDefinition", inventoryItem.itemValue.bucketTypeHash);
+                let inventoryItemBucketValue = this.manifestService.getManifestEntry("DestinyInventoryBucketDefinition", inventoryItem.itemValue.inventory.bucketTypeHash);
                 if (acceptableBucketGroupsMap.has(inventoryItemBucketValue.bucketName)) {
-                    let inventoryBucket: InventoryBucket = bucketsMap.get(inventoryItem.itemValue.bucketTypeHash);
+                    let inventoryBucket: InventoryBucket = bucketsMap.get(inventoryItem.itemValue.inventory.bucketTypeHash);
 
                     // If the bucket for this vault item doesn't exist yet, create it
                     if (inventoryBucket == null) {
                         inventoryBucket = {
-                            hash: inventoryItem.itemValue.bucketTypeHash,
+                            hash: inventoryItem.itemValue.inventory.bucketTypeHash,
                             bucketValue: inventoryItemBucketValue,
                             items: new Array<InventoryItem>(),
                             filteredOut: false
                         }
-                        bucketsMap.set(inventoryItem.itemValue.bucketTypeHash, inventoryBucket);
+                        bucketsMap.set(inventoryItem.itemValue.inventory.bucketTypeHash, inventoryBucket);
                     }
                     inventoryBucket.items.push(inventoryItem);
                 }

@@ -5,7 +5,7 @@
     <ng-container *ngIf="isInitialized === true">
       <!-- Edit Menu -->
       <div *ngIf="editMode" class="edit-menu-wrap" [@fadeInFromTop]="editMode">
-        <div class="menu-option" *ngFor="let character of accountSummary?.characters; let i = index" (click)="transferItemsToIndex(selectedInventoryItems, i)">
+        <div class="menu-option" *ngFor="let character of accountSummary?.characterData; let i = index" (click)="transferItemsToIndex(selectedInventoryItems, i)">
           <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemPath +')')"></div>
         </div>
         <div class="menu-option" (click)="transferItemsToIndex(selectedInventoryItems, 3)">
@@ -24,14 +24,14 @@
       </div>
 
       <!-- Characters -->
-      <div class="character-wrap" *ngFor="let character of accountSummary?.characters; let i = index">
+      <div class="character-wrap" *ngFor="let character of accountSummary?.characterData; let i = index">
         <div class="character-header" [style.margin-top]="i == 0 ? '10px':''">
-          <img class="background" [src]="domSanitizer.bypassSecurityTrustUrl('https://www.bungie.net' + character.backgroundPath)"
+          <img class="background" [src]="domSanitizer.bypassSecurityTrustUrl('https://www.bungie.net' + character.emblemBackgroundPath)"
             (click)="collapseSection(i)" />
           <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemPath +')')"></div>
           <div class="top-left">{{character.classValue.className}}</div>
           <div class="bottom-left">{{character.raceValue.raceName}} {{character.genderValue.genderName}}</div>
-          <div class="top-right">{{character.characterLevel}}</div>
+          <div class="top-right">{{character.light}}</div>
           <div class="bottom-right"><span class="star">&#10022;</span>{{character.stats.STAT_LIGHT.value}}</div>
 
           <button md-icon-button (click)="refreshCharacterInventory(i)" class="option refresh"><md-icon>refresh</md-icon></button>

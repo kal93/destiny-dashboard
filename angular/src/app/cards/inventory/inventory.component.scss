@@ -118,17 +118,6 @@
                 display: block;
             }
 
-            .icon {
-                pointer-events: none;
-                position: absolute;
-                width: 81px;
-                height: 81px;
-                top: 0;
-                left: 3px;
-                background-repeat: no-repeat;
-                background-size: contain;
-            }
-
             .top-left {
                 pointer-events: none;
                 position: absolute;
@@ -314,11 +303,6 @@
                     top: 13px;
                     left: 85px;
                 }
-            }
-
-            .icon {
-                width: 69px;
-                width: 69px;
             }
 
             .option {

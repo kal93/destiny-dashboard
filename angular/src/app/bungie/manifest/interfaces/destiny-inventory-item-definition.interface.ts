@@ -1,109 +1,176 @@
 import { Stat4 } from "../../services/destiny/shared.interface";
 
 export interface DestinyInventoryItemDefinition {
-    actionName: string;
+    action: Action;
     allowActions: boolean;
-    bountyResetUnlockHash: number;
-    bucketTypeHash: number;
     classType: number;
-    damageTypes: number[];
-    deleteOnAction: boolean;
+    defaultDamageType: number;
+    displayProperties: DisplayProperties;
+    displaySource: string;
     equippable: boolean;
     equippingBlock: EquippingBlock;
-    exclusive: number;
-    hasAction: boolean;
-    hasGeometry: boolean;
-    hasIcon: boolean;
     hash: number;
-    icon: string;
     index: number;
-    instanced: boolean;
+    inventory: Inventory;
+    investmentStats: InvestmentStat[];
     itemCategoryHashes: number[];
-    itemDescription: string;
-    itemHash: number;
-    itemIndex: number;
-    itemLevels: number[];
-    itemName: string;
     itemSubType: number;
     itemType: number;
-    itemTypeName: string;
-    maxStackSize: number;
-    needsFullCompletion: boolean;
+    itemTypeAndTierDisplayName: string;
+    itemTypeDisplayName: string;
     nonTransferrable: boolean;
-    objectiveHashes: any[];
-    perkHashes: number[];
-    primaryBaseStatHash: number;
-    qualityLevel: number;
-    questTrackingUnlockValueHash: number;
-    questlineItemHash: number;
+    perks: any[];
+    quality: Quality;
     redacted: boolean;
-    rewardItemHash: number;
-    secondaryIcon: string;
-    setItemHashes: any[];
-    showActiveNodesInTooltip: boolean;
-    sourceHashes: number[];
-    sources: Source[];
+    screenshot: string;
+    sockets: Sockets;
+    sourceData: SourceData;
     specialItemType: number;
-    statGroupHash: number;
-    stats: Stats;
-    talentGridHash: number;
-    tierType: number;
-    tierTypeName: string;
-    tooltipStyle: string;
-    uniquenessHash: number;
+    stats: Stats2;
+    talentGrid: TalentGrid;
+    translationBlock: TranslationBlock;
 }
 
+
+interface InvestmentStat {
+    statTypeHash: number;
+    value: number;
+}
+
+interface TalentGrid {
+    talentGridHash: number;
+    itemDetailString: string;
+    hudDamageType: number;
+}
+
+interface Sockets {
+    detail: string;
+    socketEntries: SocketEntry[];
+    socketCategories: SocketCategory[];
+}
+
+interface SocketCategory {
+    socketCategoryHash: number;
+    socketIndexes: number[];
+}
+
+interface SocketEntry {
+    socketTypeHash: number;
+    singleInitialItemHash: number;
+    singleInitialRewardItemListHash: number;
+    reusablePlugItems: ReusablePlugItem[];
+}
+
+interface ReusablePlugItem {
+    plugItemHash: number;
+}
+
+interface SourceData {
+    sourceHashes: any[];
+    sources: Source[];
+    exclusive: number;
+}
 
 interface Source {
-    computedStats: Stats;
-    exclusivity: number;
-    expansionIndex: number;
     level: number;
-    maxLevelRequired: number;
+    minQuality: number;
     maxQuality: number;
     minLevelRequired: number;
-    minQuality: number;
-    sourceHashes: number[];
+    maxLevelRequired: number;
+    exclusivity: number;
+    computedStats: Stats;
+    sourceHashes: any[];
 }
 
-interface EquippingBlock {
-    arrangements: Arrangement[];
-    customDyeExpression: CustomDyeExpression;
-    customDyes: any[];
-    defaultDyes: any[];
-    equipmentSlotHash: number;
-    gearArtArrangementIndex: number;
-    lockedDyes: LockedDye[];
+interface Quality {
+    itemLevels: any[];
+    qualityLevel: number;
+    infusionCategoryName: string;
+    infusionCategoryHash: number;
+    progressionLevelRequirementHash: number;
+}
+
+interface TranslationBlock {
     weaponPatternHash: number;
-    weaponSandboxPatternIndex: number;
+    defaultDyes: DefaultDye[];
+    lockedDyes: any[];
+    customDyes: any[];
+    arrangements: Arrangement[];
+    hasGeometry: boolean;
 }
 
 interface Arrangement {
     classHash: number;
-    gearArtArrangementIndex: number;
+    artArrangementHash: number;
 }
 
-interface CustomDyeExpression {
-    steps: any[];
-}
-
-interface LockedDye {
+interface DefaultDye {
     channelHash: number;
     dyeHash: number;
 }
 
+interface EquippingBlock {
+    uniqueLabelHash: number;
+    equipmentSlotTypeHash: number;
+    attributes: number;
+    equippingSoundHash: number;
+    hornSoundHash: number;
+    displayStrings: string[];
+}
+
+interface Stats2 {
+    statGroupHash: number;
+    stats: Stats;
+    hasDisplayableStats: boolean;
+    primaryBaseStatHash: number;
+}
+
 interface Stats {
-    '155624089': Stat4;
-    '368428387': Stat4;
-    '943549884': Stat4;
-    '1240592695': Stat4;
-    '1345609583': Stat4;
-    '1931675084': Stat4;
-    '2391494160': Stat4;
-    '2715839340': Stat4;
-    '3555269338': Stat4;
-    '3871231066': Stat4;
-    '4043523819': Stat4;
-    '4188031367': Stat4;
-    '4284893193': Stat4;
+    '1885944937': _1885944937;
+    '1935470627': _1885944937;
+    '3897883278': _1885944937;
+}
+
+interface _1885944937 {
+    statHash: number;
+    value: number;
+    minimum: number;
+    maximum: number;
+}
+
+interface Inventory {
+    maxStackSize: number;
+    bucketTypeHash: number;
+    recoveryBucketTypeHash: number;
+    tierTypeHash: number;
+    isInstanceItem: boolean;
+    nonTransferrableOriginal: boolean;
+    tierTypeName: string;
+    tierType: number;
+}
+
+interface Action {
+    verbName: string;
+    isPositive: boolean;
+    requiredCooldownSeconds: number;
+    requiredItems: any[];
+    progressionRewards: any[];
+    actionTypeLabel: string;
+    rewardSheetHash: number;
+    rewardItemHash: number;
+    rewardSiteHash: number;
+    requiredCooldownHash: number;
+    deleteOnAction: boolean;
+    consumeEntireStack: boolean;
+    useOnAcquire: boolean;
+}
+
+interface DisplayProperties {
+    description: string;
+    name: string;
+    icon: string;
+    hasIcon: boolean;
+
+    //Optional runtime var
+    nameLower?: string;
 }
