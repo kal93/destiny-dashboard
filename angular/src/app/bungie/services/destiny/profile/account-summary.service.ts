@@ -35,7 +35,7 @@ export class AccountSummaryService {
 
             return accountSummary;
         }).catch((error) => {
-            this.sharedApp.showError("There was an error getting account data! Please try again.", error);
+           // this.sharedApp.showError("There was an error getting account data! Please try again.", error);
             return null;
         });
     }

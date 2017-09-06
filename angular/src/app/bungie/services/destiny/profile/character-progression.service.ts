@@ -50,7 +50,7 @@ export class CharacterProgressionService {
 
             return characterProgressions;
         }).catch((error) => {
-            this.sharedApp.showError("There was an error getting character reputation! Please try again.", error);
+           // this.sharedApp.showError("There was an error getting character reputation! Please try again.", error);
             return null;
         });;
     }

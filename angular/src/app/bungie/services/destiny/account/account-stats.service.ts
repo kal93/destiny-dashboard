@@ -18,7 +18,7 @@ export class AccountStatsService {
 
         //Get the response, or return the cached result
         return this.http.getWithCache(requestUrl, HttpRequestType.BUNGIE_BASIC, this.cacheTimeMs).catch((error) => {
-            this.sharedApp.showError("There was an error getting account stats! Please try again.", error);
+           // this.sharedApp.showError("There was an error getting account stats! Please try again.", error);
         });
     }
 }

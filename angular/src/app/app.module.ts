@@ -54,6 +54,8 @@ import { DownloadManifestComponent } from './bungie/manifest/download-manifest.c
 import { GamertagAutocompleteComponent } from './bungie/components/gamertag-autocomplete/gamertag-autocomplete.component';
 import { InventoryItemComponent } from './bungie/components/inventory-item/inventory-item.component';
 import { InventoryItemPopupComponent } from './bungie/components/inventory-item/inventory-item-popup/inventory-item-popup.component';
+import { InventoryItemDefinitionComponent } from './bungie/components/inventory-item-definition/inventory-item-definition.component';
+import { InventoryItemDefinitionPopupComponent } from './bungie/components/inventory-item-definition/inventory-item-definition-popup/inventory-item-definition-popup.component';
 import { MdTabCharacterHeadingComponent } from './bungie/components/md-tab-character-heading/md-tab-character-heading.component';
 import { SettingsComponent } from './settings/settings.component';
 
@@ -95,7 +97,7 @@ import { NumberFormatLocalePipe, RoundToDecimalPlacePipe } from './shared/pipes/
     AddCardComponent, CardHeaderComponent, CardLoaderComponent, DashboardComponent,
 
     //Other components 
-    AboutComponent, DownloadManifestComponent, GamertagAutocompleteComponent, InventoryItemComponent, InventoryItemPopupComponent, MdTabCharacterHeadingComponent, SettingsComponent,
+    AboutComponent, DownloadManifestComponent, GamertagAutocompleteComponent, InventoryItemComponent, InventoryItemDefinitionPopupComponent, InventoryItemPopupComponent, MdTabCharacterHeadingComponent, SettingsComponent,
 
     //Cards
     BungieNewsComponent, ClanLeaderboardsComponent, CountdownComponent, DashboardNewsComponent, DashboardNewsArticleComponent, DatabaseComponent, ItemManagerComponent, ReputationComponent, RedditComponent, StatsComponent, TwitchComponent,
@@ -108,7 +110,7 @@ import { NumberFormatLocalePipe, RoundToDecimalPlacePipe } from './shared/pipes/
   ],
 
   entryComponents: [
-    AlertDialog, ConfirmDialog, FiltersDialog, LoadoutsDialog, InventoryItemPopupComponent, InventoryPreviewDialog, SimpleInputDialog, TransferQuantityDialog
+    AlertDialog, ConfirmDialog, FiltersDialog, LoadoutsDialog, InventoryItemDefinitionPopupComponent, InventoryItemPopupComponent, InventoryPreviewDialog, SimpleInputDialog, TransferQuantityDialog
   ],
   imports: [
     Angulartics2Module.forRoot([Angulartics2GoogleAnalytics]),

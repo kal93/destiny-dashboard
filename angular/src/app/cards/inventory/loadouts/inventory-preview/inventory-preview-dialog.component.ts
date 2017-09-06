@@ -52,7 +52,7 @@ export class InventoryPreviewDialog {
 
         this.inventoryItemHashMap.forEach((inventoryItem: InventoryItem, inventoryItemId: string) => {
             // Check if item is transferrable, and is not an engram
-            if (!inventoryItem.itemValue.nonTransferrable && inventoryItem.itemValue.itemType != ItemTypes.ENGRAM) {
+            if (!inventoryItem.itemValue.nonTransferrable && inventoryItem.itemValue.itemType != ItemTypes.Engram) {
                 // Check if inventory item is in an acceptable bucket
                 let inventoryItemBucketValue = this.manifestService.getManifestEntry("DestinyInventoryBucketDefinition", inventoryItem.itemValue.inventory.bucketTypeHash);
                 if (acceptableBucketGroupsMap.has(inventoryItemBucketValue.bucketName)) {

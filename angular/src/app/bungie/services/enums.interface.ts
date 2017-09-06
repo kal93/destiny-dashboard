@@ -77,22 +77,26 @@ export enum ItemSubTypes {
 }
 
 export enum ItemTypes {
-    NONE = 0,
-    CURRENCY = 1,
-    ARMOR = 2,
-    WEAPON = 3,
-    BOUNTY = 4,
-    COMPLETEDBOUNTY = 5,
-    BOUNTYREWARD = 6,
-    MESSAGE = 7,
-    ENGRAM = 8,
-    CONSUMABLE = 9,
-    EXCHANGEMATERIAL = 10,
-    MISSIONREWARD = 11,
-    QUESTSTEP = 12,
-    QUESTSTEPCOMPLETE = 13,
-    EMBLEM = 14,
-    QUEST = 15
+    None = 0,
+    Currency = 1,
+    Armor = 2,
+    Weapon = 3,
+    Bounty = 4,
+    CompletedBounty = 5,
+    BountyReward = 6,
+    Message = 7,
+    Engram = 8,
+    Consumable = 9,
+    ExhangeMaterial = 10,
+    MissionReward = 11,
+    QuestStep = 12,
+    QuestStepComplete = 13,
+    Emblem = 14,
+    Quest = 15,
+    Subclass = 16,
+    ClanBanner = 17,
+    Aura = 18,
+    Mod = 19
 }
 
 
