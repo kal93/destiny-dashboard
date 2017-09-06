@@ -78,7 +78,8 @@ export class LoadoutsDialog {
         let dialogRef: MdDialogRef<InventoryPreviewDialog> = this.mdDialog.open(InventoryPreviewDialog);
         dialogRef.componentInstance.selectedInventoryItems = loadout.inventoryItems;
         dialogRef.componentInstance.inventoryItemHashMap = this.inventoryItemHashMap;
-        dialogRef.componentInstance.acceptableBucketGroups = ["Primary Weapons", "Special Weapons", "Heavy Weapons", "Ghost", "Vehicle", "Shaders", "Emotes"];
+        dialogRef.componentInstance.acceptableBucketGroups = ["Kinetic Weapons", "Energy Weapons", "Power Weapons", "Ghost",
+            "Helmet", "Gauntlets", "Chest Armor", "Leg Armor", "Class Armor", "Vehicle", "Shaders", "Emotes"];
         dialogRef.componentInstance.title = "Edit " + loadout.name;
         dialogRef.afterClosed().subscribe(() => {
             this.isChanged = true;

@@ -3,14 +3,14 @@
 
   <div class="right">
     <div class="count">{{selectedInventoryItems.length}}/{{MAX_INVENTORY_ITEMS}}</div>
-    <div class="text">Click an item to toggle</div>
+    <div class="text">Click to toggle</div>
   </div>
 </div>
 
 <div md-dialog-content class="preview-wrap">
 
   <div *ngFor="let inventoryBucket of inventoryBuckets" class="inventory-bucket">
-    <div class="name">{{inventoryBucket.bucketValue.bucketName}}</div>
+    <div class="name">{{inventoryBucket.bucketValue.displayProperties.name}}</div>
     <div class="items-wrap">
       <div class="item-wrap" *ngFor="let inventoryItem of inventoryBucket.items">
         <dd-inventory-item [class.selected]="inventoryItem.selected" [inventoryItem]="inventoryItem" [disablePopup]="true" [selected]="inventoryItem.selected"

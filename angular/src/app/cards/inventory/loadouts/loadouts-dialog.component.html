@@ -31,10 +31,10 @@
           </div>
 
           <md-menu #characterMenu="mdMenu" [overlapTrigger]="false" [yPosition]="'below'">
-            <div *ngFor="let character of accountSummary?.characters; let i = index" (click)="applyLoadoutProxy(userLoadout, i)" style="display: flex; align-items: center; padding: 4px 8px;">
+            <div *ngFor="let character of accountSummary?.characterData; let i = index" (click)="applyLoadoutProxy(userLoadout, i)" style="display: flex; align-items: center; padding: 4px 8px;">
               <div [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemPath +')')"
                 style="width: 36px; height: 36px; background-size: contain;"></div>
-              <div style="margin-left: 12px; color: #444;">{{character.characterLevel}} {{character.raceValue.raceName}} {{character.classValue.className}}</div>
+              <div style="margin-left: 12px; color: #444;">{{character.light}} {{character.raceValue.raceName}} {{character.classValue.className}}</div>
             </div>
           </md-menu>
         </div>

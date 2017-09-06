@@ -4,6 +4,7 @@ import { SimpleInputDialog } from '../../../../shared/dialogs/simple-input.compo
 import { ManifestService } from 'app/bungie/manifest/manifest.service';
 import { InventoryUtils } from 'app/bungie/services/destiny/inventory/inventory-utils';
 import { SharedApp } from 'app/shared/services/shared-app.service';
+import { DestinyInventoryBucketDefinition, DestinyInventoryItemDefinition } from "app/bungie/manifest/interfaces";
 
 import { InventoryBucket, InventoryItem } from 'app/bungie/services/interface.barrel';
 import { ItemTypes } from 'app/bungie/services/enums.interface';
@@ -54,8 +55,8 @@ export class InventoryPreviewDialog {
             // Check if item is transferrable, and is not an engram
             if (!inventoryItem.itemValue.nonTransferrable && inventoryItem.itemValue.itemType != ItemTypes.Engram) {
                 // Check if inventory item is in an acceptable bucket
-                let inventoryItemBucketValue = this.manifestService.getManifestEntry("DestinyInventoryBucketDefinition", inventoryItem.itemValue.inventory.bucketTypeHash);
-                if (acceptableBucketGroupsMap.has(inventoryItemBucketValue.bucketName)) {
+                let inventoryItemBucketValue: DestinyInventoryBucketDefinition = this.manifestService.getManifestEntry("DestinyInventoryBucketDefinition", inventoryItem.itemValue.inventory.bucketTypeHash);
+                if (acceptableBucketGroupsMap.has(inventoryItemBucketValue.displayProperties.name)) {
                     let inventoryBucket: InventoryBucket = bucketsMap.get(inventoryItem.itemValue.inventory.bucketTypeHash);
 
                     // If the bucket for this vault item doesn't exist yet, create it
