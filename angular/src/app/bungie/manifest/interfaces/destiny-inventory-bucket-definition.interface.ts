@@ -1,17 +1,16 @@
+import { DisplayProperties } from "../../services/destiny/shared.interface";
+
 export interface DestinyInventoryBucketDefinition {
-    bucketDescription: string;
-    bucketHash: number;
-    bucketIdentifier: string;
-    bucketName: string;
-    bucketOrder: number;
+    displayProperties: DisplayProperties;
+    scope: number;
     category: number;
-    enabled: boolean;
-    fifo: boolean;
-    hasTransferDestination: boolean;
-    hash: number;
-    index: number;
+    bucketOrder: number;
     itemCount: number;
     location: number;
+    hasTransferDestination: boolean;
+    enabled: boolean;
+    fifo: boolean;
+    hash: number;
+    index: number;
     redacted: boolean;
-    scope: number;
 }

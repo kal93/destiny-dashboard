@@ -19,22 +19,24 @@ export class InventoryUtils {
 
             // If the bucket for this vault item doesn't exist yet, create it
             if (inventoryBucket == null) {
+                let bucketValue = manifestService.getManifestEntry("DestinyInventoryBucketDefinition", inventoryItem.itemValue.inventory.bucketTypeHash);
                 inventoryBucket = {
                     hash: inventoryItem.itemValue.inventory.bucketTypeHash,
-                    bucketValue: manifestService.getManifestEntry("DestinyInventoryBucketDefinition", inventoryItem.itemValue.inventory.bucketTypeHash),
+                    bucketValue: bucketValue,
                     items: new Array<InventoryItem>(),
                     filteredOut: false
                 }
-                bucketsMap.set(inventoryItem.itemValue.inventory.bucketTypeHash, inventoryBucket);
+                if (bucketValue.category != 0)
+                    bucketsMap.set(inventoryItem.itemValue.inventory.bucketTypeHash, inventoryBucket);
             }
             // Get the damage type definition, if exists
-            if (inventoryItem.damageTypeHash != 0)
-                inventoryItem.damageTypeValue = manifestService.getManifestEntry("DestinyDamageTypeDefinition", inventoryItem.damageTypeHash);
+            if (inventoryItem.itemValue.defaultDamageTypeHash != 0)
+                inventoryItem.damageTypeValue = manifestService.getManifestEntry("DestinyDamageTypeDefinition", inventoryItem.itemValue.defaultDamageTypeHash);
 
             inventoryBucket.items.push(inventoryItem);
 
             // Add this item to the inventoryItemHash map
-            inventoryItemHashMap.set(inventoryItem.itemId, inventoryItem);
+            inventoryItemHashMap.set(inventoryItem.itemInstanceId, inventoryItem);
         });
     }
 
@@ -95,7 +97,7 @@ export class InventoryUtils {
             let characterBucket = buckets[j];
 
             //If we're changing to a specific bucket type, let's break it in to a new group
-            let bucketName = buckets[j].bucketValue.bucketName;
+            let bucketName = buckets[j].bucketValue.displayProperties.name;
             if (bucketName == "Helmet" || bucketName == "Vehicle" || bucketName == "Shaders" || bucketName == "Materials" || bucketName == "Mission") {
                 groupIndex++;
                 bucketGroupsArray[characterIndex][groupIndex] = new Array<InventoryBucket>();
@@ -119,7 +121,7 @@ export class InventoryUtils {
      * @param {boolean} skipAlreadyFiltered - Do not check items that have been filtered out since they'll definitely be filtered out again
      */
     public static applyFilterToBucket(searchText: string, showInventoryGroups: Array<boolean>, bucket: InventoryBucket, skipAlreadyFiltered: boolean) {
-        let bucketName: string = bucket.bucketValue.bucketName;
+        let bucketName: string = bucket.bucketValue.displayProperties.name;
         if ((!showInventoryGroups[0] && bucketName == "Bounties") || (!showInventoryGroups[1] && bucketName == "Emblems") ||
             (!showInventoryGroups[2] && bucketName == "Emotes") || (!showInventoryGroups[3] && bucketName == "Mission") ||
             (!showInventoryGroups[4] && bucketName == "Ornaments") || (!showInventoryGroups[5] && bucketName == "Shaders") ||

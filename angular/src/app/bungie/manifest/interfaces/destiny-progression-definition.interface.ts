@@ -1,6 +1,7 @@
+import { DisplayProperties } from "../../services/destiny/shared.interface";
+
 export interface DestinyProgressionDefinition {
     displayProperties: DisplayProperties;
-    'BungieNet.Engine.Contract.Destiny.World.Definitions.IDestinyDisplayDefinition.displayProperties': DisplayProperties;
     scope: number;
     repeatLastStep: boolean;
     steps: Step[];
@@ -18,12 +19,4 @@ interface Step {
     displayEffectType: number;
     progressTotal: number;
     rewardItems: any[];
-}
-
-interface DisplayProperties {
-    displayUnitsName: string;
-    description: string;
-    name: string;
-    icon: string;
-    hasIcon: boolean;
 }

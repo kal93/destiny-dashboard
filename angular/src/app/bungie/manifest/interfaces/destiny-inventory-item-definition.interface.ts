@@ -1,10 +1,11 @@
-import { Stat4 } from "../../services/destiny/shared.interface";
+import { DisplayProperties } from "../../services/destiny/shared.interface";
 
 export interface DestinyInventoryItemDefinition {
     action: Action;
     allowActions: boolean;
     classType: number;
     defaultDamageType: number;
+    defaultDamageTypeHash: number;
     displayProperties: DisplayProperties;
     displaySource: string;
     equippable: boolean;
@@ -166,14 +167,4 @@ interface Action {
     deleteOnAction: boolean;
     consumeEntireStack: boolean;
     useOnAcquire: boolean;
-}
-
-interface DisplayProperties {
-    description: string;
-    name: string;
-    icon: string;
-    hasIcon: boolean;
-
-    //Optional runtime var
-    nameLower?: string;
 }

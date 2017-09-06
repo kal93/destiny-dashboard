@@ -41,7 +41,7 @@ export class LoadoutsService {
         userLoadouts.forEach((loadout) => {
             let loadoutResponse: ILoadoutResponse = { name: loadout.name, itemIds: [] }
             loadout.inventoryItems.forEach((inventoryItem) => {
-                loadoutResponse.itemIds.push(inventoryItem.itemId);
+                loadoutResponse.itemIds.push(inventoryItem.itemInstanceId);
             });
 
             loadoutsResponse.push(loadoutResponse);

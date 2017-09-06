@@ -25,7 +25,6 @@ export class SharedBungie {
                 let basicProfilePromises = new Array<Promise<any>>();
                 this.destinyMemberships.forEach((membership) => {
                     let profilePromise = this.basicProfileService.getBasicProfile(membership).then((response) => {
-                        console.log(response);
                     }).catch((error) => {
                         // Remove membership
                         this.destinyMemberships.splice(this.destinyMemberships.indexOf(membership), 1);

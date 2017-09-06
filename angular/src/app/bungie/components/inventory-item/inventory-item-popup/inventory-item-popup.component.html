@@ -2,7 +2,7 @@
     <div class="header-wrap">
         <div class="item-icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + inventoryItem.itemValue.displayProperties.icon  +')')">
             <span *ngIf="inventoryItem.quantity > 1" class="quantity">{{inventoryItem.quantity}}</span>
-            <div *ngIf="inventoryItem.primaryStat!= null" class="level" [style.background-color]="inventoryItem.damageType!=null ? damageTypeColors[inventoryItem.damageType]:''">
+            <div *ngIf="inventoryItem.primaryStat!= null" class="level" [style.background-color]="inventoryItem.itemValue.defaultDamageType!=null ? damageTypeColors[inventoryItem.itemValue.defaultDamageType]:''">
                 {{inventoryItem.primaryStat.value}}
             </div>
         </div>
@@ -12,7 +12,7 @@
             <div class="type">{{inventoryItem.itemValue.itemTypeDisplayName}}</div>
         </div>
 
-        <div *ngIf="inventoryItem.damageTypeValue != null" class="damage-icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + inventoryItem.damageTypeValue.iconPath  +')')"></div>
+        <div *ngIf="inventoryItem.damageTypeValue != null" class="damage-icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + inventoryItem.damageTypeValue.displayProperties.icon  +')')"></div>
 
     </div>
     <div class="content-wrap">
@@ -21,6 +21,7 @@
     <div *ngIf="accountSummary != null" class="transfer">
         <ng-container *ngFor="let character of accountSummary.characterData; let i = index">
             <div *ngIf="inventoryItem.characterIndex != i && !inventoryItem.itemValue.nonTransferrable" class="option" (click)="transferToIndex(i)">
+                <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemPath +')')"></div>
                 <div class="type">Move</div>
             </div>
             <div *ngIf="InventoryUtils.isItemEquippableOnCharacter(inventoryItem, character) && (inventoryItem.characterIndex == i || !inventoryItem.itemValue.nonTransferrable)"

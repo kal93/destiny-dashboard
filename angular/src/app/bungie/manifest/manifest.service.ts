@@ -82,7 +82,7 @@ export class ManifestService {
     }
 
     private setGlobalManifestDefinitions() {
-        try { this.vaultIconPath = this.getManifestEntry("DestinyVendorDefinition", 892630493).summary.vendorIcon; }
+        try { this.vaultIconPath = this.getManifestEntry("DestinyVendorDefinition", 1037843411).displayProperties.icon; }
         catch (e) { }
     }
 

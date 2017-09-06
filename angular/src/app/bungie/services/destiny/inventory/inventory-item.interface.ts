@@ -27,13 +27,12 @@ export interface InventoryBucket {
 }
 
 export interface InventoryItem {
+  bindStatus: number;
   bucketHash: number;
-  damageType: number;
-  damageTypeHash: number;
-  isGridComplete: boolean;
   itemHash: number;
-  itemId: string;
-  primaryStat?: Stat3;
+  itemInstanceId?: string;
+  location: number;
+  lockable: boolean;
   quantity: number;
   state: number;
   transferStatus: number;
@@ -45,4 +44,7 @@ export interface InventoryItem {
   itemValue: DestinyInventoryItemDefinition;
   selected: boolean;
   transferQuantity: number;
+
+  // temp vars
+  primaryStat: any;
 }

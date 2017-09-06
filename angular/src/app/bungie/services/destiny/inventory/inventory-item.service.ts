@@ -148,12 +148,12 @@ export class InventoryItemService {
 
     private transferItem(targetCharacterId: string, destCharacterIndex: number, inventoryItem: InventoryItem, count: number, toVault: boolean): Promise<InventoryItemTransferResult> {
         // Build the request URL
-        let requestUrl = "https://www.bungie.net/Platform/Destiny2/TransferItem/";
+        let requestUrl = "https://www.bungie.net/Platform/Destiny2/Actions/Items/TransferItem/";
 
         let body = {
             characterId: targetCharacterId,
             membershipType: this._selectedMembership.membershipType,
-            itemId: inventoryItem.itemId,
+            itemId: inventoryItem.itemInstanceId,
             itemReferenceHash: inventoryItem.itemHash,
             stackSize: count,
             transferToVault: toVault,
@@ -197,11 +197,11 @@ export class InventoryItemService {
         try {
             let srcCharacterId = this._accountSummary.characterData[inventoryItem.characterIndex].characterId;
 
-            let requestUrl = "https://www.bungie.net/Platform/Destiny2/EquipItem/";
+            let requestUrl = "https://www.bungie.net/Platform/Destiny2/Actions/Items/EquipItem/";
             let body = {
+                characterId: srcCharacterId,
                 membershipType: this._selectedMembership.membershipType,
-                itemId: inventoryItem.itemId,
-                characterId: srcCharacterId
+                itemId: inventoryItem.itemInstanceId
             };
 
             return this.http.postBungie(requestUrl, body).then((response) => {

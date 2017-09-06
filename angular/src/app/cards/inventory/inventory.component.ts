@@ -16,7 +16,7 @@ import { Loadout } from './loadouts/loadouts.interface';
 
 import { AccountSummaryService, CharacterInventorySummaryService, InventoryItemService, VaultSummaryService } from 'app/bungie/services/service.barrel';
 import {
-    CharacterBase, DestinyMembership, InventoryBucket, InventoryItem, IAccountSummary, IVaultSummary, InventoryItemTransferResult
+    CharacterBase, DestinyMembership, InventoryBucket, InventoryItem, IAccountSummary, IProfileSummary, InventoryItemTransferResult
 } from 'app/bungie/services/interface.barrel';
 
 import { expandInShrinkOut, fadeInFromTop } from 'app/shared/animations';
@@ -100,6 +100,7 @@ export class ItemManagerComponent extends CardComponent {
         });
         this.initSearch();
     }
+
     getFullInventory(): Promise<any> {
         return new Promise((resolve, reject) => {
             // Get Account Summary to get the list of available characters
@@ -147,13 +148,19 @@ export class ItemManagerComponent extends CardComponent {
     loadCharacterInventory(characterIndex: number): Promise<any> {
         let character: CharacterBase = this.accountSummary.characterData[characterIndex];
         return this.characterInventorySummaryService.getCharacterInventorySummary(this.selectedMembership, character.characterId).then((inventoryResponse) => {
-            this.populateBuckets(characterIndex, inventoryResponse.items);
+            let allInventoryItems = inventoryResponse.inventory.data.items;
+            allInventoryItems = allInventoryItems.concat(inventoryResponse.equipment.data.items);
+            this.populateBuckets(characterIndex, allInventoryItems);
+        }).catch((error) => {
+            this.sharedApp.showError("Error loading character inventory", error);
         });
     }
 
     loadVaultInventory(): Promise<any> {
-        return this.vaultSummaryService.getVaultSummary(this.selectedMembership).then((vaultSummaryResponse: IVaultSummary) => {
-            this.populateBuckets(3, vaultSummaryResponse.items);
+        return this.vaultSummaryService.getVaultSummary(this.selectedMembership).then((vaultSummaryResponse: IProfileSummary) => {
+            this.populateBuckets(3, vaultSummaryResponse.profileInventory.data.items);
+        }).catch((error) => {
+            this.sharedApp.showError("Error loading vault inventory", error);
         });
     }
 

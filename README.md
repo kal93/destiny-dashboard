@@ -43,6 +43,7 @@ You only need to do steps 2, 3 & 4 if you are working on the Java API.
 - [ ] Ability for users to subscribe to push notifications for different cards
 - [ ] Add Cordova wrapper and push to iOS and Android stores
 - [ ] Localization to support all languages supported by the Manifest
+- [ ] Lazy load non-critical components (popups, about, settings)
 
 
 ## New Cards
@@ -64,6 +65,10 @@ You only need to do steps 2, 3 & 4 if you are working on the Java API.
 - [ ] Database Popup should have more detail
 - [ ] Database should sort by columns
 - [ ] Database should filter by item tier (Common, Rare, Legendary, Exotic)
+
+
+## Known Issues
+- [ ] Strange alignment in some cases. Known material issue - https://github.com/angular/material2/issues/4515
 
 
 ## References

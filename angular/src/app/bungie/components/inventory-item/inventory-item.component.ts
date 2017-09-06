@@ -59,7 +59,7 @@ export class InventoryItemComponent {
   }
 
   click() {
-    //console.log(this.inventoryItem);
+    console.log(this.inventoryItem);
 
     this.clicked.emit();
 

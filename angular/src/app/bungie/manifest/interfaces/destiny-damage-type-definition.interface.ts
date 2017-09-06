@@ -1,13 +1,11 @@
+import { DisplayProperties } from "../../services/destiny/shared.interface";
+
 export interface DestinyDamageTypeDefinition {
-    damageTypeHash: number;
-    damageTypeName: string;
-    description: string;
+    displayProperties: DisplayProperties;
+    transparentIconPath: string;
+    showIcon: boolean;
     enumValue: number;
     hash: number;
-    iconPath: string;
-    identifier: string;
     index: number;
     redacted: boolean;
-    showIcon: boolean;
-    transparentIconPath: string;
 }

@@ -11,14 +11,17 @@ interface SummaryProgression {
 }
 
 export interface ProgressionBase {
-    dailyProgress: number;
-    weeklyProgress: number;
     currentProgress: number;
+    dailyLimit: number;
+    dailyProgress: number;
     level: number;
-    step: number;
-    progressToNextLevel: number;
+    levelCap: number;
     nextLevelAt: number;
     progressionHash: number;
+    progressToNextLevel: number;
+    stepIndex: number;
+    weeklyLimit: number;
+    weeklyProgress: number;
 
     // Populated at runtime
     progressionValue: DestinyProgressionDefinition;

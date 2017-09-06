@@ -230,3 +230,15 @@ export interface Stat4 {
     minimum: number;
     maximum: number;
 }
+
+
+export interface DisplayProperties {
+    displayUnitsName: string;
+    description: string;
+    name: string;
+    icon: string;
+    hasIcon: boolean;
+
+    //Optional runtime var
+    nameLower?: string;
+}
