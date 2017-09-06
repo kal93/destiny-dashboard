@@ -86,7 +86,12 @@ export class ReputationComponent extends CardComponent {
   }
 
   getSelectedRep() {
-    let characterId: string = this.accountSummary.characterData[this.selectedTabIndex].characterId;
+    let characterId: string;
+    try { characterId = this.accountSummary.characterData[this.selectedTabIndex].characterId; }
+    catch (error) {
+      console.error("Empty accountSummary in getSelectedRep.", error);
+      return;
+    }
 
     this.characterProgressionService.getCharacterProgression(this.selectedMembership, characterId).then((characterProgressionResponse) => {
       if (characterProgressionResponse == null)
