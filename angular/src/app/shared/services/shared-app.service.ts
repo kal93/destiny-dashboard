@@ -105,6 +105,7 @@ export class SharedApp {
         this.tutorialStep1();
     }
 
+    @delayBy(50)
     public destiny2Warning() {
         this.snackBar.open("We're transitioning things over to Destiny 2. Some cards are working already, but others will take some time.", "Meh");
     }
