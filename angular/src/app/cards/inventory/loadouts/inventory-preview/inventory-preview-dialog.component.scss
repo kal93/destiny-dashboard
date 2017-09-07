@@ -3,7 +3,6 @@
 .title {
     display: flex;
     justify-content: space-between;
-    align-items: center;
 
     .text {
         font-size: 1.3em;
@@ -17,9 +16,9 @@
         }
 
         .text {
-
             font-size: .8em;
             opacity: .8;
+            margin-top: 12px;
         }
     }
 }
@@ -42,15 +41,6 @@
             .item-wrap {
                 position: relative;
 
-                dd-inventory-item {
-                    cursor: pointer;
-                    opacity: .85;
-
-                    &.selected {
-                        opacity: 1;
-                    }
-                }
-
                 .selected-icon {
                     position: absolute;
                     top: 3px;
@@ -72,18 +62,5 @@
 
     .save {
         color: $app-text-link;
-    }
-}
-@media(max-width:600px) {
-    .preview-wrap {
-        .inventory-bucket {
-            .items-wrap {
-                .item-wrap {
-                    dd-inventory-item {
-                        zoom: .85;
-                    }
-                }
-            }
-        }
     }
 }

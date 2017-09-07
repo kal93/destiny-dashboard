@@ -163,6 +163,10 @@
 
             .mat-list-item {
                 color: $app-text-dark;
+
+                .mat-list-item-content {
+                    height: 44px;
+                }
             }
         }
 

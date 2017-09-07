@@ -12,6 +12,8 @@
       <md-option *ngFor="let cardCategory of cardCategories" [value]="cardCategory.value"> {{ cardCategory.value }} </md-option>
     </md-select>
 
+    <div>Cards already added will not appear.</div>
+
     <div class="middle-wrap">
       <md-icon class="arrow" (click)="showPreviousCard()">keyboard_arrow_left</md-icon>
       <div class="carousel-wrap">

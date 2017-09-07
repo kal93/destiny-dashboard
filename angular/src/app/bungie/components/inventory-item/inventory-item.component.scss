@@ -3,28 +3,43 @@
 :host {
     color: $app-text-light;
 
-    $iconSize: 60px;
-
     .icon {
-        width: $iconSize;
-        height: $iconSize;
+        background-color: $bungie-blue;
         background-size: contain;
         background-repeat: no-repeat;
         border: 1px solid #90A4AE;
+        box-sizing: border-box;
         position: relative;
         font-size: .85em;
         margin: 0 2px;
+        cursor: pointer;
+
+        &.edit {
+            opacity: .65;
+        }
 
         &.equipped {
             border: 3px double #B71C1C;
-            width: $iconSize - 4;
-            height: $iconSize - 4;
+        }
+
+        &.disabled {
+            cursor: not-allowed;
+            opacity: .4;
+
+            &::after {
+                content: 'X';
+                background-color: #f00;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                font-size: 3em;
+                justify-content: center;
+            }
         }
 
         &.selected {
+            opacity: 1;
             border: 2px solid #FFEB3B;
-            width: $iconSize - 2;
-            height: $iconSize - 2;
         }
 
         .quantity {
@@ -45,13 +60,24 @@
         }
     }
 
-    .name {
-        display: inline-block;
+    .text {
         font-size: .74em;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        width: $iconSize + 2;
         text-align: center;
+
+        &.disabled {
+            cursor: not-allowed;
+            opacity: .65;
+        }
+
+        &.edit {
+            opacity: .65;
+        }
+
+        &.selected {
+            opacity: 1;
+        }
     }
 }

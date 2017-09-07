@@ -6,8 +6,7 @@ import { ManifestService } from 'app/bungie/manifest/manifest.service';
 import { InventoryUtils } from 'app/bungie/services/destiny/inventory/inventory-utils';
 
 import { IAccountSummary, InventoryItem } from '../../../services/interface.barrel';
-//import { AccountSummaryService } from 'app/bungie/services/service.barrel';
-
+import { DestinyInventoryItemDefinition } from 'app/bungie/manifest/interfaces/';
 
 import { Subject } from 'rxjs/Subject';
 
@@ -20,6 +19,8 @@ import { Subject } from 'rxjs/Subject';
 export class InventoryItemPopupComponent {
   @Input()
   inventoryItem: InventoryItem;
+  @Input()
+  inventoryItemDefinition: DestinyInventoryItemDefinition;
   @Input()
   targetElementRef: ElementRef;
   @Input()
@@ -55,7 +56,7 @@ export class InventoryItemPopupComponent {
 
   initPopupPosition() {
     let popupWidth = 280;
-    let popupMaxHeight = 350;
+    let popupMaxHeight = 300;
     let boundaryPadding = 35;
     // Get the position and dimensions of the element we're trying to show the tooltip for
     let boundingRect: ClientRect = this.targetElementRef.nativeElement.getBoundingClientRect();

@@ -1,11 +1,25 @@
-<div ddMouseEvents (longPress)="longPress.emit()" (mouseUp)="click()">
-  <div class="icon" [class.equipped]="equipped" [class.selected]="selected" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + inventoryItem.itemValue.displayProperties.icon  +')')">
-    <span *ngIf="inventoryItem.quantity > 1" class="quantity">{{inventoryItem.quantity}}</span>
+<ng-container *ngIf="inventoryItem != null">
+  <div ddMouseEvents (longPress)="longPress.emit()" (mouseUp)="click()">
+    <div class="icon" [class.disabled]="disabled" [class.edit]="edit" [class.equipped]="equipped" [class.selected]="selected"
+      [style.width.px]="size" [style.height.px]="size" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + inventoryItem.itemValue.displayProperties.icon  +')')">
+      <span *ngIf="inventoryItem.quantity > 1" class="quantity">{{inventoryItem.quantity}}</span>
 
-    <div *ngIf="inventoryItem.primaryStat!= null" class="level" [style.background-color]="inventoryItem.itemValue.defaultDamageType!=null ? damageTypeColors[inventoryItem.itemValue.defaultDamageType]:''">
-      {{inventoryItem}}
+      <div *ngIf="inventoryItem.primaryStat!= null" class="level" [style.background-color]="inventoryItem.itemValue.defaultDamageType!=null ? damageTypeColors[inventoryItem.itemValue.defaultDamageType]:''">
+        {{inventoryItem}}
+      </div>
+
     </div>
-
+    <div *ngIf="textColor != null" class="text" [style.max-width.px]="size" [class.disabled]="disabled" [class.edit]="edit" [class.selected]="selected"
+      [style.color]="textColor">{{inventoryItem.itemValue.displayProperties.name}}</div>
   </div>
-  <div class="name" [style.color]="textColor">{{inventoryItem.itemValue.displayProperties.name}}</div>
-</div>
+</ng-container>
+
+<ng-container *ngIf="inventoryItemDefinition != null">
+  <div ddMouseEvents (mouseUp)="click()">
+    <div class="icon" [class.edit]="edit" [class.equipped]="equipped" [class.selected]="selected" [style.width.px]="size" [style.height.px]="size"
+      [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + inventoryItemDefinition.displayProperties.icon  +')')">
+    </div>
+    <div *ngIf="textColor != null" class="text" [style.max-width.px]="size" [class.disabled]="disabled" [class.edit]="edit" [class.selected]="selected"
+      [style.color]="textColor">{{inventoryItemDefinition.displayProperties.name}}</div>
+  </div>
+</ng-container>

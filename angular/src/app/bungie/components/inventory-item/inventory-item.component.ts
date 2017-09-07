@@ -5,6 +5,7 @@ import {
 import { DomSanitizer } from '@angular/platform-browser';
 import { IAccountSummary, InventoryItem } from '../../services/interface.barrel';
 import { InventoryItemPopupComponent } from './inventory-item-popup/inventory-item-popup.component';
+import { DestinyInventoryItemDefinition } from "app/bungie/manifest/interfaces";
 
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
@@ -18,13 +19,23 @@ export class InventoryItemComponent {
   @Input()
   inventoryItem: InventoryItem;
   @Input()
-  equipped: boolean = false;
+  inventoryItemDefinition: DestinyInventoryItemDefinition;
   @Input()
-  selected: boolean = false;
+  accountSummary: IAccountSummary;
   @Input()
   disablePopup: boolean = false;
   @Input()
-  accountSummary: IAccountSummary;
+  size: number = 62;
+
+  // Classes
+  @Input()
+  edit: boolean = false;
+  @Input()
+  equipped: boolean = false;
+  @Input()
+  disabled: boolean = false;
+  @Input()
+  selected: boolean = false;
   @Input()
   textColor: string;
 
@@ -54,12 +65,15 @@ export class InventoryItemComponent {
     private injector: Injector) { }
 
   ngOnDestroy() {
-    if (this.destroyPopupSubscription)
+    if (this.destroyPopupSubscription) {
+      this.hidePopup();
       this.destroyPopupSubscription.unsubscribe();
+    }
   }
 
   click() {
     console.log(this.inventoryItem);
+    console.log(this.inventoryItemDefinition);
 
     this.clicked.emit();
 
@@ -79,6 +93,7 @@ export class InventoryItemComponent {
     // Send inputs to the component. Let the component know which element should show the tooltip.
     this.inventoryItemPopupComponentRef.instance["targetElementRef"] = this.elementRef;
     this.inventoryItemPopupComponentRef.instance["inventoryItem"] = this.inventoryItem;
+    this.inventoryItemPopupComponentRef.instance["inventoryItemDefinition"] = this.inventoryItemDefinition;
     this.inventoryItemPopupComponentRef.instance["destroyPopupSubject"] = this.destroyPopupSubject;
     this.inventoryItemPopupComponentRef.instance["accountSummary"] = this.accountSummary;
     this.inventoryItemPopupComponentRef.instance["transferItemToIndexEvent"] = this.transferItemToIndexEvent;

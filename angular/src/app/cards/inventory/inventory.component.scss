@@ -240,36 +240,6 @@
                     display: flex;
                     flex-flow: wrap;
                     justify-content: left;
-
-                    dd-inventory-item {
-                        cursor: pointer;
-
-                        &.edit-mode {
-                            opacity: .65;
-                        }
-
-                        &.selected {
-                            opacity: 1;
-                        }
-
-                        &.transfer-disabled {
-                            cursor: not-allowed;
-
-                            ::ng-deep .icon {
-                                opacity: .4;
-
-                                &::after {
-                                    content: 'X';
-                                    background-color: #f00;
-                                    height: 100%;
-                                    display: flex;
-                                    align-items: center;
-                                    font-size: 3em;
-                                    justify-content: center;
-                                }
-                            }
-                        }
-                    }
                 }
             }
         }

@@ -28,13 +28,19 @@
         width: 90%;
         min-height: 400px;
 
+        .mat-header-row,
+        .mat-row {
+            padding: 0 16px;
+
+            .mat-cell {
+                font-size: 16px;
+            }
+        }
+
         .mat-column-icon {
+            max-width: 80px;
             text-align: center;
             display: flex;
-
-            dd-inventory-item-definition {
-                zoom: .7;
-            }
         }
     }
 }
@@ -56,6 +62,16 @@
 
         .results-wrap {
             width: 100%;
+
+            .mat-header-row,
+            .mat-row {
+                padding: 0 8px;
+
+                .mat-cell {
+                    font-size: 12px;
+                }
+            }
+
         }
     }
 }

@@ -55,23 +55,6 @@ export interface LevelProgression {
     progressionHash: number;
 }
 
-/*
-interface Stats {
-    STAT_DEFENSE: Stat;
-    STAT_INTELLECT: Stat;
-    STAT_DISCIPLINE: Stat;
-    STAT_STRENGTH: Stat;
-    STAT_LIGHT: Stat;
-    STAT_ARMOR: Stat;
-    STAT_AGILITY: Stat;
-    STAT_RECOVERY: Stat;
-    STAT_OPTICS: Stat;
-    STAT_ATTACK_SPEED: Stat;
-    STAT_DAMAGE_REDUCTION: Stat;
-    STAT_ATTACK_EFFICIENCY: Stat;
-    STAT_ATTACK_ENERGY: Stat;
-}*/
-
 interface Stat {
     statHash: number;
     value: number;

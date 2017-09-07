@@ -26,7 +26,7 @@
           <ng-container mdColumnDef="icon">
             <md-header-cell *mdHeaderCellDef> Icon </md-header-cell>
             <md-cell *mdCellDef="let itemDef">
-              <dd-inventory-item-definition [inventoryItemDefinition]="itemDef"></dd-inventory-item-definition>
+              <dd-inventory-item [inventoryItemDefinition]="itemDef" [size]="42"></dd-inventory-item>
             </md-cell>
           </ng-container>
 

@@ -13,8 +13,8 @@
     <div class="name">{{inventoryBucket.bucketValue.displayProperties.name}}</div>
     <div class="items-wrap">
       <div class="item-wrap" *ngFor="let inventoryItem of inventoryBucket.items">
-        <dd-inventory-item [class.selected]="inventoryItem.selected" [inventoryItem]="inventoryItem" [disablePopup]="true" [selected]="inventoryItem.selected"
-          (clicked)="inventoryItemClicked(inventoryItem)" [textColor]="'#444'"></dd-inventory-item>
+        <dd-inventory-item [inventoryItem]="inventoryItem" [disablePopup]="true" [size]="52" [selected]="inventoryItem.selected" (clicked)="inventoryItemClicked(inventoryItem)"
+          [textColor]="'#444'"></dd-inventory-item>
         <md-icon *ngIf="inventoryItem.selected" class="selected-icon">check_circle</md-icon>
       </div>
     </div>

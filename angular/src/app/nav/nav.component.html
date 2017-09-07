@@ -107,7 +107,7 @@
       Default Dashboards
       <md-icon class="carrot" [class.collapsed]="defaultDashboardsCollapsed">keyboard_arrow_down</md-icon>
     </div>
-    <md-nav-list *ngFor="let dashboard of cardDefinitions.defaultDashboards" [style.max-height]="defaultDashboardsCollapsed ? '0':'500px'"
+    <md-nav-list *ngFor="let dashboard of cardDefinitions.defaultDashboards" [style.max-height]="defaultDashboardsCollapsed ? '0':'300px'"
       [style.overflow-y]="defaultDashboardsCollapsed ? 'hidden' : 'auto'">
       <md-list-item [style.color]="dashboard == sharedDashboard.selectedDashboard ? '#03A9F4':''" (click)="selectDashboard(dashboard)">{{dashboard.name}}</md-list-item>
     </md-nav-list>

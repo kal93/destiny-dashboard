@@ -1,38 +1,59 @@
 <div class="inventory-item-popup" [ngStyle]="popupStyle" [@scaleIn]="true">
-    <div class="header-wrap">
-        <div class="item-icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + inventoryItem.itemValue.displayProperties.icon  +')')">
-            <span *ngIf="inventoryItem.quantity > 1" class="quantity">{{inventoryItem.quantity}}</span>
-            <div *ngIf="inventoryItem.primaryStat!= null" class="level" [style.background-color]="inventoryItem.itemValue.defaultDamageType!=null ? damageTypeColors[inventoryItem.itemValue.defaultDamageType]:''">
-                {{inventoryItem.primaryStat.value}}
+
+    <!-- Inventory Item display -->
+    <ng-container *ngIf="inventoryItem != null">
+        <div class="header-wrap">
+            <div class="item-icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + inventoryItem.itemValue.displayProperties.icon  +')')">
+                <span *ngIf="inventoryItem.quantity > 1" class="quantity">{{inventoryItem.quantity}}</span>
+                <div *ngIf="inventoryItem.primaryStat!= null" class="level" [style.background-color]="inventoryItem.itemValue.defaultDamageType!=null ? damageTypeColors[inventoryItem.itemValue.defaultDamageType]:''">
+                    {{inventoryItem.primaryStat.value}}
+                </div>
             </div>
+
+            <div class="header-middle-wrap">
+                <div class="title">{{inventoryItem.itemValue.displayProperties.name}}</div>
+                <div class="type">{{inventoryItem.itemValue.itemTypeDisplayName}}</div>
+            </div>
+
+            <div *ngIf="inventoryItem.damageTypeValue != null" class="damage-icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + inventoryItem.damageTypeValue.displayProperties.icon  +')')"></div>
+
         </div>
-
-        <div class="header-middle-wrap">
-            <div class="title">{{inventoryItem.itemValue.displayProperties.name}}</div>
-            <div class="type">{{inventoryItem.itemValue.itemTypeDisplayName}}</div>
+        <div class="content-wrap">
+            <div class="description">{{inventoryItem.itemValue.displayProperties.description}}</div>
         </div>
-
-        <div *ngIf="inventoryItem.damageTypeValue != null" class="damage-icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + inventoryItem.damageTypeValue.displayProperties.icon  +')')"></div>
-
-    </div>
-    <div class="content-wrap">
-        <div class="description">{{inventoryItem.itemValue.displayProperties.description}}</div>
-    </div>
-    <div *ngIf="accountSummary != null" class="transfer">
-        <ng-container *ngFor="let character of accountSummary.characterData; let i = index">
-            <div *ngIf="inventoryItem.characterIndex != i && !inventoryItem.itemValue.nonTransferrable" class="option" (click)="transferToIndex(i)">
-                <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemPath +')')"></div>
+        <div *ngIf="accountSummary != null" class="transfer">
+            <ng-container *ngFor="let character of accountSummary.characterData; let i = index">
+                <div *ngIf="inventoryItem.characterIndex != i && !inventoryItem.itemValue.nonTransferrable" class="option" (click)="transferToIndex(i)">
+                    <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemPath +')')"></div>
+                    <div class="type">Move</div>
+                </div>
+                <div *ngIf="InventoryUtils.isItemEquippableOnCharacter(inventoryItem, character) && (inventoryItem.characterIndex == i || !inventoryItem.itemValue.nonTransferrable)"
+                    class="option" (click)="equipToIndex(i)" [class.no-equip]="InventoryUtils.isItemEquipped(inventoryItem) && inventoryItem.characterIndex == i">
+                    <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemPath +')')"></div>
+                    <div class="type">Equip</div>
+                </div>
+            </ng-container>
+            <div *ngIf="!inventoryItem.itemValue.nonTransferrable && inventoryItem.characterIndex != 3" class="option" (click)="transferToIndex(3)">
+                <div class="icon vault" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + manifestService?.vaultIconPath +')')"></div>
                 <div class="type">Move</div>
             </div>
-            <div *ngIf="InventoryUtils.isItemEquippableOnCharacter(inventoryItem, character) && (inventoryItem.characterIndex == i || !inventoryItem.itemValue.nonTransferrable)"
-                class="option" (click)="equipToIndex(i)" [class.no-equip]="InventoryUtils.isItemEquipped(inventoryItem) && inventoryItem.characterIndex == i">
-                <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemPath +')')"></div>
-                <div class="type">Equip</div>
-            </div>
-        </ng-container>
-        <div *ngIf="!inventoryItem.itemValue.nonTransferrable && inventoryItem.characterIndex != 3" class="option" (click)="transferToIndex(3)">
-            <div class="icon vault" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + manifestService?.vaultIconPath +')')"></div>
-            <div class="type">Move</div>
         </div>
-    </div>
+    </ng-container>
+
+    <!-- Inventory Item Definition display -->
+    <ng-container *ngIf="inventoryItemDefinition != null">
+        <div class="header-wrap">
+            <div class="item-icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + inventoryItemDefinition.displayProperties.icon  +')')">
+            </div>
+
+            <div class="header-middle-wrap">
+                <div class="title">{{inventoryItemDefinition.displayProperties.name}}</div>
+                <div class="type">{{inventoryItemDefinition.itemTypeDisplayName}}</div>
+            </div>
+        </div>
+        <div class="content-wrap">
+            <div class="description">{{inventoryItemDefinition.displayProperties.description}}</div>
+        </div>
+    </ng-container>
+
 </div>

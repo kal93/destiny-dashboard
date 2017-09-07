@@ -42,7 +42,7 @@
 
       <div class="bottom">
         <div class="loadout-item" *ngFor="let inventoryItem of userLoadout.inventoryItems">
-          <dd-inventory-item [inventoryItem]="inventoryItem" [disablePopup]="false" [textColor]="'#444'"></dd-inventory-item>
+          <dd-inventory-item [inventoryItem]="inventoryItem" [disablePopup]="false" [size]="52" [textColor]="'#444'"></dd-inventory-item>
         </div>
         <div class="no-items" *ngIf="userLoadout.inventoryItems == null || userLoadout.inventoryItems.length == 0">
           <span>Edit the loadout to add gear.</span>
