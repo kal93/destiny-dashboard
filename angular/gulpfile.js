@@ -52,7 +52,7 @@ gulp.task('publish', function (done) {
     //Defer js
     gulp.src('./build/index.html').pipe(replace('src=', 'defer src=')).pipe(gulp.dest('../java/src/main/webapp'));
 
-    /*
+    
     //Copy files to Cordova directory
     gulp.src('./build/*.js').pipe(gulp.dest('../cordova/www'));
     gulp.src('./build/*.png').pipe(gulp.dest('../cordova/www'));
@@ -60,7 +60,7 @@ gulp.task('publish', function (done) {
     gulp.src('./build/*.zip').pipe(gulp.dest('../cordova/www'));
     gulp.src('./build/favicon.ico').pipe(gulp.dest('../cordova/www'));
     gulp.src('./build/manifest.json').pipe(gulp.dest('../cordova/www'));
-    */
+    
 });
 
 

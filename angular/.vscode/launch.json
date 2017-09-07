@@ -1,0 +1,23 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run Android on device",
+            "type": "cordova",
+            "request": "launch",
+            "platform": "android",
+            "target": "device",
+            "port": 9222,
+            "cwd": "${workspaceRoot}../cordova"
+        },
+        {
+            "name": "Run Android on emulator",
+            "type": "cordova",
+            "request": "launch",
+            "platform": "android",
+            "target": "emulator",
+            "port": 9222,
+            "cwd": "${workspaceRoot}/cordova"
+        }
+    ]
+}
