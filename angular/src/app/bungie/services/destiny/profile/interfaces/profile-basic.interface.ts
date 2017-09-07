@@ -1,4 +1,4 @@
-export interface BasicProfile {
+export interface ProfileBasic {
     profile: Profile;
     itemComponents: ItemComponents;
 }

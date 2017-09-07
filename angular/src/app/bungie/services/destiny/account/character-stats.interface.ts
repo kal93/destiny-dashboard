@@ -1,4 +1,4 @@
-import { Stat1, Stat2, PvEStats, PvPStats } from "../shared.interface";
+import { Stat1, Stat2, PvEStats, PvPStats } from "app/bungie/services/destiny/shared.interface";
 
 export interface ICharacterStats {
     allPvE: {

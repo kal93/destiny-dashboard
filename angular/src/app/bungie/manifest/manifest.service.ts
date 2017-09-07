@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpRequestType, HttpService } from 'app/shared/services/http.service';
 import { SharedApp } from 'app/shared/services/shared-app.service';
-import { SharedBungie } from '../shared-bungie.service';
 import { environment } from '../../../environments/environment';
 
 import { FileUtils } from '../../shared/utilities/FileUtils';

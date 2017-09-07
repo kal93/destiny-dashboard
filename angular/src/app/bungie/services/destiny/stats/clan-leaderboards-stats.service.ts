@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpRequestType, HttpService } from 'app/shared/services/http.service';
 import { SharedApp } from 'app/shared/services/shared-app.service';
-import { SharedBungie } from 'app/bungie/shared-bungie.service';
 
 import { IClanLeaderboardsStats, BungieAccountClan } from '../../interface.barrel'
 import { ModeTypes } from '../../enums.interface';
@@ -25,7 +24,7 @@ Also not all ModeTypes have lbSingleGameScore so it is possible to use this vali
 export class ClanLeaderboardsStatsService {
     private cacheTimeMs: number = 60000;
 
-    constructor(private http: HttpService, private sharedApp: SharedApp, private sharedBungie: SharedBungie) {
+    constructor(private http: HttpService, private sharedApp: SharedApp) {
     }
 
     getClanleaderboardStats(clan: BungieAccountClan, modes: Array<ModeTypes>, maxTop = 4, statId?: string): Promise<IClanLeaderboardsStats> {

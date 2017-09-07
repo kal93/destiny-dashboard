@@ -3,7 +3,7 @@ import { MdTabGroup } from '@angular/material';
 import { CardComponent } from '../_base/card.component';
 import { SharedApp } from 'app/shared/services/shared-app.service';
 import { ManifestService } from 'app/bungie/manifest/manifest.service';
-import { AccountStatsService, AccountSummaryService, CharacterStatsService } from 'app/bungie/services/service.barrel';
+import { AccountStatsService, DestinyProfileService, CharacterStatsService } from 'app/bungie/services/service.barrel';
 
 import { GroupTypes, ModeTypes, PeriodTypes } from 'app/bungie/services/enums.interface';
 import { CharacterBase, DestinyMembership, IAccountStats, IAccountSummary, ICharacterStats } from 'app/bungie/services/interface.barrel';
@@ -35,7 +35,7 @@ export class StatsComponent extends CardComponent {
 
   accountNotFound: boolean = false;
 
-  constructor(private accountStatsService: AccountStatsService, private accountSummaryService: AccountSummaryService, private characterStatsService: CharacterStatsService,
+  constructor(private accountStatsService: AccountStatsService, private destinyProfileService: DestinyProfileService, private characterStatsService: CharacterStatsService,
     private manifestService: ManifestService, public sharedApp: SharedApp) {
     super(sharedApp);
   }
@@ -55,7 +55,7 @@ export class StatsComponent extends CardComponent {
     this.selectedMembership = selectedMembership;
 
     this.accountNotFound = false;
-    this.accountSummaryService.getAccountSummary(this.selectedMembership).then((accountSummary: IAccountSummary) => {
+    this.destinyProfileService.getAccountSummary(this.selectedMembership).then((accountSummary: IAccountSummary) => {
       this.accountSummary = accountSummary;
       if (this.accountSummary == null) {
         this.accountNotFound = true;

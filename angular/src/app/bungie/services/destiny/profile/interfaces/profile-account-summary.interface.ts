@@ -1,4 +1,4 @@
-import { Currency } from "../shared.interface";
+import { Currency } from "app/bungie/services/destiny/shared.interface";
 
 export interface IAccountSummary {
     characters: SummaryCharacter;

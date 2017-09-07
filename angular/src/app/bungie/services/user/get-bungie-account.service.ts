@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpRequestType, HttpService } from 'app/shared/services/http.service';
 import { SharedApp } from 'app/shared/services/shared-app.service';
-import { SharedBungie } from 'app/bungie/shared-bungie.service';
 
 import { DestinyMembership, IGetBungieAccount } from '../interface.barrel'
 
@@ -10,7 +9,7 @@ import { DestinyMembership, IGetBungieAccount } from '../interface.barrel'
 export class GetBungieAccountService {
     private cacheTimeMs: number = 60000;
 
-    constructor(private http: HttpService, private sharedApp: SharedApp, private sharedBungie: SharedBungie) {
+    constructor(private http: HttpService, private sharedApp: SharedApp) {
     }
 
     getBungieAccount(membership: DestinyMembership): Promise<IGetBungieAccount> {

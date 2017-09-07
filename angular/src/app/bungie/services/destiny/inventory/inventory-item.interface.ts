@@ -1,4 +1,4 @@
-import { Stat3 } from "../shared.interface";
+import { Stat3 } from "app/bungie/services/destiny/shared.interface";
 
 import { DestinyMembership } from 'app/bungie/services/interface.barrel';
 import { DestinyDamageTypeDefinition, DestinyInventoryBucketDefinition, DestinyInventoryItemDefinition } from "app/bungie/manifest/interfaces";

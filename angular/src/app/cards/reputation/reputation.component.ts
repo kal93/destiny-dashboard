@@ -6,7 +6,7 @@ import { SharedApp } from 'app/shared/services/shared-app.service';
 import { ManifestService } from 'app/bungie/manifest/manifest.service';
 import { PrivacyTypes } from 'app/bungie/services/enums.interface';
 
-import { AccountSummaryService, CharacterProgressionService } from 'app/bungie/services/service.barrel';
+import { DestinyProfileService } from 'app/bungie/services/service.barrel';
 import { DestinyMembership, IAccountSummary, FactionBase, MilestoneBase, ProgressionBase } from 'app/bungie/services/interface.barrel';
 
 @Component({
@@ -34,7 +34,7 @@ export class ReputationComponent extends CardComponent {
 
   accountNotFound: boolean = false;
 
-  constructor(private accountSummaryService: AccountSummaryService, private characterProgressionService: CharacterProgressionService, public domSanitizer: DomSanitizer,
+  constructor(private destinyProfileService: DestinyProfileService, public domSanitizer: DomSanitizer,
     private manifestService: ManifestService, public sharedApp: SharedApp) {
     super(sharedApp);
   }
@@ -54,7 +54,7 @@ export class ReputationComponent extends CardComponent {
     this.selectedMembership = selectedMembership;
 
     this.accountNotFound = false;
-    this.accountSummaryService.getAccountSummary(this.selectedMembership).then((accountSummary: IAccountSummary) => {
+    this.destinyProfileService.getAccountSummary(this.selectedMembership).then((accountSummary: IAccountSummary) => {
       this.accountSummary = accountSummary;
       if (this.accountSummary == null) {
         this.accountNotFound = true;
@@ -97,7 +97,7 @@ export class ReputationComponent extends CardComponent {
       this.privacyError = true;
     }
     else {
-      this.characterProgressionService.getCharacterProgression(this.selectedMembership, characterId).then((characterProgressions) => {
+      this.destinyProfileService.getCharacterProgression(this.selectedMembership, characterId).then((characterProgressions) => {
         if (characterProgressions == null)
           return;
 

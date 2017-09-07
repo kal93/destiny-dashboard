@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CardComponent } from '../_base/card.component';
-import { SharedBungie } from 'app/bungie/shared-bungie.service';
 import { SharedApp } from 'app/shared/services/shared-app.service';
 
 import { ClanLeaderboardsStatsService, GetBungieAccountService } from 'app/bungie/services/service.barrel';
@@ -47,7 +46,7 @@ export class ClanLeaderboardsComponent extends CardComponent {
   lbLongestSingleLife: LbStats;
 
   constructor(private clanLeaderboardsStatsService: ClanLeaderboardsStatsService, public domSanitizer: DomSanitizer, private getBungieAccountService: GetBungieAccountService,
-    private sharedBungie: SharedBungie, public sharedApp: SharedApp) {
+    public sharedApp: SharedApp) {
     super(sharedApp);
   }
 

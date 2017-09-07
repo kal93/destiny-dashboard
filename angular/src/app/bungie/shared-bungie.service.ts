@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpRequestType, HttpService } from '../shared/services/http.service';
-import { BasicProfileService } from 'app/bungie/services/destiny/profile/basic-profile.service';
+import { DestinyProfileService } from 'app/bungie/services/service.barrel';
 
 import { environment } from '../../environments/environment';
 import { BungieNetUser, DestinyMembership, DestinyMembershipType } from './services/user/user.interface';
@@ -12,7 +12,7 @@ export class SharedBungie {
     public bungieNetUser: BungieNetUser;
     public destinyMemberships: DestinyMembership[];
 
-    constructor(private basicProfileService: BasicProfileService, public http: HttpService) { }
+    constructor(private destinyProfileService: DestinyProfileService, public http: HttpService) { }
 
     getMembershipsForCurrentUser(): Promise<Array<DestinyMembership>> {
         //Get bungie account information, cache for 5 minutes
@@ -24,7 +24,7 @@ export class SharedBungie {
 
                 let basicProfilePromises = new Array<Promise<any>>();
                 this.destinyMemberships.forEach((membership) => {
-                    let profilePromise = this.basicProfileService.getBasicProfile(membership).then((response) => {
+                    let profilePromise = this.destinyProfileService.getBasicProfile(membership).then((response) => {
                     }).catch((error) => {
                         // Remove membership
                         this.destinyMemberships.splice(this.destinyMemberships.indexOf(membership), 1);

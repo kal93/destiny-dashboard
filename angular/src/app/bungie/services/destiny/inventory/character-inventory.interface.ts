@@ -1,4 +1,4 @@
-import { Progression, Stat3 } from "../shared.interface";
+import { Progression, Stat3 } from "app/bungie/services/destiny/shared.interface";
 import { InventoryItem } from "./inventory-item.interface";
 
 export interface ICharacterInventory {

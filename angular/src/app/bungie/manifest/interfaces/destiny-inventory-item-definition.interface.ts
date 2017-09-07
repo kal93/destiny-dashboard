@@ -1,4 +1,4 @@
-import { DisplayProperties } from "../../services/destiny/shared.interface";
+import { DisplayProperties } from "app/bungie/services/destiny/shared.interface";
 
 export interface DestinyInventoryItemDefinition {
     action: Action;

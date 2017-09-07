@@ -1,4 +1,4 @@
-import { DestinyFactionDefinition, DestinyMilestoneDefinition, DestinyProgressionDefinition } from "../../../manifest/interfaces/";
+import { DestinyFactionDefinition, DestinyMilestoneDefinition, DestinyProgressionDefinition } from "app/bungie/manifest/interfaces/";
 
 export interface ICharacterProgression {
     progressions: ProgressionWraper;

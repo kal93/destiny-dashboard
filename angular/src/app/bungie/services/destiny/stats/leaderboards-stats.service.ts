@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpRequestType, HttpService } from 'app/shared/services/http.service';
 import { SharedApp } from 'app/shared/services/shared-app.service';
-import { SharedBungie } from 'app/bungie/shared-bungie.service';
 
 import { CharacterBase, DestinyMembership } from '../../interface.barrel'
 import { ModeTypes } from '../../enums.interface';
@@ -10,7 +9,7 @@ import { ModeTypes } from '../../enums.interface';
 export class LeaderboardsStatsService {
     private cacheTimeMs: number = 60000;
 
-    constructor(private http: HttpService, private sharedApp: SharedApp, private sharedBungie: SharedBungie) {
+    constructor(private http: HttpService, private sharedApp: SharedApp) {
     }
 
     getClanleaderboardStats(membership: DestinyMembership, character: CharacterBase, modes: Array<ModeTypes>, maxTop = 4, statId?: string): Promise<any> {

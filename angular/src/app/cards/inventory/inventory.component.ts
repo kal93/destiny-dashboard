@@ -14,7 +14,7 @@ import { InventoryUtils } from 'app/bungie/services/destiny/inventory/inventory-
 import { ISubNavItem } from 'app/nav/nav.interface';
 import { Loadout } from './loadouts/loadouts.interface';
 
-import { AccountSummaryService, CharacterInventorySummaryService, InventoryItemService, VaultSummaryService } from 'app/bungie/services/service.barrel';
+import { CharacterInventorySummaryService, DestinyProfileService, InventoryItemService } from 'app/bungie/services/service.barrel';
 import {
     CharacterBase, DestinyMembership, InventoryBucket, InventoryItem, IAccountSummary, IProfileSummary, InventoryItemTransferResult
 } from 'app/bungie/services/interface.barrel';
@@ -72,10 +72,10 @@ export class ItemManagerComponent extends CardComponent {
     //Loadouts    
     public userLoadouts: Array<Loadout> = [];
 
-    constructor(private accountSummaryService: AccountSummaryService, private characterInventorySummaryService: CharacterInventorySummaryService,
+    constructor(private destinyProfileService: DestinyProfileService, private characterInventorySummaryService: CharacterInventorySummaryService,
         public domSanitizer: DomSanitizer, private inventoryItemService: InventoryItemService,
         private mdDialog: MdDialog, public manifestService: ManifestService, private sharedBungie: SharedBungie,
-        public sharedApp: SharedApp, private vaultSummaryService: VaultSummaryService) {
+        public sharedApp: SharedApp, private DestinyProfileService: DestinyProfileService) {
         super(sharedApp);
     }
 
@@ -104,7 +104,7 @@ export class ItemManagerComponent extends CardComponent {
     getFullInventory(): Promise<any> {
         return new Promise((resolve, reject) => {
             // Get Account Summary to get the list of available characters
-            this.accountSummaryService.getAccountSummary(this.selectedMembership).then((accountSummary: IAccountSummary) => {
+            this.destinyProfileService.getAccountSummary(this.selectedMembership).then((accountSummary: IAccountSummary) => {
                 this.accountSummary = accountSummary;
                 if (this.accountSummary == null) {
                     this.sharedApp.showError("Account not found for Destiny 2!");
@@ -162,7 +162,7 @@ export class ItemManagerComponent extends CardComponent {
     }
 
     loadVaultInventory(): Promise<any> {
-        return this.vaultSummaryService.getVaultSummary(this.selectedMembership).then((vaultSummaryResponse: IProfileSummary) => {
+        return this.DestinyProfileService.getProfileSummary(this.selectedMembership).then((vaultSummaryResponse: IProfileSummary) => {
             this.populateBuckets(3, vaultSummaryResponse.profileInventory.data.items);
         }).catch((error) => {
             this.sharedApp.showError("Error loading vault inventory", error);
