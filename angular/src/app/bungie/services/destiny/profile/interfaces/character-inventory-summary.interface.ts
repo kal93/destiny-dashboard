@@ -1,5 +1,5 @@
 import { Currency } from "app/bungie/services/destiny/shared.interface";
-import { InventoryItem } from "./inventory-item.interface";
+import { InventoryItem, InventoryItemStatsBase } from "app/bungie/services/interface.barrel";
 
 export interface ICharacterInventorySummary {
   inventory: Inventory;
@@ -17,6 +17,12 @@ interface ItemComponents {
   sockets: Sockets;
   talentGrids: TalentGrids;
   plugStates: PlugStates;
+  stats: any;
+}
+
+interface Instances {
+  data: { [key: number]: InventoryItemStatsBase[] };
+  privacy: number;
 }
 
 interface Inventory {
@@ -86,74 +92,6 @@ interface Perk {
 interface Objectives {
   data: any;
   privacy: number;
-}
-
-
-interface Instances {
-  data: Data6;
-  privacy: number;
-}
-
-interface Data6 {
-  '6917529029283892198': _6917529029283892198;
-  '6917529029276232266': _6917529029283892198;
-  '6917529029281192284': _6917529029283892198;
-  '6917529029278891265': _6917529029278891265;
-  '6917529029283894977': _6917529029278891265;
-  '6917529029278885840': _6917529029278891265;
-  '6917529029276241822': _6917529029278891265;
-  '6917529029276241776': _6917529029278891265;
-  '6917529029281201435': _6917529029281201435;
-  '6917529029268463882': _6917529029281201435;
-  '6917529029281201403': _6917529029281201435;
-  '6917529029245306475': _6917529029281201435;
-  '6917529029242695833': _6917529029281201435;
-  '6917529029245306238': _6917529029281201435;
-  '6917529029268469558': _6917529029278891265;
-  '6917529029283896392': _6917529029281201435;
-  '6917529029281199517': _6917529029281201435;
-}
-
-interface _6917529029281201435 {
-  damageType: number;
-  itemLevel: number;
-  quality: number;
-  isEquipped: boolean;
-  canEquip: boolean;
-  equipRequiredLevel: number;
-  unlockHashesRequiredToEquip: number[];
-  cannotEquipReason: number;
-}
-
-interface _6917529029278891265 {
-  damageType: number;
-  primaryStat: PrimaryStat;
-  itemLevel: number;
-  quality: number;
-  isEquipped: boolean;
-  canEquip: boolean;
-  equipRequiredLevel: number;
-  unlockHashesRequiredToEquip: number[];
-  cannotEquipReason: number;
-}
-
-interface _6917529029283892198 {
-  damageType: number;
-  damageTypeHash: number;
-  primaryStat: PrimaryStat;
-  itemLevel: number;
-  quality: number;
-  isEquipped: boolean;
-  canEquip: boolean;
-  equipRequiredLevel: number;
-  unlockHashesRequiredToEquip: number[];
-  cannotEquipReason: number;
-}
-
-interface PrimaryStat {
-  statHash: number;
-  value: number;
-  maximumValue: number;
 }
 
 interface Equipment {

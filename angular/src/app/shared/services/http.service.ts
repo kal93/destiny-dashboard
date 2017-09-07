@@ -304,7 +304,7 @@ export class HttpService {
                     return reject(error);
 
                 default:
-                    console.log(error);
+                    console.error(error);
                     break;
             }
 
@@ -470,7 +470,7 @@ export class HttpService {
     }
 
     handleError(error) {
-        console.log(error);
+        console.error(error);
         throw error;
     }
 }

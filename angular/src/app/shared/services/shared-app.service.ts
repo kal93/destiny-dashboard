@@ -172,7 +172,7 @@ export class SharedApp {
                     : localStorage.setItem(key, value.toString());
         }
         catch (error) {
-            console.log("Could not set local storage. Quota may be exceeded.");
+            console.error("Could not set local storage. Quota may be exceeded.");
             this.globalErrorHandler.handleError(error);
         }
     }

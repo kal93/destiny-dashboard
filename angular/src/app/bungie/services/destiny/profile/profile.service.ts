@@ -4,9 +4,10 @@ import { SharedApp } from 'app/shared/services/shared-app.service';
 import { ManifestService } from 'app/bungie/manifest/manifest.service';
 import { ComponentTypes } from 'app/bungie/services/enums.interface';
 
-import { ProfileBasic, CharacterBase, IAccountSummary } from './';
-
-import { DestinyMembership, ICharacterProgression, IProfileSummary, FactionBase, ProgressionBase, MilestoneBase } from 'app/bungie/services/interface.barrel';
+import {
+    CharacterBase, DestinyMembership, IAccountSummary, ICharacterInventorySummary, ICharacterProgression, IProfileSummary,
+    FactionBase, ProfileBasic, ProgressionBase, MilestoneBase
+} from 'app/bungie/services/interface.barrel';
 
 @Injectable()
 export class DestinyProfileService {
@@ -21,7 +22,7 @@ export class DestinyProfileService {
 
     private getDestinyProfileCharacterResponse(membership: DestinyMembership, characterId: string, components: Array<ComponentTypes>, httpRequestType: HttpRequestType, cacheTimeMs: number = 0): Promise<any> {
         let requestUrl = "https://www.bungie.net/Platform/Destiny2/" + membership.membershipType + "/Profile/" + membership.membershipId + "/Character/" + characterId +
-            "/?components=" + ComponentTypes.CharacterProgressions;
+            "/?components=" + components.join();
 
         return this.http.getWithCache(requestUrl, httpRequestType, cacheTimeMs);
     }
@@ -47,6 +48,27 @@ export class DestinyProfileService {
 
             return accountSummary;
         });
+    }
+
+    getCharacterInventorySummary(membership: DestinyMembership, characterId: string): Promise<ICharacterInventorySummary> {
+        return this.getDestinyProfileCharacterResponse(membership, characterId,
+            [ComponentTypes.CharacterInventories, ComponentTypes.CharacterEquipment, ComponentTypes.ItemInstances],
+            HttpRequestType.BUNGIE_PRIVILEGED).then((response: ICharacterInventorySummary) => {
+                // A map of the stats we asked for (ComponentTypes.ItemInstances)
+                let statsMap = response.itemComponents.instances.data;
+
+                // Populate inventory items with their item stat values
+                response.inventory.data.items.forEach((inventoryItem) => {
+                    inventoryItem.itemComponentData = statsMap[inventoryItem.itemInstanceId];
+                });
+
+                // Populate equipment with their item values
+                response.equipment.data.items.forEach((inventoryItem) => {
+                    inventoryItem.itemComponentData = statsMap[inventoryItem.itemInstanceId];
+                });
+
+                return response;
+            });
     }
 
     getCharacterProgression(membership: DestinyMembership, characterId: string): Promise<ICharacterProgression> {

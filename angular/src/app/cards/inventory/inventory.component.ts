@@ -14,7 +14,7 @@ import { InventoryUtils } from 'app/bungie/services/destiny/inventory/inventory-
 import { ISubNavItem } from 'app/nav/nav.interface';
 import { Loadout } from './loadouts/loadouts.interface';
 
-import { CharacterInventorySummaryService, DestinyProfileService, InventoryItemService } from 'app/bungie/services/service.barrel';
+import { DestinyProfileService, InventoryItemService } from 'app/bungie/services/service.barrel';
 import {
     CharacterBase, DestinyMembership, InventoryBucket, InventoryItem, IAccountSummary, IProfileSummary, InventoryItemTransferResult
 } from 'app/bungie/services/interface.barrel';
@@ -72,10 +72,9 @@ export class ItemManagerComponent extends CardComponent {
     //Loadouts    
     public userLoadouts: Array<Loadout> = [];
 
-    constructor(private destinyProfileService: DestinyProfileService, private characterInventorySummaryService: CharacterInventorySummaryService,
-        public domSanitizer: DomSanitizer, private inventoryItemService: InventoryItemService,
-        private mdDialog: MdDialog, public manifestService: ManifestService, private sharedBungie: SharedBungie,
-        public sharedApp: SharedApp, private DestinyProfileService: DestinyProfileService) {
+    constructor(private destinyProfileService: DestinyProfileService, public domSanitizer: DomSanitizer,
+        private inventoryItemService: InventoryItemService, private mdDialog: MdDialog, public manifestService: ManifestService,
+        private sharedBungie: SharedBungie, public sharedApp: SharedApp, private DestinyProfileService: DestinyProfileService) {
         super(sharedApp);
     }
 
@@ -110,7 +109,6 @@ export class ItemManagerComponent extends CardComponent {
                     this.sharedApp.showError("Account not found for Destiny 2!");
                     return;
                 }
-                console.log(accountSummary);
 
                 // Init buckets
                 this.bucketGroupsArray = new Array<Array<Array<InventoryBucket>>>(4);
@@ -152,7 +150,7 @@ export class ItemManagerComponent extends CardComponent {
 
     loadCharacterInventory(characterIndex: number): Promise<any> {
         let character: CharacterBase = this.accountSummary.characterData[characterIndex];
-        return this.characterInventorySummaryService.getCharacterInventorySummary(this.selectedMembership, character.characterId).then((inventoryResponse) => {
+        return this.destinyProfileService.getCharacterInventorySummary(this.selectedMembership, character.characterId).then((inventoryResponse) => {
             let allInventoryItems = inventoryResponse.inventory.data.items;
             allInventoryItems = allInventoryItems.concat(inventoryResponse.equipment.data.items);
             this.populateBuckets(characterIndex, allInventoryItems);
@@ -162,7 +160,7 @@ export class ItemManagerComponent extends CardComponent {
     }
 
     loadVaultInventory(): Promise<any> {
-        return this.DestinyProfileService.getProfileSummary(this.selectedMembership).then((vaultSummaryResponse: IProfileSummary) => {
+        return this.destinyProfileService.getProfileSummary(this.selectedMembership).then((vaultSummaryResponse: IProfileSummary) => {
             this.populateBuckets(3, vaultSummaryResponse.profileInventory.data.items);
         }).catch((error) => {
             this.sharedApp.showError("Error loading vault inventory", error);
