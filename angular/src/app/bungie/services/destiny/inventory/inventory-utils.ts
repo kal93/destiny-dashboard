@@ -11,32 +11,36 @@ export class InventoryUtils {
         bucketItemsResponse.forEach((inventoryItem) => {
             // Get the vault item definition 
             inventoryItem.itemValue = manifestService.getManifestEntry("DestinyInventoryItemDefinition", inventoryItem.itemHash);
-
-            // Set the character index so we can reference it later
-            inventoryItem.characterIndex = characterIndex;
-
-            let inventoryBucket: InventoryBucket = bucketsMap.get(inventoryItem.itemValue.inventory.bucketTypeHash);
-
-            // If the bucket for this vault item doesn't exist yet, create it
-            if (inventoryBucket == null) {
-                let bucketValue = manifestService.getManifestEntry("DestinyInventoryBucketDefinition", inventoryItem.itemValue.inventory.bucketTypeHash);
-                inventoryBucket = {
-                    hash: inventoryItem.itemValue.inventory.bucketTypeHash,
-                    bucketValue: bucketValue,
-                    items: new Array<InventoryItem>(),
-                    filteredOut: false
-                }
-                if (bucketValue.category != 0)
-                    bucketsMap.set(inventoryItem.itemValue.inventory.bucketTypeHash, inventoryBucket);
+            if (inventoryItem.itemValue == null) {
+                console.error("Inventory Item was null for hash: " + inventoryItem.itemHash);
             }
-            // Get the damage type definition, if exists
-            if (inventoryItem.itemValue.defaultDamageTypeHash != 0)
-                inventoryItem.damageTypeValue = manifestService.getManifestEntry("DestinyDamageTypeDefinition", inventoryItem.itemValue.defaultDamageTypeHash);
+            else {
+                // Set the character index so we can reference it later
+                inventoryItem.characterIndex = characterIndex;
 
-            inventoryBucket.items.push(inventoryItem);
+                let inventoryBucket: InventoryBucket = bucketsMap.get(inventoryItem.itemValue.inventory.bucketTypeHash);
 
-            // Add this item to the inventoryItemHash map
-            inventoryItemHashMap.set(inventoryItem.itemInstanceId, inventoryItem);
+                // If the bucket for this vault item doesn't exist yet, create it
+                if (inventoryBucket == null) {
+                    let bucketValue = manifestService.getManifestEntry("DestinyInventoryBucketDefinition", inventoryItem.itemValue.inventory.bucketTypeHash);
+                    inventoryBucket = {
+                        hash: inventoryItem.itemValue.inventory.bucketTypeHash,
+                        bucketValue: bucketValue,
+                        items: new Array<InventoryItem>(),
+                        filteredOut: false
+                    }
+                    if (bucketValue.category != 0)
+                        bucketsMap.set(inventoryItem.itemValue.inventory.bucketTypeHash, inventoryBucket);
+                }
+                // Get the damage type definition, if exists
+                if (inventoryItem.itemValue.defaultDamageTypeHash != 0)
+                    inventoryItem.damageTypeValue = manifestService.getManifestEntry("DestinyDamageTypeDefinition", inventoryItem.itemValue.defaultDamageTypeHash);
+
+                inventoryBucket.items.push(inventoryItem);
+
+                // Add this item to the inventoryItemHash map
+                inventoryItemHashMap.set(inventoryItem.itemInstanceId, inventoryItem);
+            }
         });
     }
 
