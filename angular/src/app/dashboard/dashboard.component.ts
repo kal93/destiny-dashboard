@@ -97,11 +97,11 @@ export class DashboardComponent {
       title: 'Create Dashboard', materialIcon: 'library_add',
       selectedCallback: (subNavItem: ISubNavItem) => {
         if (this.sharedApp.accessToken == null) {
-          this.sharedApp.showWarning("Please log in to create dashboards.");
+          this.sharedApp.showInfo("Please log in to create dashboards.");
           return;
         }
         if (this.sharedDashboard.userDashboards.length >= 7) {
-          this.sharedApp.showWarning("You can only create up to 7 dashboards.");
+          this.sharedApp.showInfo("You can only create up to 7 dashboards.");
           return;
         }
 
@@ -119,7 +119,7 @@ export class DashboardComponent {
             this.sharedDashboard.userDashboards.push(newDashboard);
 
             // Set this as the newly selected dashboard and send to database
-            this.sharedDashboard.selectedDashboard = newDashboard;
+            this.sharedDashboard.setSelectedDashboard(newDashboard);
             this.sharedDashboard.saveUserDashboard(this.sharedDashboard.selectedDashboard).then(() => {
               // Turn on edit mode, and show add card
               this.setEditMode(true);
@@ -134,6 +134,10 @@ export class DashboardComponent {
     this.sharedApp.subNavItems.push({
       title: 'Edit Current Dashboard', materialIcon: 'format_line_spacing',
       selectedCallback: (subNavItem: ISubNavItem) => {
+        if (this.sharedDashboard.isDefaultDashboardSelected) {
+          this.sharedApp.showInfo("You cannot edit a Default Dashboard. Create a dashboard, or edit one of your custom dashboards.");
+          return;
+        }
         this.showAddCard = false;
         this.setEditMode(true);
       }

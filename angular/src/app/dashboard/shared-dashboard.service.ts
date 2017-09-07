@@ -14,54 +14,71 @@ import { Subscription } from 'rxjs/Subscription';
 export class SharedDashboard {
     // Shared dashboard vairables
     public editMode: boolean = false;
+    public isDefaultDashboardSelected: boolean = true;
 
-    //Notify other parts of the application when we have changed dashboards
-    public userDashboardsChangedSubject = new Subject<void>();
-
-    private _userDashboards = new Array<IUserDashboard>();
-    get userDashboards(): Array<IUserDashboard> {
-        return this._userDashboards;
-    }
-    set userDashboards(userDashboards: Array<IUserDashboard>) {
-        this._userDashboards = userDashboards;
-
-        let lastDashboardIndex = this.sharedApp.getLocalStorage("selectedDashboardId", 0);
-        if (lastDashboardIndex >= this.userDashboards.length) lastDashboardIndex = 0;
-        this._selectedDashboard = this.userDashboards[lastDashboardIndex];
-
-        this.userDashboardsChangedSubject.next();
-    }
-
-    private _selectedDashboard: IUserDashboard;
-    get selectedDashboard(): IUserDashboard {
-        return this._selectedDashboard;
-    }
-    set selectedDashboard(selectedDashboard: IUserDashboard) {
-        this._selectedDashboard = selectedDashboard;
-        this.sharedApp.setLocalStorage("selectedDashboardId", this.userDashboards.indexOf(selectedDashboard));
-    }
+    userDashboards = new Array<IUserDashboard>();
+    selectedDashboard: IUserDashboard;
 
     constructor(public http: HttpService, protected sharedApp: SharedApp) { }
 
+    setDashboards(userDashboards: Array<IUserDashboard>) {
+        if (this.sharedApp.accessToken == null) {
+            this.userDashboards = new Array<IUserDashboard>();
+            this.selectedDashboard = CardDefinitions.defaultDashboards[0];
+        }
+        else {
+            this.userDashboards = userDashboards;
+        }
+    }
+
+    setSelectedDashboard(dashboard: IUserDashboard) {
+        if (this.sharedApp.accessToken == null || dashboard == null) {
+            this.selectedDashboard = CardDefinitions.defaultDashboards[0];
+            this.isDefaultDashboardSelected = true;
+        }
+        else {
+            this.selectedDashboard = dashboard;
+            let lastDashboardIndex = this.userDashboards.indexOf(dashboard);
+
+            // Only save the dashboard index if it exists in the users dashboards. Otherwise it's a default dash
+            if (lastDashboardIndex >= 0) {
+                this.sharedApp.setLocalStorage("lastDashboardIndex", lastDashboardIndex);
+                this.isDefaultDashboardSelected = false;
+            }
+            else {
+                this.isDefaultDashboardSelected = true;
+            }
+        }
+    }
+
+    clearUserDashboards() {
+        this.userDashboards = new Array<IUserDashboard>();
+        this.selectedDashboard = CardDefinitions.defaultDashboards[0];
+    }
+
     loadUser(): Promise<any> {
         return Promise.all([this.getUserDashboards(), this.getUserPreferences()]).then((responses: Array<any>) => {
-            let layoutResponse: Array<IUserDashboard> = responses[0];
+            let dashboardsResponse: Array<IUserDashboard> = responses[0];
             //User had no cards saved in the database
-            if (layoutResponse.length == 0) {
-                this.sharedApp.showInfoOnce("Add or remove cards to customize your dashboard.");
+            if (dashboardsResponse.length == 0) {
+                this.sharedApp.showInfoOnce("We created you your first dashboard. Add or remove cards to customize your dashboard.");
 
-                // If user has absolutely no cards, give them the default ones and save them
+                // If user has absolutely no cards, give them a clone of the first default one and save
                 if (this.userDashboards.length == 0) {
-                    this.userDashboards = CardDefinitions.defaultDashboards;
-                    this.selectedDashboard = this.userDashboards[0];
-                    this.userDashboards.forEach((defaultDashboard) => {
-                        this.saveUserDashboard(defaultDashboard);
-                    });
+                    let firstDefaultDashboard: IUserDashboard = this.sharedApp.deepCopyObject(CardDefinitions.defaultDashboards[0]);
+                    firstDefaultDashboard.name = "My First Dashboard";
+                    this.setDashboards([firstDefaultDashboard]);
+                    this.setSelectedDashboard(firstDefaultDashboard);
+                    this.saveUserDashboard(firstDefaultDashboard);
                 }
             }
             else {
-                this.userDashboards = CardDefinitions.initDashboardsFromAPI(layoutResponse);
+                this.setDashboards(CardDefinitions.initDashboardsFromAPI(dashboardsResponse));
+                let lastDashboardIndex = this.sharedApp.getLocalStorage("lastDashboardIndex", 0);
+                if (lastDashboardIndex >= this.userDashboards.length) lastDashboardIndex = 0;
+                this.selectedDashboard = this.userDashboards[lastDashboardIndex];
             }
+            this.isDefaultDashboardSelected = false;
 
             this.sharedApp.userPreferences = responses[1];
         }).catch((error) => {
@@ -73,7 +90,7 @@ export class SharedDashboard {
 
     reloadLayout() {
         //Create a new object with a new reference so the dashboard reloads
-        this.userDashboards = this.sharedApp.deepCopyObject(this.userDashboards);
+        this.setDashboards(this.sharedApp.deepCopyObject(this.userDashboards));
 
         //If we're reloading the layout, clear caches too
         this.sharedApp.invalidateCachesSubject.next();

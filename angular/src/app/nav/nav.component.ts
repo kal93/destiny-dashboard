@@ -21,6 +21,7 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class NavComponent {
   environment = environment;
+  cardDefinitions = CardDefinitions;
 
   @ViewChild("mainNav")
   mainNav: MdSidenav;
@@ -35,7 +36,9 @@ export class NavComponent {
 
   //Remember dashboard menu state when navigating back to dashboard
   quickLinksCollapsed: boolean = false;
-  dashboardsCollapsed: boolean = false;
+  myDashboardsCollapsed: boolean = false;
+  defaultDashboardsCollapsed: boolean = false;
+
   routeChangedFromNav: boolean = false;
   openMenuOnDashboardLoad: boolean = false;
 
@@ -97,7 +100,7 @@ export class NavComponent {
     this.sharedBungie.deleteAccessToken();
     this.sharedApp.accessToken = this.sharedApp.accessTokenExpires = this.sharedApp.refreshToken = this.sharedApp.membershipId = this.sharedBungie.bungieNetUser = this.sharedBungie.destinyMemberships = null;
     this.sharedApp.removeLocalStorage("accessToken", "accessTokenExpires", "refreshToken", "membershipId", "bungieAuthCode");
-    this.sharedDashboard.userDashboards = CardDefinitions.defaultDashboards;
+    this.sharedDashboard.clearUserDashboards()
     this.sharedApp.invalidateCachesSubject.next();
     this.backToDashboard();
   }
@@ -117,7 +120,7 @@ export class NavComponent {
   }
 
   selectDashboard(dashboard: IUserDashboard) {
-    this.sharedDashboard.selectedDashboard = dashboard;
+    this.sharedDashboard.setSelectedDashboard(dashboard);
     this.router.navigate(['/dashboard']);
     this.mainNav.close();
   }

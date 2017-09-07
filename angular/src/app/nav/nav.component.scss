@@ -141,11 +141,13 @@
             background-color: mat-color($app-primary);
             color: $app-text-light;
             cursor: pointer;
+            font-size: .9em;
 
             .carrot {
                 float: right;
                 transition: all 250ms ease;
                 cursor: pointer;
+                margin-left: 10px;
 
                 &.collapsed {
                     margin-top: -4px;

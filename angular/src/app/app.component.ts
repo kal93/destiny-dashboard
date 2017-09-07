@@ -62,7 +62,6 @@ export class AppComponent {
         }).catch((error) => {
           this.sharedApp.showError("There was an error when getting the Access Token from Bungie. Please try again.", error);
           this.sharedApp.logOutSubject.next();
-          this.sharedDashboard.userDashboards = CardDefinitions.defaultDashboards;
           this.setAppInitialized();
         });
       }
@@ -73,8 +72,7 @@ export class AppComponent {
   }
 
   welcomeUser() {
-    this.sharedDashboard.userDashboards = CardDefinitions.defaultDashboards;
-
+    this.sharedDashboard.clearUserDashboards();
     if (!this.sharedApp.localStorageDisabled && this.sharedApp.getLocalStorage("LimitedFeaturesDialog") == null) {
       let dialogRef = this.mdDialog.open(ConfirmDialog, { height: '230px', width: '290px', });
       dialogRef.componentInstance.title = "Limited Features";

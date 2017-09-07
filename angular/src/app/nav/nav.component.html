@@ -80,25 +80,35 @@
       </div>
     </ng-container>
 
-    <!-- QuickLinks Nav Items-->
+    <!-- QuickLinks Nav Items -->
     <div class="section-header" color="primary" (click)="quickLinksCollapsed = !quickLinksCollapsed">
       Quick Links
       <md-icon class="carrot" [class.collapsed]="quickLinksCollapsed">keyboard_arrow_down</md-icon>
     </div>
-    <md-nav-list *ngIf="sharedDashboard.selectedDashboard != null" [style.max-height]="quickLinksCollapsed ? '0':'500px'">
+    <md-nav-list [style.max-height]="quickLinksCollapsed ? '0':'500px'">
       <md-list-item (click)="navigateToRoute('/database')">Database</md-list-item>
       <md-list-item (click)="navigateToRoute('/inventory')">Inventory</md-list-item>
       <md-list-item (click)="navigateToRoute('/reputation')">Reputation</md-list-item>
       <md-list-item (click)="navigateToRoute('/stats')">Stats</md-list-item>
     </md-nav-list>
 
-    <!-- Dashboard Nav Items-->
-    <div class="section-header" color="primary" (click)="dashboardsCollapsed = !dashboardsCollapsed">
-      Dashboards
-      <md-icon class="carrot" [class.collapsed]="dashboardsCollapsed">keyboard_arrow_down</md-icon>
+    <!-- My Dashboards -->
+    <div *ngIf="sharedDashboard.userDashboards.length > 0" class="section-header" color="primary" (click)="myDashboardsCollapsed = !myDashboardsCollapsed">
+      My Dashboards
+      <md-icon class="carrot" [class.collapsed]="myDashboardsCollapsed">keyboard_arrow_down</md-icon>
     </div>
-    <md-nav-list *ngFor="let dashboard of sharedDashboard.userDashboards" [style.max-height]="dashboardsCollapsed ? '0':'500px'"
-      [style.overflow-y]="dashboardsCollapsed ? 'hidden' : 'auto'">
+    <md-nav-list *ngFor="let dashboard of sharedDashboard.userDashboards" [style.max-height]="myDashboardsCollapsed ? '0':'500px'"
+      [style.overflow-y]="myDashboardsCollapsed ? 'hidden' : 'auto'">
+      <md-list-item [style.color]="dashboard == sharedDashboard.selectedDashboard ? '#03A9F4':''" (click)="selectDashboard(dashboard)">{{dashboard.name}}</md-list-item>
+    </md-nav-list>
+
+    <!-- Default Dashboards -->
+    <div class="section-header" color="primary" (click)="defaultDashboardsCollapsed = !defaultDashboardsCollapsed">
+      Default Dashboards
+      <md-icon class="carrot" [class.collapsed]="defaultDashboardsCollapsed">keyboard_arrow_down</md-icon>
+    </div>
+    <md-nav-list *ngFor="let dashboard of cardDefinitions.defaultDashboards" [style.max-height]="defaultDashboardsCollapsed ? '0':'500px'"
+      [style.overflow-y]="defaultDashboardsCollapsed ? 'hidden' : 'auto'">
       <md-list-item [style.color]="dashboard == sharedDashboard.selectedDashboard ? '#03A9F4':''" (click)="selectDashboard(dashboard)">{{dashboard.name}}</md-list-item>
     </md-nav-list>
 
