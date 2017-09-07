@@ -31,30 +31,47 @@
             color: mat-color($app-secondary);
         }
 
-        .carousel-wrap {
-            margin: 20px auto 10px;
-            width: 208px;
-            height: 220px;
-            position: relative;
-            perspective: 3000px;
-            cursor: pointer;
+        .search-category {
+            margin-left: 20px;
+        }
 
-            .carousel {
-                height: 100%;
-                width: 100%;
-                position: absolute;
-                transform-style: preserve-3d;
+        .middle-wrap {
+            display: flex;
+            align-items: center;
 
-                .carousel-item {
-                    transition: all 400ms ease-in-out;
-                    display: block;
+            .arrow {
+                font-size: 50px;
+                width: 50px;
+                height: 50px;
+                color: $app-text-link;
+                cursor: pointer;
+            }
+
+            .carousel-wrap {
+                margin: 20px auto 10px;
+                width: 208px;
+                height: 220px;
+                position: relative;
+                perspective: 3000px;
+                cursor: pointer;
+
+                .carousel {
+                    height: 100%;
+                    width: 100%;
                     position: absolute;
-                    width: 208px;
-                    height: 220px;
-                    color: #FFF;
-                    background-size: contain;
-                    opacity: .96;
-                    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+                    transform-style: preserve-3d;
+
+                    .carousel-item {
+                        transition: all 400ms ease-in-out;
+                        display: block;
+                        position: absolute;
+                        width: 208px;
+                        height: 220px;
+                        color: #FFF;
+                        background-size: contain;
+                        opacity: .96;
+                        box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+                    }
                 }
             }
         }
@@ -65,6 +82,7 @@
             text-align: right;
             font-size: .9em;
             color: mat-color($app-primary);
+            margin-top: 10px;
         }
 
         .summary {
@@ -109,14 +127,20 @@
 @media(max-width: 800px) {
     .dd-add-card {
         .content {
-            .carousel-wrap {
-                width: 170px;
-                height: 180px;
+            .middle-wrap {
+                .arrow {
+                    display: none;
+                }
 
-                .carousel {
-                    .carousel-item {
-                        width: 170px;
-                        height: 180px;
+                .carousel-wrap {
+                    width: 170px;
+                    height: 180px;
+
+                    .carousel {
+                        .carousel-item {
+                            width: 170px;
+                            height: 180px;
+                        }
                     }
                 }
             }

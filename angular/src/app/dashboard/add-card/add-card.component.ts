@@ -15,6 +15,9 @@ export class AddCardComponent {
   @Output()
   addCardEvent = new EventEmitter<ICard>();
 
+  cardCategories: Array<any> = [{ value: "All" }, { value: "Stats" }, { value: "News" }, { value: "Other" },];
+  selectedCardCategory = "All";
+
   availableCards = new Array<ICardDefinition>();
   filteredCards = new Array<ICardDefinition>();
 
@@ -49,8 +52,11 @@ export class AddCardComponent {
     }
   }
 
-  applyFilter(searchText: string) {
+  cardCategoryChanged() {
+    this.applyFilter(this.searchText);
+  }
 
+  applyFilter(searchText: string) {
     //Sort available cards
     this.filteredCards = this.availableCards.slice().sort((a, b) => {
       let nameA = a.title.toLowerCase(), nameB = b.title.toLowerCase();
@@ -62,17 +68,33 @@ export class AddCardComponent {
     //Reset index
     this.carouselIndex = this.filteredIndex = 0;
 
-    //Apply text filter
     this.searchText = searchText.trim();
-    if (searchText.length == 0)
-      return;
 
     let searchTextLower = this.searchText.toLowerCase();
     for (let i = 0; i < this.filteredCards.length; i++) {
-      if (this.filteredCards[i].title.toLowerCase().indexOf(searchTextLower) == -1 &&
-        this.filteredCards[i].description.toLowerCase().indexOf(searchTextLower) == -1)
+      let cardDefinition: ICardDefinition = this.filteredCards[i];
+      var matchesFilter: boolean = true;
+
+      // Filter on search text
+      if (cardDefinition.title.toLowerCase().indexOf(searchTextLower) == -1 &&
+        cardDefinition.description.toLowerCase().indexOf(searchTextLower) == -1)
+        matchesFilter = false;
+
+      // Filter on card category
+      if (!this.doesCardMatchCategory(cardDefinition))
+        matchesFilter = false;
+
+      if (!matchesFilter)
         this.filteredCards.splice(i--, 1);
     }
+  }
+
+  doesCardMatchCategory(cardDefinition: ICardDefinition) {
+    if (this.selectedCardCategory == "All") return true;
+
+    for (let j = 0; j < cardDefinition.categories.length; j++)
+      if (cardDefinition.categories[j] == this.selectedCardCategory)
+        return true;
   }
 
   cardClicked(newFilteredIndex: number) {

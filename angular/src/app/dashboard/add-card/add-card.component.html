@@ -8,21 +8,29 @@
       <input mdInput [ngModel]="searchText" (ngModelChange)="applyFilter($event)" placeholder="Search">
     </md-form-field>
 
-    <div class="carousel-wrap">
-      <div class="carousel">
-        <ng-container *ngFor="let cardDefinition of filteredCards; let i = index">
-          <div swipeable (swipedRight)="showPreviousCard()" (swipedLeft)="showNextCard()" (swipeableClick)="cardClicked(i)" class="carousel-item {{cardDefinition.previewImageClass}}"
-            [style.transform]="sanitizer.bypassSecurityTrustStyle('rotateY(' + ((360 / filteredCards.length * i) - ((360 / filteredCards.length) * carouselIndex)) + 'deg) translateZ('+(30 * filteredCards.length + filteredCards.length * 2 ) +'px)')"></div>
+    <md-select class="search-category" placeholder="Card Category" [(ngModel)]="selectedCardCategory" (change)="cardCategoryChanged()">
+      <md-option *ngFor="let cardCategory of cardCategories" [value]="cardCategory.value"> {{ cardCategory.value }} </md-option>
+    </md-select>
 
-          <!-- //Attempt to fix the blurryness of the front card
+    <div class="middle-wrap">
+      <md-icon class="arrow" (click)="showPreviousCard()">keyboard_arrow_left</md-icon>
+      <div class="carousel-wrap">
+        <div class="carousel">
+          <ng-container *ngFor="let cardDefinition of filteredCards; let i = index">
+            <div swipeable (swipedRight)="showPreviousCard()" (swipedLeft)="showNextCard()" (swipeableClick)="cardClicked(i)" class="carousel-item {{cardDefinition.previewImageClass}}"
+              [style.transform]="sanitizer.bypassSecurityTrustStyle('rotateY(' + ((360 / filteredCards.length * i) - ((360 / filteredCards.length) * carouselIndex)) + 'deg) translateZ('+(30 * filteredCards.length + filteredCards.length * 2 ) +'px)')"></div>
+
+            <!-- //Attempt to fix the blurryness of the front card
           <div swipeable (swipedRight)="showPreviousCard()" (swipedLeft)="showNextCard()" (swipeableClick)="cardClicked(i)" class="carousel-item {{cardDefinition.previewImageClass}}"
             [style.transform]="carouselIndex % filteredCards.length == i ? 
                     'translate3d(0,0,0)'
                     : sanitizer.bypassSecurityTrustStyle('rotateY(' + ((360 / filteredCards.length * i) - ((360 / filteredCards.length) * carouselIndex)) + 'deg) translateZ('+(30 * filteredCards.length + filteredCards.length * 2 ) +'px)')"
             [style.width.px]="carouselIndex % filteredCards.length == i ?  230 : 208" [style.height.px]="carouselIndex % filteredCards.length == i ?  243 : 220"></div>
             -->
-        </ng-container>
+          </ng-container>
+        </div>
       </div>
+      <md-icon class="arrow" (click)="showNextCard()">keyboard_arrow_right</md-icon>
     </div>
 
     <div *ngIf="filteredCards.length > 0" class="search-count-summary">{{(filteredIndex % filteredCards.length) + 1}} of {{filteredCards.length}}</div>
