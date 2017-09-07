@@ -13,13 +13,13 @@ export class DestinyProfileService {
 
     constructor(protected http: HttpService, private manifestService: ManifestService, private sharedApp: SharedApp) { }
 
-    private getDestinyProfileResponse(membership: DestinyMembership, components: Array<ComponentTypes>, httpRequestType: HttpRequestType, cacheTimeMs: number = 0) {
+    private getDestinyProfileResponse(membership: DestinyMembership, components: Array<ComponentTypes>, httpRequestType: HttpRequestType, cacheTimeMs: number = 0): Promise<any> {
         let requestUrl = "https://www.bungie.net/Platform/Destiny2/" + membership.membershipType + "/Profile/" + membership.membershipId + "/?components=" + components.join(",");
 
         return this.http.getWithCache(requestUrl, httpRequestType, cacheTimeMs);
     }
 
-    private getDestinyProfileCharacterResponse(membership: DestinyMembership, characterId: string, components: Array<ComponentTypes>, httpRequestType: HttpRequestType, cacheTimeMs: number = 0) {
+    private getDestinyProfileCharacterResponse(membership: DestinyMembership, characterId: string, components: Array<ComponentTypes>, httpRequestType: HttpRequestType, cacheTimeMs: number = 0): Promise<any> {
         let requestUrl = "https://www.bungie.net/Platform/Destiny2/" + membership.membershipType + "/Profile/" + membership.membershipId + "/Character/" + characterId +
             "/?components=" + ComponentTypes.CharacterProgressions;
 

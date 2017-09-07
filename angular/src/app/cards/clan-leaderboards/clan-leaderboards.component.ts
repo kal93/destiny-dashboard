@@ -3,7 +3,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { CardComponent } from '../_base/card.component';
 import { SharedApp } from 'app/shared/services/shared-app.service';
 
-import { ClanLeaderboardsStatsService, GetBungieAccountService } from 'app/bungie/services/service.barrel';
+import { DestinyStatsService, GetBungieAccountService } from 'app/bungie/services/service.barrel';
 import { BungieGroupInfo, DestinyMembership, IClanLeaderboardsStats, IGetBungieAccount, LbStats } from 'app/bungie/services/interface.barrel';
 
 import { slideFromBottom } from 'app/shared/animations';
@@ -45,7 +45,7 @@ export class ClanLeaderboardsComponent extends CardComponent {
   lbLongestKillSpree: LbStats;
   lbLongestSingleLife: LbStats;
 
-  constructor(private clanLeaderboardsStatsService: ClanLeaderboardsStatsService, public domSanitizer: DomSanitizer, private getBungieAccountService: GetBungieAccountService,
+  constructor(private destinyStatsService: DestinyStatsService, public domSanitizer: DomSanitizer, private getBungieAccountService: GetBungieAccountService,
     public sharedApp: SharedApp) {
     super(sharedApp);
   }
@@ -113,7 +113,7 @@ export class ClanLeaderboardsComponent extends CardComponent {
     this.lbSingleGameScore = null;
 
     // Get clan leaderboard stats
-    this.clanLeaderboardsStatsService.getClanleaderboardStats(this.bungieAccount.clans[0], [mode]).then((clanLeaderboardsStats: IClanLeaderboardsStats) => {
+    this.destinyStatsService.getClanleaderboardStats(this.bungieAccount.clans[0], [mode]).then((clanLeaderboardsStats: IClanLeaderboardsStats) => {
       this.clanLeaderboardsStats = clanLeaderboardsStats;
 
       if (this.clanLeaderboardsStats != null) {

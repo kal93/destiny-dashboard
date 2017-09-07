@@ -1,5 +1,5 @@
 import { Basic } from "app/bungie/services/destiny/shared.interface";
-import { DestinyMembership } from "../../user/user.interface";
+import { DestinyMembership } from "../../../user/user.interface";
 
 // These are the six game modes needed for the clan-leaderboards card
 //   but there are more modes available - see ModeTypes enum

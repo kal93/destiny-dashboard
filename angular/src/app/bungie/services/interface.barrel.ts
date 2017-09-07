@@ -9,7 +9,7 @@ export * from './destiny/inventory/character-inventory-summary.interface';
 export * from './destiny/inventory/inventory-item.interface';
 export * from './destiny/profile';
 
-export * from './destiny/stats/clan-leaderboards-stats.interface';
+export * from './destiny/stats';
 
 export * from './platform/oauth.interface';
 
