@@ -48,6 +48,7 @@
 //These styles only applies to dashboard cards
 .dd-card-content.dd-database {
     height: calc(100% - 40px);
+    overflow-y: auto;
 }
 
 //These styles only apply to fullscreen mode
