@@ -1,6 +1,7 @@
 export * from './content/site/news.service';
 
-export * from './destiny/inventory/inventory-item.service';
+export * from './destiny/actions/inventory/inventory-item.service';
+export * from './destiny/actions/inventory/inventory-utils';
 
 export * from './destiny/account/account-stats.service';
 export * from './destiny/account/character-stats.service';

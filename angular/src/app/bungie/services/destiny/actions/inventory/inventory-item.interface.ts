@@ -39,15 +39,11 @@ export interface InventoryItem {
 
   // Runtime variables
   characterIndex: number;
-  damageTypeValue: DestinyDamageTypeDefinition;
   filteredOut: boolean;
-  itemComponentData: any; // Populated from ComponentTypes.ItemInstances
+  itemComponentData: InventoryItemStatsBase; // Populated from ComponentTypes.ItemInstances
   itemValue: DestinyInventoryItemDefinition;
   selected: boolean;
   transferQuantity: number;
-
-  // temp vars
-  primaryStat: any;
 }
 
 export interface InventoryItemStatsBase {
@@ -61,4 +57,8 @@ export interface InventoryItemStatsBase {
   equipRequiredLevel: number;
   unlockHashesRequiredToEquip: number[];
   cannotEquipReason: number;
+
+  // Runtime variables
+  damageTypeValue: DestinyDamageTypeDefinition;
+
 }

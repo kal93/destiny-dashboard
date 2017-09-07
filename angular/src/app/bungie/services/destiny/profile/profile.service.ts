@@ -60,11 +60,17 @@ export class DestinyProfileService {
                 // Populate inventory items with their item stat values
                 response.inventory.data.items.forEach((inventoryItem) => {
                     inventoryItem.itemComponentData = statsMap[inventoryItem.itemInstanceId];
+                    // Assign damage type if it exists
+                    if (inventoryItem.itemComponentData != null)
+                        inventoryItem.itemComponentData.damageTypeValue = this.manifestService.getManifestEntry("DestinyDamageTypeDefinition", inventoryItem.itemComponentData.damageTypeHash);
                 });
 
                 // Populate equipment with their item values
                 response.equipment.data.items.forEach((inventoryItem) => {
                     inventoryItem.itemComponentData = statsMap[inventoryItem.itemInstanceId];
+                    // Assign damage type if it exists
+                    if (inventoryItem.itemComponentData != null)
+                        inventoryItem.itemComponentData.damageTypeValue = this.manifestService.getManifestEntry("DestinyDamageTypeDefinition", inventoryItem.itemComponentData.damageTypeHash);
                 });
 
                 return response;

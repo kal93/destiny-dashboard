@@ -3,7 +3,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { scaleIn } from '../../../../shared/animations';
 import { SharedApp } from 'app/shared/services/shared-app.service'
 import { ManifestService } from 'app/bungie/manifest/manifest.service';
-import { InventoryUtils } from 'app/bungie/services/destiny/inventory/inventory-utils';
+import { InventoryUtils } from 'app/bungie/services/service.barrel';
 
 import { IAccountSummary, InventoryItem } from '../../../services/interface.barrel';
 import { DestinyInventoryItemDefinition } from 'app/bungie/manifest/interfaces/';

@@ -3,7 +3,7 @@ import { MdDialog } from '@angular/material';
 import { AlertDialog } from 'app/shared/dialogs/alert.component';
 import { ConfirmDialog } from 'app/shared/dialogs/confirm.component';
 import { HttpService } from 'app/shared/services/http.service';
-import { ManifestService } from './bungie/manifest/manifest.service';
+import { ManifestService } from 'app/bungie/manifest/manifest.service';
 import { SharedApp } from 'app/shared/services/shared-app.service';
 import { SharedBungie } from './bungie/shared-bungie.service';
 import { SharedDashboard } from './dashboard/shared-dashboard.service';

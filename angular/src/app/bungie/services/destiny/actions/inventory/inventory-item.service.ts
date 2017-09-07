@@ -4,7 +4,7 @@ import { SharedApp } from 'app/shared/services/shared-app.service';
 
 import { DestinyMembership } from 'app/bungie/services/interface.barrel';
 import { IAccountSummary, InventoryItem, InventoryBucket, InventoryItemTransferResult } from 'app/bungie/services/interface.barrel';
-import { InventoryUtils } from 'app/bungie/services/destiny/inventory/inventory-utils';
+import { InventoryUtils } from './inventory-utils';
 
 import { ErrorTypes } from 'app/bungie/services/errors.interface';
 

@@ -24,7 +24,7 @@ import { NavComponent } from './nav/nav.component';
 import { GlobalErrorHandler } from './shared/services/error-handler.service';
 
 //Shared Services
-import { ManifestService } from './bungie/manifest/manifest.service';
+import { ManifestService } from 'app/bungie/manifest/manifest.service';
 import { SharedBungie } from './bungie/shared-bungie.service';
 import { SharedDashboard } from './dashboard/shared-dashboard.service';
 import { SharedApp } from './shared/services/shared-app.service';

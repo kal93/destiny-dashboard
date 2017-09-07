@@ -5,8 +5,8 @@
         <div class="header-wrap">
             <div class="item-icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + inventoryItem.itemValue.displayProperties.icon  +')')">
                 <span *ngIf="inventoryItem.quantity > 1" class="quantity">{{inventoryItem.quantity}}</span>
-                <div *ngIf="inventoryItem.primaryStat!= null" class="level" [style.background-color]="inventoryItem.itemValue.defaultDamageType!=null ? damageTypeColors[inventoryItem.itemValue.defaultDamageType]:''">
-                    {{inventoryItem.primaryStat.value}}
+                <div *ngIf="inventoryItem.itemComponentData != null" class="level" [style.background-color]="inventoryItem.itemComponentData.damageType != null ? damageTypeColors[inventoryItem.itemComponentData.damageType]:''">
+                    {{inventoryItem.itemComponentData.primaryStat?.value}}
                 </div>
             </div>
 
@@ -15,7 +15,7 @@
                 <div class="type">{{inventoryItem.itemValue.itemTypeDisplayName}}</div>
             </div>
 
-            <div *ngIf="inventoryItem.damageTypeValue != null" class="damage-icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + inventoryItem.damageTypeValue.displayProperties.icon  +')')"></div>
+            <div *ngIf="inventoryItem?.itemComponentData.damageTypeHash != null" class="damage-icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + inventoryItem.itemComponentData.damageTypeValue.displayProperties.icon  +')')"></div>
 
         </div>
         <div class="content-wrap">

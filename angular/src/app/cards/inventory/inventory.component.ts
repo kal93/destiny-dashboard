@@ -9,7 +9,7 @@ import { SharedApp } from 'app/shared/services/shared-app.service';
 import { FiltersDialog } from './filters-dialog/filters-dialog.component';
 import { LoadoutsDialog } from './loadouts/loadouts-dialog.component';
 import { TransferQuantityDialog } from './transfer-quantity-dialog/transfer-quantity-dialog.component';
-import { InventoryUtils } from 'app/bungie/services/destiny/inventory/inventory-utils';
+import { InventoryUtils } from 'app/bungie/services/service.barrel';
 
 import { ISubNavItem } from 'app/nav/nav.interface';
 import { Loadout } from './loadouts/loadouts.interface';

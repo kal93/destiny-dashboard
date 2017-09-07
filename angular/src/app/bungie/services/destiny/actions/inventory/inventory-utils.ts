@@ -1,5 +1,4 @@
-import { ManifestService } from '../../../manifest/manifest.service';
-
+import { ManifestService } from 'app/bungie/manifest/manifest.service';
 import { CharacterBase, InventoryBucket, InventoryItem } from 'app/bungie/services/interface.barrel';
 import { ClassTypes, TierTypes } from 'app/bungie/services/enums.interface';
 

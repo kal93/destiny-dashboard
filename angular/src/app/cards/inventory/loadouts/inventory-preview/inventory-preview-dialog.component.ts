@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { SimpleInputDialog } from '../../../../shared/dialogs/simple-input.component';
 import { ManifestService } from 'app/bungie/manifest/manifest.service';
-import { InventoryUtils } from 'app/bungie/services/destiny/inventory/inventory-utils';
+import { InventoryUtils } from 'app/bungie/services/service.barrel';
 import { SharedApp } from 'app/shared/services/shared-app.service';
 import { DestinyInventoryBucketDefinition, DestinyInventoryItemDefinition } from "app/bungie/manifest/interfaces";
 

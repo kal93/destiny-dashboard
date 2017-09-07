@@ -1,5 +1,5 @@
 import { Stat3 } from "app/bungie/services/destiny/shared.interface";
-import { InventoryItem } from "app/bungie/services/destiny/inventory/inventory-item.interface";
+import { InventoryItem } from "app/bungie/services/interface.barrel";
 
 export interface IProfileSummary {
     profileInventory: ProfileInventory;
