@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SharedApp } from './shared-app.service';
 
 import { ErrorTypes } from 'app/bungie/services/errors.interface';
-import { IBungieOAuth } from 'app/bungie/services/interface.barrel';
 
 import { environment } from '../../../environments/environment';
 import { Subscription } from 'rxjs/Subscription';
@@ -195,7 +194,7 @@ export class HttpService {
             this.tokenPromise = this.httpPost(tokenUrl, postBody, this.getBungieAuthHeaders())
         }
 
-        return this.tokenPromise.then((oAuthResponse: IBungieOAuth) => {
+        return this.tokenPromise.then((oAuthResponse: any) => {
             //Refresh when the token is 98% expired
             this.sharedApp.accessToken = oAuthResponse.access_token;
             this.sharedApp.accessTokenExpires = (Date.now() + oAuthResponse.expires_in * 1000 * .98);
