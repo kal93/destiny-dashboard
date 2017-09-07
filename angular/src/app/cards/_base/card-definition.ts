@@ -116,11 +116,11 @@ export class CardDefinitions {
     static defaultDashboards: Array<IUserDashboard> = [{
         id: -1, name: "Sample Dashboard", cards: [
             { id: -1, sequence: 0, definitionId: 1, layoutId: 3, definition: CardDefinitions.definitions[1], layout: CardDefinitions.definitions[1].layouts[3] },
-            { id: -2, sequence: 1, definitionId: 9, layoutId: 4, definition: CardDefinitions.definitions[9], layout: CardDefinitions.definitions[9].layouts[4] },
-            { id: -3, sequence: 2, definitionId: 2, layoutId: 0, definition: CardDefinitions.definitions[2], layout: CardDefinitions.definitions[2].layouts[0] },
-            { id: -4, sequence: 3, definitionId: 5, layoutId: 0, definition: CardDefinitions.definitions[5], layout: CardDefinitions.definitions[5].layouts[0] },
-            { id: -5, sequence: 4, definitionId: 8, layoutId: 0, definition: CardDefinitions.definitions[8], layout: CardDefinitions.definitions[8].layouts[0] },
-            { id: -6, sequence: 5, definitionId: 4, layoutId: 0, definition: CardDefinitions.definitions[4], layout: CardDefinitions.definitions[4].layouts[0] },
+            { id: -2, sequence: 1, definitionId: 3, layoutId: 2, definition: CardDefinitions.definitions[3], layout: CardDefinitions.definitions[3].layouts[2] },
+            { id: -3, sequence: 2, definitionId: 9, layoutId: 4, definition: CardDefinitions.definitions[9], layout: CardDefinitions.definitions[9].layouts[4] },
+            { id: -4, sequence: 3, definitionId: 2, layoutId: 0, definition: CardDefinitions.definitions[2], layout: CardDefinitions.definitions[2].layouts[0] },
+            { id: -5, sequence: 4, definitionId: 5, layoutId: 0, definition: CardDefinitions.definitions[5], layout: CardDefinitions.definitions[5].layouts[0] },
+            { id: -6, sequence: 5, definitionId: 8, layoutId: 0, definition: CardDefinitions.definitions[8], layout: CardDefinitions.definitions[8].layouts[0] }
         ]
     }, {
         id: -2, name: "News", cards: [

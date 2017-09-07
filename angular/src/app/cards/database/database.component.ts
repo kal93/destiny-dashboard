@@ -77,7 +77,6 @@ export class DatabaseComponent extends CardComponent {
       if (itemDefinition.classType == ClassTypes.TITAN) itemDefinition.className = "Titan";
       else if (itemDefinition.classType == ClassTypes.HUNTER) itemDefinition.className = "Hunter";
       else if (itemDefinition.classType == ClassTypes.WARLOCK) itemDefinition.className = "Warlock";
-      this.manifestInventory.push(itemDefinition);
 
       // Set tier name
       itemDefinition.tierName == "";
@@ -87,7 +86,9 @@ export class DatabaseComponent extends CardComponent {
       else if (itemDefinition.inventory.tierType == TierTypes.RARE) itemDefinition.tierName = "Rare";
       else if (itemDefinition.inventory.tierType == TierTypes.LEGENDARY) itemDefinition.tierName = "Legendary";
       else if (itemDefinition.inventory.tierType == TierTypes.EXOTIC) itemDefinition.tierName = "Exotic";
-      this.manifestInventory.push(itemDefinition);
+
+      if (itemDefinition.displayProperties.name.trim().length > 0)
+        this.manifestInventory.push(itemDefinition);
     });
 
     this.pageSize = this.getCardLocalStorage("pageSize", 15);
@@ -156,11 +157,15 @@ export class ItemDefinitionDataSource extends DataSource<any> {
           let matchesText: boolean = false;
           if (filter.text.length > 0) {
             if (item.displayProperties.nameLower.indexOf(filter.text) != -1) matchesText = true;
-            if (item.itemTypeAndTierDisplayName.toLowerCase().indexOf(filter.text) != -1) matchesText = true
+            //if (item.itemTypeAndTierDisplayName.toLowerCase().indexOf(filter.text) != -1) matchesText = true
             if (!matchesText) return false;
           }
 
           return true;
+        });
+
+        this.filteredInventoryItems.sort((a, b) => {
+          return a.displayProperties.name < b.displayProperties.name ? -1 : 1;
         });
       }
 
