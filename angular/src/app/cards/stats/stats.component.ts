@@ -3,7 +3,7 @@ import { MdTabGroup } from '@angular/material';
 import { CardComponent } from '../_base/card.component';
 import { SharedApp } from 'app/shared/services/shared-app.service';
 import { ManifestService } from 'app/bungie/manifest/manifest.service';
-import { AccountStatsService, DestinyProfileService, CharacterStatsService } from 'app/bungie/services/service.barrel';
+import { DestinyAccountService, DestinyProfileService } from 'app/bungie/services/service.barrel';
 
 import { GroupTypes, ModeTypes, PeriodTypes } from 'app/bungie/services/enums.interface';
 import { CharacterBase, DestinyMembership, IAccountStats, IAccountSummary, ICharacterStats } from 'app/bungie/services/interface.barrel';
@@ -35,7 +35,7 @@ export class StatsComponent extends CardComponent {
 
   accountNotFound: boolean = false;
 
-  constructor(private accountStatsService: AccountStatsService, private destinyProfileService: DestinyProfileService, private characterStatsService: CharacterStatsService,
+  constructor(private destinyAccountService: DestinyAccountService, private destinyProfileService: DestinyProfileService,
     private manifestService: ManifestService, public sharedApp: SharedApp) {
     super(sharedApp);
   }
@@ -86,14 +86,14 @@ export class StatsComponent extends CardComponent {
     // Index 0 is the summary. Characters are index 1- 3
     if (this.selectedTabIndex == 0) {
       // Get a summary of the account statistics
-      this.accountStatsService.getAccountStats(this.selectedMembership, [GroupTypes.GENERAL, GroupTypes.WEAPONS]).then((accountStats: IAccountStats) => {
+      this.destinyAccountService.getAccountStats(this.selectedMembership, [GroupTypes.GENERAL, GroupTypes.WEAPONS]).then((accountStats: IAccountStats) => {
         this.accountStats = accountStats;
         this.setAccountStatsWeapons();
       });
     }
     else {
       let characterId: string = this.accountSummary.characterData[this.selectedTabIndex - 1].characterId;
-      this.characterStatsService.getCharacterStats(this.selectedMembership, characterId, [GroupTypes.GENERAL], [ModeTypes.ALLPVE, ModeTypes.ALLPVP], PeriodTypes.ALLTIME).then((characterStats: ICharacterStats) => {
+      this.destinyAccountService.getCharacterStats(this.selectedMembership, characterId, [GroupTypes.GENERAL], [ModeTypes.ALLPVE, ModeTypes.ALLPVP], PeriodTypes.ALLTIME).then((characterStats: ICharacterStats) => {
         this.characterStats = characterStats;
       });
     }

@@ -11,8 +11,8 @@ import { SharedDashboard } from './dashboard/shared-dashboard.service';
 import { CardDefinitions } from './cards/_base/card-definition';
 import { ICard, IUserDashboard } from './cards/_base/card.interface';
 import {
-  AccountStatsService, BungieSiteNewsService, CharacterStatsService,
-  GetBungieAccountService, InventoryItemService, DestinyStatsService, DestinyProfileService
+  BungieSiteNewsService, DestinyAccountService, DestinyStatsService, DestinyProfileService,
+  GetBungieAccountService, InventoryItemService
 } from './bungie/services/service.barrel';
 
 
@@ -31,8 +31,8 @@ import { Angulartics2GoogleAnalytics } from 'angulartics2';
     </div>
   </div>
   `,
-  providers: [AccountStatsService, BungieSiteNewsService, CharacterStatsService,
-    GetBungieAccountService, InventoryItemService, DestinyStatsService, DestinyProfileService, SharedBungie, SharedDashboard, DestinyProfileService],
+  providers: [BungieSiteNewsService, DestinyAccountService, DestinyStatsService, DestinyProfileService,
+    GetBungieAccountService, InventoryItemService, SharedBungie, SharedDashboard],
   animations: [fadeInOut()]
 })
 export class AppComponent {

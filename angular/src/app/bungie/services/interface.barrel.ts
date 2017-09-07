@@ -1,7 +1,6 @@
 export * from './content/site/news.interface';
 
-export * from './destiny/account/account-stats.interface';
-export * from './destiny/account/character-stats.interface';
+export * from './destiny/account/interface.barrel';
 export * from './destiny/actions/inventory/inventory-item.interface';
 export * from './destiny/profile/interface.barrel';
 

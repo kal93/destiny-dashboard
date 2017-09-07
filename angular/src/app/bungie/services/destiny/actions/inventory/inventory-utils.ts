@@ -32,8 +32,8 @@ export class InventoryUtils {
                         bucketsMap.set(inventoryItem.itemValue.inventory.bucketTypeHash, inventoryBucket);
                 }
                 // Get the damage type definition, if exists
-                if (inventoryItem.itemValue.defaultDamageTypeHash != 0)
-                    inventoryItem.damageTypeValue = manifestService.getManifestEntry("DestinyDamageTypeDefinition", inventoryItem.itemValue.defaultDamageTypeHash);
+                if (inventoryItem.itemValue.defaultDamageTypeHash != 0 && inventoryItem.itemComponentData != null)
+                    inventoryItem.itemComponentData.damageTypeValue = manifestService.getManifestEntry("DestinyDamageTypeDefinition", inventoryItem.itemValue.defaultDamageTypeHash);
 
                 inventoryBucket.items.push(inventoryItem);
 
@@ -71,8 +71,8 @@ export class InventoryUtils {
             }
             if (statusA == statusB) {
                 // Sort by light level                
-                let primaryStatA = a.primaryStat != null ? a.primaryStat.value : Number.MIN_SAFE_INTEGER;
-                let primaryStatB = b.primaryStat != null ? b.primaryStat.value : Number.MIN_SAFE_INTEGER;
+                let primaryStatA = (a.itemComponentData != null && a.itemComponentData.primaryStat != null) ? a.itemComponentData.primaryStat.value : Number.MIN_SAFE_INTEGER;
+                let primaryStatB = (b.itemComponentData != null && b.itemComponentData.primaryStat != null) ? b.itemComponentData.primaryStat.value : Number.MIN_SAFE_INTEGER;
 
                 if (primaryStatA == primaryStatB) {
                     // Light is same, sort by quantity
@@ -195,9 +195,9 @@ export class InventoryUtils {
                 continue;
             }
             else {
-                if (inventoryItem.primaryStat != null) {
+                if (inventoryItem.itemComponentData != null && inventoryItem.itemComponentData.primaryStat != null) {
                     // Weapon or armor being transferred
-                    if (inventoryItem.primaryStat.value < lowestValueItem.primaryStat.value)
+                    if (inventoryItem.itemComponentData.primaryStat.value < lowestValueItem.itemComponentData.primaryStat.value)
                         lowestValueItem = inventoryItem;
                 }
                 else {
@@ -224,9 +224,9 @@ export class InventoryUtils {
                 continue;
             }
             else {
-                if (inventoryItem.primaryStat != null) {
+                if (inventoryItem.itemComponentData != null && inventoryItem.itemComponentData.primaryStat != null) {
                     // Weapon or armor being transferred
-                    if (inventoryItem.primaryStat.value > highestValueItem.primaryStat.value)
+                    if (inventoryItem.itemComponentData.primaryStat.value > highestValueItem.itemComponentData.primaryStat.value)
                         highestValueItem = inventoryItem;
                 }
                 else {

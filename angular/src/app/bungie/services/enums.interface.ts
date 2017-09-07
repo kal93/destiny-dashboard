@@ -184,3 +184,12 @@ export enum TierTypes {
     EXOTIC = 6
 }
 
+export enum TimeSpan {
+    SECONDS_1 = 1000,
+    SECONDS_30 = 1000,
+
+    MINUTES_1 = 60000,
+    MINUTES_2 = 120000,
+    MINUTES_10 = 600000
+}
+
