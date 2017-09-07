@@ -3,7 +3,7 @@
 .dd-about {
     background-color: mat-color($app-primary);
     color: $app-text-light;
-    height: 100vh;
+    min-height: 100vh;
     padding: 30px;
 
     .card {
