@@ -7,5 +7,6 @@ export * from './destiny/account/account.service';
 export * from './destiny/profile/profile.service';
 export * from './destiny/stats/stats.service';
 
-export * from './user/get-bungie-account.service';
-export * from './user/user.interface';  
+export * from './group/group.service';
+
+export * from './user/user.service';

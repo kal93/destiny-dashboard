@@ -1,3 +1,3 @@
-export * from './interfaces/stats-clan-leaderboards.interface';
+export * from './interfaces/stats-leaderboards-clan.interface';
 
 export * from './stats.service';

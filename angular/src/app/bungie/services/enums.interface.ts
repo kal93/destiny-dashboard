@@ -128,42 +128,38 @@ export enum MilestoneTypes {
 }
 
 export enum ModeTypes {
-    NONE = 0,
-    STORY = 2,
-    STRIKE = 3,
-    RAID = 4,
-    ALLPVP = 5,
-    PATROL = 6,
-    ALLPVE = 7,
-    PVPINTRODUCTION = 8,
-    THREEVSTHREE = 9,
-    CONTROL = 10,
-    LOCKDOWN = 11,
-    TEAM = 12,
-    FREEFORALL = 13,
-    TRIALSOFOSIRIS = 14,
-    DOUBLES = 15,
-    NIGHTFALL = 16,
-    HEROIC = 17,
-    ALLSTRIKES = 18,
-    IRONBANNER = 19,
-    ALLARENA = 20,
-    ARENA = 21,
-    ARENACHALLENGE = 22,
-    ELIMINATION = 23,
-    RIFT = 24,
-    ALLMAYHEM = 25,
-    MAYHEMCLASH = 26,
-    MAYHEMRUMBLE = 27,
-    ZONECONTROL = 28,
-    RACING = 29,
-    ARENAELDERCHALLENGE = 30,
-    SUPREMACY = 31,
-    PRIVATEMATCHESALL = 32,
-    SUPREMACYRUMBLE = 33,
-    SUPREMACYCLASH = 34,
-    SUPREMACYINFERNO = 35,
-    SUPREMACYMAYHEM = 36
+    None = 0,
+    Story = 2,
+    Strike = 3,
+    Reserved4 = 4,
+    AllPvP = 5,
+    Patrol = 6,
+    AllPvE = 7,
+    Reserved9 = 9,
+    Control = 10,
+    Reserved11 = 11,
+    Team = 12,
+    Reserved13 = 13,
+    Reserved15 = 15,
+    Nightfall = 16,
+    Heroic = 17,
+    AllStrikes = 18,
+    Reserved19 = 19,
+    Reserved20 = 20,
+    Reserved21 = 21,
+    Reserved22 = 22,
+    Reserved24 = 24,
+    Reserved25 = 25,
+    Reserved26 = 26,
+    Reserved27 = 27,
+    Reserved28 = 28,
+    Reserved29 = 29,
+    Reserved30 = 30,
+    Reserved32 = 32,
+    Survival = 37,
+    Countdown = 38,
+    Reserved39 = 39,
+    Social = 40
 }
 
 export enum NewsTypes {
@@ -186,10 +182,14 @@ export enum TierTypes {
 
 export enum TimeSpan {
     SECONDS_1 = 1000,
-    SECONDS_30 = 1000,
+    SECONDS_30 = 30000,
 
     MINUTES_1 = 60000,
     MINUTES_2 = 120000,
     MINUTES_10 = 600000
 }
 
+export enum GroupV2GroupTypes {
+    General = 0,
+    Clan = 1
+}

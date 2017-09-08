@@ -21,7 +21,8 @@
         color: $app-text-light;
         display: flex;
         align-items: center;
-        justify-content: space-around;
+        //justify-content: space-around;
+        justify-content: center;
         padding: 10px 4%;
 
         .icon {

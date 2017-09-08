@@ -29,6 +29,18 @@ export function fadeIn() {
     ]);
 }
 
+export function slowFadeIn() {
+    //Trigger when route is changed
+    return trigger('slowFadeIn', [
+        transition(
+            ':enter', [
+                style({ opacity: 0 }),
+                animate('3000ms', style({ opacity: 1 }))
+            ]
+        )
+    ]);
+}
+
 export function slideFromBottom() {
     return trigger('slideFromBottom', [
         transition(

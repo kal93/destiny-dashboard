@@ -12,7 +12,7 @@ import { CardDefinitions } from './cards/_base/card-definition';
 import { ICard, IUserDashboard } from './cards/_base/card.interface';
 import {
   BungieSiteNewsService, DestinyAccountService, DestinyStatsService, DestinyProfileService,
-  GetBungieAccountService, InventoryItemService
+  DestinyUserService, DestinyGroupService, InventoryItemService
 } from './bungie/services/service.barrel';
 
 
@@ -32,7 +32,7 @@ import { Angulartics2GoogleAnalytics } from 'angulartics2';
   </div>
   `,
   providers: [BungieSiteNewsService, DestinyAccountService, DestinyStatsService, DestinyProfileService,
-    GetBungieAccountService, InventoryItemService, SharedBungie, SharedDashboard],
+    DestinyUserService, DestinyGroupService, InventoryItemService, SharedBungie, SharedDashboard],
   animations: [fadeInOut()]
 })
 export class AppComponent {
