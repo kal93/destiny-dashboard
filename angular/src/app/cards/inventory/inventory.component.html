@@ -47,7 +47,7 @@
                 <div class="bucket">
                   <ng-container *ngFor="let inventoryItem of bucket.items">
                     <dd-inventory-item *ngIf="!inventoryItem.filteredOut" [inventoryItem]="inventoryItem" [accountSummary]="accountSummary" [disablePopup]="editMode"
-                      [size]="62" [edit]="editMode" [equipped]="inventoryItem.transferStatus % 2 == 1" [disabled]="editMode && inventoryItem.itemValue.nonTransferrable"
+                      [size]="62" [edit]="editMode" [equipped]="inventoryItem.transferStatus % 2 == 1" [disabled]="editMode && !InventoryUtils.isItemTransferrable(inventoryItem)"
                       [selected]="editMode && inventoryItem.selected" [textColor]="'#FFF'" (transferItemToIndexEvent)="transferItemsToIndex([$event.inventoryItem], $event.destCharacterIndex)"
                       (equipItemToIndexEvent)="equipSingleItemToIndex($event.inventoryItem, $event.destCharacterIndex)" (clicked)="inventoryItemClicked(inventoryItem)"
                       (longPress)="inventoryItemLongPress(inventoryItem)"></dd-inventory-item>
@@ -80,7 +80,7 @@
                 <div class="bucket">
                   <ng-container *ngFor="let inventoryItem of bucket.items">
                     <dd-inventory-item *ngIf="!inventoryItem.filteredOut" [inventoryItem]="inventoryItem" [accountSummary]="accountSummary" [disablePopup]="editMode"
-                      [size]="62" [edit]="editMode" [equipped]="inventoryItem.transferStatus % 2 == 1" [disabled]="editMode && inventoryItem.itemValue.nonTransferrable"
+                      [size]="62" [edit]="editMode" [equipped]="inventoryItem.transferStatus % 2 == 1" [disabled]="editMode && !InventoryUtils.isItemTransferrable(inventoryItem)"
                       [selected]="editMode && inventoryItem.selected" [textColor]="'#FFF'" (transferItemToIndexEvent)="transferItemsToIndex([$event.inventoryItem], $event.destCharacterIndex)"
                       (equipItemToIndexEvent)="equipSingleItemToIndex($event.inventoryItem, $event.destCharacterIndex)" (clicked)="inventoryItemClicked(inventoryItem)"
                       (longPress)="inventoryItemLongPress(inventoryItem)"></dd-inventory-item>

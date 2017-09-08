@@ -8,38 +8,28 @@ export class InventoryUtils {
     public static populateBucketMapFromResponse(characterIndex: number, manifestService: ManifestService, bucketItemsResponse: Array<InventoryItem>, inventoryItemHashMap: Map<string, InventoryItem>, bucketsMap: Map<number, InventoryBucket>) {
         // Loop each vault item and place in to proper bucket
         bucketItemsResponse.forEach((inventoryItem) => {
-            // Get the vault item definition 
-            inventoryItem.itemValue = manifestService.getManifestEntry("DestinyInventoryItemDefinition", inventoryItem.itemHash);
-            if (inventoryItem.itemValue == null) {
-                console.error("Inventory Item was null for hash: " + inventoryItem.itemHash);
-            }
-            else {
-                // Set the character index so we can reference it later
-                inventoryItem.characterIndex = characterIndex;
+            // Set the character index so we can reference it later
+            inventoryItem.characterIndex = characterIndex;
 
-                let inventoryBucket: InventoryBucket = bucketsMap.get(inventoryItem.itemValue.inventory.bucketTypeHash);
+            let inventoryBucket: InventoryBucket = bucketsMap.get(inventoryItem.itemValue.inventory.bucketTypeHash);
 
-                // If the bucket for this vault item doesn't exist yet, create it
-                if (inventoryBucket == null) {
-                    let bucketValue = manifestService.getManifestEntry("DestinyInventoryBucketDefinition", inventoryItem.itemValue.inventory.bucketTypeHash);
-                    inventoryBucket = {
-                        hash: inventoryItem.itemValue.inventory.bucketTypeHash,
-                        bucketValue: bucketValue,
-                        items: new Array<InventoryItem>(),
-                        filteredOut: false
-                    }
-                    if (bucketValue.category != 0)
-                        bucketsMap.set(inventoryItem.itemValue.inventory.bucketTypeHash, inventoryBucket);
+            // If the bucket for this vault item doesn't exist yet, create it
+            if (inventoryBucket == null) {
+                let bucketValue = manifestService.getManifestEntry("DestinyInventoryBucketDefinition", inventoryItem.itemValue.inventory.bucketTypeHash);
+                inventoryBucket = {
+                    hash: inventoryItem.itemValue.inventory.bucketTypeHash,
+                    bucketValue: bucketValue,
+                    items: new Array<InventoryItem>(),
+                    filteredOut: false
                 }
-                // Get the damage type definition, if exists
-                if (inventoryItem.itemValue.defaultDamageTypeHash != 0 && inventoryItem.itemComponentData != null)
-                    inventoryItem.itemComponentData.damageTypeValue = manifestService.getManifestEntry("DestinyDamageTypeDefinition", inventoryItem.itemValue.defaultDamageTypeHash);
-
-                inventoryBucket.items.push(inventoryItem);
-
-                // Add this item to the inventoryItemHash map
-                inventoryItemHashMap.set(inventoryItem.itemInstanceId, inventoryItem);
+                if (bucketValue.category != 0)
+                    bucketsMap.set(inventoryItem.itemValue.inventory.bucketTypeHash, inventoryBucket);
             }
+
+            inventoryBucket.items.push(inventoryItem);
+
+            // Add this item to the inventoryItemHash map
+            inventoryItemHashMap.set(inventoryItem.itemInstanceId, inventoryItem);
         });
     }
 
@@ -137,6 +127,8 @@ export class InventoryUtils {
             return;
         }
 
+        // Hard code shared inventory items
+
         let searchTextLower = searchText.toLowerCase().trim();
         let bucketHasItem = false;
         for (let i = 0; i < bucket.items.length; i++) {
@@ -164,6 +156,13 @@ export class InventoryUtils {
 
     public static isItemEquipped(inventoryItem: InventoryItem): boolean {
         return inventoryItem.transferStatus % 2 == 1;
+    }
+
+    public static isItemTransferrable(inventoryItem: InventoryItem): boolean {
+        if (inventoryItem.itemValue.nonTransferrable) return false;
+        if (inventoryItem.itemComponentData == null) return false;
+
+        return true;
     }
 
     public static isBucketFull(destBucket: InventoryBucket): boolean {

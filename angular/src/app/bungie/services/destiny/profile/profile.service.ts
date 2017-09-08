@@ -5,7 +5,7 @@ import { ManifestService } from 'app/bungie/manifest/manifest.service';
 import { ComponentTypes } from 'app/bungie/services/enums.interface';
 
 import {
-    CharacterBase, DestinyMembership, IAccountSummary, ICharacterInventorySummary, ICharacterProgression, IProfileSummary,
+    CharacterBase, DestinyMembership, IAccountSummary, ICharacterInventorySummary, ICharacterProgression, InventoryItem, IProfileSummary,
     FactionBase, ProfileBasic, ProgressionBase, MilestoneBase
 } from 'app/bungie/services/interface.barrel';
 
@@ -57,21 +57,43 @@ export class DestinyProfileService {
                 // A map of the stats we asked for (ComponentTypes.ItemInstances)
                 let statsMap = response.itemComponents.instances.data;
 
+                let missingItemValue: boolean = false;
                 // Populate inventory items with their item stat values
-                response.inventory.data.items.forEach((inventoryItem) => {
-                    inventoryItem.itemComponentData = statsMap[inventoryItem.itemInstanceId];
-                    // Assign damage type if it exists
-                    if (inventoryItem.itemComponentData != null)
-                        inventoryItem.itemComponentData.damageTypeValue = this.manifestService.getManifestEntry("DestinyDamageTypeDefinition", inventoryItem.itemComponentData.damageTypeHash);
-                });
+                for (let i = 0; i < response.inventory.data.items.length; i++) {
+                    let inventoryItem = response.inventory.data.items[i];
+                    // Assign inventory item hash
+                    inventoryItem.itemValue = this.manifestService.getManifestEntry("DestinyInventoryItemDefinition", inventoryItem.itemHash);
 
-                // Populate equipment with their item values
-                response.equipment.data.items.forEach((inventoryItem) => {
-                    inventoryItem.itemComponentData = statsMap[inventoryItem.itemInstanceId];
+                    // If hash doesn't exist, remove inventoryItem completely and let use know later
+                    if (inventoryItem.itemValue == null) {
+                        missingItemValue = true;
+                        response.inventory.data.items.splice(i, 1);
+                        i--;
+                    }
+
                     // Assign damage type if it exists
+                    inventoryItem.itemComponentData = statsMap[inventoryItem.itemInstanceId];
                     if (inventoryItem.itemComponentData != null)
                         inventoryItem.itemComponentData.damageTypeValue = this.manifestService.getManifestEntry("DestinyDamageTypeDefinition", inventoryItem.itemComponentData.damageTypeHash);
-                });
+                }
+
+                for (let i = 0; i < response.equipment.data.items.length; i++) {
+                    let inventoryItem = response.equipment.data.items[i];
+                    inventoryItem.itemValue = this.manifestService.getManifestEntry("DestinyInventoryItemDefinition", inventoryItem.itemHash);
+
+                    if (inventoryItem.itemValue == null) {
+                        missingItemValue = true;
+                        response.equipment.data.items.splice(i, 1);
+                        i--;
+                    }
+
+                    inventoryItem.itemComponentData = statsMap[inventoryItem.itemInstanceId];
+                    if (inventoryItem.itemComponentData != null)
+                        inventoryItem.itemComponentData.damageTypeValue = this.manifestService.getManifestEntry("DestinyDamageTypeDefinition", inventoryItem.itemComponentData.damageTypeHash);
+                }
+
+                if (missingItemValue)
+                    this.sharedApp.showWarning("Some items in your inventory could not be loaded because they're missing from the Bungie database.");
 
                 return response;
             });
@@ -119,7 +141,29 @@ export class DestinyProfileService {
     }
 
     getProfileSummary(membership: DestinyMembership): Promise<IProfileSummary> {
-        return this.getDestinyProfileResponse(membership, [ComponentTypes.ProfileInventories, ComponentTypes.ProfileCurrencies], HttpRequestType.BUNGIE_PRIVILEGED);
+        return this.getDestinyProfileResponse(membership, [ComponentTypes.ProfileInventories, ComponentTypes.ItemInstances], HttpRequestType.BUNGIE_PRIVILEGED).then((response: IProfileSummary) => {
+            let statsMap = response.itemComponents.instances.data;
+
+            let missingItemValue: boolean = false;
+            for (let i = 0; i < response.profileInventory.data.items.length; i++) {
+                let inventoryItem = response.profileInventory.data.items[i];
+                inventoryItem.itemValue = this.manifestService.getManifestEntry("DestinyInventoryItemDefinition", inventoryItem.itemHash);
+
+                if (inventoryItem.itemValue == null) {
+                    missingItemValue = true;
+                    response.profileInventory.data.items.splice(i, 1);
+                    i--;
+                }
+                inventoryItem.itemComponentData = statsMap[inventoryItem.itemInstanceId];
+                if (inventoryItem.itemComponentData != null)
+                    inventoryItem.itemComponentData.damageTypeValue = this.manifestService.getManifestEntry("DestinyDamageTypeDefinition", inventoryItem.itemComponentData.damageTypeHash);
+            }
+
+            if (missingItemValue)
+                this.sharedApp.showWarning("Some items in your inventory could not be loaded because they're missing from the Bungie database.");
+
+            return response;
+        });
     }
 
 } 

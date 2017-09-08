@@ -32,6 +32,8 @@ import 'rxjs/add/operator/debounceTime';
 })
 
 export class ItemManagerComponent extends CardComponent {
+    InventoryUtils = InventoryUtils;
+
     CARD_DEFINITION_ID = 6;
 
     isInitialized: boolean = false;
@@ -206,7 +208,7 @@ export class ItemManagerComponent extends CardComponent {
     }
 
     inventoryItemLongPress(inventoryItem: InventoryItem) {
-        if (inventoryItem.itemValue.nonTransferrable) {
+        if (!InventoryUtils.isItemTransferrable(inventoryItem)) {
             this.sharedApp.showWarning("This item is not transferrable", { timeOut: 1500, progressBar: false });
             return;
         }
@@ -221,7 +223,7 @@ export class ItemManagerComponent extends CardComponent {
         if (!this.editMode)
             return;
 
-        if (inventoryItem.itemValue.nonTransferrable) {
+        if (!InventoryUtils.isItemTransferrable(inventoryItem)) {
             this.sharedApp.showWarning("This item is not transferrable", { timeOut: 1500, progressBar: false });
             return;
         }
