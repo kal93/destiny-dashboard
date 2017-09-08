@@ -15,7 +15,7 @@
                 <div class="type">{{inventoryItem.itemValue.itemTypeDisplayName}}</div>
             </div>
 
-            <div *ngIf="inventoryItem?.itemComponentData.damageTypeHash != null" class="damage-icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + inventoryItem.itemComponentData.damageTypeValue.displayProperties.icon  +')')"></div>
+            <div *ngIf="inventoryItem?.itemComponentData?.damageTypeHash != null" class="damage-icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + inventoryItem.itemComponentData.damageTypeValue.displayProperties.icon  +')')"></div>
 
         </div>
         <div class="content-wrap">
