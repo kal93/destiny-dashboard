@@ -1,0 +1,27 @@
+<div class="milestone">
+  <div class="top-wrap">
+    <div *ngIf="milestone.milestoneValue.displayProperties != null" class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + milestone.milestoneValue.displayProperties.icon  +')')"></div>
+    <div class="title">
+      <div class="name">
+        <md-icon *ngIf="isComplete" [mdTooltip]="'Complete'" style="color:#66BB6A">check_circle</md-icon>
+        <md-icon *ngIf="!isComplete && isStarted" [mdTooltip]="'In Progress'" style="color: #FFB74D">radio_button_checked</md-icon>
+        <md-icon *ngIf="!isStarted" [mdTooltip]="'Not Started'" style="color:#994925">remove_circle</md-icon>
+        <span *ngIf="milestone.milestoneValue.displayProperties != null">{{milestone.milestoneValue.displayProperties.name}}</span>
+        <span *ngIf="milestone.milestoneValue.displayProperties == null">{{milestone.milestoneValue.friendlyName}}</span>
+      </div>
+
+      <div *ngIf="milestone.milestoneValue.displayProperties != null" class="description">{{milestone.milestoneValue.displayProperties.description}}</div>
+    </div>
+
+    <div class="status">
+      <div class="dates" *ngIf="milestone.milestoneValue.hasPredictableDates">
+        START {{milestone.startDate | date:'M/d h:mm a'}}<br/>END {{milestone.endDate | date:'M/d h:mm a'}}
+      </div>
+    </div>
+  </div>
+
+  <br/><br/> Quests:
+  <div *ngFor="let quest of milestone.availableQuests">
+
+  </div>
+</div>

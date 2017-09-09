@@ -90,7 +90,7 @@ export class CardDefinitions {
         id: 7, title: "Clan Leaderboards", description: "View clan leaderboards", rating: 5, route: "clan-leaderboards",
         layouts: [
             { rows: 2, cols: 2 }, { rows: 3, cols: 2 }, { rows: 4, cols: 2 },
-            { rows: 2, cols: 3 }, { rows: 3, cols: 3 }, { rows: 4, cols: 3}
+            { rows: 2, cols: 3 }, { rows: 3, cols: 3 }, { rows: 4, cols: 3 }
         ],
         requiresLogin: false, isExternalRoute: false, lastUpdated: 1504903373372, previewImageClass: "dd-clan-leaderboards-preview"
     },
@@ -111,6 +111,15 @@ export class CardDefinitions {
             { rows: 2, cols: 3 }, { rows: 3, cols: 3 }, { rows: 4, cols: 3 }
         ],
         requiresLogin: false, isExternalRoute: false, lastUpdated: 1504570852262, previewImageClass: "dd-database-preview"
+    },
+    {
+        enabled: false, categories: ["Stats", "Other"],
+        id: 10, title: "Milestones", description: "View milestone for a player", rating: 5, route: "milestones",
+        layouts: [
+            { rows: 2, cols: 2 }, { rows: 3, cols: 2 }, { rows: 4, cols: 2 },
+            { rows: 2, cols: 3 }, { rows: 3, cols: 3 }, { rows: 4, cols: 3 }
+        ],
+        requiresLogin: false, isExternalRoute: false, lastUpdated: 1504570852262, previewImageClass: "dd-milestones-preview"
     }];
 
     static defaultDashboards: Array<IUserDashboard> = [{

@@ -1,4 +1,4 @@
-import { DestinyFactionDefinition, DestinyMilestoneDefinition, DestinyProgressionDefinition } from "app/bungie/manifest/interfaces/";
+import { DestinyFactionDefinition, QuestRewards, DestinyInventoryItemDefinition, DestinyMilestoneDefinition, DestinyProgressionDefinition } from "app/bungie/manifest/interfaces/";
 
 export interface ICharacterProgression {
     progressions: ProgressionWraper;
@@ -71,25 +71,14 @@ export interface MilestoneBase {
 interface ItemComponents {
 }
 
-interface AvailableQuest {
-    questItemHash: number;
-    status: Status;
-}
-
-interface AvailableQuest2 {
-    questItemHash: number;
-    status: Status2;
-}
-interface AvailableQuest3 {
+export interface AvailableQuest {
     questItemHash: number;
     status: Status;
     activity: Activity;
-}
 
-interface AvailableQuest4 {
-    questItemHash: number;
-    status: Status;
-    activity: Activity2;
+    // Runtime variables
+    questItemValue: DestinyInventoryItemDefinition;
+    questRewards: QuestRewards;
 }
 
 interface Activity {
@@ -98,23 +87,7 @@ interface Activity {
     variants: Variant[];
 }
 
-interface Activity2 {
-    activityHash: number;
-    variants: Variant[];
-}
-
 interface Status {
-    questHash: number;
-    stepHash: number;
-    stepObjectives: any[];
-    tracked: boolean;
-    itemInstanceId: string;
-    completed: boolean;
-    redeemed: boolean;
-    started: boolean;
-}
-
-interface Status2 {
     questHash: number;
     stepHash: number;
     stepObjectives: StepObjective[];

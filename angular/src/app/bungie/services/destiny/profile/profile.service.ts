@@ -124,6 +124,17 @@ export class DestinyProfileService {
 
                     if (milestone.milestoneValue != null)
                         characterProgressions.milestoneData.push(milestone);
+
+                    // Populates availableQuests with questItemHashValue and questRewards
+                    if (milestone.availableQuests != null) {
+                        for (let i = 0; i < milestone.availableQuests.length; i++) {
+                            let availableQuest = milestone.availableQuests[i];
+                            availableQuest.questItemValue = this.manifestService.getManifestEntry("DestinyInventoryItemDefinition", availableQuest.questItemHash);
+
+                            // Copy questRewards from milestone for easier lookup later
+                            availableQuest.questRewards = milestone.milestoneValue.quests[availableQuest.questItemHash].questRewards;
+                        }
+                    }
                 });
 
                 //Populate progressions data
@@ -142,6 +153,8 @@ export class DestinyProfileService {
 
     getProfileSummary(membership: DestinyMembership): Promise<IProfileSummary> {
         return this.getDestinyProfileResponse(membership, [ComponentTypes.ProfileInventories, ComponentTypes.ItemInstances], HttpRequestType.BUNGIE_PRIVILEGED).then((response: IProfileSummary) => {
+            if (response.itemComponents.instances == null || response.profileInventory == null)
+                return null;
             let statsMap = response.itemComponents.instances.data;
 
             let missingItemValue: boolean = false;

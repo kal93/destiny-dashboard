@@ -55,7 +55,9 @@ import { GamertagAutocompleteComponent } from './bungie/components/gamertag-auto
 import { InventoryItemComponent } from './bungie/components/inventory-item/inventory-item.component';
 import { InventoryItemPopupComponent } from './bungie/components/inventory-item/inventory-item-popup/inventory-item-popup.component';
 import { MdTabCharacterHeadingComponent } from './bungie/components/md-tab-character-heading/md-tab-character-heading.component';
+import { MilestoneComponent } from './bungie/components/milestone/milestone.component';
 import { SettingsComponent } from './settings/settings.component';
+import { QuestComponent } from './bungie/components/quest/quest.component';
 
 //Cards
 import { BungieNewsComponent } from './cards/bungie-news/bungie-news.component';
@@ -65,6 +67,7 @@ import { DashboardNewsComponent } from './cards/dashboard-news/dashboard-news.co
 import { DashboardNewsArticleComponent } from './cards/dashboard-news/dashboard-news-article/dashboard-news-article.component';
 import { DatabaseComponent } from './cards/database/database.component';
 import { ItemManagerComponent } from './cards/inventory/inventory.component';
+import { MilestonesComponent } from './cards/milestones/milestones.component';
 import { ReputationComponent } from './cards/reputation/reputation.component';
 import { RedditComponent } from './cards/reddit/reddit.component';
 import { StatsComponent } from './cards/stats/stats.component';
@@ -96,11 +99,11 @@ import { NumberFormatLocalePipe, RoundToDecimalPlacePipe } from './shared/pipes/
 
     //Other components 
     AboutComponent, DownloadManifestComponent, GamertagAutocompleteComponent, InventoryItemComponent, InventoryItemPopupComponent,
-    MdTabCharacterHeadingComponent, SettingsComponent,
+    MdTabCharacterHeadingComponent, MilestoneComponent, SettingsComponent, QuestComponent,
 
     //Cards
-    BungieNewsComponent, ClanLeaderboardsComponent, CountdownComponent, DashboardNewsComponent, DashboardNewsArticleComponent, DatabaseComponent, ItemManagerComponent,
-    ReputationComponent, RedditComponent, StatsComponent, TwitchComponent,
+    BungieNewsComponent, ClanLeaderboardsComponent, CountdownComponent, DashboardNewsComponent, DashboardNewsArticleComponent, DatabaseComponent,
+    ItemManagerComponent, MilestonesComponent, ReputationComponent, RedditComponent, StatsComponent, TwitchComponent,
 
     //Directives
     ModalDirective, MouseEventsDirective, ScrollWithElementDirective, Swipeable,

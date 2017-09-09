@@ -1,0 +1,40 @@
+@import '../../../../styles/theme.scss';
+
+.quest-section {
+    flex: 1 0 175px;
+    margin: 5px;
+    padding: 5px;
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
+    min-height: 105px;
+
+    .top-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        padding: 0 7px;
+
+        .icon {
+            width: 56px;
+            height: 56px;
+            background-repeat: no-repeat;
+            background-size: contain;
+            display: inline-block;
+        }
+
+        .name {
+            flex: 2;
+            text-align: center;
+            font-size: 1em;
+            letter-spacing: .5px;
+            text-transform: uppercase;
+            font-family: destiny;
+            padding: 0 5px;
+        }
+    }
+
+    .description {
+        text-align: center;
+        padding: 0 5px;
+        opacity: .8;
+    }
+}

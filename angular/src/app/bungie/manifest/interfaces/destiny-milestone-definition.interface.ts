@@ -8,7 +8,7 @@ export interface DestinyMilestoneDefinition {
     index: number;
     isInGameMilestone: boolean;
     milestoneType: number;
-    quests: { [key: number]: QuestsBase[] };
+    quests: { [key: number]: QuestsBase };
     recruitable: boolean;
     redacted: boolean;
     showInExplorer: boolean;
@@ -21,7 +21,7 @@ interface QuestsBase {
     trackingUnlockValueHash: number;
 }
 
-interface QuestRewards {
+export interface QuestRewards {
     items: Item[];
 }
 

@@ -1,0 +1,15 @@
+ {{quest.questItemValue.displayProperties.name}}
+<br/> <br/>description {{quest.questItemValue.displayProperties.description}}
+<br/> <br/>icon {{quest.questItemValue.displayProperties.icon}}
+<br/> <br/>classType {{quest.questItemValue.classType}}
+<br/> <br/>
+<br/> <br/>completed {{quest.status.completed}}
+<br/> <br/>started {{quest.status.started}}
+<br/> <br/>redeemed {{quest.status.redeemed}}
+
+<ng-container *ngIf="quest.questRewards != null">
+  <div *ngFor="let reward of quest.questRewards.items">
+    <br/> <br/>reward {{reward.itemHash}}
+  </div>
+
+</ng-container>

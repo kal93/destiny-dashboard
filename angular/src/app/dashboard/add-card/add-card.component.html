@@ -43,7 +43,8 @@
       <div *ngIf="availableCards.length == 0" class="description">
         <md-icon>favorite_border</md-icon><br/>You've already added all available cards!
       </div>
-      <div *ngIf="availableCards.length != 0" class="description"> {{filteredCards.length > 0 ? filteredCards[filteredIndex].description : 'No matches found'}} </div>
+      <div *ngIf="availableCards.length != 0" class="description"> {{filteredCards.length > 0 ? filteredCards[filteredIndex].description : 'No matches found, or you have already added
+        all matched cards!'}} </div>
 
       <div class="requires-login" *ngIf="sharedApp.accessToken == null && filteredCards[filteredIndex]?.requiresLogin">Login Required</div>
     </div>
