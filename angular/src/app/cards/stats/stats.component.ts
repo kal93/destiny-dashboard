@@ -65,8 +65,11 @@ export class StatsComponent extends CardComponent {
       if (this.selectedTabIndex > accountSummary.characterData.length - 1)
         this.selectedTabIndex = 0;
 
+      // Don't change the selected tab if it hasn't been set yet, since setting it will call this function 
+      if (this.tabGroup.selectedIndex != -1)
+        this.selectedTabIndexChanged(this.selectedTabIndex);
+
       this.tabGroup.selectedIndex = this.selectedTabIndex;
-      this.selectedTabIndexChanged(this.selectedTabIndex);
     });
   }
 
