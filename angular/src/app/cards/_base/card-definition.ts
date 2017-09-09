@@ -138,11 +138,6 @@ export class CardDefinitions {
             { id: -3, sequence: 2, definitionId: 2, layoutId: 1, definition: CardDefinitions.definitions[2], layout: CardDefinitions.definitions[2].layouts[1] },
             { id: -4, sequence: 3, definitionId: 8, layoutId: 2, definition: CardDefinitions.definitions[8], layout: CardDefinitions.definitions[8].layouts[2] }
         ]
-    }, {
-        id: -3, name: "Progress", cards: [
-            { id: -1, sequence: 1, definitionId: 1, layoutId: 3, definition: CardDefinitions.definitions[1], layout: CardDefinitions.definitions[1].layouts[3] },
-            { id: -2, sequence: 2, definitionId: 3, layoutId: 2, definition: CardDefinitions.definitions[3], layout: CardDefinitions.definitions[3].layouts[2] }
-        ]
     }];
 
     static initDashboardsFromAPI(userDashboards: Array<IUserDashboard>) {
