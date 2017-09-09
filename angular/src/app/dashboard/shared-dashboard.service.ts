@@ -33,7 +33,8 @@ export class SharedDashboard {
 
     setSelectedDashboard(dashboard: IUserDashboard) {
         if (this.sharedApp.accessToken == null || dashboard == null) {
-            this.selectedDashboard = CardDefinitions.defaultDashboards[0];
+            let defaultDeashboardIndex = dashboard.id * -1 - 1;
+            this.selectedDashboard = CardDefinitions.defaultDashboards[defaultDeashboardIndex];
             this.isDefaultDashboardSelected = true;
         }
         else {

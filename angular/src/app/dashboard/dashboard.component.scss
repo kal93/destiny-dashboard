@@ -1,7 +1,7 @@
 @import '../../styles/theme.scss';
 
 .dashboard-wrap {
-    padding: 6px;
+    padding: 6px 6px 20px;
 
     //Fill entire screen minus the toolbar height
     min-height: 1000px;
@@ -91,6 +91,6 @@
 }
 @media(max-width: 600px) {
     .dashboard-wrap {
-        padding: 5px 2px;
+        padding: 5px 3px 20px;
     }
 }
