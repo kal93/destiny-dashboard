@@ -6,7 +6,7 @@ import { DestinyMembership, IGetBungieAccount } from '../interface.barrel'
 
 /** This Injectable manages the data layer for Destiny Accounts.*/
 @Injectable()
-export class GetBungieAccountService {
+export class DestinyUserService {
     private cacheTimeMs: number = 60000;
 
     constructor(private http: HttpService, private sharedApp: SharedApp) {

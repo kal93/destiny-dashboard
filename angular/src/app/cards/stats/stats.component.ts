@@ -93,7 +93,7 @@ export class StatsComponent extends CardComponent {
     }
     else {
       let characterId: string = this.accountSummary.characterData[this.selectedTabIndex - 1].characterId;
-      this.destinyAccountService.getCharacterStats(this.selectedMembership, characterId, [GroupTypes.GENERAL], [ModeTypes.ALLPVE, ModeTypes.ALLPVP], PeriodTypes.ALLTIME).then((characterStats: ICharacterStats) => {
+      this.destinyAccountService.getCharacterStats(this.selectedMembership, characterId, [GroupTypes.GENERAL], [ModeTypes.AllPvE, ModeTypes.AllPvP], PeriodTypes.ALLTIME).then((characterStats: ICharacterStats) => {
         this.characterStats = characterStats;
       });
     }

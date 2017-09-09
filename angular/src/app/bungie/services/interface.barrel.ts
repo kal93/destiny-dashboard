@@ -6,5 +6,6 @@ export * from './destiny/profile/interface.barrel';
 
 export * from './destiny/stats/interface.barrel';
 
-export * from './user/get-bungie-account.interface';
-export * from './user/user.interface';  
+export * from './group/interface.barrel';
+
+export * from './user/user.interface';

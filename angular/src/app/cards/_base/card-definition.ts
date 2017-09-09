@@ -86,13 +86,13 @@ export class CardDefinitions {
         requiresLogin: true, isExternalRoute: false, lastUpdated: 1502124275046, previewImageClass: "dd-inventory-preview"
     },
     {
-        enabled: false, categories: ["Stats"],
+        enabled: true, categories: ["Stats"],
         id: 7, title: "Clan Leaderboards", description: "View clan leaderboards", rating: 5, route: "clan-leaderboards",
         layouts: [
             { rows: 2, cols: 2 }, { rows: 3, cols: 2 }, { rows: 4, cols: 2 },
-            { rows: 2, cols: 3 }, { rows: 3, cols: 3 }
+            { rows: 2, cols: 3 }, { rows: 3, cols: 3 }, { rows: 4, cols: 3}
         ],
-        requiresLogin: false, isExternalRoute: false, lastUpdated: 1503092830522, previewImageClass: "dd-clan-leaderboards-preview"
+        requiresLogin: false, isExternalRoute: false, lastUpdated: 1504903373372, previewImageClass: "dd-clan-leaderboards-preview"
     },
     {
         enabled: true, categories: ["News"],
