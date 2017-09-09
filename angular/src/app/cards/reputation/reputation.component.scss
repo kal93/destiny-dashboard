@@ -21,7 +21,7 @@
         height: 100%;
         max-width: 800px;
         margin: 0 auto;
-        
+
         ::ng-deep .mat-tab-labels {
             justify-content: center;
 
@@ -48,11 +48,11 @@
                         padding: 5px;
 
                         .reputation-section {
-                            flex: 1 0 175px;
+                            flex: 1 0 100px;
                             margin: 5px;
                             padding: 5px;
                             box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
-                            min-height: 105px;
+                            min-height: 110px;
 
                             .top-wrap {
                                 display: flex;

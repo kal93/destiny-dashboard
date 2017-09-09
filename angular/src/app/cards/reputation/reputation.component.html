@@ -40,41 +40,6 @@
 
               <div class="xp">{{faction.progressToNextLevel}} / {{faction.nextLevelAt}}</div>
             </div>
-
-            <!-- Progressions need a separate card
-            <div *ngFor="let progression of characterProgressions" class="reputation-section">
-              <div class="top-wrap">
-                <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + progression.progressionValue.displayProperties.icon  +')')"></div>
-                <div class="name" [mdTooltip]="progression.progressionValue.displayProperties.description" [mdTooltipPosition]="'below'">{{progression.progressionValue.displayProperties.displayUnitsName}}</div>
-              </div>
-
-              <div class="progress-wrap">
-                <div>{{progression.level}}</div>
-                <md-progress-bar class="progress-bar" [color]="'primary'" [mode]="'determinate'" [value]="(progression.progressToNextLevel / progression.nextLevelAt) * 100">
-                </md-progress-bar>
-                <div>{{progression.level + 1}}</div>
-              </div>
-
-              <div class="xp">{{progression.progressToNextLevel}} / {{progression.nextLevelAt}}</div>
-            </div>
-          -->
-            <!-- Milestones (NEED A SEPARATE CARD)
-            <div *ngFor="let milestone of characterMilestones" class="reputation-section">
-              <div class="top-wrap">
-                <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + milestone.milestoneValue.displayProperties.icon  +')')"></div>
-                <div class="name" [mdTooltip]="milestone.milestoneValue.displayProperties.description" [mdTooltipPosition]="'below'">{{milestone.milestoneValue.displayProperties.name}}</div>
-              </div>
-
-              <div class="progress-wrap">
-                <div>{{milestone.availableQuests}}</div>
-                <div>{{milestone.endDate}}</div>
-              </div>
-            </div>
--->
-
-
-
-
           </div>
         </md-tab>
       </md-tab-group>
