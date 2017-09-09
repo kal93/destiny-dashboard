@@ -1,15 +1,12 @@
-import { ChangeDetectorRef, Component, HostListener } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { AlertDialog } from 'app/shared/dialogs/alert.component';
-import { ConfirmDialog } from 'app/shared/dialogs/confirm.component';
 import { HttpService } from 'app/shared/services/http.service';
 import { ManifestService } from 'app/bungie/manifest/manifest.service';
 import { SharedApp } from 'app/shared/services/shared-app.service';
 import { SharedBungie } from './bungie/shared-bungie.service';
 import { SharedDashboard } from './dashboard/shared-dashboard.service';
 
-import { CardDefinitions } from './cards/_base/card-definition';
-import { ICard, IUserDashboard } from './cards/_base/card.interface';
 import {
   BungieSiteNewsService, DestinyAccountService, DestinyStatsService, DestinyProfileService,
   DestinyUserService, DestinyGroupService, InventoryItemService
@@ -73,18 +70,6 @@ export class AppComponent {
 
   welcomeUser() {
     this.sharedDashboard.clearUserDashboards();
-    if (!this.sharedApp.localStorageDisabled && this.sharedApp.getLocalStorage("LimitedFeaturesDialog") == null) {
-      let dialogRef = this.mdDialog.open(ConfirmDialog, { height: '230px', width: '290px', });
-      dialogRef.componentInstance.title = "Limited Features";
-      dialogRef.componentInstance.message = "Welcome! Since you are not logged in, you will have limited access to certain features.";
-      dialogRef.componentInstance.optionLeft = "Tutorial";
-      dialogRef.componentInstance.optionRight = "Ok";
-
-      dialogRef.afterClosed().subscribe((result: string) => {
-        if (result == "Tutorial") this.sharedApp.startTutorial();
-      });
-      this.sharedApp.setLocalStorage("LimitedFeaturesDialog", "1");
-    }
     this.setAppInitialized();
   }
 
