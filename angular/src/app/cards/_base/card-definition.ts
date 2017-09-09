@@ -113,7 +113,7 @@ export class CardDefinitions {
         requiresLogin: false, isExternalRoute: false, lastUpdated: 1504570852262, previewImageClass: "dd-database-preview"
     },
     {
-        enabled: false, categories: ["Stats", "Other"],
+        enabled: true, categories: ["Stats", "Other"],
         id: 10, title: "Milestones", description: "View milestone for a player", rating: 5, route: "milestones",
         layouts: [
             { rows: 2, cols: 2 }, { rows: 3, cols: 2 }, { rows: 4, cols: 2 },
