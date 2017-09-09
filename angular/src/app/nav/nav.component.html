@@ -87,8 +87,11 @@
     </div>
     <md-nav-list [style.max-height]="quickLinksCollapsed ? '0':'500px'">
       <md-list-item (click)="navigateToRoute('/database')">Database</md-list-item>
+      <div class="separator"></div>
       <md-list-item (click)="navigateToRoute('/inventory')">Inventory</md-list-item>
+      <div class="separator"></div>
       <md-list-item (click)="navigateToRoute('/reputation')">Reputation</md-list-item>
+      <div class="separator"></div>
       <md-list-item (click)="navigateToRoute('/stats')">Stats</md-list-item>
     </md-nav-list>
 
@@ -97,9 +100,10 @@
       My Dashboards
       <md-icon class="carrot" [class.collapsed]="myDashboardsCollapsed">keyboard_arrow_down</md-icon>
     </div>
-    <md-nav-list *ngFor="let dashboard of sharedDashboard.userDashboards" [style.max-height]="myDashboardsCollapsed ? '0':'500px'"
+    <md-nav-list *ngFor="let dashboard of sharedDashboard.userDashboards; let last = last" [style.max-height]="myDashboardsCollapsed ? '0':'500px'"
       [style.overflow-y]="myDashboardsCollapsed ? 'hidden' : 'auto'">
       <md-list-item [style.color]="dashboard == sharedDashboard.selectedDashboard ? '#03A9F4':''" (click)="selectDashboard(dashboard)">{{dashboard.name}}</md-list-item>
+      <div *ngIf="!last" class="separator"></div>
     </md-nav-list>
 
     <!-- Default Dashboards -->
@@ -107,9 +111,10 @@
       Default Dashboards
       <md-icon class="carrot" [class.collapsed]="defaultDashboardsCollapsed">keyboard_arrow_down</md-icon>
     </div>
-    <md-nav-list *ngFor="let dashboard of cardDefinitions.defaultDashboards" [style.max-height]="defaultDashboardsCollapsed ? '0':'300px'"
+    <md-nav-list *ngFor="let dashboard of cardDefinitions.defaultDashboards; let last = last" [style.max-height]="defaultDashboardsCollapsed ? '0':'300px'"
       [style.overflow-y]="defaultDashboardsCollapsed ? 'hidden' : 'auto'">
       <md-list-item [style.color]="dashboard == sharedDashboard.selectedDashboard ? '#03A9F4':''" (click)="selectDashboard(dashboard)">{{dashboard.name}}</md-list-item>
+      <div *ngIf="!last" class="separator"></div>
     </md-nav-list>
 
     <div *ngIf="sharedApp.accessToken" md-ripple [mdRippleRadius]="20" [mdRippleColor]="'rgba(255,255,255,.25)'" class="logout"

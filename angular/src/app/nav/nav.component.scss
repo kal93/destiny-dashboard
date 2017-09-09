@@ -135,7 +135,7 @@
         .section-header {
             min-width: 145px;
             text-transform: uppercase;
-            padding: 12px 20px 12px 15px;
+            padding: 8px 20px 8px 15px;
             background-color: mat-color($app-primary);
             color: $app-text-light;
             cursor: pointer;
@@ -154,7 +154,7 @@
             }
         }
 
-        .mat-nav-list {
+        ::ng-deep .mat-nav-list {
             padding: 0;
             transition: max-height 300ms ease;
             overflow-y: hidden;
@@ -163,8 +163,16 @@
                 color: $app-text-dark;
 
                 .mat-list-item-content {
-                    height: 44px;
+                    height: 38px;
+                    font-size: .9em;
                 }
+            }
+
+            .separator {
+                width: 94%;
+                margin: 0 auto;
+                height: 1px;
+                background-color: #e5e5e5;
             }
         }
 
@@ -192,6 +200,7 @@
             align-items: center;
             opacity: .7;
             font-size: .75em;
+            margin-top: 4px;
 
             .footer-option {
                 cursor: pointer;
