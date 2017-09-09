@@ -3,7 +3,6 @@
 .mat-toolbar {
     position: relative;
     z-index: 1;
-    user-select: none;
     padding: 0 12px;
 
     .nav-back-button {
@@ -63,7 +62,6 @@
 
 .mat-drawer-container {
     color: $app-text-dark;
-    user-select: none;
 
     .main-nav {
         bottom: auto;
