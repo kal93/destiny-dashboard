@@ -176,7 +176,7 @@ export class InventoryUtils {
             if (InventoryUtils.isItemEquipped(destBucket.items[i]))
                 return destBucket.items[i];
         }
-        console.log("No equipped item found in bucket");
+        console.error("No equipped item found in bucket");
         return null;
     }
 

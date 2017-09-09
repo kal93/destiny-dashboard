@@ -4,10 +4,6 @@
     <div class="dd-database" [class.dd-fullscreen]="isFullscreen" [class.dd-card-content]="!isFullscreen">
 
       <md-card class="input-wrap">
-        <md-form-field>
-          <input mdInput placeholder="Search Database" [formControl]="searchTextForm">
-        </md-form-field>
-
         <md-select class="search-select" placeholder="Item Type" [(ngModel)]="searchType" (change)="applyFilter(false)">
           <md-option *ngFor="let itemType of itemTypes" [value]="itemType.value"> {{ itemType.displayValue }} </md-option>
         </md-select>
@@ -19,10 +15,14 @@
         <md-select class="search-select" placeholder="Tier Type" [(ngModel)]="searchTier" (change)="applyFilter(false)">
           <md-option *ngFor="let tierType of tierTypes" [value]="tierType.value"> {{ tierType.displayValue }} </md-option>
         </md-select>
+
+        <md-form-field>
+          <input mdInput placeholder="Search Database" [formControl]="searchTextForm">
+        </md-form-field>
       </md-card>
 
       <div class="results-wrap  mat-elevation-z8">
-        <md-table *ngIf="dataSource != null" #table [dataSource]="dataSource" [trackBy]="hash">
+        <md-table #table [dataSource]="dataSource" [trackBy]="hash" mdSort (mdSortChange)="sortChanged()">
           <ng-container mdColumnDef="icon">
             <md-header-cell *mdHeaderCellDef> Icon </md-header-cell>
             <md-cell *mdCellDef="let itemDef">
@@ -31,22 +31,22 @@
           </ng-container>
 
           <ng-container mdColumnDef="name">
-            <md-header-cell *mdHeaderCellDef> Name </md-header-cell>
+            <md-header-cell *mdHeaderCellDef md-sort-header> Name </md-header-cell>
             <md-cell *mdCellDef="let itemDef"> {{itemDef.displayProperties.name}} </md-cell>
           </ng-container>
 
           <ng-container mdColumnDef="type">
-            <md-header-cell *mdHeaderCellDef> Type </md-header-cell>
+            <md-header-cell *mdHeaderCellDef md-sort-header> Type </md-header-cell>
             <md-cell *mdCellDef="let itemDef"> {{itemDef.itemTypeDisplayName}} </md-cell>
           </ng-container>
 
           <ng-container mdColumnDef="class">
-            <md-header-cell *mdHeaderCellDef> Class </md-header-cell>
+            <md-header-cell *mdHeaderCellDef md-sort-header> Class </md-header-cell>
             <md-cell *mdCellDef="let itemDef"> {{itemDef.className}} </md-cell>
           </ng-container>
 
           <ng-container mdColumnDef="tier">
-            <md-header-cell *mdHeaderCellDef> Tier </md-header-cell>
+            <md-header-cell *mdHeaderCellDef md-sort-header> Tier </md-header-cell>
             <md-cell *mdCellDef="let itemDef"> {{itemDef.tierName}} </md-cell>
           </ng-container>
 

@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MdPaginator } from '@angular/material';
+import { MdPaginator, MdSort } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DataSource } from '@angular/cdk/collections';
 import { CardComponent } from '../_base/card.component';
@@ -24,6 +24,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 })
 export class DatabaseComponent extends CardComponent {
   @ViewChild(MdPaginator) paginator: MdPaginator;
+  @ViewChild(MdSort) sort: MdSort;
 
   CARD_DEFINITION_ID = 9;
 
@@ -93,7 +94,7 @@ export class DatabaseComponent extends CardComponent {
 
     this.pageSize = this.getCardLocalStorage("pageSize", 15);
 
-    this.dataSource = new ItemDefinitionDataSource(this.paginator, this.manifestInventory);
+    this.dataSource = new ItemDefinitionDataSource(this.paginator, this.sort, this.manifestInventory);
     this.changeDetectorRef.detectChanges();
 
     this.searchTextForm.valueChanges.debounceTime(200).distinctUntilChanged().subscribe((newSearchText) => {
@@ -109,6 +110,10 @@ export class DatabaseComponent extends CardComponent {
   pageChanged() {
     this.setCardLocalStorage("pageSize", this.pageSize);
     this.applyFilter(true);
+  }
+
+  sortChanged() {
+    this.applyFilter(false);
   }
 
   applyFilter(pageChange: boolean) {
@@ -129,7 +134,7 @@ export class ItemDefinitionDataSource extends DataSource<any> {
   filterChange = new BehaviorSubject<Filter>({ class: -1, text: "", tier: -1, type: -1, pageChange: false });
   filteredInventoryItems = new Array<DestinyInventoryItemDefinition>();
 
-  constructor(private paginator: MdPaginator, private inventoryItems: Array<DestinyInventoryItemDefinition>) {
+  constructor(private paginator: MdPaginator, private sort: MdSort, private inventoryItems: Array<DestinyInventoryItemDefinition>) {
     super();
   }
 
@@ -164,9 +169,32 @@ export class ItemDefinitionDataSource extends DataSource<any> {
           return true;
         });
 
+        // Sort items
+        if (this.sort.active == null) {
+          this.sort.active = "name";
+          this.sort.direction = "asc";
+        }
         this.filteredInventoryItems.sort((a, b) => {
-          return a.displayProperties.name < b.displayProperties.name ? -1 : 1;
+          let propertyA: string = "";
+          let propertyB: string = "";
+
+          switch (this.sort.active) {
+            case 'name': [propertyA, propertyB] = [a.displayProperties.name, b.displayProperties.name]; break;
+            case 'type': [propertyA, propertyB] = [a.itemTypeDisplayName, b.itemTypeDisplayName]; break;
+            case 'class': [propertyA, propertyB] = [a.className, b.className]; break;
+            case 'tier': [propertyA, propertyB] = [a.tierName, b.tierName]; break;
+          }
+
+          propertyA = propertyA == null ? "" : propertyA;
+          propertyB = propertyB == null ? "" : propertyB;
+
+          if (propertyA > propertyB)
+            return this.sort.direction == 'asc' ? 1 : -1;
+          else
+            return this.sort.direction == 'asc' ? -1 : 1;
+
         });
+
       }
 
       let startIndex = this.paginator.pageIndex * this.paginator.pageSize;

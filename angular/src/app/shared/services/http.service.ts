@@ -215,7 +215,7 @@ export class HttpService {
     private checkBungieRefreshToken(): Promise<any> {
         if (this.sharedApp.accessToken != null && this.sharedApp.accessTokenExpires <= Date.now())
             return this.getBungieTokenResponseFromAPI().catch((error) => {
-                console.log("There was an error when trying to Refresh Token.");
+                console.error("There was an error when trying to Refresh Token.");
             });
         else
             return Promise.resolve();
@@ -358,7 +358,7 @@ export class HttpService {
             else if (requestType == HttpRequestType.BUNGIE_BASIC || requestType == HttpRequestType.BUNGIE_PRIVILEGED) {
                 let isPrivileged = requestType == HttpRequestType.BUNGIE_PRIVILEGED;
                 if (isPrivileged && this.sharedApp.accessToken == null) {
-                    console.log("No auth token provided when calling privileged endpoint.");
+                    console.error("No auth token provided when calling privileged endpoint.");
                     return Promise.reject("No auth token provided when calling privileged endpoint.");
                 }
                 customCache.cachedPromise = this.getBungie(requestUrl, isPrivileged)
