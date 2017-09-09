@@ -5,7 +5,7 @@ import { BungieSiteNewsService } from 'app/bungie/services/service.barrel';
 
 import { INews } from 'app/bungie/services/interface.barrel';
 import { ITwitterReponse } from './bungie-news.interface';
-import { NewsTypes } from 'app/bungie/services/enums.interface';
+import { NewsTypes, TimeSpan } from 'app/bungie/services/enums.interface';
 
 @Injectable()
 export class BungieNewsService {
@@ -14,7 +14,7 @@ export class BungieNewsService {
 
     getBungieTwitter(): Promise<ITwitterReponse> {
         //Cache for 5 min
-        return this.http.getWithCache("api/twitter?type=bungie", HttpRequestType.DASHBOARD, 300000);
+        return this.http.getWithCache("api/twitter?type=bungie", HttpRequestType.DASHBOARD, TimeSpan.MINUTES_5);
     }
 
     getBungieNews(newsType: NewsTypes, page: number, count: number): Promise<INews> {
