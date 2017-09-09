@@ -160,10 +160,10 @@
                 <span>{{longestSingleLifeEntry.value?.basic.displayValue}}</span>
               </div>
             </div>
-
+            
             <div class="clan-error" [@slowFadeIn]="':enter'" *ngIf="lbSingleGameKills == null && lbPrecisionKills == null && lbAssists == null && lbDeaths == null && lbKills == null && lbObjectivesCompleted == null && lbSingleGameScore == null 
             && lbMostPrecisionKills == null && lbLongestKillSpree == null && lbLongestKillDistance == null && lbFastestCompletionMs == null && lbLongestSingleLife == null">
-              No clan leaderboard data was found for the {{statDisplayName}} game mode at this time.  Please check back again later.
+                Clan leaderboard data was not found for the {{statDisplayName}} game mode at this time.  Please check back again later.
             </div>
 
           </div>
