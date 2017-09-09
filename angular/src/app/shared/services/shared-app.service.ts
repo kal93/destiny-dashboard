@@ -253,7 +253,7 @@ export class SharedApp {
 
     @delayBy(10)
     showError(errorMessage: string, error?: any) {
-        this.toastrService.error(errorMessage, null, { progressBar: true, closeButton: true, timeOut: 5000, messageClass: 'toast-message' });
+        this.toastrService.error(errorMessage, null, { closeButton: true, timeOut: 5000, messageClass: 'toast-message' });
 
         this.globalErrorHandler.handleError(error);
     }

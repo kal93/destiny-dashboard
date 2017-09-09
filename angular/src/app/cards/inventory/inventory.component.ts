@@ -209,7 +209,7 @@ export class ItemManagerComponent extends CardComponent {
 
     inventoryItemLongPress(inventoryItem: InventoryItem) {
         if (!InventoryUtils.isItemTransferrable(inventoryItem)) {
-            this.sharedApp.showWarning("This item is not transferrable", { timeOut: 1500, progressBar: false });
+            this.sharedApp.showWarning("This item is not transferrable", { timeOut: 1500 });
             return;
         }
 
@@ -224,7 +224,7 @@ export class ItemManagerComponent extends CardComponent {
             return;
 
         if (!InventoryUtils.isItemTransferrable(inventoryItem)) {
-            this.sharedApp.showWarning("This item is not transferrable", { timeOut: 1500, progressBar: false });
+            this.sharedApp.showWarning("This item is not transferrable", { timeOut: 1500 });
             return;
         }
 
@@ -367,8 +367,7 @@ export class ItemManagerComponent extends CardComponent {
             // Don't attempt to transfer if destination bucket is full
             let destBucket: InventoryBucket = this.bucketsMap[destCharacterIndex].get(inventoryItem.itemValue.inventory.bucketTypeHash);
             if (InventoryUtils.isBucketFull(destBucket)) {
-                this.sharedApp.showWarning(inventoryItem.itemValue.displayProperties.name + " transfer failed: Destination is full!",
-                    { timeOut: 5000, progressBar: false });
+                this.sharedApp.showWarning(inventoryItem.itemValue.displayProperties.name + " transfer failed: Destination is full!", { timeOut: 5000 });
                 return resolve();
             }
 
@@ -385,7 +384,7 @@ export class ItemManagerComponent extends CardComponent {
 
                     transferFailures.forEach((transferFailure) => {
                         this.sharedApp.showWarning(transferFailure.inventoryItem.itemValue.displayProperties.name + " transfer failed: " + transferFailure.Message,
-                            { timeOut: 5000, progressBar: false });
+                            { timeOut: 5000 });
                     });
                     resolve();
                 }).catch((error) => {
