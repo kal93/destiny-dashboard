@@ -4,7 +4,7 @@ import { SharedApp } from 'app/shared/services/shared-app.service';
 import { ManifestService } from 'app/bungie/manifest/manifest.service';
 import { ComponentTypes } from 'app/bungie/services/enums.interface';
 
-import { GroupTypes, ModeTypes, PeriodTypes, TimeSpan } from '../../enums.interface';
+import { GroupTypes, ModeTypes, PeriodTypes, TimeSpan } from 'app/bungie/services/enums.interface';
 
 import {
     CharacterBase, DestinyMembership, IAccountStats, IAccountSummary, ICharacterInventorySummary, ICharacterProgression, ICharacterStats, IProfileSummary,

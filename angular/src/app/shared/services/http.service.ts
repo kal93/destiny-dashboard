@@ -312,7 +312,7 @@ export class HttpService {
         }
     }
 
-    public getWithCache(requestUrl: string, requestType: HttpRequestType, cacheTimeMs: number): Promise<any> {
+    public getWithCache(requestUrl: string, requestType: HttpRequestType, cacheTimeMs: number, headers?: HttpHeaders): Promise<any> {
         //Fetch cache based on unique URL
         let customCache = this.customCaches.get(requestUrl);
 
@@ -337,7 +337,7 @@ export class HttpService {
         else {
             //Set the promise for this cache entry
             if (requestType == HttpRequestType.BASIC_JSON) {
-                customCache.cachedPromise = this.httpGet(requestUrl)
+                customCache.cachedPromise = this.httpGet(requestUrl, headers)
                     .then(response => {
                         //Cache response, in the specific format returned by the HttpResponseType
                         customCache.cachedData = response;

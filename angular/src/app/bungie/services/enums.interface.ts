@@ -186,6 +186,7 @@ export enum TimeSpan {
 
     MINUTES_1 = 60000,
     MINUTES_2 = 120000,
+    MINUTES_5 = 300000,
     MINUTES_10 = 600000
 }
 

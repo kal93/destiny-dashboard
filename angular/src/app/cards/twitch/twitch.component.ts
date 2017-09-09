@@ -13,7 +13,7 @@ import { bounceChildrenFromLeft } from 'app/shared/animations';
   animations: [bounceChildrenFromLeft(100)]
 })
 export class TwitchComponent extends CardComponent {
-  CARD_DEFINITION_ID  = 4;
+  CARD_DEFINITION_ID = 4;
 
   public hiddenTwitchStreams = new Array<ITwitchData>();
   public displayedTwitchStreams = new Array<ITwitchData>();
@@ -52,7 +52,7 @@ export class TwitchComponent extends CardComponent {
         viewers: streamData.viewers
       };
 
-      if (i < 6)
+      if (i < 4)
         this.displayedTwitchStreams.push(parsedTwitchStream);
       else
         this.hiddenTwitchStreams.push(parsedTwitchStream);
