@@ -8,7 +8,7 @@
         <p>
           App Version: {{environment.version}}
           <br/><br/> Local Storage Size: {{cacheSizeKB}}kB
-          <br/><br/> This site is build using Angular {{angularVersion.full}}, Angular Material, Google App Engine, and Google
+          <br/><br/> This app is build using Angular {{angularVersion.full}}, Angular Material, Google App Engine, and Google
           Cloud SQL.
         </p>
       </md-card-content>
@@ -42,20 +42,21 @@
       <md-card-content>
         <p>
           <b>Security</b>
-          <br/> We use Bungie's officially supported OAuth to verify you as a user. We do not have access to your username,
-          password, or email through Bungie. In order you use this site, you must approve access to this app through Bungie's
-          website. In doing so, we get an access token that let's us communicate with Bungie's servers on your behalf.
+          <br/> We use Bungie's officially supported OAuth to verify you as a user. You do not need to create an account,
+          and we do not ask for your credentials. We do not have access to your username, password, or email through Bungie.
+          In order you use this app, you must approve access to this app through Bungie's website. In doing so, we get an
+          access token that let's us communicate with Bungie's servers on your behalf.
 
           <br/><br/> You can revoke these permissions at any time <span class="link" (click)="sharedApp.openExternalLink('https://www.bungie.net/en/Profile/Settings/#tab=account')">here</span>.
 
+          <br/><br/> Every transmission is secured using HTTPS/SSL.
 
           <br/><br/>
           <b> Information Collection &amp; Storage</b>
           <br/> We do not try to store any personally identifying information. We may log your IP address to help fight spam.
-          <br/> Every transmission to this site is secured using HTTPS/SSL.
           <br/><br/>
           <b>Cookies</b>
-          <br/> This site uses HTML5 local storage instead of cookies. Third party <span class="link" (click)="sharedApp.openExternalLink('https://www.google.com/policies/privacy/partners/')">ad providers</span>          may store cookies on your device.
+          <br/> This app uses HTML5 local storage instead of cookies. Third party <span class="link" (click)="sharedApp.openExternalLink('https://www.google.com/policies/privacy/partners/')">ad providers</span>          may store cookies on your device.
         </p>
       </md-card-content>
     </md-card>
@@ -67,9 +68,9 @@
       </md-card-header>
       <md-card-content>
         <p>
-          A huge thank you to Bungie for allowing sites like this to happen!
+          A huge thank you to Bungie for allowing apps like this to happen!
 
-          <br/><br/> Special thanks to lowlines, VlakatafakatA, Tetron, Spartain, N1N313, sgtfrankieboy, rpk788.
+          <br/><br/> Special thanks to VPZ, lowlines, Vlak, Tetron, Thornheart, Spartain, N1N313, sgtfrankieboy.
         </p>
       </md-card-content>
     </md-card>
