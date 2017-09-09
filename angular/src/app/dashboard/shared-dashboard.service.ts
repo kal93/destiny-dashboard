@@ -67,7 +67,7 @@ export class SharedDashboard {
                 // If user has absolutely no cards, give them a clone of the first default one and save
                 if (this.userDashboards.length == 0) {
                     let firstDefaultDashboard: IUserDashboard = this.sharedApp.deepCopyObject(CardDefinitions.defaultDashboards[0]);
-                    firstDefaultDashboard.name = "My First Dashboard";
+                    firstDefaultDashboard.name = "My Dashboard";
                     this.setDashboards([firstDefaultDashboard]);
                     this.setSelectedDashboard(firstDefaultDashboard);
                     this.saveUserDashboard(firstDefaultDashboard);
