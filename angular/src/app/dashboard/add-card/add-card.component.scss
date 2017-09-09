@@ -54,6 +54,8 @@
                 position: relative;
                 perspective: 3000px;
                 cursor: pointer;
+                user-select: none;
+                -webkit-user-select: none;
 
                 .carousel {
                     height: 100%;

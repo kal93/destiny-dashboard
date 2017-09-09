@@ -1,4 +1,8 @@
-import { DestinyFactionDefinition, QuestRewards, DestinyInventoryItemDefinition, DestinyMilestoneDefinition, DestinyProgressionDefinition } from "app/bungie/manifest/interfaces/";
+import { Reward } from 'app/bungie/services/interface.barrel';
+
+import {
+    DestinyFactionDefinition, DestinyInventoryItemDefinition, DestinyMilestoneDefinition, DestinyProgressionDefinition, QuestRewards
+} from "app/bungie/manifest/interfaces/";
 
 export interface ICharacterProgression {
     progressions: ProgressionWraper;
@@ -63,6 +67,7 @@ export interface MilestoneBase {
     availableQuests: AvailableQuest[];
     startDate: string;
     endDate: string;
+    rewards: Array<Reward>;
 
     // Runtime variables
     milestoneValue: DestinyMilestoneDefinition;

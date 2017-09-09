@@ -35,7 +35,7 @@ export function slowFadeIn() {
         transition(
             ':enter', [
                 style({ opacity: 0 }),
-                animate('3000ms', style({ opacity: 1 }))
+                animate('1500ms', style({ opacity: 1 }))
             ]
         )
     ]);

@@ -1,10 +1,10 @@
 <div>
   <div [class.dd-card-wrap]="!isFullscreen">
     <dd-card-header *ngIf="!isFullscreen" [dashboardCard]="dashboardCard"></dd-card-header>
-    <div class="dd-reputation" [class.dd-fullscreen]="isFullscreen" [class.dd-card-content]="!isFullscreen">
+    <div class="dd-milestones" [class.dd-fullscreen]="isFullscreen" [class.dd-card-content]="!isFullscreen">
 
       <div class="gamertag-wrap">
-        <dd-gamertag-autocomplete [autocompleteId]="'reputation'" (membershipSelected)="membershipSelected($event)" (initialMembership)="membershipSelected($event)"></dd-gamertag-autocomplete>
+        <dd-gamertag-autocomplete [autocompleteId]="'milestones'" (membershipSelected)="membershipSelected($event)" (initialMembership)="membershipSelected($event)"></dd-gamertag-autocomplete>
       </div>
 
       <div *ngIf="accountNotFound" class="error"> Could not find a Destiny 2 account for this gamertag.</div>
@@ -19,7 +19,7 @@
             <!--  This user does not allow public viewing of Progressions. <br/> <br/>To enable public viewing of Progressions,
             log in to Bungie.net and find the correct privacy setting in your profile.  -->
             You must be logged in to view Milestones.<br/><br/> This is a bug with Bungie's API, since we should be able
-            to view reputation without being logged in. They are aware of the issue.
+            to view milestones without being logged in. They are aware of the issue.
           </div>
 
           <div class="sub-tab-wrap">

@@ -57,7 +57,6 @@ import { InventoryItemPopupComponent } from './bungie/components/inventory-item/
 import { MdTabCharacterHeadingComponent } from './bungie/components/md-tab-character-heading/md-tab-character-heading.component';
 import { MilestoneComponent } from './bungie/components/milestone/milestone.component';
 import { SettingsComponent } from './settings/settings.component';
-import { QuestComponent } from './bungie/components/quest/quest.component';
 
 //Cards
 import { BungieNewsComponent } from './cards/bungie-news/bungie-news.component';
@@ -99,7 +98,7 @@ import { NumberFormatLocalePipe, RoundToDecimalPlacePipe } from './shared/pipes/
 
     //Other components 
     AboutComponent, DownloadManifestComponent, GamertagAutocompleteComponent, InventoryItemComponent, InventoryItemPopupComponent,
-    MdTabCharacterHeadingComponent, MilestoneComponent, SettingsComponent, QuestComponent,
+    MdTabCharacterHeadingComponent, MilestoneComponent, SettingsComponent,
 
     //Cards
     BungieNewsComponent, ClanLeaderboardsComponent, CountdownComponent, DashboardNewsComponent, DashboardNewsArticleComponent, DatabaseComponent,

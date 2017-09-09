@@ -140,12 +140,12 @@ interface Data3 {
   uninstancedItemObjectives: any;
 }
 
-interface Reward {
+export interface Reward {
   rewardCategoryHash: number;
-  entries: Entry[];
+  entries: RewardEntry[];
 }
 
-interface Entry {
+interface RewardEntry {
   rewardEntryHash: number;
   earned: boolean;
   redeemed: boolean;

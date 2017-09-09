@@ -95,37 +95,35 @@ export class MilestonesComponent extends CardComponent {
     let characterId: string;
     try { characterId = this.accountSummary.characterData[this.selectedTabIndex].characterId; }
     catch (error) {
-      console.error("Empty accountSummary in getSelectedRep.", error);
+      console.error("Empty accountSummary in getSelectedCharacterProgression.", error);
       return;
     }
 
     if (this.sharedApp.accessToken == null) {
       this.privacyError = true;
+      return;
     }
-    else {
-      this.destinyProfileService.getCharacterProgression(this.selectedMembership, characterId).then((characterProgressions) => {
-        if (characterProgressions == null)
-          return;
+    this.destinyProfileService.getCharacterProgression(this.selectedMembership, characterId).then((characterProgressions) => {
+      if (characterProgressions == null)
+        return;
 
-        this.characterMilestonesSpecial = characterProgressions.milestoneData.filter((milestone) => {
-          return milestone.milestoneValue.milestoneType == MilestoneTypes.Special;
-        });
-        this.characterMilestonesDaily = characterProgressions.milestoneData.filter((milestone) => {
-          return milestone.milestoneValue.milestoneType == MilestoneTypes.Daily;
-        });
-        this.characterMilestonesWeekly = characterProgressions.milestoneData.filter((milestone) => {
-          return milestone.milestoneValue.milestoneType == MilestoneTypes.Weekly;
-        });
-        this.characterMilestonesOneTime = characterProgressions.milestoneData.filter((milestone) => {
-          return milestone.milestoneValue.milestoneType == MilestoneTypes.OneTime;
-        });
-
-        //console.log(this.characterMilestonesSpecial);
-        console.log(this.characterMilestonesDaily);
-        console.log(this.characterMilestonesWeekly);
-        console.log(this.characterMilestonesOneTime);
-
+      this.characterMilestonesSpecial = characterProgressions.milestoneData.filter((milestone) => {
+        return milestone.milestoneValue.milestoneType == MilestoneTypes.Special;
       });
-    }
+      this.characterMilestonesDaily = characterProgressions.milestoneData.filter((milestone) => {
+        if (milestone.milestoneValue.milestoneType != MilestoneTypes.Daily) return false;
+
+        //Filter out hotspot for now
+        if (milestone.milestoneValue.friendlyName == "Hotspot") return false;
+        return true;
+      });
+      this.characterMilestonesWeekly = characterProgressions.milestoneData.filter((milestone) => {
+        return milestone.milestoneValue.milestoneType == MilestoneTypes.Weekly;
+      });
+      this.characterMilestonesOneTime = characterProgressions.milestoneData.filter((milestone) => {
+        return milestone.milestoneValue.milestoneType == MilestoneTypes.OneTime;
+      });
+    });
+
   }
 }

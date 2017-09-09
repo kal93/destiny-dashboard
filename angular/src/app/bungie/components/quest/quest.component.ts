@@ -3,6 +3,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { InventoryItem } from '../../services/interface.barrel';
 import { DestinyInventoryItemDefinition, QuestBase } from "app/bungie/manifest/interfaces";
 
+/* Not currently used in the app */
 @Component({
   selector: 'dd-quest',
   templateUrl: './quest.component.html',
