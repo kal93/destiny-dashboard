@@ -13,7 +13,7 @@
         <ng-container *ngIf="!clanApiError && !userPrivacyError">
           <button md-button class="toolbar-menu" [mdMenuTriggerFor]="appMenu">
             <md-icon>menu</md-icon> 
-            <span class="title">Stats</span>
+            <span class="title">{{statDisplayName}}</span>
           </button>
 
           <md-menu #appMenu="mdMenu">
@@ -44,7 +44,7 @@
           <div class="stat-container" [@slideFromBottom]="statName">
 
             <div *ngIf="lbSingleGameKills != null" class="stat-section">
-              <div class="header">{{statDisplayName}}: Single Game Kills</div>
+              <div class="header">Single Game Kills</div>
               <div *ngFor="let singleGameKillEntry of lbSingleGameKills.entries" [class.highlight-row]="singleGameKillEntry.player?.destinyUserInfo.displayName == selectedMembership.displayName">
                 <span>{{singleGameKillEntry?.rank}}</span>
                 <span>{{singleGameKillEntry.player?.destinyUserInfo.displayName}}</span>
@@ -53,7 +53,7 @@
             </div>
 
             <div *ngIf="lbPrecisionKills != null" class="stat-section">
-              <div class="header">{{statDisplayName}}: Precision Kills</div>
+              <div class="header">Precision Kills</div>
               <div *ngFor="let precisionKillsEntry of lbPrecisionKills.entries" [class.highlight-row]="precisionKillsEntry.player?.destinyUserInfo.displayName == selectedMembership.displayName">
                 <span>{{precisionKillsEntry?.rank}}</span>
                 <span>{{precisionKillsEntry.player?.destinyUserInfo.displayName}}</span>
@@ -62,7 +62,7 @@
             </div>
 
             <div *ngIf="lbAssists != null" class="stat-section">
-              <div class="header">{{statDisplayName}}: Assists</div>
+              <div class="header">Assists</div>
               <div *ngFor="let assistsEntry of lbAssists.entries" [class.highlight-row]="assistsEntry.player?.destinyUserInfo.displayName == selectedMembership.displayName">
                 <span>{{assistsEntry?.rank}}</span>
                 <span>{{assistsEntry.player?.destinyUserInfo.displayName}}</span>
@@ -71,7 +71,7 @@
             </div>
 
             <div *ngIf="lbDeaths != null" class="stat-section">
-              <div class="header">{{statDisplayName}}: Deaths</div>
+              <div class="header">Deaths</div>
               <div *ngFor="let deathsEntry of lbDeaths.entries" [class.highlight-row]="deathsEntry.player?.destinyUserInfo.displayName == selectedMembership.displayName">
                 <span>{{deathsEntry?.rank}}</span>
                 <span>{{deathsEntry.player?.destinyUserInfo.displayName}}</span>
@@ -80,7 +80,7 @@
             </div>
 
             <div *ngIf="lbKills != null" class="stat-section">
-              <div class="header">{{statDisplayName}}: Kills</div>
+              <div class="header">Kills</div>
               <div *ngFor="let killsEntry of lbKills.entries" [class.highlight-row]="killsEntry.player?.destinyUserInfo.displayName == selectedMembership.displayName">
                 <span>{{killsEntry?.rank}}</span>
                 <span>{{killsEntry.player?.destinyUserInfo.displayName}}</span>
@@ -89,7 +89,7 @@
             </div>
 
             <div *ngIf="lbLongestKillSpree != null" class="stat-section">
-              <div class="header">{{statDisplayName}}: Longest Kill Spree</div>
+              <div class="header">Longest Kill Spree</div>
               <div *ngFor="let longestKillSpreeEntry of lbLongestKillSpree.entries" [class.highlight-row]="longestKillSpreeEntry.player?.destinyUserInfo.displayName == selectedMembership.displayName">
                 <span>{{longestKillSpreeEntry?.rank}}</span>
                 <span>{{longestKillSpreeEntry.player?.destinyUserInfo.displayName}}</span>
@@ -98,7 +98,7 @@
             </div>
 
             <div *ngIf="lbObjectivesCompleted != null" class="stat-section">
-              <div class="header">{{statDisplayName}}: Objectives Completed</div>
+              <div class="header">Objectives Completed</div>
               <div *ngFor="let objectivesCompletedEntry of lbObjectivesCompleted.entries" [class.highlight-row]="objectivesCompletedEntry.player?.destinyUserInfo.displayName == selectedMembership.displayName">
                 <span>{{objectivesCompletedEntry?.rank}}</span>
                 <span>{{objectivesCompletedEntry.player?.destinyUserInfo.displayName}}</span>
@@ -108,7 +108,7 @@
 
 
             <div *ngIf="lbSingleGameScore != null" class="stat-section">
-              <div class="header">{{statDisplayName}}: Single Game Score</div>
+              <div class="header">Single Game Score</div>
               <div *ngFor="let singleGameScoreEntry of lbSingleGameScore.entries" [class.highlight-row]="singleGameScoreEntry.player?.destinyUserInfo.displayName == selectedMembership.displayName">
                 <span>{{singleGameScoreEntry?.rank}}</span>
                 <span>{{singleGameScoreEntry.player?.destinyUserInfo.displayName}}</span>
@@ -117,7 +117,7 @@
             </div>
 
             <div *ngIf="lbMostPrecisionKills != null" class="stat-section">
-              <div class="header">{{statDisplayName}}: Most Precision Kills</div>
+              <div class="header">Most Precision Kills</div>
               <div *ngFor="let mostPrecisionKillsEntry of lbMostPrecisionKills.entries" [class.highlight-row]="mostPrecisionKillsEntry.player?.destinyUserInfo.displayName == selectedMembership.displayName">
                 <span>{{mostPrecisionKillsEntry?.rank}}</span>
                 <span>{{mostPrecisionKillsEntry.player?.destinyUserInfo.displayName}}</span>
@@ -126,7 +126,7 @@
             </div>
 
             <div *ngIf="lbLongestKillSpree != null" class="stat-section">
-              <div class="header">{{statDisplayName}}: Longest Kill Spree</div>
+              <div class="header">Longest Kill Spree</div>
               <div *ngFor="let longestKillSpreeEntry of lbLongestKillSpree.entries" [class.highlight-row]="longestKillSpreeEntry.player?.destinyUserInfo.displayName == selectedMembership.displayName">
                 <span>{{longestKillSpreeEntry?.rank}}</span>
                 <span>{{longestKillSpreeEntry.player?.destinyUserInfo.displayName}}</span>
@@ -135,7 +135,7 @@
             </div>
 
             <div *ngIf="lbLongestKillDistance != null" class="stat-section">
-              <div class="header">{{statDisplayName}}: Longest Kill Distance</div>
+              <div class="header">Longest Kill Distance</div>
               <div *ngFor="let longestKillDistanceEntry of lbLongestKillDistance.entries" [class.highlight-row]="longestKillDistanceEntry.player?.destinyUserInfo.displayName == selectedMembership.displayName">
                 <span>{{longestKillDistanceEntry?.rank}}</span>
                 <span>{{longestKillDistanceEntry.player?.destinyUserInfo.displayName}}</span>
@@ -144,26 +144,26 @@
             </div>
 
             <div *ngIf="lbFastestCompletionMs != null" class="stat-section">
-              <div class="header">{{statDisplayName}}: Fastest Completion Time</div>
+              <div class="header">Fastest Completion Time</div>
               <div *ngFor="let fastestCompletionMsEntry of lbFastestCompletionMs.entries" [class.highlight-row]="fastestCompletionMsEntry.player?.destinyUserInfo.displayName == selectedMembership.displayName">
                 <span>{{fastestCompletionMsEntry?.rank}}</span>
                 <span>{{fastestCompletionMsEntry.player?.destinyUserInfo.displayName}}</span>
                 <span>{{fastestCompletionMsEntry.value?.basic.displayValue}}</span>
               </div>
             </div>
-            
+
             <div *ngIf="lbLongestSingleLife != null" class="stat-section">
-              <div class="header">{{statDisplayName}}: Longest Single Life</div>
+              <div class="header">Longest Single Life</div>
               <div *ngFor="let longestSingleLifeEntry of lbLongestSingleLife.entries" [class.highlight-row]="longestSingleLifeEntry.player?.destinyUserInfo.displayName == selectedMembership.displayName">
                 <span>{{longestSingleLifeEntry?.rank}}</span>
                 <span>{{longestSingleLifeEntry.player?.destinyUserInfo.displayName}}</span>
                 <span>{{longestSingleLifeEntry.value?.basic.displayValue}}</span>
               </div>
             </div>
-            
+
             <div class="clan-error" [@slowFadeIn]="':enter'" *ngIf="lbSingleGameKills == null && lbPrecisionKills == null && lbAssists == null && lbDeaths == null && lbKills == null && lbObjectivesCompleted == null && lbSingleGameScore == null 
             && lbMostPrecisionKills == null && lbLongestKillSpree == null && lbLongestKillDistance == null && lbFastestCompletionMs == null && lbLongestSingleLife == null">
-                Clan leaderboard data was not found for the {{statDisplayName}} game mode at this time.  Please check back again later.
+              Clan leaderboard data was not found for the {{statDisplayName}} game mode at this time. Please check back again later.
             </div>
 
           </div>
