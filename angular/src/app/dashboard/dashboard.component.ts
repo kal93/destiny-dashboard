@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { Meta } from '@angular/platform-browser';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { ModalDirective } from '../shared/directives/modal.directive';
 import { SharedApp } from '../shared/services/shared-app.service';
 import { SharedDashboard } from './shared-dashboard.service';
@@ -35,7 +35,6 @@ export class DashboardComponent {
   tutorialAddCardSubscription: Subscription;
 
   // Dashboard layout
-  isDashboardCurrentRoute: boolean = true;
   gutterSize: number;
   columnCount: number;
 
@@ -66,15 +65,20 @@ export class DashboardComponent {
       else if (this.modalDirective) this.modalDirective.closeModal();
     });
 
+    let previousScrollY: number = 0;
     // Router Events - Subscribe to Router Events since Dashboard is special and is preserved when route changes. Search "CustomReuseStrategy"
-    this.router.events.filter(e => e instanceof NavigationEnd).subscribe((e: NavigationEnd) => {
-      this.isDashboardCurrentRoute = e.url == "/dashboard";
-      if (this.isDashboardCurrentRoute) {
-        this.updateMeta();
-        this.setSubNavItems();
+    this.router.events.subscribe((e: any) => {
+      if (e instanceof NavigationStart && e.url != "/dashboard")
+        previousScrollY = window.scrollY;
+      else if (e instanceof NavigationEnd) {
+        if (e.url == "/dashboard") {
+          window.scrollTo(0, previousScrollY);
+          this.updateMeta();
+          this.setSubNavItems();
+        }
+        else
+          this.cancelEditMode();
       }
-      else
-        this.cancelEditMode();
     });
   }
 
