@@ -3,8 +3,6 @@
 html {
     min-width: 420px;
     height: 100%;
-    user-select: none;
-    -webkit-user-select: none;
     -webkit-user-callout: none;
     color: $app-text-dark;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -198,4 +196,11 @@ snack-bar-container {
 ::-webkit-scrollbar-thumb {
     background-color: rgba(#64B5F6, .8);
     background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent);
+}
+@media(max-width:600px) {
+    // Disable text selection on mobile
+    html {
+        user-select: none;
+        -webkit-user-select: none;
+    }
 }
