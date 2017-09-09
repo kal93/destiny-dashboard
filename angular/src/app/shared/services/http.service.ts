@@ -276,16 +276,13 @@ export class HttpService {
         if (error.ErrorCode) {
             switch (error.ErrorCode) {
                 case ErrorTypes.UnhandledException:
+                case ErrorTypes.DestinyUnexpectedError:
                 case ErrorTypes.DestinyShardRelayProxyTimeout:
-                    this.sharedApp.showError("An unhandled exception error has occurred while trying to get Destiny information. It's probably an issue with Bungie's API, please try again later.", error);
+                    this.sharedApp.showError("An error occurred while trying to get data from Bungie, please try again later.", error);
                     break;
 
                 case ErrorTypes.DestinyAccountNotFound:
                     //this.sharedApp.showError("Could not find Destiny information for this Bungie account. Have you played with this account?");
-                    break;
-
-                case ErrorTypes.DestinyUnexpectedError:
-                    this.sharedApp.showError("An error has occurred while trying to get Destiny information. It's probably an issue with Bungie's API, please try again later.", error);
                     break;
 
                 default:
