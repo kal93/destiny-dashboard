@@ -38,8 +38,6 @@ You only need to do steps 2, 3 & 4 if you are working on the Java API.
 # Todo
 ## Platform
 - [ ] Add Card should show how many users have it installed
-- [ ] Add Card should have filter by card types
-- [ ] Add Card should have arrows to navigate cards on desktop version
 - [ ] Ability for users to subscribe to push notifications for different cards
 - [ ] Add Cordova wrapper and push to iOS and Android stores
 - [ ] Localization to support all languages supported by the Manifest
@@ -50,21 +48,15 @@ You only need to do steps 2, 3 & 4 if you are working on the Java API.
 - [ ] PvP realtime analysis
     - Detect current in-game opponents and show commons stats like K/D, Favorite subclass or super, most used weapons
 - [ ] Quest Lines 
-- [ ] Checklist
-    - Has user completed the Daily, Weekly, Raids, Nightfall?
 - [ ] Game History Browser
 - [ ] LFG/ Team finder with scheduling
 - [ ] Xur ?
-- [ ] Public Events ?
-- [ ] Dead Ghosts ?
 - [ ] Clan support ?
 
 
 ## Existing Card Enhancements
 - [ ] Inventory Popup should have more detail
 - [ ] Database Popup should have more detail
-- [ ] Database should sort by columns
-- [ ] Database should filter by item tier (Common, Rare, Legendary, Exotic)
 
 
 ## Known Issues
