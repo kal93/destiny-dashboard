@@ -276,6 +276,7 @@ export class HttpService {
         if (error.ErrorCode) {
             switch (error.ErrorCode) {
                 case ErrorTypes.UnhandledException:
+                case ErrorTypes.DestinyShardRelayProxyTimeout:
                     this.sharedApp.showError("An unhandled exception error has occurred while trying to get Destiny information. It's probably an issue with Bungie's API, please try again later.", error);
                     break;
 
