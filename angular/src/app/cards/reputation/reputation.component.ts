@@ -3,11 +3,10 @@ import { MdTabGroup } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CardComponent } from '../_base/card.component';
 import { SharedApp } from 'app/shared/services/shared-app.service';
-import { ManifestService } from 'app/bungie/manifest/manifest.service';
 import { PrivacyTypes } from 'app/bungie/services/enums.interface';
 
 import { DestinyProfileService } from 'app/bungie/services/service.barrel';
-import { DestinyMembership, IAccountSummary, FactionBase, MilestoneBase, ProgressionBase } from 'app/bungie/services/interface.barrel';
+import { DestinyMembership, IAccountSummary, FactionBase } from 'app/bungie/services/interface.barrel';
 
 @Component({
   selector: 'dd-reputation',
@@ -34,8 +33,7 @@ export class ReputationComponent extends CardComponent {
 
   accountNotFound: boolean = false;
 
-  constructor(private destinyProfileService: DestinyProfileService, public domSanitizer: DomSanitizer,
-    private manifestService: ManifestService, public sharedApp: SharedApp) {
+  constructor(private destinyProfileService: DestinyProfileService, public domSanitizer: DomSanitizer, public sharedApp: SharedApp) {
     super(sharedApp);
   }
 
@@ -65,7 +63,6 @@ export class ReputationComponent extends CardComponent {
         this.selectedTabIndex = 0;
 
       this.tabGroup.selectedIndex = this.selectedTabIndex;
-      this.selectedTabIndexChanged(this.selectedTabIndex);
     });
   }
 

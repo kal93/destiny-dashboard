@@ -66,7 +66,6 @@ export class StatsComponent extends CardComponent {
         this.selectedTabIndex = 0;
 
       this.tabGroup.selectedIndex = this.selectedTabIndex;
-      this.selectedTabIndexChanged(this.selectedTabIndex);
     });
   }
 
