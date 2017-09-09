@@ -61,6 +61,7 @@ gulp.task('publish', function (done) {
     gulp.src('./build/*.zip').pipe(gulp.dest('../cordova/www'));
     gulp.src('./build/favicon.ico').pipe(gulp.dest('../cordova/www'));
     gulp.src('./build/manifest.json').pipe(gulp.dest('../cordova/www'));
+    gulp.src('./build/index.html').pipe(gulp.dest('../cordova/www'));
 
 });
 
