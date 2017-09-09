@@ -22,7 +22,7 @@
       </md-card>
 
       <div class="results-wrap  mat-elevation-z8">
-        <md-table #table [dataSource]="dataSource" [trackBy]="hash" mdSort (mdSortChange)="sortChanged()">
+        <md-table #table [dataSource]="dataSource" mdSort (mdSortChange)="sortChanged()">
           <ng-container mdColumnDef="icon">
             <md-header-cell *mdHeaderCellDef> Icon </md-header-cell>
             <md-cell *mdCellDef="let itemDef">
