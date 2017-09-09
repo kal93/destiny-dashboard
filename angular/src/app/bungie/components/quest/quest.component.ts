@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { AvailableQuest, InventoryItem } from '../../services/interface.barrel';
-import { DestinyInventoryItemDefinition } from "app/bungie/manifest/interfaces";
+import { InventoryItem } from '../../services/interface.barrel';
+import { DestinyInventoryItemDefinition, QuestBase } from "app/bungie/manifest/interfaces";
 
 @Component({
   selector: 'dd-quest',
@@ -10,7 +10,11 @@ import { DestinyInventoryItemDefinition } from "app/bungie/manifest/interfaces";
 })
 export class QuestComponent {
   @Input()
-  quest: AvailableQuest;
+  quest: QuestBase;
 
   constructor(public domSanitizer: DomSanitizer) { }
+
+  ngOnInit() {
+    console.log(this.quest);
+  }
 }

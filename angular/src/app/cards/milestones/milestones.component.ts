@@ -68,6 +68,7 @@ export class MilestonesComponent extends CardComponent {
         this.selectedTabIndex = 0;
 
       this.tabGroup.selectedIndex = this.selectedTabIndex;
+      this.selectedTabIndexChanged(this.selectedTabIndex);
     });
   }
 
@@ -116,7 +117,7 @@ export class MilestonesComponent extends CardComponent {
           return milestone.milestoneValue.milestoneType == MilestoneTypes.OneTime;
         });
 
-        console.log(this.characterMilestonesSpecial);
+        //console.log(this.characterMilestonesSpecial);
         console.log(this.characterMilestonesDaily);
         console.log(this.characterMilestonesWeekly);
         console.log(this.characterMilestonesOneTime);

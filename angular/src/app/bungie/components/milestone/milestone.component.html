@@ -19,9 +19,7 @@
       </div>
     </div>
   </div>
+  <br/>
 
-  <br/><br/> Quests:
-  <div *ngFor="let quest of milestone.availableQuests">
-
-  </div>
+  <dd-quest *ngFor="let quest of milestone.milestoneValue.questsData" [quest]="quest"></dd-quest>
 </div>

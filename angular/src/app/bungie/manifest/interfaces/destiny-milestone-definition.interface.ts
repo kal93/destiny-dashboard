@@ -8,13 +8,15 @@ export interface DestinyMilestoneDefinition {
     index: number;
     isInGameMilestone: boolean;
     milestoneType: number;
-    quests: { [key: number]: QuestsBase };
+    quests: { [key: number]: QuestBase };
     recruitable: boolean;
     redacted: boolean;
     showInExplorer: boolean;
+
+    questsData: Array<QuestBase>;
 }
 
-interface QuestsBase {
+export interface QuestBase {
     displayProperties: DisplayProperties;
     questItemHash: number;
     questRewards: QuestRewards;

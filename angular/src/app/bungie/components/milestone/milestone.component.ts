@@ -15,6 +15,8 @@ export class MilestoneComponent {
   isComplete: boolean = false;
   isStarted: boolean = false;
 
+  quests
+
   constructor(public domSanitizer: DomSanitizer) { }
 
   ngOnInit() {

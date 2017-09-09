@@ -3,10 +3,11 @@ import { HttpRequestType, HttpService } from 'app/shared/services/http.service';
 import { SharedApp } from 'app/shared/services/shared-app.service';
 import { ManifestService } from 'app/bungie/manifest/manifest.service';
 import { ComponentTypes } from 'app/bungie/services/enums.interface';
+import { QuestBase } from 'app/bungie/manifest/interfaces/destiny-milestone-definition.interface';
 
 import {
-    CharacterBase, DestinyMembership, IAccountSummary, ICharacterInventorySummary, ICharacterProgression, InventoryItem, IProfileSummary,
-    FactionBase, ProfileBasic, ProgressionBase, MilestoneBase
+    CharacterBase, DestinyMembership, IAccountSummary, ICharacterInventorySummary, ICharacterProgression, InventoryItem, IProfileSummary, MilestoneBase,
+    FactionBase, ProfileBasic, ProgressionBase
 } from 'app/bungie/services/interface.barrel';
 
 @Injectable()
@@ -122,8 +123,17 @@ export class DestinyProfileService {
                     var milestone: MilestoneBase = progressionWrapper.milestones[key];
                     milestone.milestoneValue = this.manifestService.getManifestEntry("DestinyMilestoneDefinition", milestone.milestoneHash);
 
-                    if (milestone.milestoneValue != null)
+                    if (milestone.milestoneValue != null) {
+                        milestone.milestoneValue.questsData = new Array<QuestBase>();
+                        // Populate quests array from map
+                        Object.keys(milestone.milestoneValue.quests).forEach((key: string, index: number) => {
+                            var quest: QuestBase = milestone.milestoneValue.quests[key];
+                            if (quest != null)
+                                milestone.milestoneValue.questsData.push(quest);
+                        });
+
                         characterProgressions.milestoneData.push(milestone);
+                    }
 
                     // Populates availableQuests with questItemHashValue and questRewards
                     if (milestone.availableQuests != null) {

@@ -1,3 +1,5 @@
+<!--
+ 
  {{quest.questItemValue.displayProperties.name}}
 <br/> <br/>description {{quest.questItemValue.displayProperties.description}}
 <br/> <br/>icon {{quest.questItemValue.displayProperties.icon}}
@@ -13,3 +15,28 @@
   </div>
 
 </ng-container>
+
+-->
+
+{{quest}}
+
+<div class="quest">
+  <div class="top-wrap">
+    <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + quest.displayProperties.icon  + ')')"></div>
+    <div class="title">
+      <div class="name">
+        <!--
+        <md-icon *ngIf="quest.status.completed" [mdTooltip]="'Complete'" style="color:#66BB6A">check_circle</md-icon>
+        <md-icon *ngIf="!quest.status.completed && quest.status.started" [mdTooltip]="'In Progress'" style="color: #FFB74D">radio_button_checked</md-icon>
+        <md-icon *ngIf="!quest.status.started" [mdTooltip]="'Not Started'" style="color:#994925">remove_circle</md-icon>
+        -->
+        <span>{{quest.displayProperties.name}}</span>
+      </div>
+
+      <div class="description">{{quest.displayProperties.description}}</div>
+    </div>
+
+    <div class="status">
+    </div>
+  </div>
+</div>
