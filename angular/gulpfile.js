@@ -4,6 +4,7 @@ let gulp = require('gulp');
 let replace = require('gulp-replace');
 let runSequence = require('run-sequence');
 let shell = require('gulp-shell');
+let run = require('gulp-run');
 
 let BUILD_APP = false;
 let BUILD_CORDOVA = true;
@@ -74,28 +75,9 @@ gulp.task('publish-app', function (done) {
 //
 
 function buildCordova(done) {
-    //runSequence('version-cordova', 'clean-cordova', 'publish-cordova', 'build-cordova', function () {
-    //    done();
-    // });
-    let packageJson = JSON.parse(fs.readFileSync('./package.json'));
-    console.log(packageJson.version);
-
-    // Clean cordova dir
-    gulp.src('../cordova/www/*').pipe(clean({ force: true }));
-
-    //Copy files to Cordova directory
-    gulp.src('./build/*.js').pipe(gulp.dest('../cordova/www'));
-    gulp.src('./build/*.png').pipe(gulp.dest('../cordova/www'));
-    gulp.src('./build/*.css').pipe(gulp.dest('../cordova/www'));
-    gulp.src('./build/*.zip').pipe(gulp.dest('../cordova/www'));
-    gulp.src('./build/favicon.ico').pipe(gulp.dest('../cordova/www'));
-    gulp.src('./build/manifest.json').pipe(gulp.dest('../cordova/www'));
-    gulp.src('./build/index.html').pipe(gulp.dest('../cordova/www'));
-
-    gulp.src('./cordova').pipe(shell('cordova build android'));
-
-
-    done();
+    runSequence('version-cordova', 'clean-cordova', 'publish-cordova', 'build-cordova', function () {
+        done();
+    });
 }
 
 // Set version in cordova config.xml
@@ -133,7 +115,8 @@ gulp.task('publish-cordova', function (done) {
 
 // Clean all build directoriess
 gulp.task('build-cordova', function (done) {
-    // gulp.src('./cordova').pipe(shell('cordova build android'))
-
-    done();
+    process.chdir('../cordova');
+    
+    return gulp.src('./')
+        .pipe(run('cordova build android'));
 });
