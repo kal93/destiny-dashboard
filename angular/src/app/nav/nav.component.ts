@@ -42,7 +42,8 @@ export class NavComponent {
   routeChangedFromNav: boolean = false;
   openMenuOnDashboardLoad: boolean = false;
 
-  constructor(private activatedRoute: ActivatedRoute, public sharedBungie: SharedBungie, public sharedDashboard: SharedDashboard, public sharedApp: SharedApp, public router: Router) {
+  constructor(private activatedRoute: ActivatedRoute, public sharedBungie: SharedBungie, public sharedDashboard: SharedDashboard, public sharedApp: SharedApp,
+    public router: Router) {
     //Application events
     this.toggleMainNavSubscription = this.sharedApp.toggleMainNavSubject.subscribe((open: boolean) => { open ? this.mainNav.open() : this.mainNav.close() });
     this.toggleSubNavSubscription = this.sharedApp.toggleSubNavSubject.subscribe((open: boolean) => { open ? this.subNav.open() : this.subNav.close() });
@@ -102,18 +103,22 @@ export class NavComponent {
   }
 
   logInWithCordova(authCodeUrl: string) {
+    // Launch inAppBrowser to get the code from Bungie
     var inAppBrowserRef = window.cordova.InAppBrowser.open(authCodeUrl, "_blank", 'location=yes');
 
-    let window2: any = window;
-    window2.inAppBrowserRef = inAppBrowserRef;
-
+    // When it's loaded, extract the code from Bungie
     inAppBrowserRef.addEventListener('loadstart', (e) => {
       let codeStartIndex = e.url.indexOf("?code=");
       if (codeStartIndex != -1 && e.url.indexOf("https://www.destinydashboard.net/") != -1) {
+
+        //Parse the code returned from Bungie's response
         let bungieAuthCode = e.url.substr(codeStartIndex + 6);
-        console.log(bungieAuthCode);
         bungieAuthCode = bungieAuthCode.substr(0, bungieAuthCode.indexOf("&"));
-        this.sharedApp.cordovaLoginSubject.next(bungieAuthCode);
+
+        //Save the code in localStorage and reload the application
+        localStorage.setItem("bungieAuthCode", bungieAuthCode);
+        window.location.href = window.location.origin + window.location.pathname + "index.html"
+
         inAppBrowserRef.close();
       }
     });

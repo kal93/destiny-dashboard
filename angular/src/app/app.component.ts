@@ -37,18 +37,10 @@ export class AppComponent {
     public mdDialog: MdDialog, private sharedBungie: SharedBungie, private sharedDashboard: SharedDashboard, public sharedApp: SharedApp) { }
 
   ngOnInit() {
-    document.addEventListener("deviceready", () => {
-      console.log("Cordova init");
-    }, false);
+    document.addEventListener("deviceready", () => { console.log("Cordova init"); });
 
     this.manifestService.loadManifest().then(() => {
       this.initApp();
-    });
-
-    // Listen for when Cordova login happens, then re-init app
-    this.sharedApp.cordovaLoginSubject.subscribe((bungieAuthCode) => {
-      console.log("Cordova attempt login: " + bungieAuthCode);
-      this.getBungieAccessToken(bungieAuthCode);
     });
   }
 

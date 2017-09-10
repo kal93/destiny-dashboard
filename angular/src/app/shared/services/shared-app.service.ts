@@ -29,7 +29,6 @@ export class SharedApp {
     tutorialAddCardSubject = new Subject<boolean>();
     invalidateCachesSubject = new Subject<void>();
     logOutSubject = new Subject<void>();
-    cordovaLoginSubject = new Subject<string>();
 
     windowResize$: Observable<any> = Observable.fromEvent(window, 'resize');
 
