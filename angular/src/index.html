@@ -28,7 +28,6 @@
         var parsedAuthCode = parsedAuthCode.substr(0, parsedAuthCode.indexOf("&"));
         var parsedState = window.location.href.substr(window.location.href.indexOf("&state=") + 7);
 
-
         var returnedAuthState = localStorage.getItem("bungieAuthState")
         localStorage.removeItem("bungieAuthState");
 
