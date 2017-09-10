@@ -53,6 +53,7 @@ import { AboutComponent } from './about/about.component';
 import { DownloadManifestComponent } from './bungie/manifest/download-manifest.component';
 import { GamertagAutocompleteComponent } from './bungie/components/gamertag-autocomplete/gamertag-autocomplete.component';
 import { InventoryItemComponent } from './bungie/components/inventory-item/inventory-item.component';
+import { InventoryItemPerkComponent } from './bungie/components/inventory-item/inventory-item-perk/inventory-item-perk.component';
 import { InventoryItemPopupComponent } from './bungie/components/inventory-item/inventory-item-popup/inventory-item-popup.component';
 import { MdTabCharacterHeadingComponent } from './bungie/components/md-tab-character-heading/md-tab-character-heading.component';
 import { MilestoneComponent } from './bungie/components/milestone/milestone.component';
@@ -97,7 +98,7 @@ import { NumberFormatLocalePipe, RoundToDecimalPlacePipe } from './shared/pipes/
     AddCardComponent, CardHeaderComponent, CardLoaderComponent, DashboardComponent,
 
     //Other components 
-    AboutComponent, DownloadManifestComponent, GamertagAutocompleteComponent, InventoryItemComponent, InventoryItemPopupComponent,
+    AboutComponent, DownloadManifestComponent, GamertagAutocompleteComponent, InventoryItemComponent, InventoryItemPerkComponent, InventoryItemPopupComponent,
     MdTabCharacterHeadingComponent, MilestoneComponent, SettingsComponent,
 
     //Cards

@@ -1,0 +1,33 @@
+.perk {
+    margin-top: 7px;
+    display: flex;
+    align-items: center;
+    background-color: rgba(255,255,255,.1);
+    padding: 2px 4px;
+
+    .icon-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+
+        .icon {
+            min-width: 32px;
+            min-height: 32px;
+            max-width: 32px;
+            max-height: 32px;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        .name {
+            font-size: .65em;
+            max-width: 70px;
+        }
+    }
+
+    .description {
+        margin-left: 10px;
+        font-size: .8em;
+    }
+}

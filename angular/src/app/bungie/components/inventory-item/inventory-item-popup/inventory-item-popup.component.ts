@@ -17,6 +17,9 @@ import { Subject } from 'rxjs/Subject';
   animations: [scaleIn()]
 })
 export class InventoryItemPopupComponent {
+  InventoryUtils = InventoryUtils;
+  damageTypeColors = ["#2A333E", "#2A333E", "#84C4EB", "#F36F26", "#B082CB"];
+
   @Input()
   inventoryItem: InventoryItem;
   @Input()
@@ -33,15 +36,12 @@ export class InventoryItemPopupComponent {
   @Output()
   destroyPopupSubject: Subject<void> = new Subject<void>();
 
-  public popupStyle = {};
-
-  damageTypeColors = ["#2A333E", "#2A333E", "#84C4EB", "#F36F26", "#B082CB"];
-
-  InventoryUtils = InventoryUtils;
+  popupStyle = {};
+  showTransferBar: boolean = false;
+  showPerks: boolean = false;
 
   constructor(public domSanitizer: DomSanitizer, private elementRef: ElementRef, public manifestService: ManifestService, private sharedApp: SharedApp) {
   }
-
 
   @HostListener('document:touchstart', ['$event'])
   onTouchStart(event: TouchEvent) {
@@ -61,13 +61,26 @@ export class InventoryItemPopupComponent {
   }
 
   ngOnInit() {
+    if (this.inventoryItem != null)
+      this.inventoryItemDefinition = this.inventoryItem.itemValue;
+
+    this.showTransferBar = this.inventoryItem != null && this.accountSummary != null && (InventoryUtils.isItemTransferrable(this.inventoryItem) || this.inventoryItemDefinition.equippable);
+    this.showPerks = this.inventoryItemDefinition.perksData != null && this.inventoryItemDefinition.perksData.length > 0;
+
     this.initPopupPosition();
   }
 
   initPopupPosition() {
-    let popupWidth = 280;
-    let popupMaxHeight = 300;
+    let popupWidth = 320;
+    let popupMaxHeight = 200;
     let boundaryPadding = 35;
+
+    if (this.showTransferBar)
+      popupMaxHeight += 65;
+
+    if (this.showPerks)
+      popupMaxHeight += 80;
+
     // Get the position and dimensions of the element we're trying to show the tooltip for
     let boundingRect: ClientRect = this.targetElementRef.nativeElement.getBoundingClientRect();
 

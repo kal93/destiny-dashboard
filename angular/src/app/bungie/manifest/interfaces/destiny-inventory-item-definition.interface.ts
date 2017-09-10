@@ -20,7 +20,7 @@ export interface DestinyInventoryItemDefinition {
     itemTypeAndTierDisplayName: string;
     itemTypeDisplayName: string;
     nonTransferrable: boolean;
-    perks: any[];
+    perks: any[]; //DestinySandboxPerkDefinition
     quality: Quality;
     redacted: boolean;
     screenshot: string;
@@ -34,8 +34,17 @@ export interface DestinyInventoryItemDefinition {
     // Runtime variables
     className: string;
     tierName: string;
+    perksData: Array<PerkDefinition>;
 }
 
+export interface PerkDefinition {
+    displayProperties: DisplayProperties;
+    isDisplayable: boolean;
+    damageType: number;
+    hash: number;
+    index: number;
+    redacted: boolean;
+}
 
 interface InvestmentStat {
     statTypeHash: number;

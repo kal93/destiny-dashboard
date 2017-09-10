@@ -8,7 +8,7 @@ import { SharedApp } from 'app/shared/services/shared-app.service';
 import { ManifestService } from 'app/bungie/manifest/manifest.service';
 import { ClassTypes, ItemTypes, TierTypes } from 'app/bungie/services/enums.interface';
 
-import { DestinyInventoryItemDefinition } from "app/bungie/manifest/interfaces";
+import { PerkDefinition, DestinyInventoryItemDefinition } from "app/bungie/manifest/interfaces";
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
@@ -87,6 +87,15 @@ export class DatabaseComponent extends CardComponent {
       else if (itemDefinition.inventory.tierType == TierTypes.RARE) itemDefinition.tierName = "Rare";
       else if (itemDefinition.inventory.tierType == TierTypes.LEGENDARY) itemDefinition.tierName = "Legendary";
       else if (itemDefinition.inventory.tierType == TierTypes.EXOTIC) itemDefinition.tierName = "Exotic";
+
+      // Set perks
+      itemDefinition.perksData = new Array<PerkDefinition>();
+      if (itemDefinition.perks != null) {
+        itemDefinition.perks.forEach((perk) => {
+          let perkDefinition = this.manifestService.getManifestEntry("DestinySandboxPerkDefinition", perk.perkHash);
+          itemDefinition.perksData.push(perkDefinition);
+        });
+      }
 
       if (itemDefinition.displayProperties.name.trim().length > 0)
         this.manifestInventory.push(itemDefinition);

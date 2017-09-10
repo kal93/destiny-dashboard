@@ -125,7 +125,6 @@ export class DownloadManifestComponent {
         // Delete other unnecessary fields
         delete rowObj.hash;
 
-        //DetinyInventoryItemDefinition
         delete rowObj.itemHash;
 
         /*

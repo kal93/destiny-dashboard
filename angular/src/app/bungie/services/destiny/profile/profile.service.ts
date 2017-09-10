@@ -3,7 +3,7 @@ import { HttpRequestType, HttpService } from 'app/shared/services/http.service';
 import { SharedApp } from 'app/shared/services/shared-app.service';
 import { ManifestService } from 'app/bungie/manifest/manifest.service';
 import { ComponentTypes } from 'app/bungie/services/enums.interface';
-import { QuestBase } from 'app/bungie/manifest/interfaces/destiny-milestone-definition.interface';
+import { PerkDefinition, QuestBase } from 'app/bungie/manifest/interfaces';
 
 import {
     CharacterBase, DestinyMembership, IAccountSummary, ICharacterInventorySummary, ICharacterProgression, InventoryItem, IProfileSummary, MilestoneBase,
@@ -63,7 +63,8 @@ export class DestinyProfileService {
                 for (let i = 0; i < response.inventory.data.items.length; i++) {
                     let inventoryItem = response.inventory.data.items[i];
                     // Assign inventory item hash
-                    inventoryItem.itemValue = this.manifestService.getManifestEntry("DestinyInventoryItemDefinition", inventoryItem.itemHash);
+
+                    this.setInventoryItemDefinition(inventoryItem);
 
                     // If hash doesn't exist, remove inventoryItem completely and let use know later
                     if (inventoryItem.itemValue == null) {
@@ -80,7 +81,7 @@ export class DestinyProfileService {
 
                 for (let i = 0; i < response.equipment.data.items.length; i++) {
                     let inventoryItem = response.equipment.data.items[i];
-                    inventoryItem.itemValue = this.manifestService.getManifestEntry("DestinyInventoryItemDefinition", inventoryItem.itemHash);
+                    this.setInventoryItemDefinition(inventoryItem);
 
                     if (inventoryItem.itemValue == null) {
                         missingItemValue = true;
@@ -170,7 +171,7 @@ export class DestinyProfileService {
             let missingItemValue: boolean = false;
             for (let i = 0; i < response.profileInventory.data.items.length; i++) {
                 let inventoryItem = response.profileInventory.data.items[i];
-                inventoryItem.itemValue = this.manifestService.getManifestEntry("DestinyInventoryItemDefinition", inventoryItem.itemHash);
+                this.setInventoryItemDefinition(inventoryItem);
 
                 if (inventoryItem.itemValue == null) {
                     missingItemValue = true;
@@ -189,4 +190,17 @@ export class DestinyProfileService {
         });
     }
 
+    private setInventoryItemDefinition(inventoryItem: InventoryItem) {
+        inventoryItem.itemValue = this.manifestService.getManifestEntry("DestinyInventoryItemDefinition", inventoryItem.itemHash);
+        if (inventoryItem.itemValue == null)
+            return;
+
+        inventoryItem.itemValue.perksData = new Array<PerkDefinition>();
+        if (inventoryItem.itemValue.perks != null) {
+            inventoryItem.itemValue.perks.forEach((perk) => {
+                let perkDefinition = this.manifestService.getManifestEntry("DestinySandboxPerkDefinition", perk.perkHash);
+                inventoryItem.itemValue.perksData.push(perkDefinition);
+            });
+        }
+    }
 } 
