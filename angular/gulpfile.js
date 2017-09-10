@@ -94,8 +94,9 @@ gulp.task('version-cordova', function (done) {
 gulp.task('clean-cordova', function (done) {
     // Clean cordova dir
     gulp.src('../cordova/www/*').pipe(clean({ force: true }));
-
-    done();
+    setTimeout(() => {
+        done();
+    }, 500);
 });
 
 // Push latest Angular build to Cordova
@@ -107,7 +108,9 @@ gulp.task('publish-cordova', function (done) {
     gulp.src('./build/*.zip').pipe(gulp.dest('../cordova/www'));
     gulp.src('./build/favicon.ico').pipe(gulp.dest('../cordova/www'));
     gulp.src('./build/manifest.json').pipe(gulp.dest('../cordova/www'));
-    gulp.src('./build/index.html').pipe(gulp.dest('../cordova/www'));
+
+    //Add cordova js in to head
+    gulp.src('./build/index.html').pipe(replace('</head>', '<script type="text/javascript" src="cordova.js"></script></head>')).pipe(gulp.dest('../cordova/www/'));
 
     done();
 });
@@ -116,7 +119,7 @@ gulp.task('publish-cordova', function (done) {
 // Clean all build directoriess
 gulp.task('build-cordova', function (done) {
     process.chdir('../cordova');
-    
+
     return gulp.src('./')
         .pipe(run('cordova build android'));
 });
