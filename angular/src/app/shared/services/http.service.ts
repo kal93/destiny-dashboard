@@ -60,11 +60,6 @@ export class HttpService {
 
     private getBungiePrivilegedHeaders(): HttpHeaders {
         let headers = new HttpHeaders().set('Authorization', "Bearer " + this.sharedApp.accessToken).set('X-API-Key', this.apiKey);
-        if (window.cordova) {
-            headers.set("origin", "https://www.destinydashboard.net");
-            headers.set("rederer", cordova.platformId);
-        }
-
         return headers;
     }
 
@@ -260,7 +255,7 @@ export class HttpService {
             //If the token needs to be refreshed, do it before making the call
             this.checkBungieRefreshToken().then(() => {
                 let headers = privileged ? this.getBungiePrivilegedHeaders() : this.getBungieBasicHeaders();
-                this.httpPost(url, body, headers).then((response) => {
+                this.httpPost(url, body, headers, privileged).then((response) => {
                     this.sharedApp.hideLoading(loadingId);
                     if (response.ErrorCode == 1)
                         resolve(response);
@@ -448,16 +443,45 @@ export class HttpService {
         });
     }
 
-    public httpPost(url: string, body: any, headers?: HttpHeaders): Promise<any> {
+    public httpPost(url: string, body: any, headers?: HttpHeaders, useCordovaHTTP: boolean = false): Promise<any> {
         let loadingId = Date.now();
         this.sharedApp.showLoading(loadingId);
-        return this.http.post(url, body, { headers }).toPromise().then((response) => {
-            this.sharedApp.hideLoading(loadingId);
-            return response;
-        }).catch((error) => {
-            this.sharedApp.hideLoading(loadingId);
-            this.handleError(error);
-        });
+        // Need to use cordova http for bungie authorized POST calls, since we need to add origin header
+        if (useCordovaHTTP) {
+            let cordovaHTTP = (<any>window.cordova).plugin.http;
+            return new Promise((resolve, reject) => {
+                if (headers != null)
+                    headers.keys().forEach((key: string) => {
+                        cordovaHTTP.setHeader(key, headers.get(key));
+                    });
+
+                cordovaHTTP.acceptAllCerts(true);
+                cordovaHTTP.setDataSerializer("json");
+                cordovaHTTP.setHeader("origin", "https://www.destinydashboard.net");
+                cordovaHTTP.setHeader("referer", cordova.platformId);
+
+                cordovaHTTP.post(url, body, {}, (response) => {
+                    this.sharedApp.hideLoading(loadingId);
+                    let parsedResponse = JSON.parse(response.data);
+                    resolve(parsedResponse);
+                }, (response) => {
+                    this.sharedApp.hideLoading(loadingId);
+                    let parsedResponse = JSON.parse(response.data);
+                    console.error(parsedResponse);
+                    this.handleError(parsedResponse);
+                    reject(parsedResponse);
+                });
+            });
+        }
+        else {
+            return this.http.post(url, body, { headers }).toPromise().then((response) => {
+                this.sharedApp.hideLoading(loadingId);
+                return response;
+            }).catch((error) => {
+                this.sharedApp.hideLoading(loadingId);
+                this.handleError(error);
+            });
+        }
     }
 
     public httpDelete(url: string, headers?: HttpHeaders): Promise<any> {

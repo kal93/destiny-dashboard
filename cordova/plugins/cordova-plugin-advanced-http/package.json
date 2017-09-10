@@ -1,0 +1,143 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "cordova-plugin-advanced-http",
+        "scope": null,
+        "escapedName": "cordova-plugin-advanced-http",
+        "name": "cordova-plugin-advanced-http",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "C:\\destiny\\destiny-dashboard\\cordova\\node_modules"
+    ]
+  ],
+  "_from": "cordova-plugin-advanced-http@latest",
+  "_id": "cordova-plugin-advanced-http@1.5.9",
+  "_inCache": true,
+  "_location": "/cordova-plugin-advanced-http",
+  "_nodeVersion": "6.11.1",
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/cordova-plugin-advanced-http-1.5.9.tgz_1503268695736_0.310404455056414"
+  },
+  "_npmUser": {
+    "name": "silkimen",
+    "email": "sefa@ilkimen.net"
+  },
+  "_npmVersion": "3.10.10",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "cordova-plugin-advanced-http",
+    "scope": null,
+    "escapedName": "cordova-plugin-advanced-http",
+    "name": "cordova-plugin-advanced-http",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-advanced-http/-/cordova-plugin-advanced-http-1.5.9.tgz",
+  "_shasum": "6cf08e41b883d1d2c1571e22a42a5e46b9c18633",
+  "_shrinkwrap": null,
+  "_spec": "cordova-plugin-advanced-http",
+  "_where": "C:\\destiny\\destiny-dashboard\\cordova\\node_modules",
+  "author": {
+    "name": "Wymsee"
+  },
+  "bugs": {
+    "url": "https://github.com/silkimen/cordova-plugin-advanced-http/issues"
+  },
+  "contributors": [
+    {
+      "name": "devgeeks"
+    },
+    {
+      "name": "EddyVerbruggen"
+    },
+    {
+      "name": "mbektchiev"
+    },
+    {
+      "name": "denisbabineau"
+    },
+    {
+      "name": "andrey-tsaplin"
+    },
+    {
+      "name": "pvsaikrishna"
+    },
+    {
+      "name": "cvillerm"
+    },
+    {
+      "name": "hideov"
+    },
+    {
+      "name": "Mobisys"
+    }
+  ],
+  "cordova": {
+    "id": "cordova-plugin-advanced-http",
+    "platforms": [
+      "ios",
+      "android"
+    ]
+  },
+  "dependencies": {},
+  "description": "Cordova / Phonegap plugin for communicating with HTTP servers using SSL pinning",
+  "devDependencies": {
+    "cordova": "7.0.1",
+    "umd-tough-cookie": "2.3.2"
+  },
+  "directories": {},
+  "dist": {
+    "shasum": "6cf08e41b883d1d2c1571e22a42a5e46b9c18633",
+    "tarball": "https://registry.npmjs.org/cordova-plugin-advanced-http/-/cordova-plugin-advanced-http-1.5.9.tgz"
+  },
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=4.0.0"
+    }
+  ],
+  "gitHead": "8ac8b952466fc121d91ff4a51b9874d684a45373",
+  "homepage": "https://github.com/silkimen/cordova-plugin-advanced-http#readme",
+  "keywords": [
+    "cordova",
+    "device",
+    "ecosystem:cordova",
+    "cordova-ios",
+    "cordova-android",
+    "ssl",
+    "tls"
+  ],
+  "license": "MIT",
+  "maintainers": [
+    {
+      "name": "silkimen",
+      "email": "sefa@ilkimen.net"
+    },
+    {
+      "name": "jkfb",
+      "email": "jbgh@posteo.mx"
+    }
+  ],
+  "name": "cordova-plugin-advanced-http",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/silkimen/cordova-plugin-advanced-http.git"
+  },
+  "scripts": {
+    "build": "cp node_modules/umd-tough-cookie/lib/umd-tough-cookie.js www/umd-tough-cookie.js",
+    "prepublish": "npm run build",
+    "test": "npm run build && ./scripts/test-installation.sh"
+  },
+  "version": "1.5.9"
+}
