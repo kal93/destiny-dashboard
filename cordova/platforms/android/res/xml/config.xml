@@ -4,6 +4,9 @@
         <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
         <param name="onload" value="true" />
     </feature>
+    <feature name="InAppBrowser">
+        <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
+    </feature>
     <name> Destiny Dashboard </name>
     <description> Manage your Destiny 2 characters with Destiny Dashboard. </description>
     <author email="destinydashboard@gmail.com" href="https://www.destinydashboard.com"> Destiny Dashboard </author>
