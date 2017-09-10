@@ -4,6 +4,6 @@ export const environment = {
   bungieClientIds: [13716],
   disableHttpCache: false,
   production: false,
-  useApiPrefix: "https://www.destinydashboard.com/",
+  useApiPrefix: "https://www.destinydashboard.net/",
   version: require('../../package.json').version
 };
