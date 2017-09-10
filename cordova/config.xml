@@ -16,6 +16,7 @@
         <icon src="res/icon.png" />
     </platform>
     <preference name="EnableViewportScale" value="true" />
+    <preference name="DisallowOverscroll" value="true" />
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
