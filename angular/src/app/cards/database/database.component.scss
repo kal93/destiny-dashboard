@@ -38,24 +38,13 @@
         }
 
         .mat-column-icon {
-            max-width: 80px;
+            max-width: 70px;
             text-align: center;
             display: flex;
         }
     }
 }
-
-//These styles only applies to dashboard cards
-.dd-card-content.dd-database {
-    height: calc(100% - 40px);
-    overflow-y: auto;
-}
-
-//These styles only apply to fullscreen mode
-.dd-fullscreen.dd-database {
-    height: 100%;
-}
-@media (max-width: 600px) {
+@mixin smallScreenSize {
     .dd-database {
         .input-wrap {
             width: 100%;
@@ -66,13 +55,32 @@
 
             .mat-header-row,
             .mat-row {
-                padding: 0 8px;
+                padding: 0 6px;
 
                 .mat-cell {
                     font-size: 12px;
                 }
             }
 
+            .mat-column-icon {
+                max-width: 60px;
+            }
+
         }
     }
+}
+
+//These styles only applies to dashboard cards
+.dd-card-content.dd-database {
+    height: calc(100% - 40px);
+    overflow-y: auto;
+    @include smallScreenSize();
+}
+
+//These styles only apply to fullscreen mode
+.dd-fullscreen.dd-database {
+    height: 100%;
+}
+@media (max-width: 600px) {
+     @include smallScreenSize();
 }

@@ -26,8 +26,9 @@ export class GlobalErrorHandler implements ErrorHandler {
     }
 
     private logToStackdriver(error) {
+        let useService = window.cordova ? window.cordova.platformId : "web";
         let payload: any = {};
-        payload.serviceContext = { service: 'web' };
+        payload.serviceContext = { service: useService };
         payload.context = {
             httpRequest: {
                 userAgent: window.navigator.userAgent,
