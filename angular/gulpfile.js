@@ -83,8 +83,15 @@ function buildCordova(done) {
 // Set version in cordova config.xml
 gulp.task('version-cordova', function (done) {
     let packageJson = JSON.parse(fs.readFileSync('./package.json'));
+    let cordovaConfig = fs.readFileSync('../cordova/config.xml', 'utf8');
 
-    console.log(packageJson.version);
+    // Concat config version in to cordova config.xml string
+    let cordovaConfigStart = cordovaConfig.substr(0, cordovaConfig.indexOf('version="') + 9);
+    let cordovaConfigEnd = cordovaConfig.substr(cordovaConfig.indexOf('" xmlns="'));
+    cordovaConfig = cordovaConfigStart + packageJson.version + cordovaConfigEnd;
+
+    // Save cordova.xml stringcordovaConfig
+    require('fs').writeFileSync('../cordova/config.xml', cordovaConfig);
 
     done();
 });
