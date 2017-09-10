@@ -75,7 +75,7 @@ public class UserLoadoutsServlet extends BaseServlet
 
                     // Save to database
                     UserLoadoutsRepository.saveUserLoadouts(membershipId, Integer.parseInt(membershipType), userLoadouts, conn);
-                    resp.setStatus(HttpURLConnection.HTTP_OK);
+                    resp.getWriter().write("{}");
                 }
             }
 

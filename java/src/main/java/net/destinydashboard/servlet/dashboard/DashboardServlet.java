@@ -109,6 +109,7 @@ public class DashboardServlet extends BaseServlet
                 else {
                     // Save to database
                     DashboardRepository.deleteUserDashboard(membershipId, dashboardId, conn);
+                    resp.getWriter().write("{}");
                 }
             }
 

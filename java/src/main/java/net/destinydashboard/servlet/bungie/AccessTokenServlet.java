@@ -61,7 +61,6 @@ public class AccessTokenServlet extends BaseServlet
             try (Connection conn = DBCore.getDBConnection()) {
                 TokenRepository.deleteAccessToken(accessToken, conn);
             }
-            resp.setStatus(HttpURLConnection.HTTP_OK);
             resp.getWriter().write("{}");
         }
         catch (Exception e) {

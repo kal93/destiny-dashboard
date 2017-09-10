@@ -23,7 +23,7 @@ public class UserPreferencesServlet extends BaseServlet
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
         super.doGet(req, resp);
-        
+
         try {
             String accessToken = req.getHeader("Authorization");
             if (accessToken == null)
@@ -46,7 +46,7 @@ public class UserPreferencesServlet extends BaseServlet
 
     public void doPost(HttpServletRequest req, HttpServletResponse resp) {
         super.doPost(req, resp);
-        
+
         try {
             String accessToken = req.getHeader("Authorization");
             if (accessToken == null)
@@ -70,7 +70,7 @@ public class UserPreferencesServlet extends BaseServlet
 
                     // Save to database
                     UserPreferenceRepository.saveUserPreferences(membershipId, userPreferences, conn);
-                    resp.setStatus(HttpURLConnection.HTTP_OK);
+                    resp.getWriter().write("{}");
                 }
             }
 
