@@ -14,4 +14,7 @@ node_modules
 *.ipr
 *.iws
 
-cordova/platforms/android/.gradle/*
+/cordova/platforms/
+/cordova/platforms/android/android-release.apk
+/cordova/platforms/android/destiny-dashboard.jks
+/cordova/platforms/android/release-signing.properties
