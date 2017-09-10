@@ -125,7 +125,7 @@ import { NumberFormatLocalePipe, RoundToDecimalPlacePipe } from './shared/pipes/
     MaterialModule,
     ReactiveFormsModule,
     Routing,
-    ToastrModule.forRoot({ progressBar: false, closeButton: true, timeOut: 2500, newestOnTop: false, messageClass: 'toast-message' })
+    ToastrModule.forRoot({ progressBar: false, closeButton: true, timeOut: 3000, newestOnTop: false, messageClass: 'toast-message' })
   ],
   providers: [
     AuthGuard,
