@@ -148,8 +148,6 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
         settings.setJavaScriptEnabled(true);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setLayoutAlgorithm(LayoutAlgorithm.NORMAL);
-        settings.setLoadWithOverviewMode(true);
-        settings.setUseWideViewPort(true);
 
         // Set the nav dump for HTC 2.x devices (disabling for ICS, deprecated entirely for Jellybean 4.2)
         try {
