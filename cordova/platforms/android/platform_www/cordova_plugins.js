@@ -10,11 +10,11 @@ module.exports = [
         ]
     },
     {
-        "id": "cordova-plugin-statusbar.statusbar",
-        "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
-        "pluginId": "cordova-plugin-statusbar",
+        "id": "cordova-plugin-headercolor.HeaderColor",
+        "file": "plugins/cordova-plugin-headercolor/www/HeaderColor.js",
+        "pluginId": "cordova-plugin-headercolor",
         "clobbers": [
-            "window.StatusBar"
+            "cordova.plugins.headerColor"
         ]
     }
 ];
@@ -23,7 +23,7 @@ module.exports.metadata =
 {
     "cordova-plugin-inappbrowser": "1.7.1",
     "cordova-plugin-whitelist": "1.3.2",
-    "cordova-plugin-statusbar": "2.2.3"
+    "cordova-plugin-headercolor": "1.0"
 };
 // BOTTOM OF METADATA
 });

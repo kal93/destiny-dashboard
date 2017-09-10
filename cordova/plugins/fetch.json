@@ -15,10 +15,10 @@
         "is_top_level": true,
         "variables": {}
     },
-    "cordova-plugin-statusbar": {
+    "cordova-plugin-headercolor": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-statusbar@2.2.3"
+            "id": "cordova-plugin-headercolor"
         },
         "is_top_level": true,
         "variables": {}
