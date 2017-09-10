@@ -123,7 +123,7 @@ export class CardDefinitions {
     }];
 
     static defaultDashboards: Array<IUserDashboard> = [{
-        id: -1, name: "Developer Picks", cards: [
+        id: -1, name: "Default Dashboard", cards: [
             { id: -1, sequence: 0, definitionId: 1, layoutId: 3, definition: CardDefinitions.definitions[1], layout: CardDefinitions.definitions[1].layouts[3] },
             { id: -2, sequence: 1, definitionId: 3, layoutId: 2, definition: CardDefinitions.definitions[3], layout: CardDefinitions.definitions[3].layouts[2] },
             { id: -3, sequence: 2, definitionId: 10, layoutId: 3, definition: CardDefinitions.definitions[10], layout: CardDefinitions.definitions[10].layouts[3] },
