@@ -14,5 +14,4 @@ node_modules
 *.ipr
 *.iws
 
-/cordova/platforms/android/build/outputs/apk/*
 cordova/platforms/android/.gradle/*
