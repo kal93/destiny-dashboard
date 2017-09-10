@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="net.destinydashboard" version="1.1.28" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="net.destinydashboard" version="1.1.29" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <feature name="InAppBrowser">
         <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
     </feature>
@@ -10,6 +10,14 @@
     <feature name="HeaderColor">
         <param name="android-package" value="tomloprod.HeaderColor" />
         <param name="onload" value="true" />
+    </feature>
+    <feature name="File">
+        <param name="android-package" value="org.apache.cordova.file.FileUtils" />
+        <param name="onload" value="true" />
+    </feature>
+    <allow-navigation href="cdvfile:*" />
+    <feature name="CordovaHttpPlugin">
+        <param name="android-package" value="com.synconset.cordovahttp.CordovaHttpPlugin" />
     </feature>
     <name> Destiny Dashboard </name>
     <description> Manage your Destiny 2 characters with Destiny Dashboard. </description>
@@ -26,4 +34,5 @@
     <preference name="loglevel" value="DEBUG" />
     <preference name="HeaderColor" value="#303F9F" />
     <preference name="EnableViewportScale" value="true" />
+    <preference name="DisallowOverscroll" value="true" />
 </widget>

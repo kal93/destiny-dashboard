@@ -15,7 +15,17 @@
         },
         "cordova-plugin-headercolor": {
             "PACKAGE_NAME": "net.destinydashboard"
+        },
+        "cordova-plugin-advanced-http": {
+            "PACKAGE_NAME": "net.destinydashboard"
         }
     },
-    "dependent_plugins": {}
+    "dependent_plugins": {
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "net.destinydashboard"
+        },
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "net.destinydashboard"
+        }
+    }
 }
