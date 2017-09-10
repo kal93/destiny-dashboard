@@ -37,10 +37,18 @@ export class AppComponent {
     public mdDialog: MdDialog, private sharedBungie: SharedBungie, private sharedDashboard: SharedDashboard, public sharedApp: SharedApp) { }
 
   ngOnInit() {
-    document.addEventListener("deviceready", this.initCordova, false);
+    document.addEventListener("deviceready", () => {
+      console.log("Cordova init");
+    }, false);
 
     this.manifestService.loadManifest().then(() => {
       this.initApp();
+    });
+
+    // Listen for when Cordova login happens, then re-init app
+    this.sharedApp.cordovaLoginSubject.subscribe((bungieAuthCode) => {
+      console.log("Cordova attempt login: " + bungieAuthCode);
+      this.getBungieAccessToken(bungieAuthCode);
     });
   }
 
@@ -54,24 +62,23 @@ export class AppComponent {
       let bungieAuthCode = localStorage.getItem("bungieAuthCode");
       if (bungieAuthCode == null)
         this.welcomeUser();
-      else {
-        this.http.getBungieAccessToken(bungieAuthCode).then(() => {
-          localStorage.removeItem("bungieAuthCode");
-          this.loadUser();
-        }).catch((error) => {
-          this.sharedApp.showError("There was an error when getting the Access Token from Bungie. Please try again.", error);
-          this.sharedApp.logOutSubject.next();
-          this.setAppInitialized();
-        });
-      }
+      else
+        this.getBungieAccessToken(bungieAuthCode);
     }
     else {
       this.loadUser();
     }
   }
 
-  initCordova() {
-    console.log("Cordova init");
+  getBungieAccessToken(bungieAuthCode: string) {
+    this.http.getBungieAccessToken(bungieAuthCode).then(() => {
+      localStorage.removeItem("bungieAuthCode");
+      this.loadUser();
+    }).catch((error) => {
+      this.sharedApp.showError("There was an error when getting the Access Token from Bungie. Please try again.", error);
+      this.sharedApp.logOutSubject.next();
+      this.setAppInitialized();
+    });
   }
 
   welcomeUser() {

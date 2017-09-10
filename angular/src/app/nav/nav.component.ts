@@ -74,7 +74,8 @@ export class NavComponent {
     })
   }
 
-  ngOnDestroy() {    this.toggleMainNavSubscription.unsubscribe();
+  ngOnDestroy() {
+    this.toggleMainNavSubscription.unsubscribe();
   }
 
   logIn() {
@@ -93,13 +94,29 @@ export class NavComponent {
 
     let authCodeUrl = "https://www.bungie.net/en/oauth/authorize?client_id=" + useClientId + "&response_type=code&state=" + randomState;
 
-    console.log(window.cordova);
-
     //Send user to Bungie's login page
     if (window.cordova)
-      var ref = window.cordova.InAppBrowser.open(authCodeUrl, "_blank", 'location=yes');
+      this.logInWithCordova(authCodeUrl);
     else
       window.location.href = authCodeUrl;
+  }
+
+  logInWithCordova(authCodeUrl: string) {
+    var inAppBrowserRef = window.cordova.InAppBrowser.open(authCodeUrl, "_blank", 'location=yes');
+
+    let window2: any = window;
+    window2.inAppBrowserRef = inAppBrowserRef;
+
+    inAppBrowserRef.addEventListener('loadstart', (e) => {
+      let codeStartIndex = e.url.indexOf("?code=");
+      if (codeStartIndex != -1 && e.url.indexOf("https://www.destinydashboard.net/") != -1) {
+        let bungieAuthCode = e.url.substr(codeStartIndex + 6);
+        console.log(bungieAuthCode);
+        bungieAuthCode = bungieAuthCode.substr(0, bungieAuthCode.indexOf("&"));
+        this.sharedApp.cordovaLoginSubject.next(bungieAuthCode);
+        inAppBrowserRef.close();
+      }
+    });
   }
 
   logOut() {
