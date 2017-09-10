@@ -21,19 +21,20 @@
         <div class="content-wrap">
             <div class="description">{{inventoryItem.itemValue.displayProperties.description}}</div>
         </div>
-        <div *ngIf="accountSummary != null" class="transfer">
+        <div *ngIf="accountSummary != null && (InventoryUtils.isItemTransferrable(inventoryItem) || inventoryItem.itemValue.equippable)"
+            class="transfer">
             <ng-container *ngFor="let character of accountSummary.characterData; let i = index">
-                <div *ngIf="inventoryItem.characterIndex != i && !inventoryItem.itemValue.nonTransferrable" class="option" (click)="transferToIndex(i)">
+                <div *ngIf="inventoryItem.characterIndex != i && InventoryUtils.isItemTransferrable(inventoryItem)" class="option" (click)="transferToIndex(i)">
                     <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemPath +')')"></div>
                     <div class="type">Move</div>
                 </div>
-                <div *ngIf="InventoryUtils.isItemEquippableOnCharacter(inventoryItem, character) && (inventoryItem.characterIndex == i || !inventoryItem.itemValue.nonTransferrable)"
+                <div *ngIf="InventoryUtils.isItemEquippableOnCharacter(inventoryItem, character) && (inventoryItem.characterIndex == i || InventoryUtils.isItemTransferrable(inventoryItem))"
                     class="option" (click)="equipToIndex(i)" [class.no-equip]="InventoryUtils.isItemEquipped(inventoryItem) && inventoryItem.characterIndex == i">
                     <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemPath +')')"></div>
                     <div class="type">Equip</div>
                 </div>
             </ng-container>
-            <div *ngIf="!inventoryItem.itemValue.nonTransferrable && inventoryItem.characterIndex != 3" class="option" (click)="transferToIndex(3)">
+            <div *ngIf="InventoryUtils.isItemTransferrable(inventoryItem) && inventoryItem.characterIndex != 3" class="option" (click)="transferToIndex(3)">
                 <div class="icon vault" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + manifestService?.vaultIconPath +')')"></div>
                 <div class="type">Move</div>
             </div>

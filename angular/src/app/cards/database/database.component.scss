@@ -45,27 +45,24 @@
     }
 }
 @mixin smallScreenSize {
-    .dd-database {
-        .input-wrap {
-            width: 100%;
+    .input-wrap {
+        width: 100%;
+    }
+
+    .results-wrap {
+        width: 100%;
+
+        .mat-header-row,
+        .mat-row {
+            padding: 0 6px;
+
+            .mat-cell {
+                font-size: 12px;
+            }
         }
 
-        .results-wrap {
-            width: 100%;
-
-            .mat-header-row,
-            .mat-row {
-                padding: 0 6px;
-
-                .mat-cell {
-                    font-size: 12px;
-                }
-            }
-
-            .mat-column-icon {
-                max-width: 60px;
-            }
-
+        .mat-column-icon {
+            max-width: 60px;
         }
     }
 }
@@ -82,5 +79,7 @@
     height: 100%;
 }
 @media (max-width: 600px) {
-     @include smallScreenSize();
+    .dd-database {
+        @include smallScreenSize();
+    }
 }
