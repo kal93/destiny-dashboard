@@ -12,6 +12,9 @@
         },
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "net.destinydashboard"
+        },
+        "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "net.destinydashboard"
         }
     },
     "dependent_plugins": {}

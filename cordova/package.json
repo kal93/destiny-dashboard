@@ -12,12 +12,14 @@
     "dependencies": {
         "cordova-android": "^6.2.3",
         "cordova-plugin-inappbrowser": "^1.7.1",
+        "cordova-plugin-statusbar": "^2.2.3",
         "cordova-plugin-whitelist": "^1.3.2"
     },
     "cordova": {
         "plugins": {
             "cordova-plugin-whitelist": {},
-            "cordova-plugin-inappbrowser": {}
+            "cordova-plugin-inappbrowser": {},
+            "cordova-plugin-statusbar": {}
         },
         "platforms": [
             "android"
