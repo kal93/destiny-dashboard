@@ -42,11 +42,21 @@ export class InventoryItemPopupComponent {
   constructor(public domSanitizer: DomSanitizer, private elementRef: ElementRef, public manifestService: ManifestService, private sharedApp: SharedApp) {
   }
 
+
+  @HostListener('document:touchstart', ['$event'])
+  onTouchStart(event: TouchEvent) {
+    this.destroyIfClicked(event.touches[0].target);
+  }
+
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     let eventTarget: any = event.target;
+    this.destroyIfClicked(event.target);
+  }
+
+  destroyIfClicked(target: EventTarget) {
     // Make sure we're skipping events if the user clicks within the popup, or the icon
-    if (!this.elementRef.nativeElement.contains(event.target) && !this.targetElementRef.nativeElement.contains(event.target))
+    if (!this.elementRef.nativeElement.contains(target) && !this.targetElementRef.nativeElement.contains(target))
       this.destroyPopupSubject.next();
   }
 
