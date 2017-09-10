@@ -6,7 +6,7 @@ let runSequence = require('run-sequence');
 let shell = require('gulp-shell');
 let run = require('gulp-run');
 
-let BUILD_APP = true;
+let BUILD_APP = false;
 let BUILD_CORDOVA = true;
 
 // This is main task for production use

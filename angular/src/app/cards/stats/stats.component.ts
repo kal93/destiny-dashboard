@@ -120,7 +120,6 @@ export class StatsComponent extends CardComponent {
     this.accountStatsWeapons.push({ displayName: "Fusion Rifle Kills", value: PvEAllTime.weaponKillsFusionRifle.basic.displayValue });
     this.accountStatsWeapons.push({ displayName: "Grenade Kills", value: PvEAllTime.weaponKillsGrenade.basic.displayValue });
     this.accountStatsWeapons.push({ displayName: "Hand Cannon Kills", value: PvEAllTime.weaponKillsHandCannon.basic.displayValue });
-    this.accountStatsWeapons.push({ displayName: "Machine Gun Kills", value: PvEAllTime.weaponKillsMachinegun.basic.displayValue });
     this.accountStatsWeapons.push({ displayName: "Pulse Rifle Kills", value: PvEAllTime.weaponKillsPulseRifle.basic.displayValue });
     this.accountStatsWeapons.push({ displayName: "Relic Kills", value: PvEAllTime.weaponKillsRelic.basic.displayValue });
     this.accountStatsWeapons.push({ displayName: "Rocket Kills", value: PvEAllTime.weaponKillsRocketLauncher.basic.displayValue });
