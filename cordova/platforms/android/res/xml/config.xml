@@ -21,8 +21,8 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
-    <icon src="res/icon.png" />
     <allow-intent href="market:*" />
+    <icon src="res/icon.png" />
     <preference name="loglevel" value="DEBUG" />
     <preference name="HeaderColor" value="#303F9F" />
 </widget>
