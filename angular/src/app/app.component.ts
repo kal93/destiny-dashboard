@@ -37,7 +37,12 @@ export class AppComponent {
     public mdDialog: MdDialog, private sharedBungie: SharedBungie, private sharedDashboard: SharedDashboard, public sharedApp: SharedApp) { }
 
   ngOnInit() {
-    document.addEventListener("deviceready", () => { console.log("Cordova init"); });
+    document.addEventListener("deviceready", () => {
+      console.log("Cordova init");
+
+      if (navigator.splashscreen)
+        navigator.splashscreen.hide();
+    });
 
     this.manifestService.loadManifest().then(() => {
       this.initApp();

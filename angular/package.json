@@ -1,6 +1,6 @@
 {
   "name": "destiny-dashboard",
-  "version": "1.1.27",
+  "version": "1.1.28",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --proxy-config proxy.config.json --port 4201 --ssl 1 --ssl-key ssl/ca.key --ssl-cert ssl/ca.crt",
@@ -39,6 +39,7 @@
     "@angular/compiler-cli": "4.4.0-RC.0",
     "@angular/language-service": "4.4.0-RC.0",
     "@types/cordova": "0.0.34",
+    "@types/cordova-plugin-splashscreen": "0.0.3",
     "@types/node": "8.0.28",
     "gulp": "3.9.1",
     "gulp-clean": "0.3.2",

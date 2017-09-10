@@ -59,7 +59,13 @@ export class HttpService {
     }
 
     private getBungiePrivilegedHeaders(): HttpHeaders {
-        return new HttpHeaders().set('Authorization', "Bearer " + this.sharedApp.accessToken).set('X-API-Key', this.apiKey);
+        let headers = new HttpHeaders().set('Authorization', "Bearer " + this.sharedApp.accessToken).set('X-API-Key', this.apiKey);
+        if (window.cordova) {
+            headers.set("origin", "https://www.destinydashboard.net");
+            headers.set("rederer", cordova.platformId);
+        }
+
+        return headers;
     }
 
     private getDashboardHeaders(): HttpHeaders {

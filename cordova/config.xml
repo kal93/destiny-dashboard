@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="net.destinydashboard" version="1.1.27" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name> Destiny Dashboard </name>
+<widget id="net.destinydashboard" version="1.1.28" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name> Dashboard for Destiny 2 </name>
     <description> Manage your Destiny 2 characters with Destiny Dashboard. </description>
     <author email="destinydashboard@gmail.com" href="https://www.destinydashboard.com"> Destiny Dashboard </author>
     <access origin="*" />
@@ -38,6 +38,15 @@
         <icon height="40" src="res/icon-40.png" width="40" />
         <icon height="29" src="res/icon-29.png" width="29" />
         <icon height="20" src="res/icon-20.png" width="20" />
+        <splash height="480" src="../images/ios/splash/Default~iphone.png" width="320" />
+        <splash height="960" src="../images/ios/splash/Default@2x~iphone.png" width="640" />
+        <splash height="1024" src="../images/ios/splash/Default-Portrait~ipad.png" width="768" />
+        <splash height="2048" src="../images/ios/splash/Default-Portrait@2x~ipad.png" width="1536" />
+        <splash height="768" src="../images/ios/splash/Default-Landscape~ipad.png" width="1024" />
+        <splash height="1536" src="../images/ios/splash/Default-Landscape@2x~ipad.png" width="2048" />
+        <splash height="1136" src="../images/ios/splash/Default-568h@2x~iphone.png" width="640" />
+        <splash height="1334" src="../images/ios/splash/Default-667h.png" width="750" />
+        <splash height="2208" src="../images/ios/splash/Default-736h.png" width="1242" />
     </platform>
     <engine name="android" spec="^6.2.3" />
     <engine name="ios" spec="^4.4.0" />
