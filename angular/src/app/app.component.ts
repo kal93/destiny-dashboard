@@ -37,6 +37,8 @@ export class AppComponent {
     public mdDialog: MdDialog, private sharedBungie: SharedBungie, private sharedDashboard: SharedDashboard, public sharedApp: SharedApp) { }
 
   ngOnInit() {
+    document.addEventListener("deviceready", this.initCordova, false);
+
     this.manifestService.loadManifest().then(() => {
       this.initApp();
     });
@@ -66,6 +68,10 @@ export class AppComponent {
     else {
       this.loadUser();
     }
+  }
+
+  initCordova() {
+    console.log("Cordova init");
   }
 
   welcomeUser() {

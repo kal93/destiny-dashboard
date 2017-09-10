@@ -74,8 +74,7 @@ export class NavComponent {
     })
   }
 
-  ngOnDestroy() {
-    this.toggleMainNavSubscription.unsubscribe();
+  ngOnDestroy() {    this.toggleMainNavSubscription.unsubscribe();
   }
 
   logIn() {
@@ -92,8 +91,15 @@ export class NavComponent {
     let useClientId = environment.bungieClientIds[0];    //Math.floor(Math.random() * 4)
     localStorage.setItem("bungieClientId", useClientId.toString());
 
+    let authCodeUrl = "https://www.bungie.net/en/oauth/authorize?client_id=" + useClientId + "&response_type=code&state=" + randomState;
+
+    console.log(window.cordova);
+
     //Send user to Bungie's login page
-    window.location.href = "https://www.bungie.net/en/oauth/authorize?client_id=" + useClientId + "&response_type=code&state=" + randomState;
+    if (window.cordova)
+      var ref = window.cordova.InAppBrowser.open(authCodeUrl, "_blank", 'location=yes');
+    else
+      window.location.href = authCodeUrl;
   }
 
   logOut() {
