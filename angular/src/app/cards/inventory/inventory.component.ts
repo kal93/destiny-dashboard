@@ -31,7 +31,7 @@ import 'rxjs/add/operator/debounceTime';
     animations: [expandInShrinkOut(), fadeInFromTop()]
 })
 
-export class ItemManagerComponent extends CardComponent {
+export class InventoryComponent extends CardComponent {
     InventoryUtils = InventoryUtils;
 
     CARD_DEFINITION_ID = 6;

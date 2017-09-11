@@ -12,7 +12,7 @@ import { ClanLeaderboardsComponent } from '../cards/clan-leaderboards/clan-leade
 import { CountdownComponent } from '../cards/countdown/countdown.component';
 import { DashboardNewsComponent } from '../cards/dashboard-news/dashboard-news.component';
 import { DatabaseComponent } from '../cards/database/database.component';
-import { ItemManagerComponent } from '../cards/inventory/inventory.component';
+import { InventoryComponent } from '../cards/inventory/inventory.component';
 import { MilestonesComponent } from '../cards/milestones/milestones.component';
 import { ReputationComponent } from '../cards/reputation/reputation.component';
 import { RedditComponent } from '../cards/reddit/reddit.component';
@@ -100,7 +100,7 @@ const routes: Routes = [
     },
     {
         canActivate: [AuthGuard],
-        path: 'inventory', component: ItemManagerComponent, data: {
+        path: 'inventory', component: InventoryComponent, data: {
             title: "Inventory"
         }
     },

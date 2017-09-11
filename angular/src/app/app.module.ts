@@ -57,6 +57,7 @@ import { InventoryItemPerkComponent } from './bungie/components/inventory-item/i
 import { InventoryItemPopupComponent } from './bungie/components/inventory-item/inventory-item-popup/inventory-item-popup.component';
 import { MdTabCharacterHeadingComponent } from './bungie/components/md-tab-character-heading/md-tab-character-heading.component';
 import { MilestoneComponent } from './bungie/components/milestone/milestone.component';
+import { ProgressionComponent } from './bungie/components/progression/progression.component';
 import { SettingsComponent } from './settings/settings.component';
 
 //Cards
@@ -66,7 +67,7 @@ import { ClanLeaderboardsComponent } from './cards/clan-leaderboards/clan-leader
 import { DashboardNewsComponent } from './cards/dashboard-news/dashboard-news.component';
 import { DashboardNewsArticleComponent } from './cards/dashboard-news/dashboard-news-article/dashboard-news-article.component';
 import { DatabaseComponent } from './cards/database/database.component';
-import { ItemManagerComponent } from './cards/inventory/inventory.component';
+import { InventoryComponent } from './cards/inventory/inventory.component';
 import { MilestonesComponent } from './cards/milestones/milestones.component';
 import { ReputationComponent } from './cards/reputation/reputation.component';
 import { RedditComponent } from './cards/reddit/reddit.component';
@@ -99,11 +100,11 @@ import { NumberFormatLocalePipe, RoundToDecimalPlacePipe } from './shared/pipes/
 
     //Other components 
     AboutComponent, DownloadManifestComponent, GamertagAutocompleteComponent, InventoryItemComponent, InventoryItemPerkComponent, InventoryItemPopupComponent,
-    MdTabCharacterHeadingComponent, MilestoneComponent, SettingsComponent,
+    MdTabCharacterHeadingComponent, MilestoneComponent, ProgressionComponent, SettingsComponent,
 
     //Cards
     BungieNewsComponent, ClanLeaderboardsComponent, CountdownComponent, DashboardNewsComponent, DashboardNewsArticleComponent, DatabaseComponent,
-    ItemManagerComponent, MilestonesComponent, ReputationComponent, RedditComponent, StatsComponent, TwitchComponent,
+    InventoryComponent, MilestonesComponent, ReputationComponent, RedditComponent, StatsComponent, TwitchComponent,
 
     //Directives
     ModalDirective, MouseEventsDirective, ScrollWithElementDirective, Swipeable,

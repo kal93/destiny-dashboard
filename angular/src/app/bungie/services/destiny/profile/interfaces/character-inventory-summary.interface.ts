@@ -25,12 +25,12 @@ interface Instances {
   privacy: number;
 }
 
-interface Inventory {
-  data: Data;
+export interface Inventory {
+  data: InventoryData;
   privacy: number;
 }
 
-interface Data {
+interface InventoryData {
   items: InventoryItem[];
 }
 

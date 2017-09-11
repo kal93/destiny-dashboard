@@ -6,7 +6,7 @@ import { SharedApp } from 'app/shared/services/shared-app.service';
 import { PrivacyTypes } from 'app/bungie/services/enums.interface';
 
 import { DestinyProfileService } from 'app/bungie/services/service.barrel';
-import { DestinyMembership, IAccountSummary, FactionBase } from 'app/bungie/services/interface.barrel';
+import { DestinyMembership, IAccountSummary, FactionBase, ProgressionBase } from 'app/bungie/services/interface.barrel';
 
 @Component({
   selector: 'dd-reputation',
@@ -29,6 +29,7 @@ export class ReputationComponent extends CardComponent {
 
   // Progression (Reputation) for selected character
   characterFactions: Array<FactionBase>;
+  characterProgressions: Array<ProgressionBase>;
   privacyError: boolean;
 
   accountNotFound: boolean = false;
@@ -102,8 +103,13 @@ export class ReputationComponent extends CardComponent {
         if (characterProgressions == null)
           return;
 
+        console.log(characterProgressions);
+
         // Set progressions from API
         this.characterFactions = characterProgressions.factionData;
+
+        // Filter out incomplete data
+        this.characterProgressions = characterProgressions.progressionData.filter((progression) => { return progression.progressionValue.displayProperties.name != '' });
 
         // Uncomment once endpoint is fixed
         //if (this.characterFactions.length == 0)
@@ -111,6 +117,7 @@ export class ReputationComponent extends CardComponent {
 
         // Sort progressions based on progress
         this.characterFactions.sort((a, b) => {
+          //return a.factionValue.displayProperties.name > b.factionValue.displayProperties.name ? -1 : 1;
           if (a.level != b.level)
             return b.level - a.level;
           return b.progressToNextLevel - a.progressToNextLevel;

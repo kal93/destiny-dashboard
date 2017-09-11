@@ -22,23 +22,16 @@
             to view reputation without being logged in. They are aware of the issue.
           </div>
 
-          <div class="sub-tab-wrap" *ngIf="characterFactions != null">
-
-            <!-- Factions -->
-            <div *ngFor="let faction of characterFactions" class="reputation-section">
-              <div class="top-wrap">
-                <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + faction.factionValue.displayProperties.icon  +')')"></div>
-                <div class="name" [mdTooltip]="faction.factionValue.displayProperties.description" [mdTooltipPosition]="'below'">{{faction.factionValue.displayProperties.name}}</div>
-              </div>
-
-              <div class="progress-wrap">
-                <div>{{faction.level}}</div>
-                <md-progress-bar class="progress-bar" [color]="'primary'" [mode]="'determinate'" [value]="(faction.progressToNextLevel / faction.nextLevelAt) * 100">
-                </md-progress-bar>
-                <div>{{faction.level + 1}}</div>
-              </div>
-
-              <div class="xp">{{faction.progressToNextLevel}} / {{faction.nextLevelAt}}</div>
+          <div class="sub-tab-wrap" *ngIf="characterFactions != null && characterProgressions != null">
+            <div class="reputation-section-title">Character</div>
+            <div class="reputation-section">
+              <dd-progression *ngFor="let progression of characterProgressions" [progression]="progression" [definition]="progression.progressionValue"
+                class="progression"></dd-progression>
+            </div>
+            <div class="reputation-section-title">Factions</div>
+            <div class="reputation-section">
+              <dd-progression *ngFor="let faction of characterFactions" [progression]="faction" [definition]="faction.factionValue"
+                class="progression"></dd-progression>
             </div>
           </div>
         </md-tab>

@@ -102,8 +102,20 @@ export class DestinyProfileService {
     }
 
     getCharacterProgression(membership: DestinyMembership, characterId: string): Promise<ICharacterProgression> {
-        return this.getDestinyProfileCharacterResponse(membership, characterId, [ComponentTypes.CharacterProgressions], HttpRequestType.BUNGIE_PRIVILEGED, 30000).then((characterProgressions: ICharacterProgression) => {
+        return this.getDestinyProfileCharacterResponse(membership, characterId, [ComponentTypes.CharacterProgressions, ComponentTypes.CharacterInventories], HttpRequestType.BUNGIE_PRIVILEGED, 30000).then((characterProgressions: ICharacterProgression) => {
+            let inventoryWrapper = characterProgressions.inventory.data;
             let progressionWrapper = characterProgressions.progressions.data;
+
+            // Map faction data to their token data manually since there's no database relationship
+            let factionTokenMap = new Map<string, Array<string>>();
+            factionTokenMap.set("1021210278", ["12345"]); // Gunsmith
+            factionTokenMap.set("4235119312", ["12345"]); // Dead Zone Scount
+            factionTokenMap.set("611314723", ["12345"]); // Vanguard Tactical
+            factionTokenMap.set("4196149087", ["12345"]); // Field Commander
+            factionTokenMap.set("697030790", ["12345"]); // The Crucible
+            factionTokenMap.set("1660497607", ["12345"]); // Exodus Black AI
+            factionTokenMap.set("828982195", ["12345"]); // Fragmented Researcher
+            factionTokenMap.set("3231773039", ["12345"]); // Vanguard Researcher (Ikora Rey)
 
             characterProgressions.progressionData = new Array<ProgressionBase>();
             characterProgressions.factionData = new Array<FactionBase>();

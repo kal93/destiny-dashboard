@@ -123,9 +123,9 @@ export class DownloadManifestComponent {
         delete rowObj[tableHashId];
 
         // Delete other unnecessary fields
-        delete rowObj.hash;
+        //delete rowObj.hash;
 
-        delete rowObj.itemHash;
+        //delete rowObj.itemHash;
 
         /*
                 // Delete certain fields that we don't care about

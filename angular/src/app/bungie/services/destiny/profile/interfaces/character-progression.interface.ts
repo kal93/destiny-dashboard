@@ -1,10 +1,11 @@
-import { Reward } from 'app/bungie/services/interface.barrel';
+import { Inventory, Reward } from 'app/bungie/services/interface.barrel';
 
 import {
     DestinyFactionDefinition, DestinyInventoryItemDefinition, DestinyMilestoneDefinition, DestinyProgressionDefinition, QuestRewards
 } from "app/bungie/manifest/interfaces/";
 
 export interface ICharacterProgression {
+    inventory: Inventory;
     progressions: ProgressionWraper;
     itemComponents: ItemComponents;
 
