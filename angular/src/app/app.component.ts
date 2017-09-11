@@ -37,15 +37,24 @@ export class AppComponent {
     public mdDialog: MdDialog, private sharedBungie: SharedBungie, private sharedDashboard: SharedDashboard, public sharedApp: SharedApp) { }
 
   ngOnInit() {
+    this.cordovaInit();
+    this.manifestService.loadManifest().then(() => {
+      this.initApp();
+    });
+  }
+
+  cordovaInit() {
     document.addEventListener("deviceready", () => {
       console.log("Cordova init");
 
-      if (navigator.splashscreen)
-        navigator.splashscreen.hide();
-    });
+      document.addEventListener("backbutton", (e) => {
+        //Close menus?
+        this.sharedApp.toggleMainNavSubject.next(false);
+        this.sharedApp.toggleSubNavSubject.next(false);
 
-    this.manifestService.loadManifest().then(() => {
-      this.initApp();
+        // Prevent default back button action
+        e.preventDefault();
+      });
     });
   }
 
