@@ -251,17 +251,11 @@ export class HttpService {
         let loadingId = Date.now();
         this.sharedApp.showLoading(loadingId);
 
-        console.log("POST BUNGIE 1");
         return new Promise((resolve, reject) => {
             //If the token needs to be refreshed, do it before making the call
             this.checkBungieRefreshToken().then(() => {
-                console.log("POST BUNGIE 2");
                 let headers = privileged ? this.getBungiePrivilegedHeaders() : this.getBungieBasicHeaders();
-                console.log("POST BUNGIE 3");
                 this.httpPost(url, body, headers, privileged).then((response) => {
-                    console.log("POST BUNGIE 4");
-
-                    console.log(response);
                     this.sharedApp.hideLoading(loadingId);
                     if (response.ErrorCode == 1)
                         resolve(response);
@@ -453,39 +447,25 @@ export class HttpService {
         let loadingId = Date.now();
         this.sharedApp.showLoading(loadingId);
         // Need to use cordova http for bungie authorized POST calls, since we need to add origin header
-        console.log("POST httpPost 1");
         if (useCordovaHTTP) {
-            console.log("POST httpPost 2");
             let cordovaHTTP = (<any>window.cordova).plugin.http;
-            console.log(cordovaHTTP);
             return new Promise((resolve, reject) => {
-                console.log("POST httpPost 3");
-                console.log(headers);
-                console.log(body);
-
                 if (headers != null)
                     headers.keys().forEach((key: string) => {
                         cordovaHTTP.setHeader(key, headers.get(key));
                     });
 
-                console.log("POST httpPost 4");
                 cordovaHTTP.acceptAllCerts(true);
                 cordovaHTTP.validateDomainName(false);
-                console.log("POST httpPost 5");
                 cordovaHTTP.setDataSerializer("json");
                 cordovaHTTP.setHeader("origin", "https://www.destinydashboard.net");
                 cordovaHTTP.setHeader("referer", cordova.platformId);
 
-                console.log("POST httpPost 5");
                 cordovaHTTP.post(url, body, {}, (response) => {
-                    console.log("POST httpPost 6");
-                    console.log(response);
                     this.sharedApp.hideLoading(loadingId);
                     let parsedResponse = JSON.parse(response.data);
                     resolve(parsedResponse);
                 }, (response) => {
-                    console.log("POST httpPost 7");
-                    console.log(response);
                     this.sharedApp.hideLoading(loadingId);
                     let parsedResponse = JSON.parse(response.data);
                     console.error(parsedResponse);

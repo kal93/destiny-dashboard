@@ -358,12 +358,10 @@ export class ItemManagerComponent extends CardComponent {
         let loadingId = -56489;
         this.sharedApp.showLoading(loadingId);
 
-        console.log("TRANSFER 1");
         return new Promise<any>((resolve, reject) => {
             if (inventoryItem.transferQuantity == null || inventoryItem.transferQuantity == 0)
                 inventoryItem.transferQuantity = inventoryItem.quantity;
 
-            console.log("TRANSFER 2");
             this.inventoryItemService.setData(this.bucketsMap, this.selectedMembership, this.accountSummary);
 
             // Don't attempt to transfer if destination bucket is full
@@ -373,15 +371,11 @@ export class ItemManagerComponent extends CardComponent {
                 return resolve();
             }
 
-            console.log("TRANSFER 3");
             this.inventoryItemService.transferItemToIndex(inventoryItem, destCharacterIndex)
                 .then((transferResult: Array<Array<InventoryItemTransferResult>>) => {
                     let transferSuccesses = transferResult[0];
                     let transferFailures = transferResult[1];
 
-                    console.log("TRANSFER 4");
-                    console.log(transferSuccesses);
-                    console.log(transferFailures);
                     // Mark this bucket for refresh if needed
                     transferSuccesses.forEach((transferResult) => {
                         if (transferResult.refreshRequired)
