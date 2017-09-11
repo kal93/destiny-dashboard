@@ -470,6 +470,8 @@ export class HttpService {
 
                 console.log("POST httpPost 4");
                 cordovaHTTP.acceptAllCerts(true);
+                cordovaHTTP.validateDomainName(false);
+                console.log("POST httpPost 5");
                 cordovaHTTP.setDataSerializer("json");
                 cordovaHTTP.setHeader("origin", "https://www.destinydashboard.net");
                 cordovaHTTP.setHeader("referer", cordova.platformId);
