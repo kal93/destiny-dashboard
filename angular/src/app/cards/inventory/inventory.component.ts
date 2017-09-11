@@ -385,6 +385,7 @@ export class ItemManagerComponent extends CardComponent {
                     transferFailures.forEach((transferFailure) => {
                         this.sharedApp.showWarning(transferFailure.inventoryItem.itemValue.displayProperties.name + " transfer failed: " + transferFailure.Message,
                             { timeOut: 5000 });
+                        console.warn(transferFailure);
                     });
                     resolve();
                 }).catch((error) => {

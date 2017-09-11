@@ -10,7 +10,6 @@ export class NewsArticleService {
   }
 }
 
-let redditLink = "<a style='color: #2196F3' target='_blank' href='https://www.reddit.com/r/DestinyDashboard/'>Reddit</a>";
 let githubLink = "<a style='color: #2196F3' target='_blank' href='https://github.com/lax20attack/destiny-dashboard/'>GitHub</a>";
 
 export const ARTICLES: NewsArticle[] = [
@@ -43,7 +42,7 @@ export const ARTICLES: NewsArticle[] = [
     title: "v1.0.0 release",
     category: ArticleCategory.NewCard,
     bodyPreview: "It's here! Finally!",
-    body: "On the eve of Destiny 2, Destiny Dashboard is released! Please report any issues, feedback, or feature requests to " + githubLink + " or " + redditLink + ".",
+    body: "On the eve of Destiny 2, Destiny Dashboard is released! Please report any issues, feedback, or feature requests to " + githubLink + ".",
     date: new Date("Sept 4, 2017 6:00 pm")
   },
   {

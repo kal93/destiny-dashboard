@@ -22,7 +22,8 @@ export class AboutComponent {
     let total = 0, keySize, key;
     for (key in localStorage) {
       keySize = ((localStorage[key].length + key.length) * 2);
-      total += keySize;
+      if (!isNaN(keySize))
+        total += keySize;
     };
     this.cacheSizeKB = (total / 1024).toFixed(2);
   }

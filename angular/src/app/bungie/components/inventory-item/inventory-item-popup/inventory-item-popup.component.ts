@@ -45,6 +45,8 @@ export class InventoryItemPopupComponent {
 
   @HostListener('document:touchstart', ['$event'])
   onTouchStart(event: TouchEvent) {
+    //console.log("document:touchstart");
+    console.log(event);
     this.destroyIfClicked(event.touches[0].target);
   }
 
