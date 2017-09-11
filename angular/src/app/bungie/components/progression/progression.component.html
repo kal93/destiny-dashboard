@@ -1,0 +1,16 @@
+<div class="progression">
+  <div class="top-wrap" [mdTooltip]="definition.displayProperties.description">
+    <div class="icon" *ngIf="definition.displayProperties.hasIcon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + definition.displayProperties.icon  +')')"></div>
+    <div class="name-wrap">
+      <div *ngIf="definition.displayProperties.name == ''" class="name">{{definition.displayProperties.displayUnitsName}}</div>
+      <div *ngIf="definition.displayProperties.name != ''" class="name">{{definition.displayProperties.name}}</div>
+      <div class="progress-wrap">
+        <div>{{progression.level}}</div>
+        <md-progress-bar class="progress-bar" [color]="'primary'" [mode]="'determinate'" [value]="(progression.progressToNextLevel / progression.nextLevelAt) * 100">
+        </md-progress-bar>
+        <div>{{progression.level + 1}}</div>
+      </div>
+      <div class="xp">{{progression.progressToNextLevel}} / {{progression.nextLevelAt}}</div>
+    </div>
+  </div>
+</div>

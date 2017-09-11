@@ -1,0 +1,52 @@
+@import '../../../../styles/theme.scss';
+
+.progression {
+    padding: 5px;
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
+    min-height: 110px;
+
+    .top-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+
+        .icon {
+            width: 44px;
+            height: 44px;
+            background-repeat: no-repeat;
+            background-size: contain;
+            display: inline-block;
+        }
+
+        .name-wrap {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            font-size: .95em;
+
+            .name {
+                text-align: center;
+                letter-spacing: .5px;
+                white-space: nowrap;
+            }
+
+            .progress-wrap {
+                margin: 0 10px;
+                display: flex;
+                align-items: center;
+                font-size: .9em;
+
+                .progress-bar {
+                    margin: 0 10px;
+                }
+            }
+
+            .xp {
+                text-align: center;
+                font-size: .85em;
+                opacity: .7;
+                margin-top: -2px;
+            }
+        }
+    }
+}
