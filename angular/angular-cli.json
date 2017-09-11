@@ -8,7 +8,7 @@
       "outDir": "build",
       "assets": [
         "apple-touch-icon.png",
-        "destiny-manifest_1.0.3.zip",
+        "destiny-manifest_1.2.6.zip",
         "favicon.ico",
         "manifest.json",
         "sql.js"
