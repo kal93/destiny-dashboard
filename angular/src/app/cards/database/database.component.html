@@ -5,7 +5,7 @@
 
       <md-card class="input-wrap">
         <md-select class="search-select" placeholder="Item Type" [(ngModel)]="searchType" (change)="applyFilter(false)">
-          <md-option *ngFor="let itemType of itemTypes" [value]="itemType.value"> {{ itemType.displayValue }} </md-option>
+          <md-option *ngFor="let itemType of itemTypes" [value]="itemType"> {{ itemType }} </md-option>
         </md-select>
 
         <md-select class="search-select" placeholder="Class Type" [(ngModel)]="searchClass" (change)="applyFilter(false)">

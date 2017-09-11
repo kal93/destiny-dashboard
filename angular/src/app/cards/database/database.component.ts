@@ -29,11 +29,8 @@ export class DatabaseComponent extends CardComponent {
   CARD_DEFINITION_ID = 9;
 
   // Select list definitions
-  itemTypes: Array<any> = [{ value: -1, displayValue: "All" }, { value: ItemTypes.None, displayValue: "No Type" },
-  { value: ItemTypes.Armor, displayValue: "Armor" }, { value: ItemTypes.Aura, displayValue: "Aura" }, { value: ItemTypes.ClanBanner, displayValue: "Clan Banner" },
-  { value: ItemTypes.Consumable, displayValue: "Consumable" }, { value: ItemTypes.Currency, displayValue: "Currency" }, { value: ItemTypes.Emblem, displayValue: "Emblem" },
-  { value: ItemTypes.Engram, displayValue: "Engram" }, { value: ItemTypes.Mod, displayValue: "Mod" }, { value: ItemTypes.Quest, displayValue: "Quest" },
-  { value: ItemTypes.QuestStep, displayValue: "Quest Step" }, { value: ItemTypes.Subclass, displayValue: "Subclass" }, { value: ItemTypes.Weapon, displayValue: "Weapon" }];
+  itemTypes: Array<string> = ["All", "No Type", "Armor", "Aura", "Clan Banner", "Consumable", "Currency", "Emblem", "Engram", "Mod", "Quest", "Quest Step",
+    "Package", "Redeemable", "Subclass", "Weapon"];
 
   classTypes: Array<any> = [{ value: -1, displayValue: "All" }, { value: ClassTypes.TITAN, displayValue: "Titan" },
   { value: ClassTypes.HUNTER, displayValue: "Hunter" }, { value: ClassTypes.WARLOCK, displayValue: "Warlock" }];
@@ -50,7 +47,7 @@ export class DatabaseComponent extends CardComponent {
   // Filtering
   searchText: string = "";
   searchTextForm = new FormControl();
-  searchType: number = -1;
+  searchType: string = "All";
   searchClass: number = -1;
   searchTier: number = -1;
 
@@ -135,12 +132,12 @@ interface Filter {
   class: number,
   text: string,
   tier: number,
-  type: number,
+  type: string,
   pageChange: boolean
 }
 
 export class ItemDefinitionDataSource extends DataSource<any> {
-  filterChange = new BehaviorSubject<Filter>({ class: -1, text: "", tier: -1, type: -1, pageChange: false });
+  filterChange = new BehaviorSubject<Filter>({ class: -1, text: "", tier: -1, type: "", pageChange: false });
   filteredInventoryItems = new Array<DestinyInventoryItemDefinition>();
 
   constructor(private paginator: MdPaginator, private sort: MdSort, private inventoryItems: Array<DestinyInventoryItemDefinition>) {
@@ -156,7 +153,7 @@ export class ItemDefinitionDataSource extends DataSource<any> {
         this.filteredInventoryItems = this.inventoryItems.filter((item: DestinyInventoryItemDefinition) => {
 
           // Filter item type
-          if (filter.type != -1 && filter.type != item.itemType)
+          if (filter.type != "All" && filter.type != item.itemTypeDisplayName)
             return false;
 
           // Filter item class
