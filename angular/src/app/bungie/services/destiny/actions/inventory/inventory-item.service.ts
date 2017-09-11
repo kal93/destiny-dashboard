@@ -33,6 +33,7 @@ export class InventoryItemService {
         this._transferSuccesses = new Array<InventoryItemTransferResult>();
         this._transferFailures = new Array<InventoryItemTransferResult>();
 
+        console.log("INVENTORY-ITEM 1");
         return new Promise<Array<Array<InventoryItemTransferResult>>>((resolve, reject) => {
             let transferPromise;
             if (destCharacterIndex < 3 && inventoryItem.characterIndex < 3)
@@ -150,6 +151,7 @@ export class InventoryItemService {
         // Build the request URL
         let requestUrl = "https://www.bungie.net/Platform/Destiny2/Actions/Items/TransferItem/";
 
+        console.log("INVENTORY-ITEM 2");
         let body = {
             characterId: targetCharacterId,
             membershipType: this._selectedMembership.membershipType,
@@ -161,6 +163,7 @@ export class InventoryItemService {
 
         //Get the response, or return the cached result
         return this.http.postBungie(requestUrl, body).then((tranferResult: InventoryItemTransferResult) => {
+            console.log("INVENTORY-ITEM 3");
             let srcBucket: InventoryBucket = this._bucketsMap[inventoryItem.characterIndex].get(inventoryItem.itemValue.inventory.bucketTypeHash);
 
             // srcBucket can be null if we are transfering from Character -> Vault -> Character and the value didn't have anything in this bucket
