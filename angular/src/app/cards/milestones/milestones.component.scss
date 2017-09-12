@@ -21,6 +21,7 @@
         height: calc(100% - 65px);
         overflow: auto;
         max-width: 800px;
+        margin: 0 auto;
 
         ::ng-deep .mat-tab-labels {
             justify-content: center;

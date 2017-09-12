@@ -39,14 +39,16 @@
             <!-- Weekly Milestones -->
             <ng-container *ngIf="characterMilestonesWeekly?.length > 0">
               <div class="milestone-type"> Weekly </div>
+              <dd-milestone [milestone]="characterMilestoneNightfall" [isNightfall]="true"></dd-milestone>
               <dd-milestone *ngFor="let milestone of characterMilestonesWeekly" [milestone]="milestone"></dd-milestone>
             </ng-container>
 
-            <!-- One Time Milestones -->
+            <!-- One Time Milestones
             <ng-container *ngIf="characterMilestonesOneTime?.length > 0">
               <div class="milestone-type"> One Time </div>
               <dd-milestone *ngFor="let milestone of characterMilestonesOneTime" [milestone]="milestone"></dd-milestone>
             </ng-container>
+             -->
 
           </div>
         </md-tab>

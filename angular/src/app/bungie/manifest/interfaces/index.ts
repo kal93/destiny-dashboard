@@ -1,4 +1,5 @@
 
+export * from './destiny-activity-definition.interface';
 export * from './destiny-damage-type-definition.interface';
 export * from './destiny-faction-definition.interface';
 export * from './destiny-milestone-definition.interface';

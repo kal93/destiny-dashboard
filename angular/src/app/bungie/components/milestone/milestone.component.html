@@ -1,4 +1,4 @@
-<div class="milestone" [class.complete]="isComplete">
+<div *ngIf="!isNightfall" class="milestone" [class.complete]="isComplete">
   <div class="top-wrap">
     <div *ngIf="milestone.milestoneValue.displayProperties != null" class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + milestone.milestoneValue.displayProperties.icon  +')')"></div>
     <div class="title">
@@ -12,18 +12,38 @@
 
     <div class="progress">
       <md-icon *ngIf="isComplete" [mdTooltip]="'Complete'" style="color:#66BB6A">check_circle</md-icon>
-      <md-icon *ngIf="!isComplete && isStarted" [mdTooltip]="'In Progress'" style="color: #FFB74D">radio_button_checked</md-icon>
-      <md-icon *ngIf="!isStarted" [mdTooltip]="'Not Started'" style="color:#994925">remove_circle</md-icon>
+      <md-icon *ngIf="!icComplete" [mdTooltip]="'Not Complete'" style="color:#994925">remove_circle</md-icon>
     </div>
   </div>
 
   <div *ngIf="questRewardItemDefinitions.length > 0" class="bottom-wrap">
-    <div class="rewards-wrap">
-      <dd-inventory-item *ngFor="let rewardItemDefinition of questRewardItemDefinitions" [inventoryItemDefinition]="rewardItemDefinition"
-        [textColor]="'#fff'" [size]="56"></dd-inventory-item>
+    <dd-inventory-item *ngFor="let rewardItemDefinition of questRewardItemDefinitions" [inventoryItemDefinition]="rewardItemDefinition"
+      [size]="32"></dd-inventory-item>
+  </div>
+</div>
+
+
+<div *ngIf="isNightfall" class="milestone" [class.complete]="isComplete">
+  <div class="nightfall-bg" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net/img/destiny_content/pgcr/' + nightfallQuest.activityValue.pgcrImage  +')')"></div>
+  <div class="top-wrap">
+    <div class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + milestone.milestoneValue.displayProperties.icon  +')')"></div>
+
+    <div class="title nightfall-text">
+      <div class="name nightfall-text">
+        {{nightfallQuest.activityValue.displayProperties.name}}
+      </div>
+
+      <div class="description nightfall-text">{{nightfallQuest.activityValue.displayProperties.description}}</div>
     </div>
-    <div class="dates" *ngIf="milestone.milestoneValue.hasPredictableDates">
-      {{milestone.startDate | date:'M/d h:mm a'}}<br/>{{milestone.endDate | date:'M/d h:mm a'}}
+
+    <div class="progress">
+      <md-icon *ngIf="isComplete" [mdTooltip]="'Complete'" style="color:#66BB6A">check_circle</md-icon>
+      <md-icon *ngIf="!icComplete" [mdTooltip]="'Not Complete'" style="color:#994925">remove_circle</md-icon>
     </div>
+  </div>
+
+  <div *ngIf="questRewardItemDefinitions.length > 0" class="bottom-wrap">
+    <dd-inventory-item *ngFor="let rewardItemDefinition of questRewardItemDefinitions" [inventoryItemDefinition]="rewardItemDefinition"
+      [size]="32"></dd-inventory-item>
   </div>
 </div>

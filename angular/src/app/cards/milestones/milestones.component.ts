@@ -33,6 +33,8 @@ export class MilestonesComponent extends CardComponent {
   characterMilestonesDaily: Array<MilestoneBase>;
   characterMilestonesSpecial: Array<MilestoneBase>;
 
+  characterMilestoneNightfall: MilestoneBase;
+
   privacyError: boolean;
 
   accountNotFound: boolean = false;
@@ -107,9 +109,12 @@ export class MilestonesComponent extends CardComponent {
       if (characterProgressions == null)
         return;
 
+      // Special Milestones (Don't exist yet)
       this.characterMilestonesSpecial = characterProgressions.milestoneData.filter((milestone) => {
         return milestone.milestoneValue.milestoneType == MilestoneTypes.Special;
       });
+
+      // Daily milestones
       this.characterMilestonesDaily = characterProgressions.milestoneData.filter((milestone) => {
         if (milestone.milestoneValue.milestoneType != MilestoneTypes.Daily) return false;
 
@@ -117,13 +122,21 @@ export class MilestonesComponent extends CardComponent {
         if (milestone.milestoneValue.friendlyName == "Hotspot") return false;
         return true;
       });
+
+      // Weekly Milestones
       this.characterMilestonesWeekly = characterProgressions.milestoneData.filter((milestone) => {
         return milestone.milestoneValue.milestoneType == MilestoneTypes.Weekly;
       });
-      this.characterMilestonesOneTime = characterProgressions.milestoneData.filter((milestone) => {
-        return milestone.milestoneValue.milestoneType == MilestoneTypes.OneTime;
-      });
-    });
 
+      // Get nightfall sso we can put it first
+      this.characterMilestoneNightfall = this.characterMilestonesWeekly.find((milestone) => { return milestone.milestoneValue.friendlyName == "Nightfall" });
+
+      this.characterMilestonesWeekly.splice(this.characterMilestonesWeekly.indexOf(this.characterMilestoneNightfall), 1);
+
+      // One time milestones, not displayed
+      //this.characterMilestonesOneTime = characterProgressions.milestoneData.filter((milestone) => {
+      //   return milestone.milestoneValue.milestoneType == MilestoneTypes.OneTime;
+      //});
+    });
   }
 }

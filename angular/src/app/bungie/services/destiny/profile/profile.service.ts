@@ -196,6 +196,9 @@ export class DestinyProfileService {
 
                                 // Copy questRewards from milestone for easier lookup later
                                 availableQuest.questRewards = milestone.milestoneValue.quests[availableQuest.questItemHash].questRewards;
+
+                                if (availableQuest.activity != null)
+                                    availableQuest.activityValue = this.manifestService.getManifestEntry("DestinyActivityDefinition", availableQuest.activity.activityHash);
                             }
                         }
                     });

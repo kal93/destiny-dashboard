@@ -1,11 +1,27 @@
 @import '../../../../styles/theme.scss';
 
 .milestone {
-    margin-top: 8px;
+    margin-top: 12px;
     box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
     min-height: 105px;
     padding: 10px 8px 8px;
     color: $app-text-light;
+    position: relative;
+
+    .nightfall-bg {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        opacity: .75;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .nightfall-text {
+        text-shadow: 1px 1px #000;
+    }
 
     &.complete {
         background-color: rgba(0,0,0, 0.3);
@@ -44,8 +60,8 @@
             .description {
                 margin: 2px 0 0 2px;
                 text-transform: none;
-                opacity: .7;
-                font-size: 14px;
+                opacity: .9;
+                font-size: 15px;
                 letter-spacing: 0;
             }
         }
@@ -68,19 +84,10 @@
     .bottom-wrap {
         margin: 20px 0 0 50px;
         display: flex;
-        align-items: flex-end;
+        justify-content: flex-end;
 
-        .rewards-wrap {
-            flex: 1;
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-        .dates {
-            font-size: .8em;
-            text-transform: lowercase;
-            opacity: .9;
-            text-align: right;
+        dd-inventory-item {
+            margin: 0 5px;
         }
     }
 }

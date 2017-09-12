@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { MilestoneBase } from '../../services/interface.barrel';
+import { AvailableQuest, MilestoneBase, QuestActivity } from '../../services/interface.barrel';
 import { DestinyInventoryItemDefinition } from "app/bungie/manifest/interfaces";
 import { ManifestService } from 'app/bungie/manifest/manifest.service';
 
@@ -13,10 +13,14 @@ export class MilestoneComponent {
   @Input()
   milestone: MilestoneBase;
 
+  @Input()
+  isNightfall: boolean = false;
+
   isComplete: boolean = false;
-  isStarted: boolean = false;
 
   questRewardItemDefinitions = new Array<DestinyInventoryItemDefinition>();
+
+  nightfallQuest: AvailableQuest;
 
   constructor(public domSanitizer: DomSanitizer, private manifestService: ManifestService) { }
 
@@ -24,8 +28,15 @@ export class MilestoneComponent {
     // If we have not found any quests that are incomplete
     if (this.milestone.availableQuests != null) {
       this.isComplete = (this.milestone.availableQuests.find((quest) => { return !quest.status.completed }) == null);
-      this.isStarted = (this.milestone.availableQuests.find((quest) => { return !quest.status.started }) == null);
+
+      // If exactly one, let's get some detail about it
+      if (this.isNightfall && this.milestone.availableQuests.length == 1) {
+        this.nightfallQuest = this.milestone.availableQuests[0];
+        console.log(this.nightfallQuest);
+      }
+
     }
+    //bungie.net/img/destiny_content/pgcr/
 
     this.milestone.startDate = <any>new Date(this.milestone.startDate);
     this.milestone.endDate = <any>new Date(this.milestone.endDate);

@@ -1,7 +1,7 @@
 import { Inventory, InventoryItem, Reward } from 'app/bungie/services/interface.barrel';
 
 import {
-    DestinyFactionDefinition, DestinyInventoryItemDefinition, DestinyMilestoneDefinition, DestinyProgressionDefinition, QuestRewards
+    DestinyActivityDefinition, DestinyFactionDefinition, DestinyInventoryItemDefinition, DestinyMilestoneDefinition, DestinyProgressionDefinition, QuestRewards
 } from "app/bungie/manifest/interfaces/";
 
 export interface ICharacterProgression {
@@ -81,14 +81,15 @@ interface ItemComponents {
 export interface AvailableQuest {
     questItemHash: number;
     status: Status;
-    activity: Activity;
+    activity: QuestActivity;
 
     // Runtime variables
+    activityValue: DestinyActivityDefinition;
     questItemValue: DestinyInventoryItemDefinition;
     questRewards: QuestRewards;
 }
 
-interface Activity {
+export interface QuestActivity {
     activityHash: number;
     modifierHashes: number[];
     variants: Variant[];
