@@ -276,8 +276,10 @@ export class HttpService {
         //Bungie specific error we can handle probably
         if (error.ErrorCode) {
             switch (error.ErrorCode) {
-                case ErrorTypes.UnhandledException:
                 case ErrorTypes.DestinyUnexpectedError:
+                    this.sharedApp.showError("Unexpected Error: Bungie API may be down, please try again later.", error);
+                    break;
+                case ErrorTypes.UnhandledException:
                 case ErrorTypes.DestinyShardRelayProxyTimeout:
                     this.sharedApp.showError("An error occurred while trying to get data from Bungie, please try again later.", error);
                     break;

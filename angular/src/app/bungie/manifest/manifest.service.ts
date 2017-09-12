@@ -19,12 +19,7 @@ export class ManifestService {
     // Tower definition from the manifest so we can have the icon
     vaultIconPath: string;
 
-    constructor(protected http: HttpService, private sharedApp: SharedApp) {
-        // "Lazy load" script so it's not part of the main bundle since this file will never change
-        let script = document.createElement('script');
-        script.src = "./sql.js";
-        document.getElementsByTagName('head')[0].appendChild(script);
-    }
+    constructor(protected http: HttpService, private sharedApp: SharedApp) { }
 
     getManifestEntry(tableName: string, hash: number) {
         // Try to get the table data
@@ -48,30 +43,42 @@ export class ManifestService {
     }
 
     downloadManifest(): Promise<any> {
+
         return new Promise<any>((resolve, reject) => {
-            // Get manifest meta from Bungie
-            this.getManifestMetadata().then((manifestMeta: IDestinyManifestMeta) => {
-                let manifestFilename = manifestMeta.mobileWorldContentPaths.en.substr(manifestMeta.mobileWorldContentPaths.en.lastIndexOf("/") + 1);
+            // "Lazy load" script so it's not part of the main bundle since this file will never change
+            let script = document.createElement('script');
+            script.src = "./sql.js";
+            document.getElementsByTagName('head')[0].appendChild(script);
 
-                // Download manifest db from Bunge
-                this.getManifestDatabase(manifestMeta).then((sqlLiteZipBlob: Blob) => {
+            script.onload = () => {
+                // Get manifest meta from Bungie
+                this.getManifestMetadata().then((manifestMeta: IDestinyManifestMeta) => {
+                    let manifestFilename = manifestMeta.mobileWorldContentPaths.en.substr(manifestMeta.mobileWorldContentPaths.en.lastIndexOf("/") + 1);
 
-                    // Convert .sql file to array buffer
-                    FileUtils.blobToUintArray8(sqlLiteZipBlob).then((arrayBuffer: Uint8Array) => {
+                    // Download manifest db from Bunge
+                    this.getManifestDatabase(manifestMeta).then((sqlLiteZipBlob: Blob) => {
 
-                        // Unzip array buffer
-                        FileUtils.unzipArrayBuffer(arrayBuffer, manifestFilename).then((unzippedManifest: Uint8Array) => {
+                        // Convert .sql file to array buffer
+                        FileUtils.blobToUintArray8(sqlLiteZipBlob).then((arrayBuffer: Uint8Array) => {
 
-                            // Load manifest database
-                            var start = Date.now();
-                            this.db = new SQL.Database(unzippedManifest);
-                            this.setGlobalManifestDefinitions();
+                            // Unzip array buffer
+                            FileUtils.unzipArrayBuffer(arrayBuffer, manifestFilename).then((unzippedManifest: Uint8Array) => {
 
-                            resolve();
+                                // Load manifest database
+                                var start = Date.now();
+                                this.db = new SQL.Database(unzippedManifest);
+                                this.setGlobalManifestDefinitions();
+
+                                resolve();
+                            });
                         });
+                    }).catch((error) => {
+                        reject(error);
                     });
+                }).catch((error) => {
+                    reject(error);
                 });
-            });
+            };
         });
     }
 
