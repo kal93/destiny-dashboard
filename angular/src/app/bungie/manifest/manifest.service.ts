@@ -11,73 +11,99 @@ declare let SQL: any;
 /** This Injectable manages the data layer for Destiny Character Stats*/
 @Injectable()
 export class ManifestService {
+    db: any;
+
     //                  Map<tableName, Map<hash, object>>
-    private manifestMap: Map<string, Map<number, any>>;
+    private manifestMap = new Map<string, Map<number, any>>();
 
     // Tower definition from the manifest so we can have the icon
-    public vaultIconPath: string;
+    vaultIconPath: string;
 
     constructor(protected http: HttpService, private sharedApp: SharedApp) {
+        // "Lazy load" script so it's not part of the main bundle since this file will never change
+        let script = document.createElement('script');
+        script.src = "./sql.js";
+        document.getElementsByTagName('head')[0].appendChild(script);
     }
 
-    public getManifestEntry(table: string, hash: number) {
-        let tableMap = this.manifestMap.get(table);
-        return tableMap == null ? null : tableMap.get(hash);
+    getManifestEntry(tableName: string, hash: number) {
+        // Try to get the table data
+        let start = Date.now();
+        let tableMap = this.getTableMap(tableName);
+        if (tableMap != null) {
+            return tableMap.get(hash);
+        }
     }
 
-    public getTableMap(table: string) {
-        return this.manifestMap.get(table);
+    getTableMap(tableName: string) {
+        let start = Date.now();
+        let tableMap = this.manifestMap.get(tableName);
+
+        if (tableMap == null)
+            tableMap = this.loadTableFromManifest(tableName);
+
+        this.manifestMap.set(tableName, tableMap);
+
+        return tableMap;
     }
 
-    public loadManifest(): Promise<any> {
-        let loadingId = Date.now();
-        this.sharedApp.showLoading(loadingId);
-        return new Promise((resolve, reject) => {
-            //Download latest local manifest zip file
-            this.http.httpGetBinary("./destiny-manifest_1.2.6.zip").then((manifestZipBlob: Blob) => {
-                //Convert it a workable format for unzipping
-                FileUtils.blobToUintArray8(manifestZipBlob).then((arrayBuffer: Uint8Array) => {
-                    //Unzip it
-                    FileUtils.unzipArrayBuffer(arrayBuffer, "destiny-manifest_1.2.6.json").then((unzippedManifest: Uint8Array) => {
-                        //Convert bytearray to JSON string
-                        let stringifiedDB = FileUtils.utf8ByteArrayToString(unzippedManifest);
+    downloadManifest(): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            // Get manifest meta from Bungie
+            this.getManifestMetadata().then((manifestMeta: IDestinyManifestMeta) => {
+                let manifestFilename = manifestMeta.mobileWorldContentPaths.en.substr(manifestMeta.mobileWorldContentPaths.en.lastIndexOf("/") + 1);
 
-                        //Parse JSON string
-                        let manifestData = JSON.parse(stringifiedDB);
+                // Download manifest db from Bunge
+                this.getManifestDatabase(manifestMeta).then((sqlLiteZipBlob: Blob) => {
 
-                        //Cleanup
-                        stringifiedDB = null;
+                    // Convert .sql file to array buffer
+                    FileUtils.blobToUintArray8(sqlLiteZipBlob).then((arrayBuffer: Uint8Array) => {
 
-                        //Convert array of data in to ES6 map for quick lookups
-                        this.manifestMap = new Map<string, Map<number, any>>();
-                        manifestData.forEach((manifestEntry) => {
-                            let tableName: string = manifestEntry[0];
-                            let rows: Array<any> = manifestEntry[1];
+                        // Unzip array buffer
+                        FileUtils.unzipArrayBuffer(arrayBuffer, manifestFilename).then((unzippedManifest: Uint8Array) => {
 
-                            let tableMap = new Map<number, any>();
+                            // Load manifest database
+                            var start = Date.now();
+                            this.db = new SQL.Database(unzippedManifest);
+                            this.setGlobalManifestDefinitions();
 
-                            rows.forEach((row) => {
-                                tableMap.set(row[0], row[1]);
-                            });
-
-                            this.manifestMap.set(tableName, tableMap);
+                            resolve();
                         });
-
-                        //Cleanup
-                        manifestData = null;
-
-                        this.setGlobalManifestDefinitions();
-
-                        this.sharedApp.hideLoading(loadingId);
-                        resolve();
                     });
                 });
-            }).catch((error) => {
-                this.sharedApp.showError("Could not load manifest!", error);
-                this.sharedApp.hideLoading(loadingId);
-                reject(error);
             });
         });
+    }
+
+    public loadTableFromManifest(tableName: string): Map<number, any> {
+
+        /*  // Tables that we want to ignore completely
+        if (tableName == "DestinyActivityBundleDefinition") {resultSet = this.db.exec(`DROP TABLE ${tableName}`);
+          continue;   } */
+        let resultSet = this.db.exec('SELECT * FROM ' + tableName);
+        let tableRows = resultSet[0];
+        if (tableRows == null)
+            return null;
+
+        // Create a map for the hash - > json values
+        let rowMap = new Map<number, any>();
+
+        // Loop table and store row as json object
+        for (let j = 0; j < tableRows.values.length; j++) {
+            let row = tableRows.values[j];
+
+            let hash = row[0];
+            let rowObj = JSON.parse(row[1]);
+
+            if (rowObj.redacted == true) continue;
+
+            // If the hash is negative, add 0xFFFFFFF (because that's how it comes from Bungie)
+            if (hash < 0) hash += 4294967296
+
+            rowMap.set(hash, rowObj);
+        }
+
+        return rowMap;
     }
 
     private setGlobalManifestDefinitions() {
