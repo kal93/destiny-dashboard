@@ -62,7 +62,7 @@ export class SharedDashboard {
             let dashboardsResponse: Array<IUserDashboard> = responses[0];
             //User had no cards saved in the database
             if (dashboardsResponse.length == 0) {
-                this.sharedApp.showInfoOnce("We created you your first dashboard. Add or remove cards to customize your dashboard.");
+                this.sharedApp.showInfoOncePerSession("We created you your first dashboard. Add or remove cards to customize your dashboard.");
 
                 // If user has absolutely no cards, give them a clone of the first default one and save
                 if (this.userDashboards.length == 0) {

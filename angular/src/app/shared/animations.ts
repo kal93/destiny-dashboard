@@ -1,7 +1,6 @@
 import { animate, keyframes, stagger, trigger, query, style, transition } from '@angular/animations';
 
 export function fadeInOut() {
-    //Trigger when route is changed
     return trigger('fadeInOut', [
         transition(
             ':enter', [
@@ -18,7 +17,6 @@ export function fadeInOut() {
 }
 
 export function fadeIn() {
-    //Trigger when route is changed
     return trigger('fadeIn', [
         transition(
             ':enter', [
@@ -30,7 +28,6 @@ export function fadeIn() {
 }
 
 export function slowFadeIn() {
-    //Trigger when route is changed
     return trigger('slowFadeIn', [
         transition(
             ':enter', [

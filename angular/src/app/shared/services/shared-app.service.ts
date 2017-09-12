@@ -264,11 +264,19 @@ export class SharedApp {
     }
 
     @delayBy(10)
-    showInfoOnce(infoMessage: string) {
+    showInfoOncePerSession(infoMessage: string) {
         if (sessionStorage.getItem(infoMessage))
             return;
         this.toastrService.info(infoMessage);
         sessionStorage.setItem(infoMessage, "1");
+    }
+
+    @delayBy(10)
+    showInfoOnce(infoMessage: string) {
+        if (localStorage.getItem(infoMessage))
+            return;
+        this.toastrService.info(infoMessage);
+        localStorage.setItem(infoMessage, "1");
     }
 
     @delayBy(10)

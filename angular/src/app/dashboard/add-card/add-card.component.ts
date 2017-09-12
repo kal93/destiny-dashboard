@@ -31,7 +31,7 @@ export class AddCardComponent {
   ngOnInit() {
     this.setAvailableCards();
     this.applyFilter("");
-    this.sharedApp.showInfoOnce("Swipe cards to browse");
+    this.sharedApp.showInfoOncePerSession("Swipe cards to browse");
   }
 
   setAvailableCards() {
