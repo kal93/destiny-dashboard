@@ -447,7 +447,7 @@ export class HttpService {
         let loadingId = Date.now();
         this.sharedApp.showLoading(loadingId);
         // Need to use cordova http for bungie authorized POST calls, since we need to add origin header
-        if (useCordovaHTTP) {
+        if (window.cordova && useCordovaHTTP) {
             let cordovaHTTP = (<any>window.cordova).plugin.http;
             return new Promise((resolve, reject) => {
                 if (headers != null)
