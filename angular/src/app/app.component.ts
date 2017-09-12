@@ -8,7 +8,7 @@ import { SharedBungie } from './bungie/shared-bungie.service';
 import { SharedDashboard } from './dashboard/shared-dashboard.service';
 
 import {
-  BungieSiteNewsService, DestinyAccountService, DestinyStatsService, DestinyProfileService,
+  BungieSiteNewsService, DestinyAccountService, DestinyMilestonesService, DestinyStatsService, DestinyProfileService,
   DestinyUserService, DestinyGroupService, InventoryItemService
 } from './bungie/services/service.barrel';
 
@@ -28,7 +28,7 @@ import { Angulartics2GoogleAnalytics } from 'angulartics2';
     </div>
   </div>
   `,
-  providers: [BungieSiteNewsService, DestinyAccountService, DestinyStatsService, DestinyProfileService,
+  providers: [BungieSiteNewsService, DestinyAccountService, DestinyMilestonesService, DestinyStatsService, DestinyProfileService,
     DestinyUserService, DestinyGroupService, InventoryItemService, SharedBungie, SharedDashboard],
   animations: [fadeInOut()]
 })
@@ -38,8 +38,10 @@ export class AppComponent {
 
   ngOnInit() {
     this.cordovaInit();
-    this.manifestService.loadManifest().then(() => {
+    this.manifestService.downloadManifest().then(() => {
       this.initApp();
+    }).catch((error) => {
+      this.sharedApp.showError("There was an error loading the database from Bungie, please try again later.", error);
     });
   }
 
