@@ -12,8 +12,20 @@ import {
 
 @Injectable()
 export class DestinyProfileService {
-
-    constructor(protected http: HttpService, private manifestService: ManifestService, private sharedApp: SharedApp) { }
+    factionTokenMap = new Map<number, Array<Array<number>>>();
+    constructor(protected http: HttpService, private manifestService: ManifestService, private sharedApp: SharedApp) {
+        // Map faction data to their token data manually since there's no database relationship        
+        //                      FactionHash  [ItemHash, ItemRepValue]
+        this.factionTokenMap.set(1021210278, [[685157381, 25], [685157383, 75]]); // Gunsmith  telemetry = 25, token = 75
+        this.factionTokenMap.set(4235119312, [[2640973641, 50], [950899352, 100], [478751073, 200]]); // Dead Zone Scout
+        this.factionTokenMap.set(611314723, [[3957264072, 50], [3899548068, 100]]); // Vanguard Tactical
+        this.factionTokenMap.set(4196149087, [[494493680, 50]]); // Field Commander
+        this.factionTokenMap.set(697030790, [[183980811, 100]]); // The Crucible token = 100
+        this.factionTokenMap.set(1660497607, [[3201839676, 50], [3487922223, 50], [2949414982, 50]]); // Exodus Black AI
+        this.factionTokenMap.set(828982195, [[3825769808, 50], [1305274547, 50], [3756389242, 50]]); // Fragmented Researcher
+        this.factionTokenMap.set(3231773039, []); // Vanguard Researcher (Ikora Rey)
+        // Dead Orbit token = 2959556799 | fwc token 1270564331 | nm 2270228604
+    }
 
     private getDestinyProfileResponse(membership: DestinyMembership, components: Array<ComponentTypes>, httpRequestType: HttpRequestType, cacheTimeMs: number = 0): Promise<any> {
         let requestUrl = "https://www.bungie.net/Platform/Destiny2/" + membership.membershipType + "/Profile/" + membership.membershipId + "/?components=" + components.join(",");
@@ -102,75 +114,96 @@ export class DestinyProfileService {
     }
 
     getCharacterProgression(membership: DestinyMembership, characterId: string): Promise<ICharacterProgression> {
-        return this.getDestinyProfileCharacterResponse(membership, characterId, [ComponentTypes.CharacterProgressions, ComponentTypes.CharacterInventories], HttpRequestType.BUNGIE_PRIVILEGED, 30000).then((characterProgressions: ICharacterProgression) => {
-            let inventoryWrapper = characterProgressions.inventory.data;
-            let progressionWrapper = characterProgressions.progressions.data;
+        return new Promise<ICharacterProgression>((resolve, reject) => {
+            Promise.all([this.getProfileSummary(membership), this.getDestinyProfileCharacterResponse(membership, characterId, [ComponentTypes.CharacterProgressions, ComponentTypes.CharacterInventories],
+                HttpRequestType.BUNGIE_PRIVILEGED, 30000)]).then((responses) => {
 
-            // Map faction data to their token data manually since there's no database relationship
-            let factionTokenMap = new Map<string, Array<string>>();
-            factionTokenMap.set("1021210278", ["12345"]); // Gunsmith
-            factionTokenMap.set("4235119312", ["12345"]); // Dead Zone Scount
-            factionTokenMap.set("611314723", ["12345"]); // Vanguard Tactical
-            factionTokenMap.set("4196149087", ["12345"]); // Field Commander
-            factionTokenMap.set("697030790", ["12345"]); // The Crucible
-            factionTokenMap.set("1660497607", ["12345"]); // Exodus Black AI
-            factionTokenMap.set("828982195", ["12345"]); // Fragmented Researcher
-            factionTokenMap.set("3231773039", ["12345"]); // Vanguard Researcher (Ikora Rey)
+                    // Get profile inventory items so we can show which faction items the user has
+                    let profileSummaryResponse = responses[0];
 
-            characterProgressions.progressionData = new Array<ProgressionBase>();
-            characterProgressions.factionData = new Array<FactionBase>();
-            characterProgressions.milestoneData = new Array<MilestoneBase>();
+                    // If profileSummaryResponse is null, we probably don't have access to the users inventory
+                    let inventoryItemsMap = new Map<number, any>();
+                    if (profileSummaryResponse != null) {
+                        let inventoryItems = profileSummaryResponse.profileInventory.data.items;
+                        inventoryItems.forEach((inventoryItem) => {
+                            inventoryItem.itemValue = this.manifestService.getManifestEntry("DestinyInventoryItemDefinition", inventoryItem.itemHash);
+                            inventoryItemsMap.set(inventoryItem.itemHash, inventoryItem);
+                        });
+                    }
 
-            if (progressionWrapper != null) {
-                // Populate factions data
-                Object.keys(progressionWrapper.factions).forEach((key: string, index: number) => {
-                    var faction: FactionBase = progressionWrapper.factions[key];
-                    faction.factionValue = this.manifestService.getManifestEntry("DestinyFactionDefinition", faction.factionHash);
+                    let characterProgressions: ICharacterProgression = responses[1];
+                    let progressionWrapper = characterProgressions.progressions.data;
 
-                    if (faction.factionValue != null)
-                        characterProgressions.factionData.push(faction);
-                });
+                    characterProgressions.progressionData = new Array<ProgressionBase>();
+                    characterProgressions.factionData = new Array<FactionBase>();
+                    characterProgressions.milestoneData = new Array<MilestoneBase>();
 
-                // Populate milestones data
-                Object.keys(progressionWrapper.milestones).forEach((key: string, index: number) => {
-                    var milestone: MilestoneBase = progressionWrapper.milestones[key];
-                    milestone.milestoneValue = this.manifestService.getManifestEntry("DestinyMilestoneDefinition", milestone.milestoneHash);
+                    if (progressionWrapper != null) {
+                        // Populate factions data
+                        Object.keys(progressionWrapper.factions).forEach((key: string, index: number) => {
+                            var faction: FactionBase = progressionWrapper.factions[key];
+                            faction.factionValue = this.manifestService.getManifestEntry("DestinyFactionDefinition", faction.factionHash);
 
-                    if (milestone.milestoneValue != null) {
-                        milestone.milestoneValue.questsData = new Array<QuestBase>();
-                        // Populate quests array from map
-                        Object.keys(milestone.milestoneValue.quests).forEach((key: string, index: number) => {
-                            var quest: QuestBase = milestone.milestoneValue.quests[key];
-                            if (quest != null)
-                                milestone.milestoneValue.questsData.push(quest);
+                            // Populate this faction with the tokens the current user has
+                            faction.factionInventoryItems = new Array<InventoryItem>();
+                            if (inventoryItemsMap.size > 0) {
+                                let factionInventoryItemData = this.factionTokenMap.get(faction.factionHash);
+                                if (factionInventoryItemData != null)
+                                    factionInventoryItemData.forEach((factionInventoryItemHash) => {
+                                        let factionInventoryItem = inventoryItemsMap.get(factionInventoryItemHash[0]);
+                                        if (factionInventoryItem != null) {
+                                            factionInventoryItem.repValue = factionInventoryItemHash[1];
+                                            faction.factionInventoryItems.push(factionInventoryItem);
+                                        }
+                                    });
+                            }
+
+                            if (faction.factionValue != null)
+                                characterProgressions.factionData.push(faction);
                         });
 
-                        characterProgressions.milestoneData.push(milestone);
+                        // Populate milestones data
+                        Object.keys(progressionWrapper.milestones).forEach((key: string, index: number) => {
+                            var milestone: MilestoneBase = progressionWrapper.milestones[key];
+                            milestone.milestoneValue = this.manifestService.getManifestEntry("DestinyMilestoneDefinition", milestone.milestoneHash);
+
+                            if (milestone.milestoneValue != null) {
+                                milestone.milestoneValue.questsData = new Array<QuestBase>();
+                                // Populate quests array from map
+                                Object.keys(milestone.milestoneValue.quests).forEach((key: string, index: number) => {
+                                    var quest: QuestBase = milestone.milestoneValue.quests[key];
+                                    if (quest != null)
+                                        milestone.milestoneValue.questsData.push(quest);
+                                });
+
+                                characterProgressions.milestoneData.push(milestone);
+                            }
+
+                            // Populates availableQuests with questItemHashValue and questRewards
+                            if (milestone.availableQuests != null) {
+                                for (let i = 0; i < milestone.availableQuests.length; i++) {
+                                    let availableQuest = milestone.availableQuests[i];
+                                    availableQuest.questItemValue = this.manifestService.getManifestEntry("DestinyInventoryItemDefinition", availableQuest.questItemHash);
+
+                                    // Copy questRewards from milestone for easier lookup later
+                                    availableQuest.questRewards = milestone.milestoneValue.quests[availableQuest.questItemHash].questRewards;
+                                }
+                            }
+                        });
+
+                        //Populate progressions data
+                        Object.keys(progressionWrapper.progressions).forEach((key: string, index: number) => {
+                            var progression: ProgressionBase = progressionWrapper.progressions[key];
+                            progression.progressionValue = this.manifestService.getManifestEntry("DestinyProgressionDefinition", progression.progressionHash);
+
+                            if (progression.progressionValue != null)
+                                characterProgressions.progressionData.push(progression);
+                        });
                     }
-
-                    // Populates availableQuests with questItemHashValue and questRewards
-                    if (milestone.availableQuests != null) {
-                        for (let i = 0; i < milestone.availableQuests.length; i++) {
-                            let availableQuest = milestone.availableQuests[i];
-                            availableQuest.questItemValue = this.manifestService.getManifestEntry("DestinyInventoryItemDefinition", availableQuest.questItemHash);
-
-                            // Copy questRewards from milestone for easier lookup later
-                            availableQuest.questRewards = milestone.milestoneValue.quests[availableQuest.questItemHash].questRewards;
-                        }
-                    }
+                    resolve(characterProgressions);
+                }).catch((error) => {
+                    reject(error);
                 });
-
-                //Populate progressions data
-                Object.keys(progressionWrapper.progressions).forEach((key: string, index: number) => {
-                    var progression: ProgressionBase = progressionWrapper.progressions[key];
-                    progression.progressionValue = this.manifestService.getManifestEntry("DestinyProgressionDefinition", progression.progressionHash);
-
-                    if (progression.progressionValue != null)
-                        characterProgressions.progressionData.push(progression);
-                });
-            }
-
-            return characterProgressions;
         });
     }
 
@@ -178,6 +211,9 @@ export class DestinyProfileService {
         return this.getDestinyProfileResponse(membership, [ComponentTypes.ProfileInventories, ComponentTypes.ItemInstances], HttpRequestType.BUNGIE_PRIVILEGED).then((response: IProfileSummary) => {
             if (response.itemComponents.instances == null || response.profileInventory == null)
                 return null;
+            if (response.profileInventory.data == null)
+                return null;
+
             let statsMap = response.itemComponents.instances.data;
 
             let missingItemValue: boolean = false;

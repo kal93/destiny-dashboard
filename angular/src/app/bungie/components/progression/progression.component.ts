@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FactionBase, ProgressionBase } from '../../services/interface.barrel';
 import { DestinyInventoryItemDefinition, DestinyFactionDefinition, DestinyProgressionDefinition } from "app/bungie/manifest/interfaces";
+import { SharedApp } from 'app/shared/services/shared-app.service';
 
 @Component({
   selector: 'dd-progression',
@@ -10,15 +11,17 @@ import { DestinyInventoryItemDefinition, DestinyFactionDefinition, DestinyProgre
 })
 export class ProgressionComponent {
   @Input()
-  progression: ProgressionBase | FactionBase;
+  progression: ProgressionBase & FactionBase;
 
   @Input()
   definition: DestinyProgressionDefinition | DestinyFactionDefinition;
 
-  constructor(public domSanitizer: DomSanitizer) { }
+  hideFactionItems: boolean = false;
+
+  constructor(public domSanitizer: DomSanitizer, public sharedApp: SharedApp) { }
 
   ngOnInit() {
-    console.log(this.progression);
+    this.hideFactionItems = this.sharedApp.accessToken == null || this.progression.factionInventoryItems == null || this.progression.factionInventoryItems.length == 0;
 
   }
 }

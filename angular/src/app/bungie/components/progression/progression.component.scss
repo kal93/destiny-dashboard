@@ -1,52 +1,79 @@
 @import '../../../../styles/theme.scss';
 
 .progression {
-    padding: 5px;
+    padding: 10px 2px 4px;
     box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
-    min-height: 110px;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: $app-text-light;
+    position: relative;
 
-    .top-wrap {
+    .progression-bg {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-size: contain;
+        background-position: center;
+        opacity: .2;
+        background-repeat: no-repeat;
+        z-index: -1;
+    }
+
+    .name-wrap {
+        flex: 1;
         display: flex;
-        align-items: center;
-        justify-content: space-around;
+        flex-direction: column;
+        font-size: .9em;
 
-        .icon {
-            width: 44px;
-            height: 44px;
-            background-repeat: no-repeat;
-            background-size: contain;
-            display: inline-block;
+        .name {
+            text-align: center;
+            letter-spacing: .5px;
+            white-space: nowrap;
         }
 
-        .name-wrap {
-            flex: 1;
+        .progress-wrap {
+            margin: 2px 8px;
+            display: flex;
+            align-items: center;
+            font-size: .9em;
+
+            .progress-bar {
+                margin: 0 10px;
+            }
+        }
+
+        .xp {
+            text-align: center;
+            font-size: .85em;
+            margin-top: -2px;
+            opacity: .8;
+        }
+    }
+
+    .faction-inventory-wrap {
+        margin-top: 15px;
+        display: flex;
+        justify-content: center;
+
+        .item-wrap {
             display: flex;
             flex-direction: column;
-            font-size: .95em;
+            justify-content: center;
 
-            .name {
-                text-align: center;
-                letter-spacing: .5px;
-                white-space: nowrap;
+            dd-inventory-item {
+                margin: 0 5px;
             }
 
-            .progress-wrap {
-                margin: 0 10px;
-                display: flex;
-                align-items: center;
-                font-size: .9em;
-
-                .progress-bar {
-                    margin: 0 10px;
-                }
-            }
-
-            .xp {
+            .rep-value {
+                margin-top: 2px;
                 text-align: center;
-                font-size: .85em;
-                opacity: .7;
-                margin-top: -2px;
+                font-size: .7em;
             }
         }
     }
+
 }

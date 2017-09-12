@@ -103,8 +103,6 @@ export class ReputationComponent extends CardComponent {
         if (characterProgressions == null)
           return;
 
-        console.log(characterProgressions);
-
         // Set progressions from API
         this.characterFactions = characterProgressions.factionData;
 

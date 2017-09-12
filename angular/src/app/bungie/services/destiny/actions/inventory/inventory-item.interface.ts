@@ -42,6 +42,7 @@ export interface InventoryItem {
   filteredOut: boolean;
   itemComponentData: InventoryItemStatsBase; // Populated from ComponentTypes.ItemInstances
   itemValue: DestinyInventoryItemDefinition;
+  repValue: number; // Exists in faction rep only
   selected: boolean;
   transferQuantity: number;
 }

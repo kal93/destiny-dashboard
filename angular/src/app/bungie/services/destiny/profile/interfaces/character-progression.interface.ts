@@ -1,4 +1,4 @@
-import { Inventory, Reward } from 'app/bungie/services/interface.barrel';
+import { Inventory, InventoryItem, Reward } from 'app/bungie/services/interface.barrel';
 
 import {
     DestinyFactionDefinition, DestinyInventoryItemDefinition, DestinyMilestoneDefinition, DestinyProgressionDefinition, QuestRewards
@@ -61,6 +61,7 @@ export interface FactionBase {
 
     // Runtime variables
     factionValue: DestinyFactionDefinition;
+    factionInventoryItems: Array<InventoryItem>;
 }
 
 export interface MilestoneBase {

@@ -23,14 +23,13 @@
           </div>
 
           <div class="sub-tab-wrap" *ngIf="characterFactions != null && characterProgressions != null">
+            <div class="reputation-section-title">Factions</div>
+            <div class="reputation-section">
+              <dd-progression *ngFor="let faction of characterFactions" [progression]="faction" [definition]="faction.factionValue" class="progression"></dd-progression>
+            </div>
             <div class="reputation-section-title">Character</div>
             <div class="reputation-section">
               <dd-progression *ngFor="let progression of characterProgressions" [progression]="progression" [definition]="progression.progressionValue"
-                class="progression"></dd-progression>
-            </div>
-            <div class="reputation-section-title">Factions</div>
-            <div class="reputation-section">
-              <dd-progression *ngFor="let faction of characterFactions" [progression]="faction" [definition]="faction.factionValue"
                 class="progression"></dd-progression>
             </div>
           </div>
