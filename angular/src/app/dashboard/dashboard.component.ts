@@ -90,7 +90,7 @@ export class DashboardComponent {
   }
 
   private updateMeta() {
-    this.sharedApp.updateMetaTags("Destiny Dashboard", "The one stop shop for all of your Destiny 2 needs. Customized dashboards, inventory management, and much more...");
+    this.sharedApp.updateMetaTags("Destiny Dashboard", "Destiny Dashboard is your one stop shop for all of your Destiny 2 needs. Customized dashboards, inventory management, and much more...");
   }
 
   setSubNavItems() {
