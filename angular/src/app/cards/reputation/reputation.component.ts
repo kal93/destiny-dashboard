@@ -99,7 +99,7 @@ export class ReputationComponent extends CardComponent {
       this.privacyError = true;
     }
     else {
-      this.destinyProfileService.getCharacterProgression(this.selectedMembership, characterId).then((characterProgressions) => {
+      this.destinyProfileService.getCharacterProgression(this.selectedMembership, characterId, true).then((characterProgressions) => {
         if (characterProgressions == null)
           return;
 
