@@ -21,7 +21,7 @@ export class ProgressionComponent {
   constructor(public domSanitizer: DomSanitizer, public sharedApp: SharedApp) { }
 
   ngOnInit() {
-    this.hideFactionItems = this.sharedApp.accessToken == null || this.progression.factionInventoryItems == null || this.progression.factionInventoryItems.length == 0;
+    this.hideFactionItems = this.sharedApp.accessToken == null || this.progression.factionInventoryItems == null;
 
   }
 }
