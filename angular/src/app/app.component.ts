@@ -46,15 +46,6 @@ export class AppComponent {
   cordovaInit() {
     document.addEventListener("deviceready", () => {
       console.log("Cordova init");
-
-      document.addEventListener("backbutton", (e) => {
-        //Close menus?
-        this.sharedApp.toggleMainNavSubject.next(false);
-        this.sharedApp.toggleSubNavSubject.next(false);
-
-        // Prevent default back button action
-        e.preventDefault();
-      });
     });
   }
 
