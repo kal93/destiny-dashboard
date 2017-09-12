@@ -19,7 +19,8 @@
 
     //Wrapper for entire tab
     .mat-tab-group {
-        height: 100%;
+        height: calc(100% - 65px);
+        overflow: auto;
 
         ::ng-deep .mat-tab-labels {
             justify-content: center;
@@ -29,60 +30,48 @@
             }
         }
 
-        ::ng-deep .mat-tab-body-wrapper {
-            height: calc(100% - 115px);
+        ::ng-deep .sub-tab-wrap {
+            padding: 5px 5px 30px;
+            overflow-y: auto;
+            display: flex;
+            flex-flow: wrap;
+            align-content: flex-start;
+            align-items: flex-start;
 
-            .mat-tab-body {
-                height: 100%;
+            .stat-section {
+                flex: 1 0 240px;
+                margin: 8px 5px;
+                box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
 
-                .mat-tab-body-content {
-                    overflow: auto;
+                .header {
+                    background-color: #1B5E20;
+                    padding: 8px;
+                    font-size: .95em;
+                    letter-spacing: 1px;
+                    margin: 0;
+                    text-align: center;
+                    display: block;
+                }
 
-                    .sub-tab-wrap {
-                        overflow-y: auto;
-                        display: flex;
-                        flex-flow: wrap;
-                        align-content: flex-start;
-                        align-items: flex-start;
-                        padding: 0 5px;
+                div {
+                    color: $app-text-light;
+                    padding: 6px 4px;
+                    display: flex;
+                    font-size: .9em;
+                    letter-spacing: .5px;
 
-                        .stat-section {
-                            flex: 1 0 240px;
-                            margin: 8px 5px;
-                            box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
-
-                            .header {
-                                background-color: #1B5E20;
-                                padding: 8px;
-                                font-size: .95em;
-                                letter-spacing: 1px;
-                                margin: 0;
-                                text-align: center;
-                                display: block;
-                            }
-
-                            div {
-                                color: $app-text-light;
-                                padding: 6px 4px;
-                                display: flex;
-                                font-size: .9em;
-                                letter-spacing: .5px;
-
-                                span {
-                                    &:first-of-type {
-                                        flex: 1;
-                                    }
-
-                                    &:last-of-type {
-                                        opacity: .8;
-                                    }
-                                }
-
-                                &:nth-child(even) {
-                                    background-color: rgba(0,0,0,.1);
-                                }
-                            }
+                    span {
+                        &:first-of-type {
+                            flex: 1;
                         }
+
+                        &:last-of-type {
+                            opacity: .8;
+                        }
+                    }
+
+                    &:nth-child(even) {
+                        background-color: rgba(0,0,0,.1);
                     }
                 }
             }

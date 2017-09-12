@@ -144,9 +144,9 @@ export class DestinyProfileService {
                             var faction: FactionBase = progressionWrapper.factions[key];
                             faction.factionValue = this.manifestService.getManifestEntry("DestinyFactionDefinition", faction.factionHash);
 
-                            // Populate this faction with the tokens the current user has
-                            faction.factionInventoryItems = new Array<InventoryItem>();
                             if (inventoryItemsMap.size > 0) {
+                                // Populate this faction with the tokens the current user has
+                                faction.factionInventoryItems = new Array<InventoryItem>();
                                 let factionInventoryItemData = this.factionTokenMap.get(faction.factionHash);
                                 if (factionInventoryItemData != null)
                                     factionInventoryItemData.forEach((factionInventoryItemHash) => {

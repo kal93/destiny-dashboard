@@ -4,7 +4,6 @@
 .dd-milestones {
     background-color: #009688;
     color: $app-text-light;
-    padding-bottom: 20px;
 
     .gamertag-wrap {
         display: flex;
@@ -19,9 +18,9 @@
     }
     //Wrapper for entire tab
     .mat-tab-group {
-        height: 100%;
+        height: calc(100% - 65px);
+        overflow: auto;
         max-width: 800px;
-        margin: 0 auto;
 
         ::ng-deep .mat-tab-labels {
             justify-content: center;
@@ -31,31 +30,19 @@
             }
         }
 
-        ::ng-deep .mat-tab-body-wrapper {
-            height: calc(100% - 115px);
+        ::ng-deep .sub-tab-wrap {
+            padding: 5px 10px 30px;
+            overflow-y: auto;
 
-            .mat-tab-body {
-                height: 100%;
-
-                .mat-tab-body-content {
-                    overflow: auto;
-
-                    .sub-tab-wrap {
-                        padding: 10px 20px;
-                        overflow-y: auto;
-
-                        .milestone-type {
-                            &:first-of-type {
-                                margin-top: 0;
-                            }
-                            font-size: 2em;
-                            color: #F5F5F5;
-                            text-transform: uppercase;
-                            margin-top: 30px;
-                            letter-spacing: 1px;
-                        }
-                    }
+            .milestone-type {
+                &:first-of-type {
+                    margin-top: 0;
                 }
+                font-size: 2em;
+                color: #F5F5F5;
+                text-transform: uppercase;
+                margin: 30px 5px 0;
+                letter-spacing: 1px;
             }
         }
     }
