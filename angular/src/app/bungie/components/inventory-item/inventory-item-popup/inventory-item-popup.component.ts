@@ -36,6 +36,8 @@ export class InventoryItemPopupComponent {
   @Output()
   destroyPopupSubject: Subject<void> = new Subject<void>();
 
+  showUnderlay: boolean = false;
+
   popupStyle = {};
   showTransferBar: boolean = false;
   showPerks: boolean = false;
@@ -51,6 +53,9 @@ export class InventoryItemPopupComponent {
     this.showPerks = this.inventoryItemDefinition.perksData != null && this.inventoryItemDefinition.perksData.length > 0;
 
     this.initPopupPosition();
+    setTimeout(() => {
+      this.showUnderlay = true;
+    }, 400);
   }
 
   initPopupPosition() {

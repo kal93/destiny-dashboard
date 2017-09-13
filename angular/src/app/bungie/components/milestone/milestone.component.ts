@@ -39,6 +39,10 @@ export class MilestoneComponent {
       // If exactly one, let's get some detail about it
       if (this.isNightfall && this.milestone.availableQuests.length == 1) {
         this.nightfallQuest = this.milestone.availableQuests[0];
+        if (this.nightfallQuest == null || this.nightfallQuest.activity == null || this.nightfallQuest.challenges == null) {
+          console.error("nightfallQuest was null");
+          return;
+        }
 
         this.nightfallModifiers = new Array<DestinyActivityModifierDefinition>();
         // Change once ActivityModifiers are not private any more
@@ -53,8 +57,6 @@ export class MilestoneComponent {
           if (challenge.objective.activityHash == this.nightfallQuest.activity.activityHash)
             this.nightfallChallenges.push(this.manifestService.getManifestEntry("DestinyObjectiveDefinition", challenge.objective.objectiveHash));
         });
-
-        console.log(this.nightfallModifiers);
       }
     }
 
