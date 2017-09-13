@@ -65,23 +65,32 @@ export interface FactionBase {
 }
 
 export interface MilestoneBase {
-    milestoneHash: number;
     availableQuests: AvailableQuest[];
+    milestoneHash: number;
     startDate: string;
     endDate: string;
     rewards: Array<Reward>;
 
     // Runtime variables
     milestoneValue: DestinyMilestoneDefinition;
+    publicMilestone: any;
 }
 
 interface ItemComponents {
+}
+
+export interface MilestoneChallenge {
+    objective: {
+        activityHash: number;
+        objectiveHash: number;
+    }
 }
 
 export interface AvailableQuest {
     questItemHash: number;
     status: Status;
     activity: QuestActivity;
+    challenges: Array<MilestoneChallenge>;
 
     // Runtime variables
     activityValue: DestinyActivityDefinition;

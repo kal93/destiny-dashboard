@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AvailableQuest, MilestoneBase, QuestActivity } from '../../services/interface.barrel';
-import { DestinyInventoryItemDefinition } from "app/bungie/manifest/interfaces";
+import { DestinyActivityModifierDefinition, DestinyInventoryItemDefinition, DestinyObjectiveDefinition } from "app/bungie/manifest/interfaces";
 import { ManifestService } from 'app/bungie/manifest/manifest.service';
 
 @Component({
@@ -21,8 +21,15 @@ export class MilestoneComponent {
   questRewardItemDefinitions = new Array<DestinyInventoryItemDefinition>();
 
   nightfallQuest: AvailableQuest;
+  nightfallModifiers: Array<DestinyActivityModifierDefinition>;
+  nightfallChallenges: Array<DestinyObjectiveDefinition>;
 
-  constructor(public domSanitizer: DomSanitizer, private manifestService: ManifestService) { }
+  tempActivityModiferHashValues = new Map<number, DestinyActivityModifierDefinition>();
+
+  constructor(public domSanitizer: DomSanitizer, private manifestService: ManifestService) {
+    this.tempActivityModiferHashValues.set(4293009546, { name: "Prism", description: "Your attacks matching the focused element deal increased damage. All other elemental damage is reduced. Kinetic and incoming damage is unaffected. The focused element rotates periodically." });
+    this.tempActivityModiferHashValues.set(458112752, { name: "Timewarp: Rings", description: "Vex time gates have appeared in the area. Pass through them to discharge temporal energy and extend the mission timer." });
+  }
 
   ngOnInit() {
     // If we have not found any quests that are incomplete
@@ -32,11 +39,24 @@ export class MilestoneComponent {
       // If exactly one, let's get some detail about it
       if (this.isNightfall && this.milestone.availableQuests.length == 1) {
         this.nightfallQuest = this.milestone.availableQuests[0];
-        console.log(this.nightfallQuest);
-      }
 
+        this.nightfallModifiers = new Array<DestinyActivityModifierDefinition>();
+        // Change once ActivityModifiers are not private any more
+        // Get nightfall modifiers
+        this.nightfallQuest.activity.modifierHashes.forEach((modifierHash) => {
+          this.nightfallModifiers.push(this.tempActivityModiferHashValues.get(modifierHash));
+        });
+
+        this.nightfallChallenges = new Array<DestinyObjectiveDefinition>();
+        // Get nightfall challenges
+        this.nightfallQuest.challenges.forEach((challenge) => {
+          if (challenge.objective.activityHash == this.nightfallQuest.activity.activityHash)
+            this.nightfallChallenges.push(this.manifestService.getManifestEntry("DestinyObjectiveDefinition", challenge.objective.objectiveHash));
+        });
+
+        console.log(this.nightfallModifiers);
+      }
     }
-    //bungie.net/img/destiny_content/pgcr/
 
     this.milestone.startDate = <any>new Date(this.milestone.startDate);
     this.milestone.endDate = <any>new Date(this.milestone.endDate);

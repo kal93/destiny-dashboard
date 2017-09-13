@@ -6,8 +6,8 @@ import { SharedApp } from 'app/shared/services/shared-app.service';
 import { ManifestService } from 'app/bungie/manifest/manifest.service';
 import { MilestoneTypes, PrivacyTypes } from 'app/bungie/services/enums.interface';
 
-import { DestinyProfileService } from 'app/bungie/services/service.barrel';
-import { DestinyMembership, IAccountSummary, MilestoneBase } from 'app/bungie/services/interface.barrel';
+import { DestinyMilestonesService, DestinyProfileService } from 'app/bungie/services/service.barrel';
+import { DestinyMembership, IAccountSummary, MilestoneBase, PublicMilestoneBase } from 'app/bungie/services/interface.barrel';
 
 @Component({
   selector: 'dd-milestones',
@@ -39,7 +39,7 @@ export class MilestonesComponent extends CardComponent {
 
   accountNotFound: boolean = false;
 
-  constructor(private destinyProfileService: DestinyProfileService, public domSanitizer: DomSanitizer,
+  constructor(private destinyMilestonesService: DestinyMilestonesService, private destinyProfileService: DestinyProfileService, public domSanitizer: DomSanitizer,
     private manifestService: ManifestService, public sharedApp: SharedApp) {
     super(sharedApp);
   }
@@ -105,38 +105,49 @@ export class MilestonesComponent extends CardComponent {
       this.privacyError = true;
       return;
     }
-    this.destinyProfileService.getCharacterProgression(this.selectedMembership, characterId).then((characterProgressions) => {
-      if (characterProgressions == null)
-        return;
 
-      // Special Milestones (Don't exist yet)
-      this.characterMilestonesSpecial = characterProgressions.milestoneData.filter((milestone) => {
-        return milestone.milestoneValue.milestoneType == MilestoneTypes.Special;
+    this.destinyMilestonesService.getPublicMilestones().then((publicMilestonesMap: { [key: number]: PublicMilestoneBase }) => {
+
+      this.destinyProfileService.getCharacterProgression(this.selectedMembership, characterId).then((characterProgressions) => {
+        if (characterProgressions == null)
+          return;
+
+        // Assign public milestone to each milestone so we can get modifier/challenges/etc
+        characterProgressions.milestoneData.forEach((milestone) => {
+          milestone.publicMilestone = publicMilestonesMap[milestone.milestoneHash];
+        });
+
+        // Special Milestones (Don't exist yet)
+        this.characterMilestonesSpecial = characterProgressions.milestoneData.filter((milestone) => {
+          return milestone.milestoneValue.milestoneType == MilestoneTypes.Special;
+        });
+
+        // Daily milestones
+        this.characterMilestonesDaily = characterProgressions.milestoneData.filter((milestone) => {
+          if (milestone.milestoneValue.milestoneType != MilestoneTypes.Daily) return false;
+
+          //Filter out hotspot for now
+          if (milestone.milestoneValue.friendlyName == "Hotspot") return false;
+          return true;
+        });
+
+        // Weekly Milestones
+        this.characterMilestonesWeekly = characterProgressions.milestoneData.filter((milestone) => {
+          return milestone.milestoneValue.milestoneType == MilestoneTypes.Weekly;
+        });
+
+        // Get nightfall so we can put it first
+        this.characterMilestoneNightfall = this.characterMilestonesWeekly.find((milestone) => { return milestone.milestoneValue.friendlyName == "Nightfall" });
+
+        // Remove nightfall from standard weekly list
+        this.characterMilestonesWeekly.splice(this.characterMilestonesWeekly.indexOf(this.characterMilestoneNightfall), 1);
+
+        // One time milestones, not displayed
+        //this.characterMilestonesOneTime = characterProgressions.milestoneData.filter((milestone) => {
+        //   return milestone.milestoneValue.milestoneType == MilestoneTypes.OneTime;
+        //});
       });
 
-      // Daily milestones
-      this.characterMilestonesDaily = characterProgressions.milestoneData.filter((milestone) => {
-        if (milestone.milestoneValue.milestoneType != MilestoneTypes.Daily) return false;
-
-        //Filter out hotspot for now
-        if (milestone.milestoneValue.friendlyName == "Hotspot") return false;
-        return true;
-      });
-
-      // Weekly Milestones
-      this.characterMilestonesWeekly = characterProgressions.milestoneData.filter((milestone) => {
-        return milestone.milestoneValue.milestoneType == MilestoneTypes.Weekly;
-      });
-
-      // Get nightfall sso we can put it first
-      this.characterMilestoneNightfall = this.characterMilestonesWeekly.find((milestone) => { return milestone.milestoneValue.friendlyName == "Nightfall" });
-
-      this.characterMilestonesWeekly.splice(this.characterMilestonesWeekly.indexOf(this.characterMilestoneNightfall), 1);
-
-      // One time milestones, not displayed
-      //this.characterMilestonesOneTime = characterProgressions.milestoneData.filter((milestone) => {
-      //   return milestone.milestoneValue.milestoneType == MilestoneTypes.OneTime;
-      //});
     });
   }
 }

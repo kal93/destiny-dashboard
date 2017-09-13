@@ -17,6 +17,7 @@
         opacity: .75;
         background-size: cover;
         background-position: center;
+        z-index: -1;
     }
 
     .nightfall-text {
@@ -82,12 +83,42 @@
     }
 
     .bottom-wrap {
-        margin: 20px 0 0 50px;
+        margin-top: 5px;
+        padding: 5px;
         display: flex;
-        justify-content: flex-end;
+        background-color: rgba(0,0,0,.5);
+        justify-content: space-around;
+
+        .bottom-section {
+            max-width: 45%;
+
+            .title {
+                text-transform: uppercase;
+                font-size: 1.2em;
+                letter-spacing: 1px;
+            }
+
+            .content {
+                margin-top: 10px;
+
+                .name {}
+
+                .description {
+                    opacity: .9;
+                    font-size: .8em;
+                }
+            }
+        }
+    }
+
+    .rewards-wrap {
+        position: absolute;
+        right: 0;
+        bottom: 4px;
+        display: flex;
 
         dd-inventory-item {
-            margin: 0 5px;
+            margin: 0 3px;
         }
     }
 }
