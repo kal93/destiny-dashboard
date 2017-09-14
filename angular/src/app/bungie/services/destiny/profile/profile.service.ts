@@ -17,13 +17,13 @@ export class DestinyProfileService {
         // Map faction data to their token data manually since there's no database relationship        
         //                      FactionHash  [ItemHash, ItemRepValue]
         this.factionTokenMap.set(1021210278, [[685157381, 25], [685157383, 75]]); // Gunsmith  telemetry = 25, token = 75
-        this.factionTokenMap.set(4235119312, [[2640973641, 50], [950899352, 100], [478751073, 200]]); // Dead Zone Scout
-        this.factionTokenMap.set(611314723, [[3957264072, 50], [3899548068, 100]]); // Vanguard Tactical
-        this.factionTokenMap.set(4196149087, [[494493680, 50]]); // Field Commander
+        this.factionTokenMap.set(4235119312, [[2640973641, 100], [950899352, 35], [478751073, 100]]); // Dead Zone Scout token = 100, dusklight shard = 35, dusklight crystal = 100
+        this.factionTokenMap.set(611314723, [[3899548068, 100]]); // Vanguard Tactical
+        this.factionTokenMap.set(4196149087, [[494493680, 100]]); // Field Commander (Titan)
         this.factionTokenMap.set(697030790, [[183980811, 100]]); // The Crucible token = 100
-        this.factionTokenMap.set(1660497607, [[3201839676, 50], [3487922223, 50], [2949414982, 50]]); // Exodus Black AI
-        this.factionTokenMap.set(828982195, [[3825769808, 50], [1305274547, 50], [3756389242, 50]]); // Fragmented Researcher
-        this.factionTokenMap.set(3231773039, []); // Vanguard Researcher (Ikora Rey)
+        this.factionTokenMap.set(1660497607, [[3201839676, 100], [3487922223, 35], [2949414982, 100]]); // Exodus Black AI (Nessus)
+        this.factionTokenMap.set(828982195, [[3825769808, 50], [1305274547, 35], [3756389242, 100]]); // Fragmented Researcher (IO)
+        this.factionTokenMap.set(3231773039, [[3957264072, 100]]); // Vanguard Researcher (Ikora Rey)
         // Dead Orbit token = 2959556799 | fwc token 1270564331 | nm 2270228604
     }
 
