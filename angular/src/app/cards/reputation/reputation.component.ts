@@ -89,6 +89,10 @@ export class ReputationComponent extends CardComponent {
 
   getSelectedCharacterProgression() {
     this.privacyError = false;
+
+    this.characterFactions = null;
+    this.characterProgressions = null;
+
     let characterId: string;
     try { characterId = this.accountSummary.characterData[this.selectedTabIndex].characterId; }
     catch (error) {

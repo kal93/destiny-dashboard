@@ -94,6 +94,11 @@ export class MilestonesComponent extends CardComponent {
   }
 
   getSelectedCharacterProgression() {
+    this.characterMilestonesOneTime = new Array<MilestoneBase>();
+    this.characterMilestonesWeekly = new Array<MilestoneBase>();
+    this.characterMilestonesDaily = new Array<MilestoneBase>();
+    this.characterMilestonesSpecial = new Array<MilestoneBase>();
+
     let characterId: string;
     try { characterId = this.accountSummary.characterData[this.selectedTabIndex].characterId; }
     catch (error) {
@@ -102,7 +107,6 @@ export class MilestonesComponent extends CardComponent {
     }
 
     this.destinyMilestonesService.getPublicMilestones().then((publicMilestonesMap: { [key: number]: PublicMilestoneBase }) => {
-
       this.destinyProfileService.getCharacterProgression(this.selectedMembership, characterId).then((characterProgressions) => {
         if (characterProgressions == null)
           return;

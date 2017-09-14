@@ -117,7 +117,7 @@ export class DestinyProfileService {
         return new Promise<ICharacterProgression>((resolve, reject) => {
             let progressionPromises = [];
             if (getInventories)
-                progressionPromises.push(this.getProfileSummary(membership, 0, false));
+                progressionPromises.push(this.getProfileSummary(membership, TimeSpan.SECONDS_30, false));
             else
                 progressionPromises.push(Promise.resolve());
 
