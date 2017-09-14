@@ -244,7 +244,7 @@ export class DestinyProfileService {
             }
 
             if (missingItemValue)
-                this.sharedApp.showWarning("Some items in your inventory could not be loaded because they're missing from the Bungie database.");
+                this.sharedApp.showInfoOncePerSession("Some items in your inventory could not be loaded because they're missing from the Bungie database.");
 
             return response;
         });
