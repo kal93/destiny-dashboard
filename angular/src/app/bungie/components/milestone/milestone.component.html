@@ -1,5 +1,5 @@
 <div class="milestone" [class.complete]="isComplete">
-  <div *ngIf="isNightfall" class="nightfall-bg" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net/img/destiny_content/pgcr/' + nightfallQuest.activityValue.pgcrImage  +')')"></div>
+  <div *ngIf="isNightfall" class="nightfall-bg" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net/' + nightfallQuest.activityValue.pgcrImage  +')')"></div>
 
   <div class="top-wrap">
     <div *ngIf="milestone.milestoneValue.displayProperties != null" class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + milestone.milestoneValue.displayProperties.icon  +')')"></div>

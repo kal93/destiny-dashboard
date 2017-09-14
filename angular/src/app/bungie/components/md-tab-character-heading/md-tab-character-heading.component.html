@@ -1,5 +1,5 @@
 <div class="tab-label-wrap">
-  <div *ngIf="character != null" class="background" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemBackgroundPath +')')">
+  <div *ngIf="character != null" class="background" [style.background-image]="character.emblemBackgroundPath != null ? domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + character.emblemBackgroundPath +')') : ''">
     <div class="top-left">{{character.classValue.displayProperties.name}}</div>
     <div class="bottom-left">{{character.raceValue.displayProperties.name}} {{character.genderValue.displayProperties.name}}</div>
     <div class="top-right">{{character.baseCharacterLevel}}</div>
