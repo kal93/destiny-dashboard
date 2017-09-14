@@ -10,7 +10,7 @@ export class NewsArticleService {
   }
 }
 
-let githubLink = "<a style='color: #2196F3' target='_blank' href='https://github.com/lax20attack/destiny-dashboard/'>GitHub</a>";
+let githubLink = "<a style='color: #2196F3' target='" + (window.cordova ? '_system' : '_blank') + "' href='https://github.com/lax20attack/destiny-dashboard/'>GitHub</a>";
 
 export const ARTICLES: NewsArticle[] = [
   {

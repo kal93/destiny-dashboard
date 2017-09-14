@@ -248,7 +248,10 @@ export class SharedApp {
     }
 
     openExternalLink(url: string) {
-        window.open(url, "_blank");
+        if (window.cordova)
+            window.open(url, "_system");
+        else
+            window.open(url, "_blank");
     }
 
     @delayBy(10)
