@@ -38,7 +38,7 @@ export class AppComponent {
 
   ngOnInit() {
     this.cordovaInit();
-    this.manifestService.downloadManifest().then(() => {
+    this.manifestService.loadManifest().then(() => {
       this.initApp();
     }).catch((error) => {
       this.sharedApp.showError("There was an error loading the database from Bungie, please try again later.", error);

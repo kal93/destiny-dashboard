@@ -28,7 +28,7 @@ export class DownloadManifestComponent {
   downloadManifestDatabase() {
     this.manifestService.getManifestMetadata().then((manifestMeta: IDestinyManifestMeta) => {
       let manifestFilename = manifestMeta.mobileWorldContentPaths.en.substr(manifestMeta.mobileWorldContentPaths.en.lastIndexOf("/") + 1);
-      this.manifestService.getManifestDatabase(manifestMeta).then((sqlLiteZipBlob: Blob) => {
+      this.manifestService.downloadManifestDatabase(manifestMeta).then((sqlLiteZipBlob: Blob) => {
         FileUtils.blobToUintArray8(sqlLiteZipBlob).then((arrayBuffer: Uint8Array) => {
           FileUtils.unzipArrayBuffer(arrayBuffer, manifestFilename).then((unzippedManifest: Uint8Array) => {
             FileUtils.saveFile(unzippedManifest, manifestFilename + ".sqlite", "plain/text");

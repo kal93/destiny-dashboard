@@ -6,12 +6,15 @@ import { environment } from '../../../environments/environment';
 import { FileUtils } from '../../shared/utilities/FileUtils';
 import { IDestinyManifestMeta } from './download-manifest.interface';
 
+import { IndexedDB } from 'app/shared/utilities/IndexedDB';
+
 declare let SQL: any;
 
 /** This Injectable manages the data layer for Destiny Character Stats*/
 @Injectable()
 export class ManifestService {
-    db: any;
+    sqlLiteDB: any;
+    indexedDB: IndexedDB = new IndexedDB();
 
     //                  Map<tableName, Map<hash, object>>
     private manifestMap = new Map<string, Map<number, any>>();
@@ -19,15 +22,16 @@ export class ManifestService {
     // Tower definition from the manifest so we can have the icon
     vaultIconPath: string;
 
-    constructor(protected http: HttpService, private sharedApp: SharedApp) { }
+    constructor(protected http: HttpService, private sharedApp: SharedApp) {
+
+    }
 
     getManifestEntry(tableName: string, hash: number) {
         // Try to get the table data
         let start = Date.now();
         let tableMap = this.getTableMap(tableName);
-        if (tableMap != null) {
+        if (tableMap != null)
             return tableMap.get(hash);
-        }
     }
 
     getTableMap(tableName: string) {
@@ -42,8 +46,7 @@ export class ManifestService {
         return tableMap;
     }
 
-    downloadManifest(): Promise<any> {
-
+    loadManifest(): Promise<any> {
         return new Promise<any>((resolve, reject) => {
             // "Lazy load" script so it's not part of the main bundle since this file will never change
             let script = document.createElement('script');
@@ -55,26 +58,32 @@ export class ManifestService {
                 this.getManifestMetadata().then((manifestMeta: IDestinyManifestMeta) => {
                     let manifestFilename = manifestMeta.mobileWorldContentPaths.en.substr(manifestMeta.mobileWorldContentPaths.en.lastIndexOf("/") + 1);
 
-                    // Download manifest db from Bunge
-                    this.getManifestDatabase(manifestMeta).then((sqlLiteZipBlob: Blob) => {
-
-                        // Convert .sql file to array buffer
-                        FileUtils.blobToUintArray8(sqlLiteZipBlob).then((arrayBuffer: Uint8Array) => {
-
-                            // Unzip array buffer
-                            FileUtils.unzipArrayBuffer(arrayBuffer, manifestFilename).then((unzippedManifest: Uint8Array) => {
-
-                                // Load manifest database
-                                var start = Date.now();
-                                this.db = new SQL.Database(unzippedManifest);
-                                this.setGlobalManifestDefinitions();
-
-                                resolve();
-                            });
-                        });
+                    // Try loading zipped database from local index db first
+                    this.loadIndexedDBManifest(manifestFilename).then((arrayBuffer: Uint8Array) => {
+                        resolve();
                     }).catch((error) => {
-                        reject(error);
+                        //Something went wrong loading it locally, try remote
+
+                        // Download manifest db from Bunge
+                        this.downloadManifestDatabase(manifestMeta).then((sqlLiteZipBlob: Blob) => {
+
+                            // Convert .sql file to array buffer
+                            FileUtils.blobToUintArray8(sqlLiteZipBlob).then((arrayBuffer: Uint8Array) => {
+                                // Try to save array buffer in indexdb
+                                this.saveIndexedDBManifest(manifestFilename, arrayBuffer);
+
+                                // Unzip array buffer
+                                FileUtils.unzipArrayBuffer(arrayBuffer, manifestFilename).then((unzippedManifest: Uint8Array) => {
+                                    this.sqlLiteDB = new SQL.Database(unzippedManifest);
+                                    this.setGlobalManifestDefinitions();
+                                    resolve();
+                                });
+                            });
+                        }).catch((error) => {
+                            reject(error);
+                        });
                     });
+
                 }).catch((error) => {
                     reject(error);
                 });
@@ -82,12 +91,50 @@ export class ManifestService {
         });
     }
 
+    private loadIndexedDBManifest(manifestFilename: string): Promise<Uint8Array> {
+        return new Promise<Uint8Array>((resolve, reject) => {
+            try {
+                // Check to see if we have saved a database before
+                let localManifestFilename = this.sharedApp.getLocalStorage("localManifestFilename");
+                if (localManifestFilename != manifestFilename)
+                    return reject(false);
+
+                this.indexedDB.get("manifestDB").then((zippedManifest) => {
+                    // Unzip array buffer
+                    FileUtils.unzipArrayBuffer(zippedManifest, manifestFilename).then((unzippedManifest: Uint8Array) => {
+                        this.sqlLiteDB = new SQL.Database(unzippedManifest);
+                        this.setGlobalManifestDefinitions();
+                        resolve();
+                    }).catch(() => {
+                        reject();
+                    });
+                }).catch(() => {
+                    reject();
+                });
+            }
+            catch (error) {
+                reject(false);
+            }
+        });
+    }
+
+    private saveIndexedDBManifest(manifestFilename: string, zippedManifest: Uint8Array) {
+        // Try to save indexDB but if something goes wrong we won't handle the error
+        try {
+            this.indexedDB.set("manifestDB", zippedManifest);
+            this.sharedApp.setLocalStorage("localManifestFilename", manifestFilename);
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
+
     public loadTableFromManifest(tableName: string): Map<number, any> {
 
         /*  // Tables that we want to ignore completely
         if (tableName == "DestinyActivityBundleDefinition") {resultSet = this.db.exec(`DROP TABLE ${tableName}`);
           continue;   } */
-        let resultSet = this.db.exec('SELECT * FROM ' + tableName);
+        let resultSet = this.sqlLiteDB.exec('SELECT * FROM ' + tableName);
         let tableRows = resultSet[0];
         if (tableRows == null)
             return null;
@@ -122,7 +169,7 @@ export class ManifestService {
         return this.http.getWithCache("https://www.bungie.net/Platform/Destiny2/Manifest/", HttpRequestType.BUNGIE_BASIC, 0);
     }
 
-    getManifestDatabase(manifestMeta: IDestinyManifestMeta): Promise<Blob> {
+    downloadManifestDatabase(manifestMeta: IDestinyManifestMeta): Promise<Blob> {
         return this.http.httpGetBinary("https://www.bungie.net" + manifestMeta.mobileWorldContentPaths.en);
     }
 }
