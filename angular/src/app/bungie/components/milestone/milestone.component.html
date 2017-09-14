@@ -2,7 +2,7 @@
   <div *ngIf="isNightfall" class="nightfall-bg" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net/' + nightfallQuest.activityValue.pgcrImage  +')')"></div>
 
   <div class="top-wrap">
-    <div *ngIf="milestone.milestoneValue.displayProperties != null" class="icon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + milestone.milestoneValue.displayProperties.icon  +')')"></div>
+    <div *ngIf="milestone.milestoneValue.displayProperties != null" class="icon" [style.background-image]="milestone.milestoneValue.displayProperties.hasIcon ? domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + milestone.milestoneValue.displayProperties.icon  +')') : ''"></div>
     <div class="title">
       <div class="name">
         <span *ngIf="!isNightfall && milestone.milestoneValue.displayProperties != null">{{milestone.milestoneValue.displayProperties.name}}</span>
@@ -20,7 +20,7 @@
     </div>
   </div>
 
-  <div *ngIf="isNightfall" class="bottom-wrap">
+  <div *ngIf="isNightfall && (nightfallModifiers.length > 0 || nightfallChallenges.length > 0)" class="bottom-wrap">
     <div *ngIf="nightfallModifiers.length > 0" class="bottom-section">
       <span class="title"> Modifiers </span>
       <div class="content" *ngFor="let modifier of nightfallModifiers">

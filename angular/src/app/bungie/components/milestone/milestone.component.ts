@@ -31,7 +31,10 @@ export class MilestoneComponent {
     this.tempActivityModiferHashValues.set(458112752, { name: "Timewarp: Rings", description: "Vex time gates have appeared in the area. Pass through them to discharge temporal energy and extend the mission timer." });
   }
 
-  ngOnInit() {
+  ngOnChanges() {
+    this.nightfallModifiers = new Array<DestinyActivityModifierDefinition>();
+    this.nightfallChallenges = new Array<DestinyObjectiveDefinition>();
+
     // If we have not found any quests that are incomplete
     if (this.milestone.availableQuests != null) {
       this.isComplete = (this.milestone.availableQuests.find((quest) => { return !quest.status.completed }) == null);
@@ -39,10 +42,8 @@ export class MilestoneComponent {
       // If exactly one, let's get some detail about it
       if (this.isNightfall && this.milestone.availableQuests.length == 1) {
         this.nightfallQuest = this.milestone.availableQuests[0];
-        if (this.nightfallQuest == null || this.nightfallQuest.activity == null || this.nightfallQuest.challenges == null) {
-          console.error("nightfallQuest was null");
+        if (this.nightfallQuest == null || this.nightfallQuest.activity == null || this.nightfallQuest.challenges == null)
           return;
-        }
 
         this.nightfallModifiers = new Array<DestinyActivityModifierDefinition>();
         // Change once ActivityModifiers are not private any more

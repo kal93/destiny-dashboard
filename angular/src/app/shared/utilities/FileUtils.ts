@@ -32,6 +32,8 @@ export class FileUtils {
                 }).catch((error) => {
                     reject(error);
                 });
+            }).catch((error) => {
+                reject(error);
             });
         });
     }

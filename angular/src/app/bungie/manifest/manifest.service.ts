@@ -102,6 +102,8 @@ export class ManifestService {
                 this.indexedDB.get("manifestDB").then((zippedManifest) => {
                     // Unzip array buffer
                     FileUtils.unzipArrayBuffer(zippedManifest, manifestFilename).then((unzippedManifest: Uint8Array) => {
+                        if (unzippedManifest == null)
+                            return reject();
                         this.sqlLiteDB = new SQL.Database(unzippedManifest);
                         this.setGlobalManifestDefinitions();
                         resolve();
@@ -113,7 +115,7 @@ export class ManifestService {
                 });
             }
             catch (error) {
-                reject(false);
+                reject();
             }
         });
     }
