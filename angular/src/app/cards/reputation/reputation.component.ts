@@ -88,6 +88,7 @@ export class ReputationComponent extends CardComponent {
   }
 
   getSelectedCharacterProgression() {
+    this.privacyError = false;
     let characterId: string;
     try { characterId = this.accountSummary.characterData[this.selectedTabIndex].characterId; }
     catch (error) {
@@ -95,32 +96,28 @@ export class ReputationComponent extends CardComponent {
       return;
     }
 
-    if (this.sharedApp.accessToken == null) {
-      this.privacyError = true;
-    }
-    else {
-      this.destinyProfileService.getCharacterProgression(this.selectedMembership, characterId, true).then((characterProgressions) => {
-        if (characterProgressions == null)
-          return;
+    this.destinyProfileService.getCharacterProgression(this.selectedMembership, characterId, true).then((characterProgressions) => {
+      if (characterProgressions == null)
+        return;
 
-        // Set progressions from API
-        this.characterFactions = characterProgressions.factionData;
+      if (characterProgressions.progressions.privacy == PrivacyTypes.Private && characterProgressions.factionData.length == 0) {
+        this.privacyError = true;
+        return;
+      }
 
-        // Filter out incomplete data
-        this.characterProgressions = characterProgressions.progressionData.filter((progression) => { return progression.progressionValue.displayProperties.name != '' });
+      // Set progressions from API
+      this.characterFactions = characterProgressions.factionData;
 
-        // Uncomment once endpoint is fixed
-        //if (this.characterFactions.length == 0)
-        // this.privacyError= (characterProgressions.progressions.privacy == PrivacyTypes.Private);
+      // Filter out incomplete data
+      this.characterProgressions = characterProgressions.progressionData.filter((progression) => { return progression.progressionValue.displayProperties.name != '' });
 
-        // Sort progressions based on progress
-        this.characterFactions.sort((a, b) => {
-          //return a.factionValue.displayProperties.name > b.factionValue.displayProperties.name ? -1 : 1;
-          if (a.level != b.level)
-            return b.level - a.level;
-          return b.progressToNextLevel - a.progressToNextLevel;
-        });
+      // Sort progressions based on progress
+      this.characterFactions.sort((a, b) => {
+        //return a.factionValue.displayProperties.name > b.factionValue.displayProperties.name ? -1 : 1;
+        if (a.level != b.level)
+          return b.level - a.level;
+        return b.progressToNextLevel - a.progressToNextLevel;
       });
-    }
+    });
   }
 }

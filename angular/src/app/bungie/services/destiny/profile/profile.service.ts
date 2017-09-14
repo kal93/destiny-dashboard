@@ -117,12 +117,12 @@ export class DestinyProfileService {
         return new Promise<ICharacterProgression>((resolve, reject) => {
             let progressionPromises = [];
             if (getInventories)
-                progressionPromises.push(this.getProfileSummary(membership));
+                progressionPromises.push(this.getProfileSummary(membership, 0, false));
             else
                 progressionPromises.push(Promise.resolve());
 
             progressionPromises.push(this.getDestinyProfileCharacterResponse(membership, characterId, [ComponentTypes.CharacterProgressions],
-                HttpRequestType.BUNGIE_PRIVILEGED, TimeSpan.MINUTES_1));
+                HttpRequestType.BUNGIE_BASIC, TimeSpan.MINUTES_1));
 
             Promise.all(progressionPromises).then((responses) => {
                 let inventoryItemsMap = new Map<number, any>();
@@ -195,7 +195,8 @@ export class DestinyProfileService {
                                 availableQuest.questItemValue = this.manifestService.getManifestEntry("DestinyInventoryItemDefinition", availableQuest.questItemHash);
 
                                 // Copy questRewards from milestone for easier lookup later
-                                availableQuest.questRewards = milestone.milestoneValue.quests[availableQuest.questItemHash].questRewards;
+                                if (milestone.milestoneValue != null)
+                                    availableQuest.questRewards = milestone.milestoneValue.quests[availableQuest.questItemHash].questRewards;
 
                                 if (availableQuest.activity != null)
                                     availableQuest.activityValue = this.manifestService.getManifestEntry("DestinyActivityDefinition", availableQuest.activity.activityHash);
@@ -219,35 +220,38 @@ export class DestinyProfileService {
         });
     }
 
-    getProfileSummary(membership: DestinyMembership, cacheTimeMs: number = 0): Promise<IProfileSummary> {
-        return this.getDestinyProfileResponse(membership, [ComponentTypes.ProfileInventories, ComponentTypes.ItemInstances], HttpRequestType.BUNGIE_PRIVILEGED, cacheTimeMs).then((response: IProfileSummary) => {
-            if (response.itemComponents.instances == null || response.profileInventory == null)
-                return null;
-            if (response.profileInventory.data == null)
-                return null;
+    getProfileSummary(membership: DestinyMembership, cacheTimeMs: number = 0, privileged: boolean = true): Promise<IProfileSummary> {
+        return this.getDestinyProfileResponse(membership,
+            [ComponentTypes.ProfileInventories, ComponentTypes.ItemInstances],
+            privileged ? HttpRequestType.BUNGIE_PRIVILEGED : HttpRequestType.BUNGIE_BASIC,
+            cacheTimeMs).then((response: IProfileSummary) => {
+                if (response.itemComponents.instances == null || response.profileInventory == null)
+                    return null;
+                if (response.profileInventory.data == null)
+                    return null;
 
-            let statsMap = response.itemComponents.instances.data;
+                let statsMap = response.itemComponents.instances.data;
 
-            let missingItemValue: boolean = false;
-            for (let i = 0; i < response.profileInventory.data.items.length; i++) {
-                let inventoryItem = response.profileInventory.data.items[i];
-                this.setInventoryItemDefinition(inventoryItem);
+                let missingItemValue: boolean = false;
+                for (let i = 0; i < response.profileInventory.data.items.length; i++) {
+                    let inventoryItem = response.profileInventory.data.items[i];
+                    this.setInventoryItemDefinition(inventoryItem);
 
-                if (inventoryItem.itemValue == null) {
-                    missingItemValue = true;
-                    response.profileInventory.data.items.splice(i, 1);
-                    i--;
+                    if (inventoryItem.itemValue == null) {
+                        missingItemValue = true;
+                        response.profileInventory.data.items.splice(i, 1);
+                        i--;
+                    }
+                    inventoryItem.itemComponentData = statsMap[inventoryItem.itemInstanceId];
+                    if (inventoryItem.itemComponentData != null)
+                        inventoryItem.itemComponentData.damageTypeValue = this.manifestService.getManifestEntry("DestinyDamageTypeDefinition", inventoryItem.itemComponentData.damageTypeHash);
                 }
-                inventoryItem.itemComponentData = statsMap[inventoryItem.itemInstanceId];
-                if (inventoryItem.itemComponentData != null)
-                    inventoryItem.itemComponentData.damageTypeValue = this.manifestService.getManifestEntry("DestinyDamageTypeDefinition", inventoryItem.itemComponentData.damageTypeHash);
-            }
 
-            if (missingItemValue)
-                this.sharedApp.showInfoOncePerSession("Some items in your inventory could not be loaded because they're missing from the Bungie database.");
+                if (missingItemValue)
+                    this.sharedApp.showInfoOncePerSession("Some items in your inventory could not be loaded because they're missing from the Bungie database.");
 
-            return response;
-        });
+                return response;
+            });
     }
 
     private setInventoryItemDefinition(inventoryItem: InventoryItem) {

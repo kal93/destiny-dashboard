@@ -101,16 +101,16 @@ export class MilestonesComponent extends CardComponent {
       return;
     }
 
-    if (this.sharedApp.accessToken == null) {
-      this.privacyError = true;
-      return;
-    }
-
     this.destinyMilestonesService.getPublicMilestones().then((publicMilestonesMap: { [key: number]: PublicMilestoneBase }) => {
 
       this.destinyProfileService.getCharacterProgression(this.selectedMembership, characterId).then((characterProgressions) => {
         if (characterProgressions == null)
           return;
+
+        if (characterProgressions.progressions.privacy == PrivacyTypes.Private && characterProgressions.milestoneData.length == 0) {
+          this.privacyError = true;
+          return;
+        }
 
         // Assign public milestone to each milestone so we can get modifier/challenges/etc
         characterProgressions.milestoneData.forEach((milestone) => {
