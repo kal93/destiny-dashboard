@@ -21,8 +21,8 @@ export class MilestoneComponent {
   questRewardItemDefinitions = new Array<DestinyInventoryItemDefinition>();
 
   nightfallQuest: AvailableQuest;
-  nightfallModifiers: Array<DestinyActivityModifierDefinition>;
-  nightfallChallenges: Array<DestinyObjectiveDefinition>;
+  nightfallModifiers = new Array<DestinyActivityModifierDefinition>();
+  nightfallChallenges = new Array<DestinyObjectiveDefinition>();
 
   tempActivityModiferHashValues = new Map<number, DestinyActivityModifierDefinition>();
 
