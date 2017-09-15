@@ -16,6 +16,7 @@
         .lore-entry {
             flex: 1 0 350px;
             margin: 10px 8px;
+            max-width: 95%;
             box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
 
             .header {
@@ -42,6 +43,7 @@
                     font-size: 1.4em;
                     text-transform: uppercase;
                     letter-spacing: .5px;
+                    padding-right: 50px;
                 }
 
                 .subtitle {
@@ -63,6 +65,36 @@
 //These styles only applies to dashboard cards
 .dd-card-content.dd-lore {
     height: calc(100% - 40px);
+    overflow-y: auto;
+
+    .search-text {
+        margin: 10px 0 0 10px;
+    }
+
+    .lore-wrap {
+        .lore-entry {
+            .header {
+                padding: 4px;
+
+                .image {
+                    width: 42px;
+                }
+
+                .name {
+                    font-size: 1.1em;
+                }
+
+                .subtitle {
+                    font-size: .9em;
+                }
+            }
+
+            .text {
+                padding: 8px;
+            }
+        }
+    }
+
 }
 
 //These styles only apply to fullscreen mode
