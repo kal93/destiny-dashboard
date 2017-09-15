@@ -1,0 +1,22 @@
+<div>
+  <div [class.dd-card-wrap]="!isFullscreen">
+    <dd-card-header *ngIf="!isFullscreen" [dashboardCard]="dashboardCard"></dd-card-header>
+    <div class="dd-lore" [class.dd-fullscreen]="isFullscreen" [class.dd-card-content]="!isFullscreen">
+
+      <md-form-field class="search-text">
+        <input mdInput placeholder="Search Lore" [formControl]="searchTextForm">
+      </md-form-field>
+
+      <div class="lore-wrap">
+        <div class="lore-entry" *ngFor="let definition of loreDefinitionFiltered">
+          <div class="header">
+            <div class="image" *ngIf="definition.displayProperties.hasIcon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + definition.displayProperties.icon  +')')"></div>
+            <div class="name" [innerHTML]="definition.displayProperties.name"></div>
+            <div class="subtitle" [innerHTML]="definition.subtitle"></div>
+          </div>
+          <div class="text" [innerHTML]="definition.displayProperties.description"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

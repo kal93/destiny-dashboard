@@ -1,0 +1,71 @@
+@import '../../../styles/theme.scss';
+
+//These styles apply to both dashboard and fullscreen
+.dd-lore {
+    background-color: #E3F2FD;
+
+    .search-text {
+        margin: 10px 0 0 40px;
+    }
+
+    .lore-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+
+        .lore-entry {
+            flex: 1 0 350px;
+            margin: 10px 8px;
+            box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+
+            .header {
+                background-color: #1565C0;
+                color: $app-text-light;
+                padding: 8px;
+                position: relative;
+                font-family: destiny;
+                box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+
+                .image {
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    position: absolute;
+                    opacity: .7;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    width: 50px;
+                }
+
+                .name {
+                    font-size: 1.4em;
+                    text-transform: uppercase;
+                    letter-spacing: .5px;
+                }
+
+                .subtitle {
+                    opacity: .8;
+                    margin: 4px 0 0 5px;
+                }
+            }
+
+            .text {
+                background-color: #fff;
+                padding: 10px;
+                min-height: 40px;
+                font-size: .9em;
+            }
+        }
+    }
+}
+
+//These styles only applies to dashboard cards
+.dd-card-content.dd-lore {
+    height: calc(100% - 40px);
+}
+
+//These styles only apply to fullscreen mode
+.dd-fullscreen.dd-lore {
+    height: 100%;
+}

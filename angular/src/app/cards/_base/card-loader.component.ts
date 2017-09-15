@@ -15,7 +15,8 @@ import { ICard } from './card.interface';
              <dd-clan-leaderboards *ngIf="dashboardCard.definitionId == 7" [dashboardCard]="dashboardCard"></dd-clan-leaderboards>
              <dd-dashboard-news *ngIf="dashboardCard.definitionId == 8" [dashboardCard]="dashboardCard"></dd-dashboard-news>
              <dd-database *ngIf="dashboardCard.definitionId == 9" [dashboardCard]="dashboardCard"></dd-database>
-             <dd-milestones *ngIf="dashboardCard.definitionId == 10" [dashboardCard]="dashboardCard"></dd-milestones>`
+             <dd-milestones *ngIf="dashboardCard.definitionId == 10" [dashboardCard]="dashboardCard"></dd-milestones>
+             <dd-lore *ngIf="dashboardCard.definitionId == 11" [dashboardCard]="dashboardCard"></dd-lore>`
 })
 
 export class CardLoaderComponent {

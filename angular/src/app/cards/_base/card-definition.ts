@@ -120,6 +120,15 @@ export class CardDefinitions {
             { rows: 2, cols: 3 }, { rows: 3, cols: 3 }, { rows: 4, cols: 3 }
         ],
         requiresLogin: false, isExternalRoute: false, lastUpdated: 1504570852262, previewImageClass: "dd-milestones-preview"
+    },
+    {
+        enabled: true, categories: ["Other"],
+        id: 11, title: "Lore", description: "Browse all of the Lore", rating: 5, route: "lore",
+        layouts: [
+            { rows: 2, cols: 2 }, { rows: 3, cols: 2 }, { rows: 4, cols: 2 },
+            { rows: 2, cols: 3 }, { rows: 3, cols: 3 }, { rows: 4, cols: 3 }
+        ],
+        requiresLogin: false, isExternalRoute: false, lastUpdated: 1505486868129, previewImageClass: "dd-lore-preview"
     }];
 
     static defaultDashboards: Array<IUserDashboard> = [{

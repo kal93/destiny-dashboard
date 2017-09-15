@@ -13,6 +13,7 @@ import { CountdownComponent } from '../cards/countdown/countdown.component';
 import { DashboardNewsComponent } from '../cards/dashboard-news/dashboard-news.component';
 import { DatabaseComponent } from '../cards/database/database.component';
 import { InventoryComponent } from '../cards/inventory/inventory.component';
+import { LoreComponent } from '../cards/lore/lore.component';
 import { MilestonesComponent } from '../cards/milestones/milestones.component';
 import { ReputationComponent } from '../cards/reputation/reputation.component';
 import { RedditComponent } from '../cards/reddit/reddit.component';
@@ -107,6 +108,11 @@ const routes: Routes = [
     {
         path: 'milestones', component: MilestonesComponent, data: {
             title: "Milestones"
+        }
+    },
+    {
+        path: 'lore', component: LoreComponent, data: {
+            title: "Lore"
         }
     },
     {

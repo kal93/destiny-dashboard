@@ -68,6 +68,7 @@ import { DashboardNewsComponent } from './cards/dashboard-news/dashboard-news.co
 import { DashboardNewsArticleComponent } from './cards/dashboard-news/dashboard-news-article/dashboard-news-article.component';
 import { DatabaseComponent } from './cards/database/database.component';
 import { InventoryComponent } from './cards/inventory/inventory.component';
+import { LoreComponent } from './cards/lore/lore.component';
 import { MilestonesComponent } from './cards/milestones/milestones.component';
 import { ReputationComponent } from './cards/reputation/reputation.component';
 import { RedditComponent } from './cards/reddit/reddit.component';
@@ -104,7 +105,7 @@ import { NumberFormatLocalePipe, RoundToDecimalPlacePipe } from './shared/pipes/
 
     //Cards
     BungieNewsComponent, ClanLeaderboardsComponent, CountdownComponent, DashboardNewsComponent, DashboardNewsArticleComponent, DatabaseComponent,
-    InventoryComponent, MilestonesComponent, ReputationComponent, RedditComponent, StatsComponent, TwitchComponent,
+    InventoryComponent, LoreComponent, MilestonesComponent, ReputationComponent, RedditComponent, StatsComponent, TwitchComponent,
 
     //Directives
     ModalDirective, MouseEventsDirective, ScrollWithElementDirective, Swipeable,
