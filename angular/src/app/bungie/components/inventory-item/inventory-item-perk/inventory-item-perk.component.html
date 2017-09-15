@@ -1,4 +1,4 @@
-<div class="perk" *ngIf="perk.displayProperties.name != null && perk.displayProperties.name.length > 0">
+<div class="perk" *ngIf="perk!= null && perk.displayProperties.name != null && perk.displayProperties.name.length > 0">
     <div class="icon-wrap">
         <div class="icon" *ngIf="perk.displayProperties.hasIcon" [style.background-image]="domSanitizer.bypassSecurityTrustStyle('url(https://www.bungie.net' + perk.displayProperties.icon  +')')"></div>
         <div class="name">{{perk.displayProperties.name}}</div>
