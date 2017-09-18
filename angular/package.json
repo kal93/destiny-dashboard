@@ -1,6 +1,6 @@
 {
   "name": "destiny-dashboard",
-  "version": "1.2.20",
+  "version": "1.2.22",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --proxy-config proxy.config.json --port 4201 --ssl 1 --ssl-key ssl/ca.key --ssl-cert ssl/ca.crt",
@@ -50,6 +50,6 @@
     "run-sequence": "2.1.0",
     "sql.js": "0.4.0",
     "sw-precache": "5.2.0",
-    "typescript": "2.5.2"
+    "typescript": "2.4.0"
   }
 }
