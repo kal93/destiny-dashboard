@@ -285,7 +285,7 @@ export class HttpService {
                     break;
 
                 case ErrorTypes.DestinyAccountNotFound:
-                    //this.sharedApp.showError("Could not find Destiny information for this Bungie account. Have you played with this account?");
+                    this.sharedApp.showError("Could not find Destiny information for this Bungie account.");
                     break;
 
                 default:

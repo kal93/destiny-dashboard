@@ -9,7 +9,7 @@
 
       <div *ngIf="accountNotFound" class="error"> Could not find a Destiny 2 account for this gamertag.</div>
 
-      <md-tab-group #tabGroup *ngIf="selectedMembership != null" (selectedIndexChange)="selectedTabIndexChanged($event)">
+      <md-tab-group #tabGroup (selectedIndexChange)="selectedTabIndexChanged($event)">
         <!-- Account Wide Stats -->
         <ng-container *ngIf="accountSummary != null">
           <md-tab>
