@@ -38,11 +38,7 @@ export class AppComponent {
 
   ngOnInit() {
     this.cordovaInit();
-    this.manifestService.loadManifest().then(() => {
-      this.initApp();
-    }).catch((error) => {
-      this.sharedApp.showError("There was an error loading the database from Bungie, please try again later.", error);
-    });
+    this.initApp();
   }
 
   cordovaInit() {
@@ -53,16 +49,13 @@ export class AppComponent {
 
   initApp() {
     if (this.sharedApp.accessToken == null) {
-      // Use regular local storage for bungieAuthCode since we use it in index.html before we've loaded sharedApp
       if (this.sharedApp.localStorageDisabled) {
         this.welcomeUser();
         return;
       }
+      // Use regular local storage for bungieAuthCode since we use it in index.html before we've loaded sharedApp
       let bungieAuthCode = localStorage.getItem("bungieAuthCode");
-      if (bungieAuthCode == null)
-        this.welcomeUser();
-      else
-        this.getBungieAccessToken(bungieAuthCode);
+      bungieAuthCode == null ? this.welcomeUser() : this.getBungieAccessToken(bungieAuthCode);
     }
     else {
       this.loadUser();
@@ -76,13 +69,13 @@ export class AppComponent {
     }).catch((error) => {
       this.sharedApp.showError("There was an error when getting the Access Token from Bungie. Please try again.", error);
       this.sharedApp.logOutSubject.next();
-      this.setAppInitialized();
+      this.initManifest();
     });
   }
 
   welcomeUser() {
     this.sharedDashboard.clearUserDashboards();
-    this.setAppInitialized();
+    this.initManifest();
   }
 
   loadUser() {
@@ -90,7 +83,7 @@ export class AppComponent {
     this.sharedBungie.getMembershipsForCurrentUser().then(() => {
       if (this.sharedBungie.destinyMemberships.length == 0) {
         this.sharedApp.showError("Could not find any Destiny 2 memberships associated with this account!");
-        this.setAppInitialized();
+        this.initManifest();
         this.sharedApp.logOutSubject.next();
         return;
       }
@@ -99,9 +92,9 @@ export class AppComponent {
       this.sharedDashboard.loadUser().then(() => {
         if (this.sharedApp.userPreferences.membershipIndex > this.sharedBungie.destinyMemberships.length - 1)
           this.sharedApp.userPreferences.membershipIndex = 0;
-        this.setAppInitialized();
+        this.initManifest();
       }).catch((error) => {
-        this.setAppInitialized();
+        this.initManifest();
       });
     }).catch((error) => {
       if (error.Message != null)
@@ -109,16 +102,20 @@ export class AppComponent {
       else
         this.sharedApp.showError("Could not load the Bungie User. This is probably an error with Bungie's servers, please try again later.");
       this.sharedApp.logOutSubject.next();
-      this.setAppInitialized();
+      this.initManifest();
     });
   }
 
-  setAppInitialized() {
-    // Let the rest of the app know that the manifest has been loaded and the app is ready to go
-    this.sharedApp.appInitialized = true;
+  initManifest() {
+    this.manifestService.loadManifest().then(() => {
+      // Let the rest of the app know that the manifest has been loaded and the app is ready to go
+      this.sharedApp.appInitialized = true;
 
-    // Run CD since we are changing a variable that has been initialized during this function
-    this.changeDetectorRef.detectChanges();
+      // Run CD since we are changing a variable that has been initialized during this function
+      this.changeDetectorRef.detectChanges();
+    }).catch((error) => {
+      this.sharedApp.showError("There was an error loading the database from Bungie, please try again later.", error);
+    });
   }
 
   nightModeClicked() {

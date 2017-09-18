@@ -19,7 +19,7 @@ export class StatsComponent extends CardComponent {
   @ViewChild("tabGroup")
   tabGroup: MdTabGroup;
 
-  selectedTabIndex: number = 0;
+  selectedTabIndex: number = 1;
 
   // Current membership
   selectedMembership: DestinyMembership;
@@ -63,7 +63,7 @@ export class StatsComponent extends CardComponent {
       }
 
       if (this.selectedTabIndex > accountSummary.characterData.length - 1)
-        this.selectedTabIndex = 0;
+        this.selectedTabIndex = 1;
 
       // Don't change the selected tab if it hasn't been set yet, since setting it will call this function 
       if (this.tabGroup.selectedIndex != -1)

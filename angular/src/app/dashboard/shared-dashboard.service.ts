@@ -157,13 +157,22 @@ export class SharedDashboard {
 
     //Dashboard network calls
     getUserPreferences(): Promise<any> {
-        return this.http.getWithCache("api/dashboard/userPreferences", HttpRequestType.DASHBOARD, 120000);
+        return new Promise<any>((resolve, reject) => {
+            let userPreferences = this.sharedApp.getLocalStorageAsJsonObject("userPreferences", { membershipIndex: 0 });
+            resolve(userPreferences);
+        });
+
+        //return this.http.getWithCache("api/dashboard/userPreferences", HttpRequestType.DASHBOARD, 120000);
     }
 
     saveUserPreferences() {
         //When we save, invalidate the cache
-        this.http.invalidateCache("api/dashboard/userPreferences");
-        return this.http.postDashboard("api/dashboard/userPreferences", this.sharedApp.userPreferences);
+        //this.http.invalidateCache("api/dashboard/userPreferences");
+        //return this.http.postDashboard("api/dashboard/userPreferences", this.sharedApp.userPreferences);
+        return new Promise<any>((resolve, reject) => {
+            this.sharedApp.setLocalStorage("userPreferences", JSON.stringify(this.sharedApp.userPreferences));
+            resolve();
+        });
     }
 
     generateDashboardName() {
