@@ -24,12 +24,7 @@ export class MilestoneComponent {
   nightfallModifiers = new Array<DestinyActivityModifierDefinition>();
   nightfallChallenges = new Array<DestinyObjectiveDefinition>();
 
-  tempActivityModiferHashValues = new Map<number, DestinyActivityModifierDefinition>();
-
-  constructor(public domSanitizer: DomSanitizer, private manifestService: ManifestService) {
-    this.tempActivityModiferHashValues.set(4293009546, { name: "Prism", description: "Your attacks matching the focused element deal increased damage. All other elemental damage is reduced. Kinetic and incoming damage is unaffected. The focused element rotates periodically." });
-    this.tempActivityModiferHashValues.set(458112752, { name: "Timewarp: Rings", description: "Vex time gates have appeared in the area. Pass through them to discharge temporal energy and extend the mission timer." });
-  }
+  constructor(public domSanitizer: DomSanitizer, private manifestService: ManifestService) { }
 
   ngOnChanges() {
     this.nightfallModifiers = new Array<DestinyActivityModifierDefinition>();
@@ -49,7 +44,7 @@ export class MilestoneComponent {
         // Change once ActivityModifiers are not private any more
         // Get nightfall modifiers
         this.nightfallQuest.activity.modifierHashes.forEach((modifierHash) => {
-          let modifierValue = this.tempActivityModiferHashValues.get(modifierHash);
+          let modifierValue = this.manifestService.getManifestEntry("DestinyActivityModifierDefinition", modifierHash);
           if (modifierValue != null)
             this.nightfallModifiers.push(modifierValue);
         });
@@ -57,8 +52,11 @@ export class MilestoneComponent {
         this.nightfallChallenges = new Array<DestinyObjectiveDefinition>();
         // Get nightfall challenges
         this.nightfallQuest.challenges.forEach((challenge) => {
-          if (challenge.objective.activityHash == this.nightfallQuest.activity.activityHash)
-            this.nightfallChallenges.push(this.manifestService.getManifestEntry("DestinyObjectiveDefinition", challenge.objective.objectiveHash));
+          if (challenge.objective.activityHash == this.nightfallQuest.activity.activityHash) {
+            let objectiveDefinition = this.manifestService.getManifestEntry("DestinyObjectiveDefinition", challenge.objective.objectiveHash);
+            if (objectiveDefinition != null)
+              this.nightfallChallenges.push(objectiveDefinition);
+          }
         });
       }
     }
