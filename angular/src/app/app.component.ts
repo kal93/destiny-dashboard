@@ -57,9 +57,8 @@ export class AppComponent {
       let bungieAuthCode = localStorage.getItem("bungieAuthCode");
       bungieAuthCode == null ? this.welcomeUser() : this.getBungieAccessToken(bungieAuthCode);
     }
-    else {
+    else
       this.loadUser();
-    }
   }
 
   getBungieAccessToken(bungieAuthCode: string) {
@@ -79,11 +78,10 @@ export class AppComponent {
   }
 
   loadUser() {
-    //Load sharedBungie, then SharedDashboard
-    this.sharedBungie.getMembershipsForCurrentUser().then(() => {
+    // Init manifest while getting membership data
+    Promise.all([this.sharedBungie.getMembershipsForCurrentUser().then(() => {
       if (this.sharedBungie.destinyMemberships.length == 0) {
         this.sharedApp.showError("Could not find any Destiny 2 memberships associated with this account!");
-        this.initManifest();
         this.sharedApp.logOutSubject.next();
         return;
       }
@@ -92,9 +90,8 @@ export class AppComponent {
       this.sharedDashboard.loadUser().then(() => {
         if (this.sharedApp.userPreferences.membershipIndex > this.sharedBungie.destinyMemberships.length - 1)
           this.sharedApp.userPreferences.membershipIndex = 0;
-        this.initManifest();
       }).catch((error) => {
-        this.initManifest();
+        this.sharedApp.showError("Could not load the Bungie User. Error from Bungie: " + error.Message);
       });
     }).catch((error) => {
       if (error.Message != null)
@@ -102,12 +99,11 @@ export class AppComponent {
       else
         this.sharedApp.showError("Could not load the Bungie User. This is probably an error with Bungie's servers, please try again later.");
       this.sharedApp.logOutSubject.next();
-      this.initManifest();
-    });
+    }), this.initManifest()]);
   }
 
-  initManifest() {
-    this.manifestService.loadManifest().then(() => {
+  initManifest(): Promise<any> {
+    return this.manifestService.loadManifest().then(() => {
       // Let the rest of the app know that the manifest has been loaded and the app is ready to go
       this.sharedApp.appInitialized = true;
 
