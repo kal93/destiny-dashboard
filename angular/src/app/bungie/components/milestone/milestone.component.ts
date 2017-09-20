@@ -49,7 +49,9 @@ export class MilestoneComponent {
         // Change once ActivityModifiers are not private any more
         // Get nightfall modifiers
         this.nightfallQuest.activity.modifierHashes.forEach((modifierHash) => {
-          this.nightfallModifiers.push(this.tempActivityModiferHashValues.get(modifierHash));
+          let modifierValue = this.tempActivityModiferHashValues.get(modifierHash);
+          if (modifierValue != null)
+            this.nightfallModifiers.push(modifierValue);
         });
 
         this.nightfallChallenges = new Array<DestinyObjectiveDefinition>();
