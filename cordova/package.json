@@ -17,6 +17,7 @@
         "cordova-plugin-file": "^4.3.3",
         "cordova-plugin-headercolor": "^1.0.0",
         "cordova-plugin-inappbrowser": "^1.7.1",
+        "cordova-plugin-statusbar": "^2.2.3",
         "cordova-plugin-whitelist": "^1.3.2"
     },
     "cordova": {
@@ -24,7 +25,8 @@
             "cordova-plugin-whitelist": {},
             "cordova-plugin-inappbrowser": {},
             "cordova-plugin-headercolor": {},
-            "cordova-plugin-advanced-http": {}
+            "cordova-plugin-advanced-http": {},
+            "cordova-plugin-statusbar": {}
         },
         "platforms": [
             "android",

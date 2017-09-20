@@ -31,6 +31,10 @@
                         {
                             "xml": "<feature name=\"CordovaHttpPlugin\"><param name=\"android-package\" value=\"com.synconset.cordovahttp.CordovaHttpPlugin\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"StatusBar\"><param name=\"android-package\" value=\"org.apache.cordova.statusbar.StatusBar\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -70,6 +74,9 @@
             "PACKAGE_NAME": "net.destinydashboard"
         },
         "cordova-plugin-advanced-http": {
+            "PACKAGE_NAME": "net.destinydashboard"
+        },
+        "cordova-plugin-statusbar": {
             "PACKAGE_NAME": "net.destinydashboard"
         }
     },
@@ -297,6 +304,14 @@
             "clobbers": [
                 "cordova.plugin.http"
             ]
+        },
+        {
+            "id": "cordova-plugin-statusbar.statusbar",
+            "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
+            "pluginId": "cordova-plugin-statusbar",
+            "clobbers": [
+                "window.StatusBar"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -305,6 +320,7 @@
         "cordova-plugin-headercolor": "1.0",
         "cordova-plugin-compat": "1.0.0",
         "cordova-plugin-file": "4.3.3",
-        "cordova-plugin-advanced-http": "1.5.9"
+        "cordova-plugin-advanced-http": "1.5.9",
+        "cordova-plugin-statusbar": "2.2.3"
     }
 }
