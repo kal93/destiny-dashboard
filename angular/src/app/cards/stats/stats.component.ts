@@ -87,19 +87,19 @@ export class StatsComponent extends CardComponent {
 
     //Get data for the newly selected character
     // Index 0 is the summary. Characters are index 1- 3
-    if (this.selectedTabIndex == 0) {
-      // Get a summary of the account statistics
-      this.destinyAccountService.getAccountStats(this.selectedMembership, [GroupTypes.GENERAL, GroupTypes.WEAPONS]).then((accountStats: IAccountStats) => {
-        this.accountStats = accountStats;
-        this.setAccountStatsWeapons();
-      });
-    }
-    else {
-      let characterId: string = this.accountSummary.characterData[this.selectedTabIndex - 1].characterId;
-      this.destinyAccountService.getCharacterStats(this.selectedMembership, characterId, [GroupTypes.GENERAL], [ModeTypes.AllPvE, ModeTypes.AllPvP], PeriodTypes.ALLTIME).then((characterStats: ICharacterStats) => {
-        this.characterStats = characterStats;
-      });
-    }
+    /* if (this.selectedTabIndex == 0) {
+       // Get a summary of the account statistics
+       this.destinyAccountService.getAccountStats(this.selectedMembership, [GroupTypes.GENERAL, GroupTypes.WEAPONS]).then((accountStats: IAccountStats) => {
+         this.accountStats = accountStats;
+         this.setAccountStatsWeapons();
+       });
+     }
+     else {*/
+    let characterId: string = this.accountSummary.characterData[this.selectedTabIndex].characterId;
+    this.destinyAccountService.getCharacterStats(this.selectedMembership, characterId, [GroupTypes.GENERAL], [ModeTypes.AllPvE, ModeTypes.AllPvP], PeriodTypes.ALLTIME).then((characterStats: ICharacterStats) => {
+      this.characterStats = characterStats;
+    });
+    //}
   }
 
   private setAccountStatsWeapons() {

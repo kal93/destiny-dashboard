@@ -12,6 +12,7 @@
       <md-tab-group #tabGroup (selectedIndexChange)="selectedTabIndexChanged($event)">
         <!-- Account Wide Stats -->
         <ng-container *ngIf="accountSummary != null">
+          <!--
           <md-tab>
             <ng-template mdTabLabel>
               <dd-md-tab-character-heading [nonCharacterTitle]="selectedMembership.displayName" [nonCharacterSubtitle]="'Player Summary'"
@@ -78,12 +79,13 @@
                 <div><span>Public Events Completed</span> <span>{{accountStats.mergedAllCharacters.results.allPvE.allTime.publicEventsCompleted?.basic.displayValue | pNumberFormatLocale}}</span></div>
               </div>
               <div class="stat-section">
-                <!-- Weapons are stored in typescript in an array so we can sort them -->
+                <!-- Weapons are stored in typescript in an array so we can sort them
                 <div class="header">Weapons</div>
                 <div *ngFor="let accountStatWeapon of accountStatsWeapons"><span>{{accountStatWeapon.displayName}}</span> <span>{{accountStatWeapon.value | pNumberFormatLocale}}</span></div>
               </div>
             </div>
           </md-tab>
+           -->
 
           <!-- Character Specific Data -->
           <md-tab *ngFor="let character of accountSummary.characterData">
