@@ -14,6 +14,30 @@ let githubLink = "<a style='color: #2196F3' target='" + (window.cordova ? '_syst
 
 export const ARTICLES: NewsArticle[] = [
   {
+    id: 7,
+    title: "v1.2.2 release",
+    category: ArticleCategory.SiteNews,
+    bodyPreview: "Android and iOS supported.",
+    body: "Native apps have been distributed to <a href='https://play.google.com/store/apps/details?id=net.destinydashboard'>Android</a> and <a href='https://itunes.apple.com/us/app/dashboard-for-destiny-2/id1281370879'>iOS</a> app stores.",
+    date: new Date("Sept 16, 2017 8:00 am")
+  },
+  {
+    id: 6,
+    title: "v1.2.1 release",
+    category: ArticleCategory.NewCard,
+    bodyPreview: "Milestones added.",
+    body: "View daily and weekly milestone challenges.",
+    date: new Date("Sept 14, 2017 1:00 pm")
+  },
+  {
+    id: 5,
+    title: "v1.2.0 release",
+    category: ArticleCategory.NewCard,
+    bodyPreview: "Lore section added.",
+    body: "Weapon and Armor Lore has been added.",
+    date: new Date("Sept 12, 2017 1:00 pm")
+  },
+  {
     id: 4,
     title: "v1.1.0 release",
     category: ArticleCategory.NewCard,
@@ -30,28 +54,12 @@ export const ARTICLES: NewsArticle[] = [
     date: new Date("Sept 6, 2017 2:00 am")
   },
   {
-    id: 2,
-    title: "v1.0.4 release",
-    category: ArticleCategory.SiteNews,
-    bodyPreview: "Destiny 2 Updates",
-    body: "The dashboard has been converted to Destiny 2. Bungie API outages are preventing things from working properly at the moment.",
-    date: new Date("Sept 5, 2017 6:00 pm")
-  },
-  {
     id: 1,
     title: "v1.0.0 release",
     category: ArticleCategory.NewCard,
     bodyPreview: "It's here! Finally!",
     body: "On the eve of Destiny 2, Destiny Dashboard is released! Please report any issues, feedback, or feature requests to " + githubLink + ".",
     date: new Date("Sept 4, 2017 6:00 pm")
-  },
-  {
-    id: 0,
-    title: "Inventory Manager",
-    category: ArticleCategory.CardUpdate,
-    bodyPreview: "Inventory Manager released!",
-    body: "Inventory Manager is done! Multiple item transfer, Loadouts, Filtering, and Quick search have been added.",
-    date: new Date("Sept 1, 2017 6:00 pm")
   }
 ];
 
